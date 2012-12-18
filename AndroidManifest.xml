@@ -64,12 +64,12 @@
         
         <activity
             android:screenOrientation="landscape"
-            android:name=".LogicAnalizerView"
+            android:name="com.multiwork.andres.LogicAnalizerActivity"
             android:label="@string/app_name" >
         </activity>
-        
+
         <activity
-            android:name=".LogicAnalizerPrefs"
+            android:name="com.multiwork.andres.LogicAnalizerPrefs"
             android:label="@string/app_name" >
         </activity>
         
