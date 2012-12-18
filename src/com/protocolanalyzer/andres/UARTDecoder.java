@@ -69,9 +69,13 @@ public class UARTDecoder {
 				// Sino es simplemente un error y no escribo nada
 				if(data.get(n) == true){	
 					if(DEBUG) Log.i("UARTDecode", "n stopBit: " + n);
-					dataSource.addStringS("S", 		tempIndex*sampleTime);		// Bit de Start
-					dataSource.addStringS(""+dataByte, 	(tempIndex*sampleTime)+(samplesPerBit*sampleTime));	// Posicion de inicio al bit siguiente al de Start
-					dataSource.addStringS("P", 		((n-halfBit)*sampleTime));	// Bit de Stop
+					// Bit de Start
+					dataSource.addStringS("S", tempIndex*sampleTime, (tempIndex+samplesPerBit)*sampleTime);		
+					// Posicion de inicio al bit siguiente al de Start (dato)
+					dataSource.addStringS(""+dataByte, (tempIndex+samplesPerBit)*sampleTime,
+							(tempIndex+samplesPerBit+(samplesPerBit*dataBits)*sampleTime));
+					// Bit de Stop
+					dataSource.addStringS("P", ((n-halfBit)*sampleTime), ((n-halfBit)+samplesPerBit)*sampleTime);	
 				}
 				n -= halfBit;
 			}
