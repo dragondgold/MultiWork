@@ -60,14 +60,8 @@ public class LogicAnalizerView extends SherlockActivity{
 	private static final float yChannel[] = {12f, 8f, 4f, 0};
     /** Cuanto se incrementa en el eje Y para hacer un '1' logico */
 	private static final float bitScale = 1.00f;		
-	/** Cuanto se incrementa en el eje X por cada muestreo */
-    private static final double timeIncrement = 0.5d;	
     /** Valor del eje X maximo inicial */
-    private static final double xMax = 10;			
-    /** Valor del eje X minimo inicial */
-    private static final double xMin = 0;	
-    /** Cantidad de muestreos que entran en el intervalo [xMin,xMax], para desplazar el grafico automaticamente */
-    private static final int maxTicks = (int)(xMax/timeIncrement);		
+    private static final double xMax = 10;				
     /** Numero de canales de entrada (sin contar los de rectangulo) */
     public static final int channelsNumber = 4;
     /** Colores de linea para cada canal */
@@ -80,22 +74,22 @@ public class LogicAnalizerView extends SherlockActivity{
     /** Directorio para guardar las imagenes */
     private static String imagesDirectory;
     
-    private static final int CONFIRM_DIALOG = 0, PREFERENCES_CODE = 1;
+    private static final int CONFIRM_DIALOG = 0, PREFERENCES_CODE = 1, RESULT_OK = -1;
     
 	/** ActionBar */
 	private static ActionBar actionBar;		
 	/** Handler para la actualizacion del grafico en el UI Thread */
     private static Handler mUpdaterHandler = new Handler();	
     /** Tiempo que va transcurriendo (eje x del grafico) */
-    private static double time = 0.0d;
-    /** Veces que el grafico se actualiza para determinar cuando llega al tope y desplazarlo */
-    private static int Ticks = 0;			
+    private static double time = 0.0d;		
     /** BroadcastReceiver del Service para obtener los datos */
     private static MyReceiver mServiceReceiver;	
     /** Indica si el grafico esta activo o no (Play o Pause) */
     private static boolean isPlaying = false; 
     /** Intent del Service desde donde se reciben los datos */
     private static Intent serviceIntent;
+    /** Cuantos segundos representa un cuadrito (una unidad) en el grafico */
+    private static double timeScale; 
     
     /** Buffers de recepcion donde se guarda los bytes recibidos desde el USBMultiService */
     private static byte[] ReceptionBuffer;	
@@ -161,23 +155,26 @@ public class LogicAnalizerView extends SherlockActivity{
         	mRenderer[n].setPointStyle(PointStyle.CIRCLE);
         	mRenderer[n].setLineWidth(2f);
         	
-        	mRenderer[n].getTextPaint().setTextSize(20);	// Tamaño del texto
+        	mRenderer[n].getTextPaint().setTextSize(30);	// Tamaño del texto
         	mRenderer[n].getTextPaint().setColor(Color.WHITE);
         	mRenderer[n].getTextPaint().setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
         	mRenderer[n].getTextPaint().setTextAlign(Align.CENTER);
         	
         	mRenderer[n].getRectPaint().setColor(Color.WHITE);
-        	mRenderer[n].getRectPaint().setStrokeWidth(1.5f);
+        	mRenderer[n].getRectPaint().setStrokeWidth(2f);
         	mRenderer[n].getRectPaint().setStyle(Style.STROKE);
+        	
         }
 
         // Configuraciones generales
         mRenderDataset.setYTitle(getString(R.string.AnalyzerYTitle));
         mRenderDataset.setAntialiasing(true);
         mRenderDataset.setYAxisMax(15);
+        mRenderDataset.setXAxisMin(0);
+        mRenderDataset.setXAxisMax(xMax);
         mRenderDataset.setPanEnabled(true);
         mRenderDataset.setShowGrid(true);
-        mRenderDataset.setPointSize(2f);
+        mRenderDataset.setPointSize(5f);
         mRenderDataset.setExternalZoomEnabled(true);
         mRenderDataset.setPanEnabled(true, false);
         mRenderDataset.setZoomEnabled(true, false);
@@ -235,8 +232,7 @@ public class LogicAnalizerView extends SherlockActivity{
 				try { Thread.sleep(50); } catch (InterruptedException e) { e.printStackTrace(); }
 				// return false; da lugar a que se analizen otros eventos de touch (como cuando deslizamos el grafico). Si fuera
 				// true el grafico no se desplazaría porque este se activa primero y evita al otro
-				return false;  // TODO: ver si no afecta al grafico el echo de ser true, con false onTouch() no se llama
-				// al levantar el dedo, por q?
+				return false;
 			}
         });
 	}
@@ -413,10 +409,12 @@ public class LogicAnalizerView extends SherlockActivity{
 	private void restart() {
 		for(int n = 0; n < channelsNumber; ++n) {
 			mSerie[n].clear();
+			mData[n].freeDataMemory();
+			mData[n].clearDecodedData();
 		}
 		mRenderDataset.setXAxisMax(xMax);
-		mRenderDataset.setXAxisMin(xMin);
-		Ticks = 0; time = 0;
+		mRenderDataset.setXAxisMin(0);
+		time = 0;
 		mChartView.repaint();
 		Toast.makeText(this, "Reiniciado", Toast.LENGTH_SHORT).show();
 	}
@@ -583,8 +581,8 @@ public class LogicAnalizerView extends SherlockActivity{
 			if(DEBUG) {
 				for(int n=0; n < 4; ++n) {
 					Log.i("Chart", "Numero: " + n);
-					for(int i = 0; i < mData[n].getPositionCount(); ++i) {
-						Log.i("Chart", "Data[" + n + "]: " + mData[n].getString(i) + "   Position: " + mData[n].getPositionAt(i));
+					for(int i = 0; i < mData[n].getStringCount(); ++i) {
+						Log.i("Chart", "Data[" + n + "]: " + mData[n].getString(i));
 					}
 				}
 			}
@@ -593,26 +591,42 @@ public class LogicAnalizerView extends SherlockActivity{
 			for(int n=0; n < ReceptionBuffer.length; ++n){				// Voy a traves de los bytes recibidos
 				for(int bit=0; bit < channelsNumber; ++bit){			// Voy a traves de los 4 bits de cada byte
 					if(LogicHelper.bitTest(ReceptionBuffer[n],bit)){	// Si es 1
-						mSerie[bit].add(time, yChannel[bit]+bitScale);	// Nivel tomado como 0 mas un alto de bit
+						// Nivel tomado como 0 + un alto de bit
+						mSerie[bit].add(toCoordinate(time, timeScale), yChannel[bit]+bitScale);
 					}
 					else{												// Si es 0
-						mSerie[bit].add(time, yChannel[bit]);
+						mSerie[bit].add(toCoordinate(time, timeScale), yChannel[bit]);
 					}
 				}
-				time += timeIncrement;				// Incremento el tiempo
-				++Ticks;							// Incremento ticks
-				//if(DEBUG) Log.i("Chart", "Time Incremented");
 				//Si llego al maximo del cuadro (borde derecho) aumento el maximo y el minimo para dibujar un tiempo mas
 				//(desplazamiento del cuadro) de esta manera si deslizamos el cuadro horizontalmente tendremos los datos
-				if(Ticks >= maxTicks){
+				if(toCoordinate(time, timeScale) >= xMax){
 					if(DEBUG) Log.i("Move", "Chart moved");
-					mRenderDataset.setXAxisMax(mRenderDataset.getXAxisMax()+timeIncrement);
-					mRenderDataset.setXAxisMin(mRenderDataset.getXAxisMin()+timeIncrement);
+					mRenderDataset.setXAxisMax(mRenderDataset.getXAxisMax()+1d);
+					mRenderDataset.setXAxisMin(mRenderDataset.getXAxisMin()+1d);
 				}
+				time += 1.0d/LogicData.getSampleRate();	// Incremento el tiempo
 			}
 			
 			if(DEBUG) Log.i("Chart", "redraw()");
 			mChartView.repaint();					// Redibujo el grafico
+			
+			for(int n = 0; n < channelsNumber; ++n){
+				for(int i = 0; i < mData[n].getStringCount(); ++i){
+					
+					// Agrego el texto en el centro del area de tiempo que contiene el string
+					mSerie[n].addAnnotation(mData[n].getString(i),
+							toCoordinate(mData[n].getPositionAt(i)[0]+((mData[n].getPositionAt(i)[1]-mData[n].getPositionAt(i)[0])/2.0d),
+									timeScale),
+							yChannel[n]+2f);
+				
+					// Agrego el recuadro
+					mSerie[n].addRectangle(toCoordinate(mData[n].getPositionAt(i)[0], timeScale)+0.0000001,
+							yChannel[n]+3.5f,
+							toCoordinate(mData[n].getPositionAt(i)[1], timeScale),
+							yChannel[n]+bitScale+0.5f);
+				}
+			}
 			
 			// Si algun canal se paso del maximo de muestras, borro todas las muestras
 			for(int n = 0; n < channelsNumber; ++n) {
@@ -623,9 +637,19 @@ public class LogicAnalizerView extends SherlockActivity{
 						n = channelsNumber;	// Si un canal se paso, borro todos osea que no necesito seguir comprobando
 					}
 				}
-			}	
+			}
 		}
 	};
+	
+	/**
+	 * Convierte el tiempo en segundo a la escala del grafico segunda la escala de tiempos
+	 * @param time tiempo en segundos
+	 * @param timeScale cuantos segundos equivalen a una unidad en el grafico
+	 * @return coordenada equivalente
+	 */
+	private static double toCoordinate (double time, double timeScale){
+		return (time/timeScale);
+	}
 	
 	/**
 	 * Receiver del Service, aqui se obtienen los datos que envia el Service
@@ -641,7 +665,7 @@ public class LogicAnalizerView extends SherlockActivity{
 			
 			// Decodifico cada canal con su correspondiente fuente de clock
 			for(int n = 0; n < channelsNumber; ++n) {
-				mDataSet.decode(n);
+				mDataSet.decode(n, time);
 			}
     	    // Actualizo el grafico
 			mUpdaterHandler.post(mUpdaterTask);
@@ -688,21 +712,29 @@ public class LogicAnalizerView extends SherlockActivity{
         maxSamples = Long.decode(getPrefs.getString("maxSamples", "3000"));
     	// Defino la velocidad de muestreo que es comun a todos los canales (por defecto 4MHz)
     	LogicData.setSampleRate(Long.decode(getPrefs.getString("sampleRate", "4000000")));
+    	
         // Escala del eje X de acuerdo al sample rate
         if(LogicData.getSampleRate() == 40000000) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x25nS");
+        	timeScale = 0.000000025d;		// 25nS
         }else if(LogicData.getSampleRate() == 20000000) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x50 nS");
+        	timeScale = 0.000000050d;		// 50nS
         }else if(LogicData.getSampleRate() == 10000000) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x100 nS");
+        	timeScale = 0.000000100d;		// 100nS
         }else if(LogicData.getSampleRate() == 4000000) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x250 nS");
+        	timeScale = 0.000000250d;		// 250nS
         }else if(LogicData.getSampleRate() == 400000) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x2.5 uS");
+        	timeScale = 0.0000025d;			// 2.5uS
         }else if(LogicData.getSampleRate() == 2000) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x500 uS");
+        	timeScale = 0.000500d;			// 500uS
         }else if(LogicData.getSampleRate() == 10) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x100 mS");
+        	timeScale = 0.1d;				// 100mS
         }
         /**
          * Mantiene a la pantalla encendida en esta Activity unicamente
