@@ -89,7 +89,7 @@ public class I2CDecoder {
 					if(index == -1) break;							// Si no hay ninguno salgo
 					if(clock.get(index)) {							// Si el flanco de bajada fue mientras SCL estaba en alto (Start)
 						if(DEBUG) Log.i("I2CDecode", "Start Condition - index: " + index);
-						dataSource.addStringS("S", (index*sampleTime));
+						dataSource.addStringS("S", (index*sampleTime), clock.nextSetBitToTest(index)*sampleTime);
 						I2Cstate = readAddress;
 					}
 					break;
@@ -108,21 +108,21 @@ public class I2CDecoder {
 					}
 					if(DEBUG) Log.i("I2CDecode", "I2CAddress: " + Integer.toBinaryString(i2cData & 0xFF) + " -> " + i2cData);
 					// Direccion
-					dataSource.addStringS(""+i2cData, tempIndex*sampleTime);	
+					dataSource.addStringS(""+i2cData, tempIndex*sampleTime, clock.nextSetBitToTest(index)*sampleTime);	
 		
 					// Obtengo el bit RW
 					index = clock.nextSetBitToTest(index);
 					rwBit = data.get(index);
 						
-					if(rwBit) dataSource.addStringS("\\R", 	(index*sampleTime));	
-					else dataSource.addStringS("\\W", 		(index*sampleTime));
+					if(rwBit) dataSource.addStringS("\\R", (index*sampleTime), clock.nextSetBitToTest(index)*sampleTime);	
+					else dataSource.addStringS("\\W", (index*sampleTime), clock.nextSetBitToTest(index)*sampleTime);
 						
 					// Obtengo el bit de ACK
 					index = clock.nextSetBitToTest(index);	
 					ackBit = data.get(index);	
 						
-					if(!ackBit) dataSource.addStringS("ACK", (index*sampleTime));
-					else dataSource.addStringS("NAK",		(index*sampleTime));
+					if(!ackBit) dataSource.addStringS("ACK", (index*sampleTime), (index+clockDuration)*sampleTime);
+					else dataSource.addStringS("NAK", (index*sampleTime), (index+clockDuration)*sampleTime);
 					
 					// Compruebo el estado del ACK, si hay ACK leo el byte sino condicion de Start de nuevo
 					if(!ackBit) I2Cstate = readByte;
@@ -143,22 +143,24 @@ public class I2CDecoder {
 						i2cData = LogicHelper.bitSet(i2cData, data.get(index), bit);		
 					}
 					if(DEBUG) Log.i("I2CDecode", "I2CData: " + Integer.toBinaryString(i2cData & 0xFF) + " -> " + i2cData);
+					
+					// Byte leido
+					dataSource.addStringS(""+i2cData, (tempIndex*sampleTime), clock.nextSetBitToTest(index)*sampleTime);
+					
 					// Obtengo el bit de ACK
 					index = clock.nextSetBitToTest(index);
 					ackBit = data.get(index);
 					
-					// Byte leido
-					dataSource.addStringS(""+i2cData, (tempIndex*sampleTime));
-					
-					if(!ackBit) dataSource.addStringS("ACK", (index*sampleTime));
-					else dataSource.addStringS("NAK", (index*sampleTime));
+					if(!ackBit) dataSource.addStringS("ACK", (index*sampleTime), clock.nextSetBitToTest(index)*sampleTime);
+					else dataSource.addStringS("NAK", (index*sampleTime), clock.nextSetBitToTest(index)*sampleTime);
 					
 					// Condicion de STOP (Verifico primero que existan los flancos)
 					if( (clock.nextRisingEdge(index) != -1) && (data.nextRisingEdge(index) != -1) ){ 
 						if((data.get(clock.nextRisingEdge(index)) == false) && (clock.get(data.nextRisingEdge(index)) == true)) {
 							if(DEBUG) Log.i("I2CDecode", "STOP - index: " + index);
 							index = clock.nextRisingEdge(index);
-							dataSource.addStringS("P", (index*sampleTime));		// Condicion de parada
+							// Condicion de parada
+							dataSource.addStringS("P", (index*sampleTime), (index+clockDuration)*sampleTime);
 						}
 					}
 					// Start Repetido
@@ -167,7 +169,7 @@ public class I2CDecoder {
 					}
 					// Vuelvo a condicion de Start pero indico error ya que no hubo parada ni start repetido
 					else {
-						dataSource.addStringS("E", (index*sampleTime));
+						dataSource.addStringS("E", (index*sampleTime), (index+clockDuration)*sampleTime);
 					}
 					break;
 				}
