@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+	<item
+        android:id="@+id/saveLogic"
+        android:icon="@drawable/save"
+        android:showAsAction="always"
+        android:title="Guardar" >
+    </item>
+    <item
+        android:id="@+id/restartLogic"
+        android:icon="@drawable/restart"
+        android:showAsAction="always"
+        android:title="Reinicio" >
+    </item>
+    
+</menu>

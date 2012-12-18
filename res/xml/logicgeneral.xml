@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/AnalyzerSampleTitle" >
+        <ListPreference
+            android:defaultValue="4000000"
+            android:entries="@array/sampleRateList"
+            android:entryValues="@array/sampleRateValues"
+            android:key="sampleRate"
+            android:summary="@string/AnalyzerSampleRateSummary"
+            android:title="@string/AnalyzerSampleRateTitle" />
+        <EditTextPreference
+            android:defaultValue="2500"
+            android:title="@string/AnalyzerSampleMaxTitle"
+            android:key="maxSamples"
+           	android:summary="@string/AnalyzerSampleMaxSummary"
+           	android:inputType="number" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="@string/AnalyzerDirectoryTitle" >
+    	<EditTextPreference 
+    	    android:defaultValue="Multi/Work/Images/"
+    	    android:title="@string/AnalyzerDirectoryImageTitle"
+    	    android:key="logicImageSave"
+    	    android:summary="@string/AnalyzerDirectoryImageSummary" />
+    	<EditTextPreference 
+    	    android:defaultValue="Multi/Work/Sesion/"
+    	    android:title="@string/AnalyzerDirectorySesionTitle"
+    	    android:key="logicSesionSave"
+    	    android:summary="@string/AnalyzerDirectorySesionSummary"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

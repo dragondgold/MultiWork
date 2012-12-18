@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_name">					MultiWork</string>
+    <string name="GeneralTitle">				General</string>
+    <string name="ScreenSummary">				Mantener la pantalla encendida en las mediciones</string>
+    <string name="ScreenTitle">					Mantener pantalla encendida</string>
+    <string name="Yes">							Si</string>
+    <string name="No">							No</string>
+    <string name="Ok">							Ok</string>
+    <string name="Cancel">						Cancelar</string>
+    
+    <!-- LC Meter -->
+    <string name="LCMeterMenu">					Medidor LC</string>
+    <string name="FrecMenu">					Frecuencimetro</string>
+    <string name="LogicAnalyzerMenu">			Analizador logico</string>
+    <string name="BrazoMenu">					Brazo Robot</string>
+    
+    <!-- Frecuencimetro -->
+    <string name="FrecReinicio">				Reiniciado</string>
+    <string name="FrecPeriodo">					Periodo:</string>
+    
+    <!-- Analizador Logico -->
+    <string name="AnalyzerName">				Analizador Logico</string>
+    <string name="AnalyzerChannel">				Canal</string>
+    <string name="AnalyzerData">				Datos</string>
+    <string name="AnalyzerYTitle">				Canales</string>
+    <string name="AnalyzerXTitle">				Tiempo</string>
+    
+    <string name="AnalyzerImagen">				Imagen</string>
+    <string name="AnalyzerSesion">				Sesion</string>
+    <string name="AnalyzerDialogSaveTitle">		Guardar</string>
+    <string name="AnalyzerDialogFileName">		Nombre de archivo</string>
+    <string name="AnalyzerDialogFileSaved">		Archivo guardado</string>
+    <string name="AnalyzerDialogFileNotSaved">	Error al guardar el archivo</string>
+    <string name="AnalyzerDialogSesionSaved">	Sesion guardada</string>
+    <string name="AnalyzerDialogOverwrite">		El archivo existe, sobreescribir ?</string>
+    <string name="AnalyzerDialogSampleAlert">	La configuracion actual de Baudios y SampleRate no permitirá un muestreo adecuado.
+        										 Aumente la velocidad de muestreo o disminuya los Baudios para un correcto muestreo.</string>
+    <string name="AnalyzerDialogSampleTitle">	Advertencia</string>
+    
+    <string name="AnalyzerProtocolSummary">		Protocolo</string>
+    <string name="AnalyzerProtocolTitle1">		Protocolo canal 1</string>
+    <string name="AnalyzerProtocolTitle2">		Protocolo canal 2</string>
+    <string name="AnalyzerProtocolTitle3">		Protocolo canal 3</string>
+    <string name="AnalyzerProtocolTitle4">		Protocolo canal 4</string>
+    <string name="AnalyzerSCLSummary">			Linea de datos</string>
+    <string name="AnalyzerSCLTitle">			Linea SCL</string>
+    <string name="AnalyzerBaudSummary">			Baudios UART</string>
+    <string name="AnalyzerBaudTitle">			Baudios</string>
+    
+    <string name="AnalyzerSampleTitle">			Muestreo</string>
+    <string name="AnalyzerSampleRateTitle">		Velocidad de muestreo</string>
+    <string name="AnalyzerSampleRateSummary">	Velocidad de muestreo del analizador</string>
+    <string name="AnalyzerSampleMaxTitle">		Maxima retencion de muestras</string>
+    <string name="AnalyzerSampleMaxSummary">	Maxima cantidad de muestras a almacenar (Entre mayor sea mas RAM se utilizara)</string>
+    
+    <string name="AnalyzerDirectoryTitle">			Directorios</string>
+    <string name="AnalyzerDirectoryImageTitle">		Directorio para imágenes</string>
+    <string name="AnalyzerDirectoryImageSummary">	Directorio donde guardar las imágenes</string>
+    <string name="AnalyzerDirectorySesionTitle">	Directorio para sesiones</string>
+    <string name="AnalyzerDirectorySesionSummary">	Directorio donde guardar las sesiones</string>
+    
+    <!--Brazo Robot -->
+    <string name="NoBTAlertTitle">					No existe Bluetooth</string>
+	<string name="NoBTAlertText">					El dispositivo no dispone de Bluetooth por lo tanto no puede hacer
+	    											 uso de la aplicación, lo siento</string>
+    
+</resources>

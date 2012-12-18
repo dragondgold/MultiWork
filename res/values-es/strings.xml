@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="LCMeterMenu">			Medidor LC</string>
+    <string name="FrecMenu">			Frecuencimetro</string>
+    <string name="LogicAnalyzerMenu">	Analizador logico</string>
+    <string name="BrazoMenu">			Brazo Robot</string>
+
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!--
+    Los android:showAsAction="always|withText", "always" indica que el item SIEMPRE va a ser mostrado, si no hay lugar se muestra en otra barra 
+    en la parte inferior en la pantalla si se definio android:uiOptions="splitActionBarWhenNarrow" en el Manifest. "whitText" indica que si es
+    posible (osea si hay lugar) se muestra el texto junto con el icono, sino se muestra unicamente el icono.
+    -->
+
+    <item
+        android:id="@+id/PlayPauseLc"
+        android:icon="@drawable/play"
+        android:showAsAction="always"
+        android:title="Play">
+    </item>
+    <item
+        android:id="@+id/LCMode"
+        android:icon="@drawable/capacitor"
+        android:showAsAction="always"
+        android:title="LC">
+    </item>
+    <item
+        android:id="@+id/settingsLc"
+        android:icon="@drawable/settings"
+        android:showAsAction="always"
+        android:title="Config">
+    </item>
+    <item
+        android:id="@+id/restartLC"
+        android:icon="@drawable/restart"
+        android:showAsAction="always"
+        android:title="Reinicio" >
+    </item>
+    
+</menu>

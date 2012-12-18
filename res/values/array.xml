@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+	<string-array name="protocolList" >
+    	<item> I2C </item>
+    	<item> UART </item>
+    	<item> Clock </item>
+    	<item> Deshabilitado </item>
+   	</string-array>
+   	
+	<string-array name="sampleRateList" >
+    	<item> 40 MHz </item>
+    	<item> 20 MHz </item>
+    	<item> 10 MHz </item>
+    	<item> 4 MHz </item>
+    	<item> 400 KHz </item>
+    	<item> 2 KHz </item>
+    	<item> 10 Hz </item>
+   	</string-array>
+   	
+	<string-array name="sampleRateValues" >
+    	<item> 40000000 </item>
+    	<item> 20000000 </item> 
+    	<item> 10000000 </item>
+    	<item> 4000000 </item>
+    	<item> 400000 </item>
+    	<item> 2000 </item>
+    	<item> 10 </item>        
+   	</string-array>
+	
+	<string-array name="protocolValues" >
+    	<item> 0 </item>
+    	<item> 1 </item> 
+    	<item> 2 </item>
+    	<item> 3 </item> 
+   	</string-array>
+   	
+	<string-array name="channelNames" >
+    	<item> Canal 1 </item>
+    	<item> Canal 2 </item> 
+    	<item> Canal 3 </item> 
+    	<item> Canal 4 </item>
+   	</string-array>
+    
+</resources>

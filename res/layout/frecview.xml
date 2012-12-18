@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="horizontal" >
+
+    <View
+        android:id="@+id/vSeparatorLine"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="54dp"
+        android:background="#2B497B" />
+
+    <TextView
+        android:id="@+id/tvMinFrec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="230dp"
+        android:text="Min: 0 Hz"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tvMaxFrec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="210dp"
+        android:text="Max: 0 Hz"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tvHz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="25dp"
+        android:text="Hz"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/tvKHz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvHz"
+        android:layout_marginTop="80dp"
+        android:text="KHz"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/tvMHz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvKHz"
+        android:layout_marginTop="135dp"
+        android:text="MHz"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/tvPer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvMaxFrec"
+        android:layout_alignBottom="@+id/tvMaxFrec"
+        android:layout_centerHorizontal="true"
+        android:text="@string/FrecPeriodo"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tvFrec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvBackgroundFrec"
+        android:layout_alignBottom="@+id/tvBackgroundFrec"
+        android:layout_alignLeft="@+id/tvBackgroundFrec"
+        android:text="00000000"
+        android:textSize="70dp" />
+
+    <TextView
+        android:id="@+id/tvBackgroundFrec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvMaxFrec"
+        android:layout_alignTop="@+id/tvHz"
+        android:text="88888888"
+        android:textSize="70dp" />
+
+    <TextView
+        android:id="@+id/tvPeriodo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvPer"
+        android:layout_alignBottom="@+id/tvPer"
+        android:layout_toRightOf="@+id/tvPer"
+        android:text="0"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tvBackgroundFrec2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvMHz"
+        android:layout_alignBottom="@+id/tvMHz"
+        android:layout_alignLeft="@+id/tvFrec"
+        android:text="88888888"
+        android:textSize="70dp" />
+
+    <TextView
+        android:id="@+id/tvFrec2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvBackgroundFrec2"
+        android:layout_alignBottom="@+id/tvBackgroundFrec2"
+        android:layout_alignLeft="@+id/tvBackgroundFrec2"
+        android:text="00000000"
+        android:textSize="70dp" />
+
+</RelativeLayout>

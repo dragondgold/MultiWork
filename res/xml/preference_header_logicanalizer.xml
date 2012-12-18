@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!--
+    Los headers son los items del menu de configuracion (como la configuracion de Android 4 que a la izquierda estan los items y a la derecha las
+    configuraciones). El uso de headers permite que en pantallas grandes se muestre el item y las configuracion lado a lado y en pantallas chicas al
+    clickear el item (header) se va a otra pantalla con las configuraciones
+    -->
+    <!--
+		com.multiwork.andres.LogicAnalizerPrefsFragment es el PreferenceFragment que va a mostrar el otro archivo xml con las preferencias
+		android:title es el titulo del icono mostrado
+		android:name es el nombre por el que se busca a este archivo ".xml" en com.multiwork.andres.LogicAnalizerPrefsFragment
+		android:value="logicanalizerprefs" es el nombre del archivo .xml localizado en res/xml/ que contiene las preferencias del header
+    -->
+    <header
+        android:fragment="com.multiwork.andres.LogicAnalizerPrefsFragment"
+        android:icon="@drawable/settings"
+        android:title="General" >
+        <extra
+            android:name="logicprefsheaders"
+            android:value="logicgeneral" />
+    </header>
+    <header
+        android:fragment="com.multiwork.andres.LogicAnalizerPrefsFragment"
+        android:icon="@drawable/settings"
+        android:title="Canal 1" >
+        <extra
+            android:name="logicprefsheaders"
+            android:value="c1analizerprefs" />
+    </header>
+    <header
+        android:fragment="com.multiwork.andres.LogicAnalizerPrefsFragment"
+        android:icon="@drawable/settings"
+        android:title="Canal 2" >
+        <extra
+            android:name="logicprefsheaders"
+            android:value="c2analizerprefs" />
+    </header>
+    <header
+        android:fragment="com.multiwork.andres.LogicAnalizerPrefsFragment"
+        android:icon="@drawable/settings"
+        android:title="Canal 3" >
+        <extra
+            android:name="logicprefsheaders"
+            android:value="c3analizerprefs" />
+    </header>
+    <header
+        android:fragment="com.multiwork.andres.LogicAnalizerPrefsFragment"
+        android:icon="@drawable/settings"
+        android:title="Canal 4" >
+        <extra
+            android:name="logicprefsheaders"
+            android:value="c4analizerprefs" />
+    </header>
+    
+</preference-headers>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="horizontal" >
+
+    <View
+        android:id="@+id/vSeparatorLineLC"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="54dp"
+        android:background="#2B497B" />
+
+    <TextView
+        android:id="@+id/MinLC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="230dp"
+        android:text="Min: "
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/MaxLC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="210dp"
+        android:text="Max: "
+        android:textSize="15dp" />
+    
+    <TextView
+        android:id="@+id/tvMaxLC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="210dp"
+        android:text="0 uH"
+        android:textSize="15dp" />
+    
+    <TextView
+        android:id="@+id/tvMinLC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="230dp"
+        android:text="0 uH"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tvBackgroundLC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvMaxLC"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:text="8888888"
+        android:scrollHorizontally="true"
+        android:textSize="70dp" />
+    <TextView
+        android:id="@+id/tvLC"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvBackgroundLC"
+        android:layout_alignBottom="@+id/tvBackgroundLC"
+        android:layout_alignLeft="@+id/tvMaxLC"
+        android:text="0000000"
+        android:scrollHorizontally="true"
+        android:textSize="70dp" />
+
+    <TextView
+        android:id="@+id/tvFrecLC"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvMaxLC"
+        android:layout_below="@+id/tvBackgroundLC"
+        android:text="0000000"
+        android:scrollHorizontally="true"
+        android:textSize="70dp" />
+
+    <TextView
+        android:id="@+id/tvFrecBackgroundLC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvFrecLC"
+        android:layout_alignBottom="@+id/tvFrecLC"
+        android:layout_alignLeft="@+id/tvFrecLC"
+        android:text="8888888"
+        android:textSize="70dp" />
+
+    <TextView
+        android:id="@+id/tvuF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="25dp"
+        android:text="uF"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/tvnF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvuF"
+        android:layout_below="@+id/tvuF"
+        android:layout_marginTop="22dp"
+        android:text="nF"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/tvpF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvFrecLC"
+        android:layout_alignBottom="@+id/tvFrecLC"
+        android:layout_alignLeft="@+id/tvnF"
+        android:text="pF"
+        android:textSize="30dp" />
+
+</RelativeLayout>
