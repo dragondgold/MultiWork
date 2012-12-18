@@ -115,11 +115,11 @@ public class LogicAnalizerPrefs extends PreferenceActivity {
 		// Si cambio el SampleRate verifico que sea posible para cada baudio seleccionado
 		if(changedPreference.contains("sampleRate")) {
 			// Baudios
-			final long baudRate[] = new long[LogicAnalizerView.channelsNumber];
+			final long baudRate[] = new long[LogicAnalizerFragment.channelsNumber];
 			boolean state = false;
 			
 			// Compruebo para cada baudio si es posible un correcto muestreo
-			for(int n=0; n < LogicAnalizerView.channelsNumber; ++n) {
+			for(int n=0; n < LogicAnalizerFragment.channelsNumber; ++n) {
 				baudRate[n] = Long.decode(getPrefs.getString("BaudRate" + (n+1), "9600"));
 				Log.i("Preferences", "baudRate[" + n + "]: " + baudRate[n]);
 				if( ((1.0d/baudRate[n]) /  (1.0d/newValue)) < 3.0d) state = true;
