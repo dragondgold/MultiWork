@@ -360,7 +360,14 @@ public class LogicAnalizerView extends SherlockActivity{
  		 		this.invalidateOptionsMenu();
  			}
  			break;
+ 		case R.id.zoomInLogic:
+ 			mChartView.zoomIn();
+ 			break;
+ 		case R.id.zoomOutLogic:
+ 			mChartView.zoomOut();
+ 			break;
  		}
+
 		return true;
  	}
  	
