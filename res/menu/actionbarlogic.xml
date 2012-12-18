@@ -8,10 +8,22 @@
     -->
 
     <item
-        android:id="@+id/PlayPauseLogic"
-        android:icon="@drawable/play"
+        android:id="@+id/listLogic"
+        android:icon="@drawable/list"
         android:showAsAction="always"
-        android:title="Play">
+        android:title="Raw Data">
+    </item>
+    <item
+        android:id="@+id/zoomOutLogic"
+        android:icon="@drawable/zoom_out"
+        android:showAsAction="always"
+        android:title="Zoom Out">
+    </item>
+    <item
+        android:id="@+id/zoomInLogic"
+        android:icon="@drawable/zoom_in"
+        android:showAsAction="always"
+        android:title="Zoom In">
     </item>
     <item
         android:id="@+id/settingsLogic"
@@ -19,5 +31,11 @@
         android:showAsAction="always"
         android:title="Config">
     </item>
-    
+    <item
+        android:id="@+id/PlayPauseLogic"
+        android:icon="@drawable/play"
+        android:showAsAction="always"
+        android:title="Play">
+    </item>
+
 </menu>
