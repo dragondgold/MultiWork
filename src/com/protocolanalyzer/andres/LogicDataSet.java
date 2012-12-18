@@ -70,13 +70,15 @@ public class LogicDataSet {
 	 * Decodifica un canal con el protocolo correspondiente del canal
 	 * @param channelNumber, n�mero del canal a analizar
 	 */
-	public void decode(int channelNumber) {
+	public void decode(int channelNumber, double startTime) {
 		switch(mLogicData.get(channelNumber).getProtocol()) {
 			case I2C:
+				mLogicData.get(channelNumber).setStartTime(startTime);
 				mLogicData.get(channelNumber).clearDecodedData();
 				I2CDecoder.I2CDecode(mLogicData.get(channelNumber), mLogicData.get(getClockChannelNumber(channelNumber)));
 				break;
 			case UART:
+				mLogicData.get(channelNumber).setStartTime(startTime);
 				mLogicData.get(channelNumber).clearDecodedData();
 				UARTDecoder.UARTDecode(mLogicData.get(channelNumber));
 			case SPI:
