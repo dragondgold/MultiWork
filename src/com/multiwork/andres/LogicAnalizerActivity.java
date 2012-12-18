@@ -27,4 +27,15 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity {
 		if(DEBUG) Log.i("mFragment","onResume() LogicAnalizerActivity");
 		super.onResume();
 	}
+	
+	/**
+	 * Crea el ActionBar desde el XML actionbarlogic que define los iconos en el mismo
+	 */
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+    	if(DEBUG) Log.i("onCreateOptionsMenu()", "onCreateOptionsMenu() -> LogicAnalizerView");
+    	MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.actionbarlogic, menu);
+		return true;
+	}
 }
