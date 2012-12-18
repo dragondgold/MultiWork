@@ -16,12 +16,10 @@ public class LogicData {
 		UART, I2C, SPI, CLOCK, NONE
 	}
 	
-	/** Lista con los textos que se forman a partir de la decodificaci�n */
-	private List<String> mText = new ArrayList<String>();	
-	/** Posiciones (en el tiempo) de los datos decodificados de mText de acuerdo a startTime tambi�n */
-	private List<Double> mPosition = new ArrayList<Double>();
+	/** Contiene un String con las posiciones iniciales y finales del mismo en el tiempo */
+	private List<TimePosition> mData = new ArrayList<TimePosition>();
 	/** Bits para ser decodificados */
-	private LogicBit data;
+	private LogicBit data = new LogicBit();
 	/** Protocolo usado */
 	private Protocol mProtocol;
 	/** Velocidad en baudios en caso del protocolo UART */
@@ -195,24 +193,34 @@ public class LogicData {
 		return sampleRate;
 	}
 	
+
 	/**
 	 * Agrega un String en la posicion dada
-	 * @param text es el String a agregar
-	 * @param position es la posicion (con decimales tambien) donde colocar el texto
+	 * @param text String a agregar
+	 * @param startTime tiempo de inicio
+	 * @param stopTime tiempo final
 	 */
-	public void addString (String text, double position){
-		mText.add(text);
-		mPosition.add(position);
+	public void addString (String text, double startTime, double stopTime){
+		if(stopTime >= startTime){
+			mData.add(new TimePosition(text, startTime, stopTime));
+		}else{
+			mData.add(new TimePosition(text, startTime, startTime));
+		}
 	}
 	
+	
 	/**
-	 * Agrega un String en la posicion dada considerando el startTime definido del canal
-	 * @param text es el String a agregar
-	 * @param position es la posicion (con decimales tambien) donde colocar el texto
+	 * Agrega un String en la posicion dada tomando el tiempo de inicio configurado en el canal
+	 * @param text String a agregar
+	 * @param startTime tiempo de inicio
+	 * @param stopTime tiempo final
 	 */
-	public void addStringS (String text, double position){
-		mText.add(text);
-		mPosition.add(startTime+position);
+	public void addStringS (String text, double startTime, double stopTime){
+		if(stopTime >= startTime){
+			mData.add(new TimePosition(text, startTime+this.startTime, stopTime+this.startTime));
+		}else{
+			mData.add(new TimePosition(text, startTime+this.startTime, startTime+this.startTime));
+		}
 	}
 	
 	/**
@@ -222,7 +230,7 @@ public class LogicData {
 	 * @return String en la posicion dada
 	 */
 	public String getString (int index){
-		return mText.get(index);
+		return mData.get(index).getString();
 	}
 	
 	/**
@@ -231,40 +239,38 @@ public class LogicData {
 	 * @return int, cantidad de String agregados
 	 */
 	public int getStringCount (){
-		return mText.size();
+		return mData.size();
 	}
 	
 	/**
-	 * Obtiene la posicion
+	 * Obtiene la posicion en el tiempo
 	 * @author Andres Torti
 	 * @param index donde obtener la posicion
-	 * @return int con la posicion en el index dado
+	 * @return double[] con las posiciones de inicio y final, siendo la posicion 0 del array el inicio y 1 final
 	 */
-	public double getPositionAt (int index){
-		return mPosition.get(index);
-	}
-	
-	/**
-	 * Obtiene la cantidad de posiciones almacenadas
-	 * @author Andres Torti
-	 * @return int con la cantidad posiciones almacenadas
-	 */
-	public int getPositionCount (){
-		return mPosition.size();
+	public double[] getPositionAt (int index){
+		return mData.get(index).getTimes();
 	}
 	
 	/**
 	 * Elimina todos los datos decodificados
 	 */
 	public void clearDecodedData() {
-		mText.clear();
-		mPosition.clear();
+		mData.clear();
 	}
 	
 	/**
 	 * Elimina los bits del canal
 	 */
 	public void clearDataBits() {
+		if(data != null)
+			data.clear();
+	}
+	
+	/**
+	 * Elimina los bits del canal y libera la memoria usada
+	 */
+	public void freeDataMemory() {
 		data = new LogicBit();
 	}
 
