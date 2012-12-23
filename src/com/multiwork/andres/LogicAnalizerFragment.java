@@ -190,7 +190,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
         mRenderDataset.setXAxisMax(xMax);
         mRenderDataset.setPanEnabled(true);
         mRenderDataset.setShowGrid(true);
-        mRenderDataset.setPointSize(5f);
+        mRenderDataset.setPointSize(4f);
         mRenderDataset.setExternalZoomEnabled(true);
         mRenderDataset.setPanEnabled(true, false);
         mRenderDataset.setZoomEnabled(true, false);
