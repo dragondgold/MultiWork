@@ -13,13 +13,12 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.util.MathHelper;
 
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -31,13 +30,13 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -51,11 +50,8 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.ActionMode;
 
 import com.protocolanalyzer.andres.LogicData;
-import com.protocolanalyzer.andres.LogicDataSet;
-import com.protocolanalyzer.andres.LogicHelper;
-import com.protocolanalyzer.andres.LogicData.Protocol;
 
-public class LogicAnalizerFragment extends SherlockFragment{
+public class LogicAnalizerFragment extends SherlockFragment implements OnDataDecodedListener{
 	
 	/** Debugging */
 	private static final boolean DEBUG = true;
@@ -66,7 +62,7 @@ public class LogicAnalizerFragment extends SherlockFragment{
 	private static final float bitScale = 1.00f;		
     /** Valor del eje X maximo inicial */
     private static final double xMax = 10;				
-    /** Numero de canales de entrada (sin contar los de rectangulo) */
+    /** Numero de canales de entrada */
     public static final int channelsNumber = 4;
     /** Colores de linea para cada canal */
     private static final int lineColor[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
@@ -86,22 +82,9 @@ public class LogicAnalizerFragment extends SherlockFragment{
     private static Handler mUpdaterHandler = new Handler();	
     /** Tiempo que va transcurriendo (eje x del grafico) */
     private static double time = 0.0d;		
-    /** BroadcastReceiver del Service para obtener los datos */
-    private static MyReceiver mServiceReceiver;	
-    /** Indica si el grafico esta activo o no (Play o Pause) */
-    private static boolean isPlaying = false; 
-    /** Intent del Service desde donde se reciben los datos */
-    private static Intent serviceIntent;
     /** Cuantos segundos representa un cuadrito (una unidad) en el grafico */
     private static double timeScale; 
     
-    /** Buffers de recepcion donde se guarda los bytes recibidos desde el USBMultiService */
-    private static byte[] ReceptionBuffer;	
-    /** Dato decodificado desde LogicHelper para ser mostrado en el grafico, contiene las posiciones para mostar
-      * el tipo de protocolo, etc
-      * @see LogicData.java */
-	private static LogicData[] mData = new LogicData[channelsNumber];
-	private static LogicDataSet mDataSet = new LogicDataSet();
     /** Numero maximo de muestras en las series (osea en el grafico) */
     private static long maxSamples = 3000;
     
@@ -116,6 +99,7 @@ public class LogicAnalizerFragment extends SherlockFragment{
 	
 	private static GraphicalView mChartView;
 	private static SherlockFragmentActivity mActivity;
+	private static OnActionBarClickListener mActionBarListener;
     
 	/** Coordenadas de inicio cuando se toco por primera vez el touchscreen */
 	private static float x = 0, y = 0;
@@ -123,6 +107,37 @@ public class LogicAnalizerFragment extends SherlockFragment{
 	private static boolean isMoving = false;
 	/** Indica si se esta sosteniendo el dedo sobre la pantalla (long-press) */
 	private static boolean fingerStillDown = false;
+	
+	/** Dato decodificado desde LogicHelper para ser mostrado en el grafico, contiene las posiciones para mostar
+     * el tipo de protocolo, etc
+     * @see LogicData.java */
+	private static LogicData[] mData = new LogicData[channelsNumber];
+	
+	private static boolean firstTime = true;
+	private static int samplesNumber = 0;
+	
+	@Override
+	public double onDataDecodedListener(LogicData[] mLogicData, int samplesCount) {
+		if(DEBUG) Log.i("mFragment","onDataDecoded()");
+		if(DEBUG) Log.i("mFragment","Data: " + mLogicData.toString());
+		
+		mData = mLogicData;
+		samplesNumber = samplesCount;
+		mUpdaterHandler.post(mUpdaterTask);
+		
+		// Configuro las variables en base a las preferencias la primera vez unicamente
+		if(firstTime){
+			setChartPreferences();
+			firstTime = false;
+		}
+
+		// Hago un cálculo de cual va a ser el tiempo despues de agregar todos los datos y se lo paso a la Activity
+		double tempTime = time;
+		for(int n=0; n < samplesCount; ++n) tempTime += 1.0d/LogicData.getSampleRate();	 // Tiempo de los datos
+		tempTime += (10*timeScale) + (0.0000001d*timeScale);	// Tiempo del espaciado
+			
+		return tempTime;
+	}
 	
     /**
      * Creacion de la Activity
@@ -141,12 +156,6 @@ public class LogicAnalizerFragment extends SherlockFragment{
         actionBar.setTitle(getString(R.string.AnalyzerName)) ;		// Nombre
         this.setHasOptionsMenu(true);
         
-        // Informacion de cada canal
-        mData[0] = new LogicData();	
-        mData[1] = new LogicData();
-        mData[2] = new LogicData();
-        mData[3] = new LogicData();
-        
         // Crea las Serie que es una linea en el grafico (cada una de las entradas)
         mSerie[0] = new XYSeries(getString(R.string.AnalyzerChannel) + "1");	
         mSerie[1] = new XYSeries(getString(R.string.AnalyzerChannel) + "2");
@@ -157,7 +166,6 @@ public class LogicAnalizerFragment extends SherlockFragment{
         	mRenderer[n] = new XYSeriesRenderer();			// Creo el renderer de la Serie
         	mRenderDataset.addSeriesRenderer(mRenderer[n]);	// Agrego el renderer al Dataset
         	mSerieDataset.addSeries(mSerie[n]);				// Agrego la seria al Dataset
-        	mDataSet.addLogicData(mData[n]);				// Agrego los datos al Dataset
         	
         	mRenderer[n].setColor(lineColor[n]);			// Color de la Serie
         	mRenderer[n].setFillPoints(true);
@@ -189,8 +197,11 @@ public class LogicAnalizerFragment extends SherlockFragment{
         mRenderDataset.setPanLimits(new double[] {0d , Double.MAX_VALUE, -1d, 15d});
         
         mChartView = ChartFactory.getLineChartView(mActivity, mSerieDataset, mRenderDataset);
+     
+        // Obtengo el OnActionBarClickListener de la Activity
+     	try { mActionBarListener = (OnActionBarClickListener) mActivity; }
+     	catch (ClassCastException e) { throw new ClassCastException(mActivity.toString() + " must implement OnActionBarClickListener"); }
         
-        setPreferences();				// Configuro las variables en base a las preferencias
         vibration = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
         
         final Runnable longClickRun = new Runnable() {
@@ -241,36 +252,26 @@ public class LogicAnalizerFragment extends SherlockFragment{
 				return false;
 			}
         });
+        
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Renderizo el layout
-		return inflater.inflate(R.layout.logicanalizer, container);
+		return inflater.inflate(R.layout.logicanalizer, container, false);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		if(DEBUG) Log.i("onResume()","Resume LogicAnalizerView");
-		mActivity.invalidateOptionsMenu();
 		
 		// Elimino primero el View porque si ya esta agregado genera una excepcion
 		((LinearLayout) mActivity.findViewById(R.id.mChart)).removeViewInLayout(mChartView);
 		// Agrego un View al layout que se renderizo en onCreateView. No puedo hacerlo antes porque dentro de 
 		// onCreateView() el layout no se renderizo y por lo tanto es null.
 		((LinearLayout) mActivity.findViewById(R.id.mChart)).addView(mChartView);
-	}
-	
-	@Override
-	public void onPause() {
-		if(DEBUG) Log.i("onPause()","Pause LogicAnalizerView");
-		if(isPlaying) {		// Detengo el Service si esta funcionando
-			isPlaying = false;
-			mActivity.unregisterReceiver(mServiceReceiver);
-		}
-		super.onPause();
 	}
 
 	/**
@@ -300,6 +301,7 @@ public class LogicAnalizerFragment extends SherlockFragment{
 			if(DEBUG) Log.i("ActionMode", "Item clicked: " + item.getItemId() + " - " + item.getTitle());
 			switch(item.getItemId()) {
 			case R.id.restartLogic:
+				mActionBarListener.onActionBarClickListener(R.id.restartLogic);
 				restart();
  				break;
 	 		case R.id.saveLogic:
@@ -315,19 +317,6 @@ public class LogicAnalizerFragment extends SherlockFragment{
 			Log.i("ActionMode", "Destroy");
 		}
 	}
-
-	/**
-	 * Actualiza los iconos del ActionBar cuando se llama a this.invalidateOptionsMenu();
-	 */
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		if(isPlaying) {
-			menu.findItem(R.id.PlayPauseLogic).setIcon(R.drawable.pause);
-		}
-		else {
-			menu.findItem(R.id.PlayPauseLogic).setIcon(R.drawable.play);
-		}
-	}
     
     /**
      * Listener de los iconos en el ActionBar
@@ -335,7 +324,7 @@ public class LogicAnalizerFragment extends SherlockFragment{
      */
  	@Override
  	public boolean onOptionsItemSelected(MenuItem item) {
- 		if(DEBUG) Log.i("ActionBar icon listener", "onOptionsItemSelected() -> LogicAnalizerView");
+ 		if(DEBUG) Log.i("ActionBar", "onOptionsItemSelected() -> LogicAnalizerView");
  		
  		switch(item.getItemId()){
  		case android.R.id.home:
@@ -344,26 +333,11 @@ public class LogicAnalizerFragment extends SherlockFragment{
  			startActivity(intent);
  			break;
  		case R.id.settingsLogic:
- 			startActivityForResult(new Intent(mActivity, LogicAnalizerPrefs.class), PREFERENCES_CODE);
+ 			mActivity.startActivityForResult(new Intent(mActivity, LogicAnalizerPrefs.class), PREFERENCES_CODE);
  			break;
  		case R.id.PlayPauseLogic:
- 			if(isPlaying) {
- 				mActivity.unregisterReceiver(mServiceReceiver);	// Detengo el BroadcastReceiver del Service
- 				isPlaying = false;
- 				mActivity.invalidateOptionsMenu();
- 			}
- 			else {
- 				// Inicio el Servicio
- 				serviceIntent = new Intent(mActivity, MultiService.class);
- 				mActivity.startService(serviceIntent);
- 				// Registro el broadcast del Service para obtener los datos
- 		 		mServiceReceiver = new MyReceiver();
- 		 		IntentFilter intentFilter = new IntentFilter();
- 		 		intentFilter.addAction(MultiService.mAction);
- 		 		mActivity.registerReceiver(mServiceReceiver, intentFilter);
- 		 		isPlaying = true;
- 		 		mActivity.invalidateOptionsMenu();
- 			}
+ 	 		// Paso el ID del boton presionado a la Activity
+ 	 		mActionBarListener.onActionBarClickListener(item.getItemId());
  			break;
  		case R.id.zoomInLogic:
  			mChartView.zoomIn();
@@ -371,6 +345,13 @@ public class LogicAnalizerFragment extends SherlockFragment{
  		case R.id.zoomOutLogic:
  			mChartView.zoomOut();
  			break;
+ 		case R.id.listLogic:
+ 			FragmentTransaction transaction = getFragmentManager().beginTransaction();
+ 			// Reemplazo este Fragment con el de la lista de datos, addToBackStack() hace que al presionar la tecla
+ 			// de atras se vuelva a este Fragment y no se destruya el mismo
+ 			transaction.replace(R.id.chartFragment, new LogicAnalizerListFragment());
+ 			transaction.addToBackStack(null);
+ 			transaction.commit();
  		}
 
 		return true;
@@ -383,15 +364,17 @@ public class LogicAnalizerFragment extends SherlockFragment{
  	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Log.i("ActivityResult", "Activity Result");
-		Log.i("ActivityResult", "resultCode: " + resultCode);
-		Log.i("ActivityResult", "requestCode: " + requestCode);
+		Log.i("mFragment", "Activity Result");
+		Log.i("mFragment", "resultCode: " + resultCode);
+		Log.i("mFragment", "requestCode: " + requestCode);
 		
 		// Cambio en las preferencias
 		if(requestCode == PREFERENCES_CODE){
 			if(resultCode == RESULT_OK) {
 				Log.i("ActivityResult", "Preferences Setted");
-				setPreferences();
+				// Aviso a la Activity que cambiaron las preferencias
+				mActionBarListener.onActionBarClickListener(R.id.settingsLogic);
+				setChartPreferences();
 			}
 		}
 		// Dialogo de confirmación para guardar imagen
@@ -421,8 +404,6 @@ public class LogicAnalizerFragment extends SherlockFragment{
 	private void restart() {
 		for(int n = 0; n < channelsNumber; ++n) {
 			mSerie[n].clear();
-			mData[n].freeDataMemory();
-			mData[n].clearDecodedData();
 		}
 		mRenderDataset.setXAxisMax(xMax);
 		mRenderDataset.setXAxisMin(0);
@@ -583,45 +564,43 @@ public class LogicAnalizerFragment extends SherlockFragment{
 	 * @see http://developer.android.com/resources/articles/timed-ui-updates.html
 	 * @see http://stackoverflow.com/questions/10405773/how-to-use-preferencefragment/10405850#comment13428324_10405850
 	 */
-	// TODO: mostrar los String decodificados
 	final private Runnable mUpdaterTask = new Runnable() {
 		@Override
 		public void run() {
-			// Obtengo los datos
-			ReceptionBuffer = MultiService.getLogicAnalizerData();
 			
 			if(DEBUG) {
-				for(int n=0; n < 4; ++n) {
-					Log.i("Chart", "Numero: " + n);
+				for(int n=0; n < channelsNumber; ++n) {
 					for(int i = 0; i < mData[n].getStringCount(); ++i) {
-						Log.i("Chart", "Data[" + n + "]: " + mData[n].getString(i));
+						Log.i("Data", "Data[" + n + "]: " + mData[n].getString(i));
 					}
 				}
 			}
-			
+
 	    	// Si los bit son 1 le sumo 1 a los valores tomados como 0 logicos
-			for(int n=0; n < ReceptionBuffer.length; ++n){				// Voy a traves de los bytes recibidos
-				for(int bit=0; bit < channelsNumber; ++bit){			// Voy a traves de los 4 bits de cada byte
-					if(LogicHelper.bitTest(ReceptionBuffer[n],bit)){	// Si es 1
+			for(int n=0; n <samplesNumber; ++n){
+				for(int channel=0; channel < channelsNumber; ++channel){	
+					if(mData[channel].getBits().get(n)){	// Si es 1
 						// Nivel tomado como 0 + un alto de bit
-						mSerie[bit].add(toCoordinate(time, timeScale), yChannel[bit]+bitScale);
+						mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]+bitScale);
 					}
-					else{												// Si es 0
-						mSerie[bit].add(toCoordinate(time, timeScale), yChannel[bit]);
+					else{									// Si es 0
+						mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]);
 					}
 				}
 				//Si llego al maximo del cuadro (borde derecho) aumento el maximo y el minimo para dibujar un tiempo mas
 				//(desplazamiento del cuadro) de esta manera si deslizamos el cuadro horizontalmente tendremos los datos
 				if(toCoordinate(time, timeScale) >= xMax){
-					if(DEBUG) Log.i("Move", "Chart moved");
+					//if(DEBUG) Log.i("Move", "Chart moved");
 					mRenderDataset.setXAxisMax(mRenderDataset.getXAxisMax()+1d);
 					mRenderDataset.setXAxisMin(mRenderDataset.getXAxisMin()+1d);
 				}
 				time += 1.0d/LogicData.getSampleRate();	// Incremento el tiempo
 			}
-			
-			if(DEBUG) Log.i("Chart", "redraw()");
-			mChartView.repaint();					// Redibujo el grafico
+			// Agrego un espacio para indicar que el buffer de muestreo llego hasta aqui
+			time += (10*timeScale);
+			for(int n=0; n < channelsNumber; ++n){
+				mSerie[n].add(mSerie[n].getX(mSerie[n].getItemCount()-1)+0.0000001d, MathHelper.NULL_VALUE);
+			}
 			
 			for(int n = 0; n < channelsNumber; ++n){
 				for(int i = 0; i < mData[n].getStringCount(); ++i){
@@ -640,16 +619,21 @@ public class LogicAnalizerFragment extends SherlockFragment{
 				}
 			}
 			
+			//if(DEBUG) Log.i("Chart", "redraw()");
+			mChartView.repaint();					// Redibujo el grafico
+			
 			// Si algun canal se paso del maximo de muestras, borro todas las muestras
-			for(int n = 0; n < channelsNumber; ++n) {
+			for(int n = 0; n < channelsNumber; n++) {
 				if(mSerie[n].getItemCount() > maxSamples) {
-					for(int k = 0; k < channelsNumber; ++k) {
+					for(int k = 0; k < channelsNumber; k++) {
 						if(DEBUG) Log.i("Chart", "Data Cleared");
-						mSerie[n].clear();
+						mSerie[k].clear();
 						n = channelsNumber;	// Si un canal se paso, borro todos osea que no necesito seguir comprobando
 					}
 				}
 			}
+			// Cada vez que recibo un buffer del analizador logico, lo muestro todo y pauso
+			mActionBarListener.onActionBarClickListener(R.id.PlayPauseLogic);
 		}
 	};
 	
@@ -664,66 +648,34 @@ public class LogicAnalizerFragment extends SherlockFragment{
 	}
 	
 	/**
-	 * Receiver del Service, aqui se obtienen los datos que envia el Service
-	 */
-	private class MyReceiver extends BroadcastReceiver{
-		@Override
-		public void onReceive(Context arg0, Intent arg1) {
-			if(DEBUG) Log.i("ServiceReceiver", "onReceive() - Lenght: " + arg1.getByteArrayExtra("LogicData").length);
-			// Decodifico los datos
-			ReceptionBuffer = arg1.getByteArrayExtra("LogicData");
-			// Paso el buffer a cada canal
-			mDataSet.BufferToChannel(ReceptionBuffer);
-			
-			// Decodifico cada canal con su correspondiente fuente de clock
-			for(int n = 0; n < channelsNumber; ++n) {
-				mDataSet.decode(n, time);
-			}
-    	    // Actualizo el grafico
-			mUpdaterHandler.post(mUpdaterTask);
-		}
-	}
-	
-	/**
 	 * @author Andres Torti
 	 * Define los parametros de acuerdo a las preferencias
 	 */
- 	private void setPreferences() {
-        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(mActivity.getBaseContext());
-        ReceptionBuffer = new byte[500];			// Buffer de recepcion general de 500 bytes
+ 	private void setChartPreferences() {
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
 
         for(int n=0; n < channelsNumber; ++n){
         	// Seteo el protocolo para cada canal
         	switch(Byte.decode(getPrefs.getString("protocol" + (n+1), "0"))){
 	        	case 0:		// I2C
-	        		mData[n].setProtocol(Protocol.I2C);
 	        		mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + " [I2C]");
 	        		break;
 	        	case 1:		// UART
-	        		mData[n].setProtocol(Protocol.UART);
 	        		mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + " [UART]");
 	        		break;
 	        	case 2:		// CLOCK
-	        		mData[n].setProtocol(Protocol.CLOCK);
 	        		mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + "[CLK]");
 	        		break;
 	        	case 3:		// NONE
-	        		mData[n].setProtocol(Protocol.NONE);
 	        		mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + "[---]");
 	        		break;
         	}
-        	// Seteo el canal que hace de fuente de clock
-        	mData[n].setClockSource(Byte.decode(getPrefs.getString("SCL" + (n+1), "0")));
-        	// Defino la velocidad en baudios de cada canal en caso de usarse UART
-        	mData[n].setBaudRate(Long.decode(getPrefs.getString("BaudRate" + (n+1), "9600")));
         }
-    	// Directorios para guardar
+    	// Directorios para guardar las imagenes y sesiones
     	imagesDirectory = getPrefs.getString("logicImageSave","Multi/Work/Images/");
     	sesionDirectory = getPrefs.getString("logicSesionSave","Multi/Work/Sesion/");
     	// Máxima cantidad de muestras para almacenar
         maxSamples = Long.decode(getPrefs.getString("maxSamples", "3000"));
-    	// Defino la velocidad de muestreo que es comun a todos los canales (por defecto 4MHz)
-    	LogicData.setSampleRate(Long.decode(getPrefs.getString("sampleRate", "4000000")));
     	
         // Escala del eje X de acuerdo al sample rate
         if(LogicData.getSampleRate() == 40000000) {
@@ -748,16 +700,8 @@ public class LogicAnalizerFragment extends SherlockFragment{
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x100 mS");
         	timeScale = 0.1d;				// 100mS
         }
-        /**
-         * Mantiene a la pantalla encendida en esta Activity unicamente
-         * @see http://developer.android.com/reference/android/os/PowerManager.html
-         * @see http://stackoverflow.com/questions/2131948/force-screen-on
-         */
-        if(getPrefs.getBoolean("keepScreenAwake", false)) {
-        	if(DEBUG) Log.i("LogicAnalizerView","Screen Awake");
-        	mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
         // Actualizo los datos del grafico
         mChartView.repaint();
  	}
+
 }
