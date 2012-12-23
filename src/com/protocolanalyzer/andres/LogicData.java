@@ -192,7 +192,6 @@ public class LogicData {
 	public static long getSampleRate () {
 		return sampleRate;
 	}
-	
 
 	/**
 	 * Agrega un String en la posicion dada
