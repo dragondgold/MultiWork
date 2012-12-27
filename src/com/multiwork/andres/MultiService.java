@@ -72,7 +72,7 @@ public class MultiService extends Service{
 	public static byte[] getLogicAnalizerData (){
 		
 		Random crazy = new Random();
-		byte[] data = new byte[50];
+		byte[] data = new byte[1000];
 		
 		for(int n=0; n<data.length; ++n){
 			data[n] = (byte)crazy.nextInt();
