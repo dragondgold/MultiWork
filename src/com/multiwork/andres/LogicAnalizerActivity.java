@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.WindowManager;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -23,10 +22,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 
 	private static final boolean DEBUG = true;
 	
-	private static ActionBar actionBar;
-	
 	/** Interface donde paso los datos decodificados a los Fragments, los mismo deben implementar el Listener */
-	private static OnDataDecodedListener mDataDecodedListener;
+	private static OnDataDecodedListener mChartDataDecodedListener;
+	private static OnDataDecodedListener mListDataDecodedListener;
 	
 	/** Fragment que contiene al grafico */
 	private static Fragment mFragmentChart;
@@ -58,14 +56,11 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		super.onCreate(arg0);
 		if(DEBUG) Log.i("mFragmentActivity","onCreate() LogicAnalizerActivity");
 		
-		actionBar = getSupportActionBar();
 		setContentView(R.layout.logic_fragments);
-		
 		mFragmentChart = getSupportFragmentManager().findFragmentById(R.id.chartFragment);
-		//mFragmentList = getSupportFragmentManager().findFragmentById(R.id.chartFragment);
 		
 		// Obtengo el OnDataDecodedListener de los Fragments
-		try { mDataDecodedListener = (OnDataDecodedListener) mFragmentChart; }
+		try { mChartDataDecodedListener = (OnDataDecodedListener) mFragmentChart; }
 		catch (ClassCastException e) { throw new ClassCastException(mFragmentChart.toString() + " must implement OnDataDecodedListener"); }
 		
 		// Creo los LogicData y los agrego al DataSet
@@ -140,6 +135,12 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 			break;
 		case R.id.settingsLogic:
 			setPreferences();
+			break;
+		case R.id.listLogic:
+			mFragmentList = getSupportFragmentManager().findFragmentByTag("ListLogic");
+			try { mListDataDecodedListener = (OnDataDecodedListener) mFragmentList; }
+			catch (ClassCastException e) { throw new ClassCastException(mFragmentList.toString() + " must implement OnDataDecodedListener"); }
+			break;
 		}
 	}
 	
@@ -230,7 +231,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 				mDataSet.decode(n, time);
 			}
     	    // Paso los datos decodificados a los Fragment
-			time = mDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length);
+			time = mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length);
+			if(mFragmentList != null) mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length);
 		}
 	}
  	
