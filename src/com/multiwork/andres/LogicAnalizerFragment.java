@@ -38,6 +38,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -62,8 +63,6 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 	private static final float bitScale = 1.00f;		
     /** Valor del eje X maximo inicial */
     private static final double xMax = 10;				
-    /** Numero de canales de entrada */
-    public static final int channelsNumber = 4;
     /** Colores de linea para cada canal */
     private static final int lineColor[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
     
@@ -89,9 +88,9 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
     private static long maxSamples = 3000;
     
     /** Serie que muestra los '1' y '0' de cada canal */
-    private static XYSeries[] mSerie = new XYSeries[channelsNumber];
+    private static XYSeries[] mSerie = new XYSeries[LogicAnalizerActivity.channelsNumber];
     /** Renderer para cada Serie, indica color, tamaño, etc */
-    private static XYSeriesRenderer[] mRenderer = new XYSeriesRenderer[channelsNumber];
+    private static XYSeriesRenderer[] mRenderer = new XYSeriesRenderer[LogicAnalizerActivity.channelsNumber];
     /** Dataset para agrupar las Series */
     private static XYMultipleSeriesDataset mSerieDataset = new XYMultipleSeriesDataset();
     /** Dataser para agrupar los Renderer */
@@ -111,7 +110,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 	/** Dato decodificado desde LogicHelper para ser mostrado en el grafico, contiene las posiciones para mostar
      * el tipo de protocolo, etc
      * @see LogicData.java */
-	private static LogicData[] mData = new LogicData[channelsNumber];
+	private static LogicData[] mData = new LogicData[LogicAnalizerActivity.channelsNumber];
 	
 	private static boolean firstTime = true;
 	private static int samplesNumber = 0;
@@ -162,7 +161,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
         mSerie[2] = new XYSeries(getString(R.string.AnalyzerChannel) + "3");
         mSerie[3] = new XYSeries(getString(R.string.AnalyzerChannel) + "4");
         
-        for(int n=0; n < channelsNumber; ++n) {
+        for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n) {
         	mRenderer[n] = new XYSeriesRenderer();			// Creo el renderer de la Serie
         	mRenderDataset.addSeriesRenderer(mRenderer[n]);	// Agrego el renderer al Dataset
         	mSerieDataset.addSeries(mSerie[n]);				// Agrego la seria al Dataset
@@ -268,12 +267,13 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 		if(DEBUG) Log.i("onResume()","Resume LogicAnalizerView");
 		
 		// Elimino primero el View porque si ya esta agregado genera una excepcion
-		((LinearLayout) mActivity.findViewById(R.id.mChart)).removeViewInLayout(mChartView);
+		((FrameLayout) mActivity.findViewById(R.id.mChart)).removeViewInLayout(mChartView);
 		// Agrego un View al layout que se renderizo en onCreateView. No puedo hacerlo antes porque dentro de 
 		// onCreateView() el layout no se renderizo y por lo tanto es null.
-		((LinearLayout) mActivity.findViewById(R.id.mChart)).addView(mChartView);
+		((FrameLayout) mActivity.findViewById(R.id.mChart)).addView(mChartView);
+		
 	}
-
+    
 	/**
 	 * Activa el ActionMode del ActionBar
 	 * @author Andres Torti
@@ -337,7 +337,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
  			break;
  		case R.id.PlayPauseLogic:
  	 		// Paso el ID del boton presionado a la Activity
- 	 		mActionBarListener.onActionBarClickListener(item.getItemId());
+ 	 		mActionBarListener.onActionBarClickListener(R.id.PlayPauseLogic);
  			break;
  		case R.id.zoomInLogic:
  			mChartView.zoomIn();
@@ -349,9 +349,11 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
  			FragmentTransaction transaction = getFragmentManager().beginTransaction();
  			// Reemplazo este Fragment con el de la lista de datos, addToBackStack() hace que al presionar la tecla
  			// de atras se vuelva a este Fragment y no se destruya el mismo
- 			transaction.replace(R.id.chartFragment, new LogicAnalizerListFragment());
+ 			transaction.replace(R.id.chartFragment, new LogicAnalizerListFragment(), "ListLogic");
  			transaction.addToBackStack(null);
  			transaction.commit();
+ 			getFragmentManager().executePendingTransactions();
+ 			mActionBarListener.onActionBarClickListener(R.id.listLogic);
  		}
 
 		return true;
@@ -402,7 +404,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
  	 * @author Andres Torti
  	 */
 	private void restart() {
-		for(int n = 0; n < channelsNumber; ++n) {
+		for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n) {
 			mSerie[n].clear();
 		}
 		mRenderDataset.setXAxisMax(xMax);
@@ -530,8 +532,8 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 							
 							// Guardo las Series
 							ObjectOutputStream os = new ObjectOutputStream(fos);
-							os.writeInt(channelsNumber);	// Numero de canales que voy a guardar
-							for(int n = 0; n < channelsNumber; ++n) {
+							os.writeInt(LogicAnalizerActivity.channelsNumber);	// Numero de canales que voy a guardar
+							for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n) {
 								os.writeObject(mSerie[n]);
 							}
 							os.close();
@@ -569,7 +571,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 		public void run() {
 			
 			if(DEBUG) {
-				for(int n=0; n < channelsNumber; ++n) {
+				for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n) {
 					for(int i = 0; i < mData[n].getStringCount(); ++i) {
 						Log.i("Data", "Data[" + n + "]: " + mData[n].getString(i));
 					}
@@ -578,7 +580,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 
 	    	// Si los bit son 1 le sumo 1 a los valores tomados como 0 logicos
 			for(int n=0; n <samplesNumber; ++n){
-				for(int channel=0; channel < channelsNumber; ++channel){	
+				for(int channel=0; channel < LogicAnalizerActivity.channelsNumber; ++channel){	
 					if(mData[channel].getBits().get(n)){	// Si es 1
 						// Nivel tomado como 0 + un alto de bit
 						mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]+bitScale);
@@ -598,11 +600,11 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 			}
 			// Agrego un espacio para indicar que el buffer de muestreo llego hasta aqui
 			time += (10*timeScale);
-			for(int n=0; n < channelsNumber; ++n){
+			for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n){
 				mSerie[n].add(mSerie[n].getX(mSerie[n].getItemCount()-1)+0.0000001d, MathHelper.NULL_VALUE);
 			}
 			
-			for(int n = 0; n < channelsNumber; ++n){
+			for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
 				for(int i = 0; i < mData[n].getStringCount(); ++i){
 					
 					// Agrego el texto en el centro del area de tiempo que contiene el string
@@ -623,12 +625,12 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 			mChartView.repaint();					// Redibujo el grafico
 			
 			// Si algun canal se paso del maximo de muestras, borro todas las muestras
-			for(int n = 0; n < channelsNumber; n++) {
+			for(int n = 0; n < LogicAnalizerActivity.channelsNumber; n++) {
 				if(mSerie[n].getItemCount() > maxSamples) {
-					for(int k = 0; k < channelsNumber; k++) {
+					for(int k = 0; k < LogicAnalizerActivity.channelsNumber; k++) {
 						if(DEBUG) Log.i("Chart", "Data Cleared");
 						mSerie[k].clear();
-						n = channelsNumber;	// Si un canal se paso, borro todos osea que no necesito seguir comprobando
+						n = LogicAnalizerActivity.channelsNumber;	// Si un canal se paso, borro todos osea que no necesito seguir comprobando
 					}
 				}
 			}
@@ -654,7 +656,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
  	private void setChartPreferences() {
         SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
 
-        for(int n=0; n < channelsNumber; ++n){
+        for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n){
         	// Seteo el protocolo para cada canal
         	switch(Byte.decode(getPrefs.getString("protocol" + (n+1), "0"))){
 	        	case 0:		// I2C
