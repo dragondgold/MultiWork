@@ -1,0 +1,18 @@
+Español:
+Soy un adolescente de 18 años, comenzé a programar C hace alrededor de 5 años y me encanta programar, ahora programo C, C++, Java y Android :)
+
+MultiWork es un proyecto que empezé hace tiempo, se trata de un Analizador Lógico junto con un frecuencímetro, contador de pulsos, transeptor IR, entre otras cosas que iré agregando.
+Estoy haciendo la parte de la decodificación de protocolos del analizador lógico, no es el mejor método tal vez pero no conozco otra forma de hacerlo (me encantaría escuchar cualquier sugerencia estoy abierto a aprender :D).
+Esta echo totalmente en Java y corre en Android, el hardware se comunicará por Bluetooth.
+
+CUALQUIER SUGERENCIA ES BIENVENIDA, TAL VEZ MI MODO DE HACER LAS COSAS NO SEA EL MEJOR PERO QUIERO APRENDER.
+
+
+English:
+I am a 18 years old teenager, I started programming C about 5 years ago and I love programming, now I know C, C++, Java and Android :) 
+
+MultiWork is a project I started a long time ago, it is a Logic Analyzer with a Frecuencimeter, Pulse counter, IR transceiver and more functionalities I will add later.
+At the moment I am working in the protocol analyzer for the Logic Analyzer, maybe is not the best way to do it but it is the only way I know (any suggestion is greatly apprecied I want to learn :D).
+It is totally written in Java and it runs on Android, the hardware will comunicate through Bluetooth.
+
+ANY SUGGESTION IS WELCOME, MAYBE THE WAY I DO THE THINGS IS NOT THE BEST BUT I WANT TO LEARN.
