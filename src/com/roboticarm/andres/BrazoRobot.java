@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.multiwork.andres.R;
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -24,6 +25,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class BrazoRobot extends Activity implements OnTouchListener{
@@ -32,10 +34,6 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 	
 	/** Datos de transmicion */
 	private static final byte StartByte = 0x0A;
-	private static final byte pad1Byte = 0;
-	private static final byte pad2Byte = 1;
-	private static final byte data = 20;
-	private static final byte config = 25;
 	
 	/** View que dibuja los joystick */
 	private static JoystickView mView;
@@ -64,6 +62,7 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 	
 	/** Distancia del joystick */
 	protected static float x1Distance, y1Distance, x2Distance, y2Distance;
+	private static int servo1Angle = 0, servo2Angle = 0;
 	
 	// Limites de los circulos
 	protected static float rightLimit1;
@@ -100,8 +99,12 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 		super.onCreate(savedInstanceState);
 
 		if(DEBUG) Log.i("BrazoRobot", "onCreate()");
-		mView = new JoystickView(this);
-		mView.setOnTouchListener(this);	
+		//mView = new JoystickView(this);
+		//mView.setOnTouchListener(this);	
+		
+		setContentView(R.layout.brazo_robot);
+		mView = (JoystickView) findViewById(R.id.joystickView);
+		mView.setOnTouchListener(this);
 		
 		// Se llama al listener cuando el layout terminó de dibujarse porque si tomaramos las medidas antes nos darian 0
 		// porque el layout aún no se dibuja en onCreate() ni en onResume()
@@ -122,11 +125,11 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 				// Pad 1
 				xCenter1 = screenWidth / 4;		// Extremo izquierdo
 				yCenter1 = screenHeight / 2;
-				//Pad 2
+				// Pad 2
 				xCenter2 = screenWidth - (screenWidth / 4);		// Extremo derecho
 				yCenter2 = screenHeight / 2;
 				// Radios
-				staticRadio = ((screenWidth / 2) - (2*padding)) / 2;
+				staticRadio = ((screenWidth / 2) - (3*padding)) / 2;
 				joystickRadio = staticRadio / ampFactor;
 				// Límites
 				rightLimit1 = xCenter1 + staticRadio;
@@ -204,10 +207,31 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 				registerReceiver(mReceiver, filter);
 			}
 		}
-		setContentView(mView);
+		
+		findViewById(R.id.leftGiro).setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				Log.i("Button", "Button left");
+				if(servo1Angle > 0) --servo1Angle;
+				return false;
+			}
+		});
+		
+		findViewById(R.id.rightGiro).setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				Log.i("Button", "Button right");
+				if(servo1Angle < 180) ++servo1Angle;
+				return false;
+			}
+		});
+		
+		// Esto permite que se puedan tocar los View debajo de este View. El Canvas del joystick usa toda la pantalla
+		// por lo que si tocamos sobre algún boton el sistema no lo toma ya que primero esta el Canvas de los
+		// Joystick arriba. Esto permite que se toquen los botones abajo de este View. Viene desactivado por defecto
+		// por seguridad. http://stackoverflow.com/questions/12398402/android-overlay-layout-on-top-of-all-windows-that-receives-touches
+		mView.setFilterTouchesWhenObscured(false);
 	}
-	
-	
 	
 	@Override
 	protected void onPause() {
@@ -258,6 +282,8 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 		
 		if(DEBUG) Log.i("BrazoRobotTouch", "----------------------------------------------");
 		if(DEBUG) Log.i("BrazoRobotTouch", "onTouch()");
+		if(DEBUG) Log.i("BrazoRobotTouch", "v: " + v.getId());
+		if(DEBUG) Log.i("BrazoRobotTouch", "mView: " + mView.getId());
 		
 		// Evita que se modifique pad1 y pad2 si aún no han sido creados porque las medidas de la pantalla no se tomaron aún
 		if(isSystemRdy){
@@ -329,16 +355,15 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 			        }
 				}
 			
-			// Calculo las distancias de X e Y de cada joystick desde el centro
-			x1Distance = pad1.getXDistanceFromCenter();
-			y1Distance = pad1.getYDistanceFromCenter();
+			// Calculo un valor entre 0 y 500 dependiendo de la distancia del joystick del centro
+			x1Distance = (staticRadio* pad1.getXDistanceFromCenter())/500f;
+			y1Distance = (staticRadio* pad1.getYDistanceFromCenter())/500f;
 			
-			x2Distance = pad2.getXDistanceFromCenter();
-			y2Distance = pad2.getYDistanceFromCenter();
+			x2Distance = (staticRadio* pad2.getXDistanceFromCenter())/500f;
+			y2Distance = (staticRadio* pad2.getYDistanceFromCenter())/500f;
 			mView.redraw();
 			
-			BTSendData((int)x1Distance, (int)y1Distance, pad1Byte);
-			BTSendData((int)x2Distance, (int)y2Distance, pad2Byte);
+			BTSendData((int)x1Distance, (int)y1Distance, (int)x2Distance, (int)y2Distance, servo1Angle, (int)180);
 			
 			if(DEBUG) Log.i("BrazoRobotTouch", "x1Distance: " + x1Distance + "   y1Distance: " + y1Distance);
 			if(DEBUG) Log.i("BrazoRobotTouch", "x2Distance: " + x2Distance + "   y2Distance: " + y2Distance);
@@ -400,15 +425,6 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 		        // Obtengo el OutputStream para enviar datos al Bluetooth
 		        try { mBluetoothOut = mBluetoothSocket.getOutputStream(); }
 		        catch (IOException e) { e.printStackTrace(); }
-		        
-		        // Envío las distancias máximas que el PAD puede cubrir
-			    try { mBluetoothOut.write(new byte[] { StartByte,									// Byte de Start
-			    										config,										// Indico que es configuracion 
-			    										(byte)((int)Math.ceil(staticRadio) & 0xFF),				// LSB
-			    						      			(byte)(((int)Math.ceil(staticRadio) >> 8) & 0xFF)		// MSB
-			    }); 
-			    }
-			    catch (IOException e) { e.printStackTrace(); }
 			
 			    // Verifico si hubo una excepción entonces no se pudo conectar al dispositivo, de otro modo sí
 			    if(noException){
@@ -429,29 +445,27 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 	 * @param y coordenada y
 	 * @param number identificador
 	 */
-	private void BTSendData (int x, int y, byte number){
+	private void BTSendData (int x1, int y1, int x2, int y2, int servoAngle1, int servoAngle2){
 		if(isBTConnected){
-			// Envío byte de Start, identificador de dato y las dos coordenadas
-			Log.i("BTSendBrazo", "x: " + x + " y: " + y + " Number: " + number);
-			Log.i("BTSendBrazo", "Binary x: " + Integer.toBinaryString(x) + " Binary y: " + Integer.toBinaryString(y));
-			
 			try { mBluetoothOut.write(new byte[] { StartByte,					// Start byte
-													 data,						// Indico que son datos, no configuracion
-													 number,					// Indico las coordenadas de que pad son
-													 (byte)(x & 0xFF),			// x -> LSB
-													 (byte)((x >> 8) & 0xFF),	// x -> MSB
-													 (byte) ((pad1.isXNegative()) ? 1 : 0),		// Indico si la distancia es negativa o no
-													 (byte)(y & 0xFF),			// y -> LSB
-													 (byte)((y >> 8) & 0xFF),	// y -> MSB
-													 (byte) ((pad1.isYNegative()) ? 1 : 0),		// Indico si la distancia es negativa o no
+													 (byte)(x1 & 0xFF),			// x1 -> LSB
+													 (byte)((x1 >> 8) & 0xFF),	// x1 -> MSB
+													 (byte)(y1 & 0xFF),			// y1 -> LSB
+													 (byte)((y1 >> 8) & 0xFF),	// y1 -> MSB
+													 
+													 (byte)(x2 & 0xFF),			// x2 -> LSB
+													 (byte)((x2 >> 8) & 0xFF),	// x2 -> MSB
+													 (byte)(y2 & 0xFF),			// y2 -> LSB
+													 (byte)((y2 >> 8) & 0xFF),	// y2 -> MSB
+													
+													 (byte)(servoAngle1 & 0xFF),	// servo 1 -> LSB
+													 (byte)(servoAngle2 & 0xFF)		// servo 2 -> LSB
 													});
 			}				
 			catch (IOException e) { e.printStackTrace(); }
 		}
 		else{
 			Log.i("BTSendBrazo", "Dispositivo Bluetooth no conectado, datos no enviados");
-			Log.i("BTSendBrazo", "x: " + x + " y: " + y + " Number: " + number);
-			Log.i("BTSendBrazo", "Binary x: " + Integer.toBinaryString(x) + " Binary y: " + Integer.toBinaryString(y));
 		}
 	}
 
