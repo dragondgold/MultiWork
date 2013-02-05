@@ -19,7 +19,7 @@ public class LogicBit extends BitSet{
 	}
 	
 	/**
-	 * Constructor con tama�o del BitSet
+	 * Constructor con tamaño del BitSet
 	 * @param size es el tama�o del BitSet
 	 */
 	LogicBit(int size){
@@ -32,14 +32,11 @@ public class LogicBit extends BitSet{
 	 * @return index del flanco de bajada, si no hay mas flancos de bajada retorna -1
 	 */
 	public int nextFallingEdge(int index){
-		int t;
-		
 		if(index >= 0) {
-			t = super.nextSetBit(index);
+			int t = super.nextSetBit(index);
 			if(t != -1) return super.nextClearBit(t);
-			else return -1;
 		}
-		else return -1;
+		return -1;
 	}
 	
 	/**
@@ -51,26 +48,22 @@ public class LogicBit extends BitSet{
 		if(index >= 0) {
 			return super.nextSetBit( super.nextClearBit(index) );
 		}
-		else return -1;
+		return -1;
 	}
 	
 	/**
 	 * Busca el siguiente bit y devuelve su index en el medio del mismo
 	 * @param index desde donde se debe buscar el bit
-	 * @return index del bit en su mitad
+	 * @return index del bit en su mitad, si no hay ninguno retorna -1
 	 */
 	public int nextSetBitToTest(int index) {
-		int temp;
-		
 		int rising = nextRisingEdge(index);
-		int fall = nextFallingEdge(index);
-		while(fall < rising) fall = nextFallingEdge(fall);
+		int fall = nextFallingEdge(rising);
+		
 		// Me aseguro que sean validos
 		if(rising == -1 || fall == -1) return -1;
 				
-		temp = nextRisingEdge(index) + ((fall - rising)/2);
-		if(temp > index) return temp;
-		else return -1;
+		return ( rising + ((fall - rising)/2) );
 	}
 
 }
