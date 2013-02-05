@@ -68,7 +68,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 			mData[n] = new LogicData();
 			mDataSet.addLogicData(mData[n]);
 		}
-		
+
 		setPreferences();
 	}
 	
