@@ -2,6 +2,7 @@ package com.protocolanalyzer.andres;
 
 import java.util.BitSet;
 
+import android.R.integer;
 import android.util.Log;
 
 
@@ -51,29 +52,33 @@ public class LogicHelper {
 	 * de muestreos por bit que se deseen
 	 * @param data String con los 1 y 0, los demas caracteres son ignorados
 	 * @param samplesPerBit numero de bits por cada 1 y 0
+	 * @param times indica la cantidad de veces que se repite el String pasado para crear cadenas mas largas
 	 * @return BitSet con los bits de acuerdo al String y los samplesPerBit
 	 */
-	public static BitSet bitParser (final String data, final int samplesPerBit){
+	public static BitSet bitParser (final String data, final int samplesPerBit, final int times){
 		BitSet bitSet = new BitSet();
 		
-		Log.i("BitParse", "BitSet Length: " + bitSet.length());
 		Log.i("BitParse", "samplesPerBit: " + samplesPerBit);
 		Log.i("BitParse", "String: " + data);
 		Log.i("BitParse", "String Length: " + data.length());
 		
-		for(int n = 0, bitPosition = 0; n < data.length(); ++n){
-			if(data.charAt(n) == '1'){
-				for(int t = 0; t < samplesPerBit; ++t){
-					bitSet.set(bitPosition++);
+		int bitPosition = 0;
+		
+		for(int l = 0; l < times; ++l){
+			for(int n = 0; n < data.length(); ++n){
+				if(data.charAt(n) == '1'){
+					for(int t = 0; t < samplesPerBit; ++t){
+						bitSet.set(bitPosition++);
+					}
 				}
-			}
-			else if(data.charAt(n) == '0'){
-				for(int t = 0; t < samplesPerBit; ++t){
-					bitSet.clear(bitPosition++);
+				else if(data.charAt(n) == '0'){
+					for(int t = 0; t < samplesPerBit; ++t){
+						bitSet.clear(bitPosition++);
+					}
 				}
 			}
 		}
-		Log.i("BitParse", "BitSet: " + bitSet.toString());
+		Log.i("BitParse", "BitSet length: " + bitSet.length());
 		return bitSet;
 	}
 	
