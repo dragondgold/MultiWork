@@ -32,7 +32,7 @@ public class PruebaParser extends Activity {
 			BitSet dataUART;
 			LogicData channel = new LogicData();
 			
-			dataUART = LogicHelper.bitParser("1101101010011", 21);
+			dataUART = LogicHelper.bitParser("1101101010011", 21, 1);
 			
 			channel.setBaudRate(9600);			// 9600 Baudios
 			LogicData.setSampleRate(200000);	// 200KHz
@@ -47,7 +47,7 @@ public class PruebaParser extends Activity {
 				Log.i("Parser", "String " + n + " position: " + channel.getPositionAt(n));
 				// Escribo en el TextView
 				text.append("\nString " + n + ": " + channel.getString(n));
-				text.append("\nString " + n + " position: " + channel.getPositionAt(n));
+				text.append("\nString " + n + " position: " + channel.getPositionAt(n)[0]);
 			}
 		}
 		else if(state == I2C){
@@ -55,12 +55,10 @@ public class PruebaParser extends Activity {
 			LogicData dataChannel, clockChannel;
 			
 			Log.i("Parser", "Parsing");
+
 			//								  S		  Adress       A 		Byte		A  ST
-			dataI2C = LogicHelper.bitParser("100 11010010011100101 0 111010011110000111 0 001", 5);
-			clock = LogicHelper.bitParser(  "110 01010101010101010 1 001010101010101010 1 011", 5);
-			
-			text.append("Data:  100-11010010011100101-0-111010011110000111-0-001\n");
-			text.append("Clock: 110-01010101010101010-1-001010101010101010-1-011\n");
+			dataI2C = LogicHelper.bitParser("100 11010010011100101 0 111010011110000111 0 001", 5, 300);
+			clock = LogicHelper.bitParser(  "110 01010101010101010 1 001010101010101010 1 011", 5, 300);
 			
 			dataChannel = new LogicData();
 			clockChannel = new LogicData();
@@ -69,19 +67,26 @@ public class PruebaParser extends Activity {
 			dataChannel.setLogicBits(dataI2C);
 			clockChannel.setLogicBits(clock);
 			
+			Log.i("Parser", "Parsed");	
+			text.append("Data:  100-11010010011100101-0-111010011110000111-0-001\n");
+			text.append("Clock: 110-01010101010101010-1-001010101010101010-1-011\n");
+				
 			long start = System.nanoTime();
+			Log.i("Parser", "Decoding");
 			I2CDecoder.I2CDecode(dataChannel, clockChannel);
+			Log.i("Parser", "Decoded");	
 			long stop = System.nanoTime();
 			
-			Log.i("Parser", "Strings Decoded in " + ((stop-start)/1000000) + " mS");
 			for(int n = 0; n < dataChannel.getStringCount(); ++n){
 				Log.i("Parser", "String " + n + ": " + dataChannel.getString(n));
-				Log.i("Parser", "String " + n + " position: " + dataChannel.getPositionAt(n));
+				Log.i("Parser", "String " + n + " position: " + dataChannel.getPositionAt(n)[0]);
 				// Escribo en el TextView
 				text.append("\nString " + n + ": " + dataChannel.getString(n));
-				text.append("\nString " + n + " position: " + dataChannel.getPositionAt(n));
+				text.append("\nString " + n + " position: " + dataChannel.getPositionAt(n)[0]);
 			}
 			text.append("\nData Decoded in " + ((stop-start)/1000000) + " mS");
+
+			Log.i("Parser", "Strings Decoded in " + ((stop-start)/1000000) + " mS");
 			
 		}
 		
