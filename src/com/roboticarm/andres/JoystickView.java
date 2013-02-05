@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.util.AttributeSet;
 import android.view.View;
 
 public class JoystickView extends View{
@@ -22,8 +23,8 @@ public class JoystickView extends View{
 	/** Grosor de los circulos estaticos */
 	protected static final float circleStroke = 8;
 	
-	public JoystickView(Context context) {
-		super(context);
+	public JoystickView(Context context, AttributeSet attrs) {
+		super(context, attrs, 0);
 		
 		// Propiedades de los circulos est�ticos
 		mCirclePaint = new Paint();
@@ -37,6 +38,7 @@ public class JoystickView extends View{
 		mJoystickPaint.setColor(joystickColor);
 		mJoystickPaint.setAntiAlias(true);
 		mJoystickPaint.setStyle(Style.FILL);
+		
 	}
 	
 	/**
@@ -72,7 +74,6 @@ public class JoystickView extends View{
 		// Dibujo los Joystick en las posiciones dadas
 		canvas.drawCircle(J1.getX(), J1.getY(), joystickRadio, mJoystickPaint);
 		canvas.drawCircle(J2.getX(), J2.getY(), joystickRadio, mJoystickPaint);
-		
 	}
 
 	
