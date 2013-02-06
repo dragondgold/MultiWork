@@ -61,7 +61,7 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 	protected static Joystick pad1, pad2;
 	
 	/** Distancia del joystick */
-	protected static float x1Distance, y1Distance, x2Distance, y2Distance;
+	protected static int x1Distance, y1Distance, x2Distance, y2Distance;
 	private static int servo1Angle = 0, servo2Angle = 0;
 	
 	// Limites de los circulos
@@ -211,8 +211,9 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 		findViewById(R.id.leftGiro).setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				Log.i("Button", "Button left");
+				if(DEBUG) Log.i("Button", "Button left");
 				if(servo1Angle > 0) --servo1Angle;
+				BTSendData();
 				return false;
 			}
 		});
@@ -220,8 +221,9 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 		findViewById(R.id.rightGiro).setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				Log.i("Button", "Button right");
+				if(DEBUG) Log.i("Button", "Button right");
 				if(servo1Angle < 180) ++servo1Angle;
+				BTSendData();
 				return false;
 			}
 		});
@@ -355,18 +357,8 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 			        }
 				}
 			
-			// Calculo un valor entre 0 y 500 dependiendo de la distancia del joystick del centro
-			x1Distance = (staticRadio* pad1.getXDistanceFromCenter())/500f;
-			y1Distance = (staticRadio* pad1.getYDistanceFromCenter())/500f;
-			
-			x2Distance = (staticRadio* pad2.getXDistanceFromCenter())/500f;
-			y2Distance = (staticRadio* pad2.getYDistanceFromCenter())/500f;
+			BTSendData();
 			mView.redraw();
-			
-			BTSendData((int)x1Distance, (int)y1Distance, (int)x2Distance, (int)y2Distance, servo1Angle, (int)180);
-			
-			if(DEBUG) Log.i("BrazoRobotTouch", "x1Distance: " + x1Distance + "   y1Distance: " + y1Distance);
-			if(DEBUG) Log.i("BrazoRobotTouch", "x2Distance: " + x2Distance + "   y2Distance: " + y2Distance);
 			
 			//if(DEBUG) Log.i("BrazoRobotTouchC", "x1: " + pad1.getX() + "   y1: " + pad1.getY());
 			//if(DEBUG) Log.i("BrazoRobotTouchC", "x2: " + pad2.getX() + "   y2: " + pad2.getY());
@@ -441,25 +433,33 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 	
 	/**
 	 * Envío los datos por Bluetooth
-	 * @param x coordenada x
-	 * @param y coordenada y
-	 * @param number identificador
 	 */
-	private void BTSendData (int x1, int y1, int x2, int y2, int servoAngle1, int servoAngle2){
+	private void BTSendData (){
 		if(isBTConnected){
+			// Calculo un valor entre 0 y 500 dependiendo de la distancia del joystick del centro
+			x1Distance = (int) ((staticRadio* pad1.getXDistanceFromCenter())/500f);
+			y1Distance = (int) ((staticRadio* pad1.getYDistanceFromCenter())/500f);
+			
+			x2Distance = (int) ((staticRadio* pad2.getXDistanceFromCenter())/500f);
+			y2Distance = (int) ((staticRadio* pad2.getYDistanceFromCenter())/500f);
+			
+			if(DEBUG) Log.i("BrazoRobotTouch", "Servo 1: " + servo1Angle);
+			if(DEBUG) Log.i("BrazoRobotTouch", "x1Distance: " + x1Distance + "   y1Distance: " + y1Distance);
+			if(DEBUG) Log.i("BrazoRobotTouch", "x2Distance: " + x2Distance + "   y2Distance: " + y2Distance);
+			
 			try { mBluetoothOut.write(new byte[] { StartByte,					// Start byte
-													 (byte)(x1 & 0xFF),			// x1 -> LSB
-													 (byte)((x1 >> 8) & 0xFF),	// x1 -> MSB
-													 (byte)(y1 & 0xFF),			// y1 -> LSB
-													 (byte)((y1 >> 8) & 0xFF),	// y1 -> MSB
+													 (byte)(x1Distance & 0xFF),			// x1 -> LSB
+													 (byte)((x1Distance >> 8) & 0xFF),	// x1 -> MSB
+													 (byte)(y1Distance & 0xFF),			// y1 -> LSB
+													 (byte)((y1Distance >> 8) & 0xFF),	// y1 -> MSB
 													 
-													 (byte)(x2 & 0xFF),			// x2 -> LSB
-													 (byte)((x2 >> 8) & 0xFF),	// x2 -> MSB
-													 (byte)(y2 & 0xFF),			// y2 -> LSB
-													 (byte)((y2 >> 8) & 0xFF),	// y2 -> MSB
+													 (byte)(x2Distance & 0xFF),			// x2 -> LSB
+													 (byte)((x2Distance >> 8) & 0xFF),	// x2 -> MSB
+													 (byte)(y2Distance & 0xFF),			// y2 -> LSB
+													 (byte)((y2Distance >> 8) & 0xFF),	// y2 -> MSB
 													
-													 (byte)(servoAngle1 & 0xFF),	// servo 1 -> LSB
-													 (byte)(servoAngle2 & 0xFF)		// servo 2 -> LSB
+													 (byte)(servo1Angle & 0xFF),		// servo 1 -> LSB
+													 (byte)(servo2Angle & 0xFF)			// servo 2 -> LSB
 													});
 			}				
 			catch (IOException e) { e.printStackTrace(); }
