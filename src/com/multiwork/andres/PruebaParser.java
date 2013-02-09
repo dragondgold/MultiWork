@@ -73,7 +73,7 @@ public class PruebaParser extends Activity {
 				
 			long start = System.nanoTime();
 			Log.i("Parser", "Decoding");
-			I2CDecoder.I2CDecode(dataChannel, clockChannel);
+			I2CDecoder.i2cProtocolDecode(dataChannel, clockChannel);
 			Log.i("Parser", "Decoded");	
 			long stop = System.nanoTime();
 			
