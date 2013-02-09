@@ -33,7 +33,7 @@ public class LogicDataSet {
 	}
 	
 	/**
-	 * Obtiene el n�mero de canal que act�a como clock
+	 * Obtiene el número de canal que actúa como clock
 	 * @param n, numero del canal del cual obtener su canal de clock
 	 * @return numero del canal de clock
 	 */
@@ -75,7 +75,7 @@ public class LogicDataSet {
 			case I2C:
 				mLogicData.get(channelNumber).setStartTime(startTime);
 				mLogicData.get(channelNumber).clearDecodedData();
-				I2CDecoder.I2CDecode(mLogicData.get(channelNumber), mLogicData.get(getClockChannelNumber(channelNumber)));
+				I2CDecoder.i2cProtocolDecode(mLogicData.get(channelNumber), mLogicData.get(getClockChannelNumber(channelNumber)));
 				break;
 			case UART:
 				mLogicData.get(channelNumber).setStartTime(startTime);
