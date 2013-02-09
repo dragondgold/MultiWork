@@ -25,7 +25,7 @@ public class I2CDecoder {
 	 * @see http://www.i2c-bus.org/repeated-start-condition/
 	 * @see Imagenes I2CSignal en la carpeta Extras del proyecto
 	 */
-	public static void I2CDecode(LogicData dataSource, final LogicData clockSource) {
+	public static void i2cProtocolDecode(LogicData dataSource, final LogicData clockSource) {
 
 		final LogicBit data = dataSource.getBits();
 		final LogicBit clock = clockSource.getBits();
@@ -80,7 +80,7 @@ public class I2CDecoder {
 		if(isMoreThan9) maxIndex = last9items[c];	// Si hay al menos 9 pulsos de clock decodifico los datos ( 7 bits de direccion + 1 RW + 1 ACK) o (8 bits de dato + 1 ACK)
 		else return;					// Sino salgo
 		
-		while(index < maxIndex) {		// El bucle se repita mientras halla datos suficientes (9 pulsos de clock por lo menos)
+		while((index+9) < maxIndex) {	// El bucle se repita mientras halla datos suficientes (9 pulsos de clock por lo menos)
 			
 			// Máquina de estados
 			switch(I2Cstate) {
@@ -103,7 +103,6 @@ public class I2CDecoder {
 				// Obtengo los 7 bits de direccion, primero se envia el MSB hasta el LSB
 				for(int bit = 7; bit > 0; --bit){			
 					index = clock.nextSetBitToTest(index);
-					if(index == -1) break;
 					i2cData = LogicHelper.bitSet(i2cData, data.get(index), bit-1);	// Compruebo SDA en la mitad del bit SCL
 					// El (bit-1) es porque la dirección es de 7 bits y un 0 más a la izquierda modificaría el valor:
 					// 11010100 != 1101010
