@@ -14,16 +14,28 @@
         android:id="@+id/leftGiro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="200dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/custom_left_button" />
 
     <Button
         android:id="@+id/rightGiro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/custom_right_button" />
+
+    <Button
+        android:id="@+id/closeClaw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/custom_left_button" />
+
+    <Button
+        android:id="@+id/openClaw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
         android:background="@drawable/custom_right_button" />
 
 </RelativeLayout>
