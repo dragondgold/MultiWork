@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 public class BrazoRobot extends Activity implements OnTouchListener{
 
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	
 	/** Datos de transmicion */
 	private static final byte StartByte = 0x0A;
@@ -184,16 +184,6 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 					params = (LayoutParams) findViewById(R.id.closeClaw).getLayoutParams();
 					params.leftMargin = (int)((screenWidth/2f) - paddingCenter - findViewById(R.id.closeClaw).getWidth());
 					findViewById(R.id.closeClaw).setLayoutParams(params);
-					
-					/*
-					// Posiciono el control de rotación de la muñeca a una distancia 'paddingCenter' del centro de la pantalla
-					findViewById(R.id.rightGiro).setX( 373.5f + paddingCenter );
-					findViewById(R.id.leftGiro).setX( 373.5f - paddingCenter ); 
-					
-					// Mismo que arriba pero para el control de la pinza
-					findViewById(R.id.openClaw).setX( (screenWidth/2f) + paddingCenter );
-					findViewById(R.id.closeClaw).setX( (screenWidth/2f) - paddingCenter );
-					*/
 					
 					isSystemRdy = true;		
 					mView.redraw();
