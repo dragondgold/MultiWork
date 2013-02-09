@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import com.multiwork.andres.R;
 
-import android.R.integer;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -25,7 +25,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
 public class BrazoRobot extends Activity implements OnTouchListener{
@@ -37,43 +38,45 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 	
 	/** View que dibuja los joystick */
 	private static JoystickView mView;
-	protected static int pointerID1;
-	protected static int pointerID2;
+	private static int pointerID1;
+	private static int pointerID2;
 	
 	/** Centro en x del circulo que se mueve */
-	protected static float xCenter1 ;
+	private static float xCenter1 ;
 	/** Centro en y del circulo que se mueve */
-	protected static float yCenter1;
+	private static float yCenter1;
 	/** Centro en x del circulo que se mueve */
-	protected static float xCenter2;
+	private static float xCenter2;
 	/** Centro en y del circulo que se mueve */
-	protected static float yCenter2;
+	private static float yCenter2;
 	/** Radio de los circulos estáticos (contorno) */
-	protected static float staticRadio;
+	private static float staticRadio;
 	/** Radio de los circulos que se mueven */
-	protected static float joystickRadio;
+	private static float joystickRadio;
 	/** Padding de los circulos estaticos desde la mitad y bordes de pantalla */
 	private static final int padding = 50;
+	/** Padding de los botones de control del servo desde el centro de la pantalla */
+	private static final int paddingCenter = 40;
 	/** Relacion del tamaño de los joystick con los radios externos (estáticos) si es 2 por ejemplo es la mitad */
 	private static final float ampFactor = 2f;
 	
 	/** Joysticks */
-	protected static Joystick pad1, pad2;
+	private static Joystick pad1, pad2;
 	
 	/** Distancia del joystick */
-	protected static int x1Distance, y1Distance, x2Distance, y2Distance;
+	private static int x1Distance, y1Distance, x2Distance, y2Distance;
 	private static int servo1Angle = 0, servo2Angle = 0;
 	
 	// Limites de los circulos
-	protected static float rightLimit1;
-	protected static float rightLimit2;
-	protected static float leftLimit1;
-	protected static float leftLimit2;
+	private static float rightLimit1;
+	private static float rightLimit2;
+	private static float leftLimit1;
+	private static float leftLimit2;
 	
-	protected static float upperLimit1;
-	protected static float upperLimit2;
-	protected static float lowerLimit1;
-	protected static float lowerLimit2;
+	private static float upperLimit1;
+	private static float upperLimit2;
+	private static float lowerLimit1;
+	private static float lowerLimit2;
 	
 	private static BluetoothAdapter mBluetoothAdapter;
 	/** Código que obtengo en onActivityResult() al recibir el resultado de activar el bluetooth */
@@ -109,59 +112,92 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 		// Se llama al listener cuando el layout terminó de dibujarse porque si tomaramos las medidas antes nos darian 0
 		// porque el layout aún no se dibuja en onCreate() ni en onResume()
 		mView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener(){
+			@SuppressLint("NewApi")
 			@Override
 			public void onGlobalLayout() {
-				//mView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-				screenHeight = mView.getHeight();
-				screenWidth = mView.getWidth();
-						
-				if(DEBUG) Log.i("BrazoRobot", "Screen Height: " + screenHeight);
-				if(DEBUG) Log.i("BrazoRobot", "Screen Width: " + screenWidth);
-						
-				// Creo los PAD
-				pad1 = new Joystick();
-				pad2 = new Joystick();
-						
-				// Pad 1
-				xCenter1 = screenWidth / 4;		// Extremo izquierdo
-				yCenter1 = screenHeight / 2;
-				// Pad 2
-				xCenter2 = screenWidth - (screenWidth / 4);		// Extremo derecho
-				yCenter2 = screenHeight / 2;
-				// Radios
-				staticRadio = ((screenWidth / 2) - (3*padding)) / 2;
-				joystickRadio = staticRadio / ampFactor;
-				// Límites
-				rightLimit1 = xCenter1 + staticRadio;
-				rightLimit2 = xCenter2 + staticRadio;
-				leftLimit1 = xCenter1 - staticRadio;
-				leftLimit2 = xCenter2 - staticRadio;
-				
-				upperLimit1 = yCenter1 - staticRadio;
-				upperLimit2 = yCenter2 - staticRadio;
-				lowerLimit1 = yCenter1 + staticRadio;
-				lowerLimit2 = yCenter2 + staticRadio;
-						
-				// Configuraciones
-				pad1.setXCenter(xCenter1);
-				pad1.setYCenter(yCenter1);
-				pad1.setX(xCenter1);
-				pad1.setY(yCenter1);
-						
-				// Pad 2
-				pad2.setXCenter(xCenter2);
-				pad2.setYCenter(yCenter2);
-				pad2.setX(xCenter2);
-				pad2.setY(yCenter2);
-				
-				// Configuro los radios
-				mView.setConfigurations(staticRadio, joystickRadio, pad1, pad2);
-						
-				if(DEBUG) Log.i("BrazoRobot", "xCenter1: " + pad1.getXCenter());
-				if(DEBUG) Log.i("BrazoRobot", "xCenter2: " + pad2.getXCenter());
-				
-				isSystemRdy = true;		
-				mView.redraw();
+				if(!isSystemRdy){
+					// Solo en API 16 o más existe esta posibilidad
+					if(android.os.Build.VERSION.SDK_INT >= 16) mView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					
+					screenHeight = mView.getHeight();
+					screenWidth = mView.getWidth();
+							
+					if(DEBUG) Log.i("BrazoRobot", "Screen Height: " + screenHeight);
+					if(DEBUG) Log.i("BrazoRobot", "Screen Width: " + screenWidth);
+							
+					// Creo los PAD
+					pad1 = new Joystick();
+					pad2 = new Joystick();
+							
+					// Pad 1
+					xCenter1 = screenWidth / 4;		// Extremo izquierdo
+					yCenter1 = screenHeight / 2;
+					// Pad 2
+					xCenter2 = screenWidth - (screenWidth / 4);		// Extremo derecho
+					yCenter2 = screenHeight / 2;
+					// Radios
+					staticRadio = ((screenWidth / 2) - (3*padding)) / 2;
+					joystickRadio = staticRadio / ampFactor;
+					// Límites
+					rightLimit1 = xCenter1 + staticRadio;
+					rightLimit2 = xCenter2 + staticRadio;
+					leftLimit1 = xCenter1 - staticRadio;
+					leftLimit2 = xCenter2 - staticRadio;
+					
+					upperLimit1 = yCenter1 - staticRadio;
+					upperLimit2 = yCenter2 - staticRadio;
+					lowerLimit1 = yCenter1 + staticRadio;
+					lowerLimit2 = yCenter2 + staticRadio;
+							
+					// Configuraciones
+					pad1.setXCenter(xCenter1);
+					pad1.setYCenter(yCenter1);
+					pad1.setX(xCenter1);
+					pad1.setY(yCenter1);
+							
+					// Pad 2
+					pad2.setXCenter(xCenter2);
+					pad2.setYCenter(yCenter2);
+					pad2.setX(xCenter2);
+					pad2.setY(yCenter2);
+					
+					// Configuro los radios
+					mView.setConfigurations(staticRadio, joystickRadio, pad1, pad2);
+							
+					if(DEBUG) Log.i("BrazoRobot", "xCenter1: " + pad1.getXCenter());
+					if(DEBUG) Log.i("BrazoRobot", "xCenter2: " + pad2.getXCenter());
+					
+					// Posición rotacion de muñeca
+					RelativeLayout.LayoutParams params = (LayoutParams) findViewById(R.id.rightGiro).getLayoutParams();
+					params.leftMargin = (int)((screenWidth/2f) + paddingCenter);
+					findViewById(R.id.rightGiro).setLayoutParams(params);
+					
+					params = (LayoutParams) findViewById(R.id.leftGiro).getLayoutParams();
+					params.leftMargin = (int)((screenWidth/2f) - paddingCenter - findViewById(R.id.leftGiro).getWidth());
+					findViewById(R.id.leftGiro).setLayoutParams(params);
+					
+					// Posición apertura y cierre de pinza
+					params = (LayoutParams) findViewById(R.id.openClaw).getLayoutParams();
+					params.leftMargin = (int)((screenWidth/2f) + paddingCenter);
+					findViewById(R.id.openClaw).setLayoutParams(params);
+					
+					params = (LayoutParams) findViewById(R.id.closeClaw).getLayoutParams();
+					params.leftMargin = (int)((screenWidth/2f) - paddingCenter - findViewById(R.id.closeClaw).getWidth());
+					findViewById(R.id.closeClaw).setLayoutParams(params);
+					
+					/*
+					// Posiciono el control de rotación de la muñeca a una distancia 'paddingCenter' del centro de la pantalla
+					findViewById(R.id.rightGiro).setX( 373.5f + paddingCenter );
+					findViewById(R.id.leftGiro).setX( 373.5f - paddingCenter ); 
+					
+					// Mismo que arriba pero para el control de la pinza
+					findViewById(R.id.openClaw).setX( (screenWidth/2f) + paddingCenter );
+					findViewById(R.id.closeClaw).setX( (screenWidth/2f) - paddingCenter );
+					*/
+					
+					isSystemRdy = true;		
+					mView.redraw();
+				}
 			}
 		});
 		
@@ -208,6 +244,7 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 			}
 		}
 		
+		// Muñeca, gira izquierda
 		findViewById(R.id.leftGiro).setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -218,11 +255,34 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 			}
 		});
 		
+		// Muñeca, gira derecha
 		findViewById(R.id.rightGiro).setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if(DEBUG) Log.i("Button", "Button right");
 				if(servo1Angle < 180) ++servo1Angle;
+				BTSendData();
+				return false;
+			}
+		});
+		
+		// Pinza, cierra
+		findViewById(R.id.closeClaw).setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(DEBUG) Log.i("Button", "Close claw");
+				if(servo2Angle > 0) --servo2Angle;
+				BTSendData();
+				return false;
+			}
+		});
+		
+		// Pinza, abre
+		findViewById(R.id.openClaw).setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(DEBUG) Log.i("Button", "Open claw");
+				if(servo2Angle < 180) ++servo2Angle;
 				BTSendData();
 				return false;
 			}
@@ -314,7 +374,7 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 			// Compruebo que coordenadas estan dentro del primer circulo
 			for(int n=0; n < touchEvents; ++n) {
 				if(tempX[n] < rightLimit1 && tempX[n] > leftLimit1 && tempY[n] > upperLimit1 && tempY[n] < lowerLimit1) {
-					pad1.setX(tempX[n]);
+					//pad1.setX(tempX[n]);
 					pad1.setY(tempY[n]);
 					pointerID1 = event.getPointerId(n);		// Obtengo el ID del touch este
 				}
@@ -322,7 +382,7 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 			// Compruebo que coordenadas estan dentro del segundo circulo
 			for(int n=0; n < touchEvents; ++n) {
 				if(tempX[n] < rightLimit2 && tempX[n] > leftLimit2 && tempY[n] > upperLimit2 && tempY[n] < lowerLimit2) {
-					pad2.setX(tempX[n]);
+					//pad2.setX(tempX[n]);
 					pad2.setY(tempY[n]);
 					pointerID2 = event.getPointerId(n);		// Obtengo el ID del touch este
 				}
@@ -346,13 +406,13 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 					// Si el ID es el del primer circulo
 			        if(pointerID == pointerID1) {
 			        	if(DEBUG) Log.i("BrazoRobotTouch", "Reset 1");
-						pad1.setX(xCenter1);
+						//pad1.setX(xCenter1);
 						pad1.setY(yCenter1);
 			        }
 			        // Si el ID es del segundo circulo
 			        if(pointerID == pointerID2) {
 			        	if(DEBUG) Log.i("BrazoRobotTouch", "Reset 2");
-						pad2.setX(xCenter2);
+						//pad2.setX(xCenter2);
 						pad2.setY(yCenter2);
 			        }
 				}
@@ -448,13 +508,13 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 			if(DEBUG) Log.i("BrazoRobotTouch", "x2Distance: " + x2Distance + "   y2Distance: " + y2Distance);
 			
 			try { mBluetoothOut.write(new byte[] { StartByte,					// Start byte
-													 (byte)(x1Distance & 0xFF),			// x1 -> LSB
-													 (byte)((x1Distance >> 8) & 0xFF),	// x1 -> MSB
+													 //(byte)(x1Distance & 0xFF),			// x1 -> LSB
+													 //(byte)((x1Distance >> 8) & 0xFF),	// x1 -> MSB
 													 (byte)(y1Distance & 0xFF),			// y1 -> LSB
 													 (byte)((y1Distance >> 8) & 0xFF),	// y1 -> MSB
 													 
-													 (byte)(x2Distance & 0xFF),			// x2 -> LSB
-													 (byte)((x2Distance >> 8) & 0xFF),	// x2 -> MSB
+													 //(byte)(x2Distance & 0xFF),			// x2 -> LSB
+													 //(byte)((x2Distance >> 8) & 0xFF),	// x2 -> MSB
 													 (byte)(y2Distance & 0xFF),			// y2 -> LSB
 													 (byte)((y2Distance >> 8) & 0xFF),	// y2 -> MSB
 													
