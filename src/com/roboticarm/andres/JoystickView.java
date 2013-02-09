@@ -17,11 +17,11 @@ public class JoystickView extends View{
 	private static Paint mJoystickPaint = new Paint();
 	
 	/** Color de los circulos estaticos */
-	protected static final int circleColor = Color.WHITE;
+	private static final int circleColor = Color.WHITE;
 	/** Color de los joystick */
-	protected static final int joystickColor = Color.RED;
+	private static final int joystickColor = Color.RED;
 	/** Grosor de los circulos estaticos */
-	protected static final float circleStroke = 8;
+	private static final float circleStroke = 8;
 	
 	public JoystickView(Context context, AttributeSet attrs) {
 		super(context, attrs, 0);
