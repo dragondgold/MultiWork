@@ -10,6 +10,7 @@
     <string name="No">							No</string>
     <string name="Ok">							Ok</string>
     <string name="Cancel">						Cancelar</string>
+    <string name="PleaseWait">					Por favor, espere</string>
     
     <!-- LC Meter -->
     <string name="LCMeterMenu">					Medidor LC</string>
@@ -39,6 +40,7 @@
     <string name="AnalyzerDialogSampleAlert">	La configuracion actual de Baudios y SampleRate no permitirá un muestreo adecuado.
         										 Aumente la velocidad de muestreo o disminuya los Baudios para un correcto muestreo.</string>
     <string name="AnalyzerDialogSampleTitle">	Advertencia</string>
+    <string name="AnalyzerDialogLoading">		Procesando...</string>
     
     <string name="AnalyzerProtocolSummary">		Protocolo</string>
     <string name="AnalyzerProtocolTitle1">		Protocolo canal 1</string>
