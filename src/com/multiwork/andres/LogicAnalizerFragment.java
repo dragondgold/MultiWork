@@ -39,7 +39,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -184,7 +183,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
         // Configuraciones generales
         mRenderDataset.setYTitle(getString(R.string.AnalyzerYTitle));
         mRenderDataset.setAntialiasing(true);
-        mRenderDataset.setYAxisMax(15);
+        mRenderDataset.setYAxisMax(yChannel[0]+4);
         mRenderDataset.setXAxisMin(0);
         mRenderDataset.setXAxisMax(xMax);
         mRenderDataset.setPanEnabled(true);
@@ -193,7 +192,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
         mRenderDataset.setExternalZoomEnabled(true);
         mRenderDataset.setPanEnabled(true, false);
         mRenderDataset.setZoomEnabled(true, false);
-        mRenderDataset.setPanLimits(new double[] {0d , Double.MAX_VALUE, -1d, 15d});
+        mRenderDataset.setPanLimits(new double[] {0d , Double.MAX_VALUE, -1d, yChannel[0]+4});
         
         mChartView = ChartFactory.getLineChartView(mActivity, mSerieDataset, mRenderDataset);
      
@@ -208,7 +207,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 			public void run() {
 				if(fingerStillDown && !isMoving) {
 					if(DEBUG) Log.i("Runnable longClickRun()", "LONG CLICK");
-					vibration.vibrate(80);					// Vibro e inicio el ActionMode
+					vibration.vibrate(80);	// Vibro e inicio el ActionMode
 					mActivity.startActionMode(new ActionModeEnable());
 				}
 			}       	
@@ -219,8 +218,6 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 			public boolean onTouch(View v, MotionEvent event) {		
 				//if(DEBUG) Log.i("ClickListener", "X: " + event.getX());
 				//if(DEBUG) Log.i("ClickListener", "Y: " + event.getY());
-				
-				//if(DEBUG) Log.i("ClickListener", "Event: " + event.getActionMasked());
 				
 				// Si me movi al menos 20 unidades en cualquier direccion ya se toma como scroll NO long-press
 				if(Math.abs(event.getX() - x) > 20 || Math.abs(event.getY() - y) > 20) {
@@ -314,7 +311,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			Log.i("ActionMode", "Destroy");
+			if(DEBUG) Log.i("ActionMode", "Destroy");
 		}
 	}
     
@@ -349,13 +346,16 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
  			FragmentTransaction transaction = getFragmentManager().beginTransaction();
  			// Reemplazo este Fragment con el de la lista de datos, addToBackStack() hace que al presionar la tecla
  			// de atras se vuelva a este Fragment y no se destruya el mismo
- 			transaction.replace(R.id.chartFragment, new LogicAnalizerListFragment(), "ListLogic");
- 			transaction.addToBackStack(null);
- 			transaction.commit();
- 			getFragmentManager().executePendingTransactions();
- 			mActionBarListener.onActionBarClickListener(R.id.listLogic);
+ 			if(getFragmentManager().findFragmentByTag("ListLogic") == null
+ 					|| !getFragmentManager().findFragmentByTag("ListLogic").isVisible()){
+ 				if(DEBUG) Log.i("mFragment", "List Fragment Launched");
+	 			transaction.replace(R.id.chartFragment, new LogicAnalizerListFragment(mData), "ListLogic");
+	 			transaction.addToBackStack(null);
+	 			transaction.commit();
+	 			getFragmentManager().executePendingTransactions();
+	 			mActionBarListener.onActionBarClickListener(R.id.listLogic);
+ 			}
  		}
-
 		return true;
  	}
  	
@@ -366,14 +366,14 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
  	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Log.i("mFragment", "Activity Result");
-		Log.i("mFragment", "resultCode: " + resultCode);
-		Log.i("mFragment", "requestCode: " + requestCode);
+		if(DEBUG) Log.i("mFragment", "Activity Result");
+		if(DEBUG) Log.i("mFragment", "resultCode: " + resultCode);
+		if(DEBUG) Log.i("mFragment", "requestCode: " + requestCode);
 		
 		// Cambio en las preferencias
 		if(requestCode == PREFERENCES_CODE){
 			if(resultCode == RESULT_OK) {
-				Log.i("ActivityResult", "Preferences Setted");
+				if(DEBUG) Log.i("ActivityResult", "Preferences Setted");
 				// Aviso a la Activity que cambiaron las preferencias
 				mActionBarListener.onActionBarClickListener(R.id.settingsLogic);
 				setChartPreferences();
@@ -411,7 +411,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 		mRenderDataset.setXAxisMin(0);
 		time = 0;
 		mChartView.repaint();
-		Toast.makeText(mActivity, "Reiniciado", Toast.LENGTH_SHORT).show();
+		Toast.makeText(mActivity, getString(R.string.FrecReinicio), Toast.LENGTH_SHORT).show();
 	}
 
 	/**
@@ -422,7 +422,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 	private void createDialog() {
 		final CharSequence[] items = {getString(R.string.AnalyzerImagen), getString(R.string.AnalyzerSesion)};
 		AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
-		alert.setTitle("Guardar");
+		alert.setTitle(getString(R.string.AnalyzerDialogSaveTitle));
 
 		alert.setItems(items, new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int item) {
@@ -491,7 +491,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 		});
 
 		// Boton cancelar
-		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		alert.setNegativeButton(getString(R.string.Cancel), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				dialog.dismiss();	  
 			}
@@ -621,7 +621,8 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 				}
 			}
 			
-			//if(DEBUG) Log.i("Chart", "redraw()");
+			// Encuadro el área y redibujo
+			mRenderDataset.setXAxisMax(mRenderDataset.getXAxisMax()+1);
 			mChartView.repaint();					// Redibujo el grafico
 			
 			// Si algun canal se paso del maximo de muestras, borro todas las muestras
