@@ -6,35 +6,69 @@
     android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/tvRawDataChannelTitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/tvRawDataChannelTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tvRawDataChannelTitle1"
+        android:paddingLeft="60dp" />
+
+    <TextView
+        android:id="@+id/tvRawDataChannelTitle3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tvRawDataChannelTitle2"
+        android:paddingLeft="60dp" />
+
+    <TextView
+        android:id="@+id/tvRawDataChannelTitle4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tvRawDataChannelTitle3"
+        android:paddingLeft="60dp" />
+
+    <TextView
         android:id="@+id/tvRawDataLogic1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textSize="15sp"/>
+        android:layout_below="@+id/tvRawDataChannelTitle1"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/tvRawDataLogic2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/tvRawDataLogic1"
+        android:layout_alignLeft="@+id/tvRawDataChannelTitle2"
+        android:layout_below="@+id/tvRawDataChannelTitle2"
+        android:paddingLeft="60dp"
         android:textSize="15sp" />
 
     <TextView
         android:id="@+id/tvRawDataLogic3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/tvRawDataLogic2"
+        android:layout_alignLeft="@+id/tvRawDataChannelTitle3"
+        android:layout_below="@+id/tvRawDataChannelTitle3"
+        android:paddingLeft="60dp"
         android:textSize="15sp" />
 
     <TextView
         android:id="@+id/tvRawDataLogic4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/tvRawDataLogic3"
+        android:layout_alignLeft="@+id/tvRawDataChannelTitle4"
+        android:layout_below="@+id/tvRawDataChannelTitle4"
+        android:paddingLeft="60dp"
         android:textSize="15sp" />
 
 </RelativeLayout>
