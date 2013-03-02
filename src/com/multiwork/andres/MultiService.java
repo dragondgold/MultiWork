@@ -1,9 +1,6 @@
 package com.multiwork.andres;
 
-import java.util.BitSet;
 import java.util.Random;
-
-import com.protocolanalyzer.andres.LogicHelper;
 
 import android.app.Service;
 import android.content.Intent;
