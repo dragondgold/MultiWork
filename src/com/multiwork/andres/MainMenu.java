@@ -24,8 +24,8 @@ public class MainMenu extends SherlockListActivity{
    
 	private static final boolean DEBUG = true;
 	private static final String[] ClassName = {"com.multiwork.andres.LCView", "com.multiwork.andres.FrecView",
-		"com.multiwork.andres.LogicAnalizerActivity", "com.roboticarm.andres.BrazoRobot",
-		"com.multiwork.andres.PruebaParser"};
+		"com.protocolanalyzer.LogicAnalizerActivity", "com.roboticarm.andres.BrazoRobot",
+		"com.protocolanalyzer.andres.PruebaParser"};
 	private static String[] MenuNames = new String[ClassName.length];
 	private static ActionBar actionBar;
 	
