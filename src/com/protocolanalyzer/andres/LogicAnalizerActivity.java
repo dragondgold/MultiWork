@@ -1,9 +1,11 @@
 package com.protocolanalyzer.andres;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import org.apache.http.util.ByteArrayBuffer;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,16 +16,29 @@ import android.view.WindowManager;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
-import com.multiwork.andres.MultiService;
+import com.bluetoothutils.andres.BluetoothHelper;
+import com.bluetoothutils.andres.OnNewBluetoothDataReceived;
 import com.multiwork.andres.R;
 
 import com.protocolanalyzer.api.andres.LogicData;
 import com.protocolanalyzer.api.andres.LogicDataSet;
+import com.protocolanalyzer.api.andres.LogicHelper;
 import com.protocolanalyzer.api.andres.LogicData.Protocol;
 
-public class LogicAnalizerActivity extends SherlockFragmentActivity implements OnActionBarClickListener {
+public class LogicAnalizerActivity extends SherlockFragmentActivity implements OnActionBarClickListener, OnNewBluetoothDataReceived {
 
 	private static final boolean DEBUG = true;
+	private static final byte startByte = 'S';
+	private static final byte logicAnalyzerMode = 'L';
+	private static final int initialBufferSize = 1000;
+	
+	private static final int F40MHz = 1;
+	private static final int F20MHz = 2;
+	private static final int F10MHz = 3;
+	private static final int F4MHz = 4;
+	private static final int F400KHz = 5;
+	private static final int F2KHz = 6;
+	private static final int F10Hz = 7;
 	
 	/** Interface donde paso los datos decodificados a los Fragments, los mismo deben implementar el Listener */
 	private static OnDataDecodedListener mChartDataDecodedListener;
@@ -41,18 +56,18 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
     /** Tiempo del grafico */
     private static double time = 0;
     
-    /** BroadcastReceiver del Service para obtener los datos */
-    private static MyReceiver mServiceReceiver;	
-    /** Intent del Service desde donde se reciben los datos */
-    private static Intent serviceIntent;
+    private static BluetoothHelper mBluetoothHelper;
 	
 	/** Buffers de recepcion donde se guarda los bytes recibidos desde el USBMultiService */
     private static byte[] ReceptionBuffer;	
+    private static ByteArrayBuffer mByteArrayBuffer = new ByteArrayBuffer(initialBufferSize);
     /** Dato decodificado desde LogicHelper para ser mostrado en el grafico, contiene las posiciones para mostar
       * el tipo de protocolo, etc
       * @see LogicData.java */
 	private static LogicData[] mData = new LogicData[channelsNumber];
 	private static LogicDataSet mDataSet = new LogicDataSet();
+	
+	private static boolean isStarting = true;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -71,8 +86,6 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 			mData[n] = new LogicData();
 			mDataSet.addLogicData(mData[n]);
 		}
-
-		setPreferences();
 	}
 	
 	/**
@@ -81,10 +94,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	@Override
 	protected void onPause() {
 		if(DEBUG) Log.i("mFragmentActivity","onPause() - " + this.toString());
-		if(isPlaying) {		// Detengo el Service si esta funcionando
-			isPlaying = false;
-			unregisterReceiver(mServiceReceiver);
-		}
+		mBluetoothHelper.write(0);	// Indico al PIC que salí de la Activity
 		super.onPause();
 	}
 	
@@ -95,8 +105,17 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	@Override
 	protected void onResume() {
 		if(DEBUG) Log.i("mFragmentActivity","onResume() - " + this.toString());
-		super.onResume();
+		
+		// Conecto al dispositivo bluetooth
+		mBluetoothHelper = new BluetoothHelper(this, "linvor");
+		mBluetoothHelper.connect();
+		setPreferences();
+		
+		// Indico que entro en el Analizador lógico
+		mBluetoothHelper.write(logicAnalyzerMode);
+		
 		this.supportInvalidateOptionsMenu();  // Actualizo el ActionBar
+		super.onResume();
 	}
 
 	/**
@@ -110,25 +129,16 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		switch(buttonID){
 		// Boton Play/Pause
 		case R.id.PlayPauseLogic:
-			if(isPlaying) {
-				unregisterReceiver(mServiceReceiver);	// Detengo el BroadcastReceiver del Service
-				isPlaying = false;
-				this.supportInvalidateOptionsMenu();
-			}
-			else {
-				// Inicio el Servicio si no esta activo
-				if(!MultiService.isRunning){
-					serviceIntent = new Intent(this, MultiService.class);
-					startService(serviceIntent);
-				}
-				// Registro el broadcast del Service para obtener los datos
-		 		mServiceReceiver = new MyReceiver();
-		 		IntentFilter intentFilter = new IntentFilter();
-		 		intentFilter.addAction(MultiService.mAction);
-		 		registerReceiver(mServiceReceiver, intentFilter);
-		 		isPlaying = true;
-		 		this.supportInvalidateOptionsMenu();
-			}
+			// Digo al PIC que comienze el muestreo
+			mBluetoothHelper.write(1);
+			// Envío la frecuencia de muestreo que quiero
+			if(LogicData.getSampleRate() == 40000000) mBluetoothHelper.write(F40MHz);
+			else if(LogicData.getSampleRate() == 20000000) mBluetoothHelper.write(F20MHz);
+			else if(LogicData.getSampleRate() == 10000000) mBluetoothHelper.write(F10MHz);
+			else if(LogicData.getSampleRate() == 4000000) mBluetoothHelper.write(F4MHz);
+			else if(LogicData.getSampleRate() == 400000) mBluetoothHelper.write(F400KHz);
+			else if(LogicData.getSampleRate() == 2000) mBluetoothHelper.write(F2KHz);
+			else if(LogicData.getSampleRate() == 10) mBluetoothHelper.write(F10Hz);
 			break;
 		case R.id.restartLogic:
 			for(int n=0; n < channelsNumber; ++n){
@@ -214,29 +224,60 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
         	getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
  	}
- 	
- 	/**
-	 * Receiver del Service, aqui se obtienen los datos que envia el Service MultiService. Se obtienen los datos en un
-	 * array de bytes, se los pasa a su canal correspondiente, se los decodifica y se los pasa a los Fragments para que
-	 * muestren los datos en la forma de cada uno.
-	 */
-	private class MyReceiver extends BroadcastReceiver{
-		@Override
-		public void onReceive(Context arg0, Intent arg1) {
-			if(DEBUG) Log.i("mFragmentActivity", "onReceive() - Lenght: " + arg1.getByteArrayExtra("LogicData").length);
-			// Decodifico los datos
-			ReceptionBuffer = arg1.getByteArrayExtra("LogicData");
-			// Paso el buffer a cada canal
-			mDataSet.BufferToChannel(ReceptionBuffer);
-			
-			// Decodifico cada canal con su correspondiente fuente de clock
-			for(int n = 0; n < channelsNumber; ++n) {
-				mDataSet.decode(n, time);
+	
+	@Override
+	public void onNewBluetoothDataReceivedListener(InputStream mBTIn, OutputStream mBTOut) {
+		if(DEBUG) Log.i("LogicAnalizerBT", "onNewBluetoothDataReceivedListener()");
+		if(isStarting){
+			if(DEBUG) Log.i("LogicAnalizerBT", "Starting");
+			try {
+				while(mBTIn.available() > 0){
+					if(mBTIn.read() == logicAnalyzerMode){
+						isStarting = false;
+						break;
+					}
+				}
+			} catch (IOException e) { e.printStackTrace(); }
+		}
+		else if(isPlaying){
+			if(DEBUG) Log.i("LogicAnalizerBT", "Data receive");
+			try {
+			while(mBTIn.available() > 0){
+				if(mBTIn.read() == startByte && mBTIn.read() == logicAnalyzerMode){
+					if(DEBUG) Log.i("LogicAnalizerBT", "Receiving data...");
+					boolean keepGoing = true;
+					int[] data = new int[3];
+					
+					while(mBTIn.available() > 0 && keepGoing){
+						for(int n = 0; n < data.length; ++n){
+							data[n] = mBTIn.read();
+							if(n == 1 && data[0] == 0xFF && data[1] == 0xFF){
+								keepGoing = false;
+								break;
+							}
+						}
+						if(keepGoing){
+							mByteArrayBuffer.append(data[0]);
+							mByteArrayBuffer.append(data[1]);
+							mByteArrayBuffer.append(data[2]);
+						}
+					}
+					
+					if(DEBUG) Log.i("LogicAnalizerBT", "Byte buffer lenght: " + mByteArrayBuffer.length());
+					
+					// Paso el array de bytes decodificados con el algoritmo Run Lenght
+					mDataSet.BufferToChannel(LogicHelper.runLenghtDecode(mByteArrayBuffer));
+					
+					// Decodifico cada canal con su correspondiente fuente de clock
+					for(int n = 0; n < channelsNumber; ++n) {
+						mDataSet.decode(n, time);
+					}
+				    // Paso los datos decodificados a los Fragment
+					time = mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length);
+					if(mFragmentList != null) mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length);
+				}
 			}
-    	    // Paso los datos decodificados a los Fragment
-			time = mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length);
-			if(mFragmentList != null) mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length);
+			} catch (IOException e) { e.printStackTrace(); }
 		}
 	}
- 	
 }
