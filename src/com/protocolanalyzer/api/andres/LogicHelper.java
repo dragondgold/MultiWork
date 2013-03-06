@@ -2,9 +2,10 @@ package com.protocolanalyzer.api.andres;
 
 import java.util.BitSet;
 
+import org.apache.http.util.ByteArrayBuffer;
+
 import android.R.integer;
 import android.util.Log;
-
 
 public class LogicHelper {
     
@@ -80,6 +81,41 @@ public class LogicHelper {
 		}
 		Log.i("BitParse", "BitSet length: " + bitSet.length());
 		return bitSet;
+	}
+	
+	/**
+	 * Convierte dos bytes a un int
+	 * @param LSB LSB byte
+	 * @param MSB MSB byte
+	 * @return int con los 16 bits
+	 */
+	public static int byteToInt (final byte LSB, final byte MSB){
+		int temp = 0;
+	    temp = temp | (MSB & 0xFF);		// Coloco el MSB
+	    temp <<= 8;    					// Desplazo el byte
+	    temp = temp | (LSB & 0xFF);  	// Coloco el LSB
+	    return temp;
+	}
+	
+	/**
+	 * Decodifica el algoritmo de compresión Run Lenght
+	 * @param data ByteArrayBuffer con los bytes comprimidos
+	 * @return array de byte[] con los datos descomprimidos
+	 */
+	public static byte[] runLenghtDecode (final ByteArrayBuffer data){
+		
+		int lenght = data.length()-3;
+		int repeat;
+		ByteArrayBuffer returnData = new ByteArrayBuffer(data.length());
+		
+		for(int n = 0; n < lenght; n += 3){
+			repeat = LogicHelper.byteToInt((byte)data.byteAt(n), (byte)data.byteAt(n+1));
+			for(int k = 0; k < repeat; ++k){
+				returnData.append(data.byteAt(n+2));
+			}
+		}
+		
+		return returnData.toByteArray();
 	}
 	
 }
