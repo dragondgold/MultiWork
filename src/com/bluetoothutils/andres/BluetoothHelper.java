@@ -29,8 +29,9 @@ public class BluetoothHelper {
 	private final Activity mActivity;
 	private final Context ctx;
 	private final String bluetoothName;
-	private final OnNewBluetoothDataReceived mOnNewBluetoothDataReceived;
 	
+	private OnNewBluetoothDataReceived mOnNewBluetoothDataReceived = null;
+	private OnBluetoothConnected mOnBluetoothConnected = null;
 	private BluetoothAdapter mBluetoothAdapter;
 	private BluetoothDevice mBluetoothDevice;
 	private BluetoothSocket mBluetoothSocket;
@@ -39,7 +40,7 @@ public class BluetoothHelper {
 	private static InputStream mBluetoothIn;
 	
 	/**
-	 * Constructor. Debe implementarse OnNewBluetoothDataReceived en la Activity.
+	 * Constructor
 	 * @param ctx contexto de la Activity
 	 * @param bluetoothName nombre del bluetooth al cual conectarse
 	 */
@@ -47,11 +48,30 @@ public class BluetoothHelper {
 		mActivity = ((Activity)ctx);
 		this.ctx = ctx;
 		this.bluetoothName = bluetoothName;
-		
-		try { mOnNewBluetoothDataReceived = (OnNewBluetoothDataReceived) mActivity; }
-		catch (ClassCastException e) { throw new ClassCastException(mActivity.toString() + " must implement OnNewBluetoothDataReceived"); }
 	}
 	
+	/**
+	 * Establece un OnNewBluetoothDataReceived para ser llamado cuando halla nuevos datos.
+	 * Debe implementarse OnNewBluetoothDataReceived en la Activity.
+	 * @param mInterface
+	 */
+	public void setOnNewBluetoothDataReceived (OnNewBluetoothDataReceived mInterface){
+		mOnNewBluetoothDataReceived = mInterface;	// Interface
+		mBTThread.start();							// Inicio el Thread que busca por datos provenientes del BT
+	}
+	
+	/**
+	 * Establece un OnBluetoothConnected para ser llamado cuando se conecta al dispositivo deseado.
+	 * @param mInterface
+	 */
+	public void setOnBluetoothConnected (OnBluetoothConnected mInterface){
+		mOnBluetoothConnected = mInterface;
+	}
+	
+	/**
+	 * Envía un byte por Bluetooth
+	 * @param data
+	 */
 	public void write (int data){
 		while(mBluetoothOut == null);
 		try { mBluetoothOut.write(data); }
@@ -59,7 +79,7 @@ public class BluetoothHelper {
 	}
 	
 	/**
-	 * Se conecta al dispositivo Bluetoothh cuyo nombre se definió en el constructor
+	 * Se conecta al dispositivo Bluetooth cuyo nombre se definió en el constructor.
 	 */
 	public void connect (){
 		// Compruebo que el dispositivo tenga Bluetooth
@@ -146,6 +166,7 @@ public class BluetoothHelper {
     					}
     		    	});
     		        Log.i("BrazoBT", "Conectado a " + mBluetoothDevice.getName());
+    		        if(mOnBluetoothConnected != null) mOnBluetoothConnected.onBluetoothConnected(mBluetoothIn, mBluetoothOut);
     		    }
     		    else{
     		    	mActivity.runOnUiThread(new Runnable() {
@@ -156,10 +177,6 @@ public class BluetoothHelper {
     		    	Log.i("BrazoBT", "Error");
     		    	mActivity.finish();
     		    }
-    		    // Si se conectó inicio el Thread
-    	        if(noException){
-    	        	mBTThread.start();
-    	        }
     	    }
         };
         // Thread que ejecuta al Runnable
@@ -186,7 +203,6 @@ public class BluetoothHelper {
 					}
 				}
     			catch (IOException e) { e.printStackTrace(); }
-    			
     			try { Thread.sleep(20); }
 				catch (InterruptedException e) { e.printStackTrace(); }
     		}
