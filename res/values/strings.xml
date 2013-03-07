@@ -12,6 +12,9 @@
     <string name="Cancel">						Cancelar</string>
     <string name="PleaseWait">					Por favor, espere</string>
     
+    <string name="BTRequestTitle">				Petición del sistema</string>
+    <string name="BTRequestSummary">			¿Desea encender el Bluetooth?</string>
+    
     <!-- LC Meter -->
     <string name="LCMeterMenu">					Medidor LC</string>
     <string name="FrecMenu">					Frecuencimetro</string>
