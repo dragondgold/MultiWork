@@ -28,14 +28,14 @@
         android:id="@+id/closeClaw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="250dp"
         android:background="@drawable/custom_left_button" />
 
     <Button
         android:id="@+id/openClaw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="250dp"
         android:background="@drawable/custom_right_button" />
 
 </RelativeLayout>
