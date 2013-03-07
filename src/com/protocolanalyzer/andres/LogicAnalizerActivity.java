@@ -109,6 +109,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		// Conecto al dispositivo bluetooth
 		mBluetoothHelper = new BluetoothHelper(this, "linvor");
 		mBluetoothHelper.connect();
+		mBluetoothHelper.setOnNewBluetoothDataReceived(this);
 		setPreferences();
 		
 		// Indico que entro en el Analizador lógico
@@ -242,11 +243,11 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		else if(isPlaying){
 			if(DEBUG) Log.i("LogicAnalizerBT", "Data receive");
 			try {
+			int[] data = new int[3];
 			while(mBTIn.available() > 0){
 				if(mBTIn.read() == startByte && mBTIn.read() == logicAnalyzerMode){
 					if(DEBUG) Log.i("LogicAnalizerBT", "Receiving data...");
 					boolean keepGoing = true;
-					int[] data = new int[3];
 					
 					while(mBTIn.available() > 0 && keepGoing){
 						for(int n = 0; n < data.length; ++n){
