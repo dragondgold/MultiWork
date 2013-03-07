@@ -12,7 +12,6 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,7 +20,6 @@ import com.multiwork.andres.R;
 
 public class BluetoothHelper {
 
-	private static final int REQUEST_ENABLE_BT = 1;
 	private static final boolean DEBUG = true; 
 	
 	private static final UUID mUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -82,6 +80,7 @@ public class BluetoothHelper {
 	 * Se conecta al dispositivo Bluetooth cuyo nombre se definió en el constructor.
 	 */
 	public void connect (){
+		if(DEBUG) Log.i("BrazoRobotBT", "connect()...");
 		// Compruebo que el dispositivo tenga Bluetooth
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (mBluetoothAdapter == null) {
@@ -92,6 +91,7 @@ public class BluetoothHelper {
 		    dialog.setPositiveButton(ctx.getString(R.string.Ok), new OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
+					if(DEBUG) Log.i("BrazoRobotBT", "No bluetooth on device");
 					mActivity.finish();	// Cierro porque no existe un módulo Bluetooth
 				}
 		    });
@@ -100,27 +100,52 @@ public class BluetoothHelper {
 		else{
 			// Compruebo que el Bluetooth esté activado, sino pido al usuario que lo active
 			if (!mBluetoothAdapter.isEnabled()) {
-			    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			    mActivity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-			}
-			// Compruebo si el dispositivo no esta en los dispositivos emparejados (paired)
-			Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-			if (pairedDevices.size() > 0) {
-			    // Loop a travez de los dispositivos emparejados (paired)
-			    for (BluetoothDevice device : pairedDevices) {
-			        if(DEBUG) Log.i("BrazoRobotBT", "Name: " + device.getName() + " -- Address:  " + device.getAddress());
-			        // Si el dispositivo coincide con el que busco lo asigno
-			        if(device.getName().equals(bluetoothName)){
-			        	mBluetoothDevice = device;
-						// Establezco una conexión Bluetooth para enviar datos
-						establishConnection();
-			        	break;
-			        }
-			    }
-			}
-			// Sino salgo, debe estar en los dispositivos emparejados
-			else{
-				mActivity.finish();
+				final AlertDialog.Builder mDialog = new AlertDialog.Builder(ctx);
+				mDialog.setTitle(ctx.getString(R.string.BTRequestTitle));
+				mDialog.setMessage(ctx.getString(R.string.BTRequestSummary));
+				
+				mDialog.setPositiveButton(ctx.getString(R.string.Yes), new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if(DEBUG) Log.i("BrazoRobotBT", "Turning on Bluetooth...");
+						mBluetoothAdapter.enable();		// Enciendo el Bluetooth
+						
+						// Espero a que encienda el Bluetooth
+						while(!mBluetoothAdapter.isEnabled());
+						
+						// Compruebo si el dispositivo no esta en los dispositivos emparejados (paired)
+						Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+						if (pairedDevices.size() > 0) {
+						    // Loop a travez de los dispositivos emparejados (paired)
+						    for (BluetoothDevice device : pairedDevices) {
+						        if(DEBUG) Log.i("BrazoRobotBT", "Name: " + device.getName() + " -- Address:  " + device.getAddress());
+						        // Si el dispositivo coincide con el que busco lo asigno
+						        if(device.getName().equals(bluetoothName)){
+						        	mBluetoothDevice = device;
+									// Establezco una conexión Bluetooth para enviar datos
+									establishConnection();
+						        	break;
+						        }
+						    }
+						}
+						// Sino salgo, debe estar en los dispositivos emparejados
+						else{
+							if(DEBUG) Log.i("BrazoRobotBT", "Finish Activity not in paired devices");
+							mBluetoothAdapter.disable();
+							mActivity.finish();
+						}
+					}
+				});
+				
+				mDialog.setNegativeButton(ctx.getString(R.string.No), new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if(DEBUG) Log.i("BrazoRobotBT", "Exit");
+						mActivity.finish();
+					}
+				});
+				
+				mDialog.show();
 			}
 		}
 	}
