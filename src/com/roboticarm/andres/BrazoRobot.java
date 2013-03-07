@@ -1,24 +1,18 @@
 package com.roboticarm.andres;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Set;
-import java.util.UUID;
 
+import com.bluetoothutils.andres.BluetoothHelper;
+import com.bluetoothutils.andres.BTSingleSynchTransfer;
+import com.bluetoothutils.andres.OnBluetoothConnected;
 import com.multiwork.andres.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -27,9 +21,8 @@ import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.Toast;
 
-public class BrazoRobot extends Activity implements OnTouchListener{
+public class BrazoRobot extends Activity implements OnTouchListener, OnBluetoothConnected{
 
 	private static final boolean DEBUG = true;
 	
@@ -90,19 +83,13 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 	
 	private static int servo1Angle = servo1MinAngle, servo2Angle = servo2MinAngle;
 	
-	private static BluetoothAdapter mBluetoothAdapter;
 	/** Código que obtengo en onActivityResult() al recibir el resultado de activar el bluetooth */
-	private static int REQUEST_ENABLE_BT = 1;
+	private static final int REQUEST_ENABLE_BT = 1;
 	/** UUID del Bluetooth */
-	private static final UUID mUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-	private static final String BluetoothName = "linvor"; 
+	private static final String bluetoothName = "linvor"; 
 	
-	private static BluetoothSocket mBluetoothSocket;
-	private static BluetoothDevice mBluetoothDevice;
-	private static OutputStream mBluetoothOut;
-	private static InputStream mBluetoothInput;
-	
-	private static BluetoothDataTransfer mBluetoothDataTransfer;
+	private static BluetoothHelper mBluetoothHelper;
+	private static BTSingleSynchTransfer mBTSingleSynchTransfer;
 	
 	/** Inidica si hay un dispositivo BT conectado, en caso de no haberlo no envio datos */
 	private static boolean isBTConnected = false;
@@ -211,7 +198,7 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 			public void onClick(View v) {
 				Log.i("Button", "Button left");
 				if(servo1Angle >= (servo1MinAngle+angleStep)) servo1Angle -= angleStep;
-				mBluetoothDataTransfer.btSendDataWithSync(new byte[] {(byte)servo1Angle}, Munieca);
+				mBTSingleSynchTransfer.btSendDataWithSync(new byte[] {(byte)servo1Angle}, Munieca);
 			}
 		});
 		
@@ -221,7 +208,7 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 			public void onClick(View v) {
 				Log.i("Button", "Button right");
 				if(servo1Angle <= (servo1MaxAngle-angleStep)) servo1Angle += angleStep;
-				mBluetoothDataTransfer.btSendDataWithSync(new byte[] {(byte)servo1Angle}, Munieca);
+				mBTSingleSynchTransfer.btSendDataWithSync(new byte[] {(byte)servo1Angle}, Munieca);
 			}
 		});
 		
@@ -231,7 +218,7 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 			public void onClick(View v) {
 				Log.i("Button", "Close claw");
 				if(servo2Angle >= (servo2MinAngle+angleStep)) servo2Angle -= angleStep;
-				mBluetoothDataTransfer.btSendDataWithSync(new byte[] {(byte)servo2Angle}, Pinza);
+				mBTSingleSynchTransfer.btSendDataWithSync(new byte[] {(byte)servo2Angle}, Pinza);
 			}
 		});
 		
@@ -241,7 +228,7 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 			public void onClick(View v) {
 				Log.i("Button", "Open claw");
 				if(servo2Angle <= (servo2MaxAngle-angleStep)) servo2Angle += angleStep;
-				mBluetoothDataTransfer.btSendDataWithSync(new byte[] {(byte)servo2Angle}, Pinza);
+				mBTSingleSynchTransfer.btSendDataWithSync(new byte[] {(byte)servo2Angle}, Pinza);
 			}
 		});
 		
@@ -252,22 +239,6 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 		mView.setFilterTouchesWhenObscured(false);
 		
 	}
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if(DEBUG) Log.i("BrazoRobot", "onPause()");
-		
-		// Elimino el OutputStream y desconecto el dispositivo
-		if(mBluetoothOut != null){
-			try { mBluetoothOut.flush(); }
-			catch (IOException e) { e.printStackTrace(); }
-		}
-		if(mBluetoothSocket != null){
-			try { mBluetoothSocket.close(); }
-			catch (IOException e) { e.printStackTrace(); }
-		}
-	}
 
 	@Override
 	protected void onResume() {
@@ -275,142 +246,11 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 		if(DEBUG) Log.i("BrazoRobot", "onResume()");
 		isSystemRdy = false;
 		
-		// Compruebo que el dispositivo tenga Bluetooth
-		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		if (mBluetoothAdapter == null) {
-			// Si no hay Bluetooth en el dispositivo muestro un dialogo alertando al usuario y salgo de la Activity
-		    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-		    dialog.setTitle(getString(R.string.NoBTAlertTitle));
-		    dialog.setMessage(getString(R.string.NoBTAlertText));
-		    dialog.setPositiveButton(getString(R.string.Ok), new OnClickListener(){
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					finish();
-				}
-		    });
-		}
-		// Si el dispositivo tiene Bluetooth me conecto
-		else{
-			// Compruebo que el Bluetooth esté activado, sino pido al usuario que lo active
-			if (!mBluetoothAdapter.isEnabled()) {
-			    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-			}
-			// Compruebo si el dispositivo no esta en los dispositivos emparejados (paired)
-			Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-			if (pairedDevices.size() > 0) {
-			    // Loop a travez de los dispositivos emparejados (paired)
-			    for (BluetoothDevice device : pairedDevices) {
-			        if(DEBUG) Log.i("BrazoRobotBT", "Name: " + device.getName() + " -- Address:  " + device.getAddress());
-			        // Si el dispositivo coincide con el que busco lo asigno
-			        if(device.getName().equals(BluetoothName)){
-			        	mBluetoothDevice = device;
-						// Establezco una conexión Bluetooth para enviar datos
-						establishConnection();
-			        	break;
-			        }
-			    }
-			}
-			// Sino escaneo por dispositivos
-			else{
-				IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-				registerReceiver(mReceiver, filter);
-			}
-		}
-	}
-	
-	// BroadcastReceiver para ACTION_FOUND cuando sea escanea los dispositivos Bluetooth
-	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-	    public void onReceive(Context context, Intent intent) {
-	        String action = intent.getAction();
-	        Log.i("BrazoRobotBTDiscover", "Receiver");
-	        // Si se encuentra algún dispositivo
-	        if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-	            // Obtengo el dispositivo Bluetooth
-	        	BluetoothDevice temp = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-	        	// Si coincide con el dispositivo que busco, lo asigno y salgo
-	        	if(temp.getName().equals(BluetoothName)){
-	        		mBluetoothDevice = temp;
-	        		// Establezco una conexión Bluetooth para enviar datos
-	        		establishConnection();
-	        		return;
-	        	}
-	            Log.i("BrazoRobotBTDiscover", "Name: " + temp.getName() + " -- Address:  " + temp.getAddress());
-	        }
-	    }
-	};
-	
-	// Establezco una conexión con el dispositivo que ya definí anteriormente
-	public void establishConnection () {
-		if(DEBUG) Log.i("BrazoBT", "Connecting...");
+		mBluetoothHelper = new BluetoothHelper(this, bluetoothName);
+		mBluetoothHelper.connect();
+		mBluetoothHelper.setOnBluetoothConnected(this);
 		
-		// Establesco una conexión con el dispositivo bluetooth asignado en mBluetoothDevice
-        try { mBluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(mUUID); }
-        catch (IOException e1) { e1.printStackTrace(); }
-        	
-        // Runnable donde se encuentra el código a ejecutar por un Handler o Thread
-        final Runnable mRunnable = new Runnable() {
-            public void run() {
-            	boolean noException = true;
-    			// Desactivo el descubrimiento de dispositivos porque hace lenta la conexion
-    			if(mBluetoothAdapter.isDiscovering()) mBluetoothAdapter.cancelDiscovery();
-    	        
-    	        // Me conecto al dispositivo, esto se bloqueará hasta que se conecte por eso debe hacerse
-    	        // en un Thread diferente
-    	        try { mBluetoothSocket.connect(); } 
-    	        catch (IOException e) { 
-    	        	try { mBluetoothSocket.close(); }
-    	        	catch (IOException e1) { e1.printStackTrace(); }
-    	        	Log.i("BrazoBT", "Connection Exception");
-    	        	noException = false;
-    	        }
-    	        
-    	        // Obtengo el OutputStream para enviar datos al Bluetooth
-    	        try { mBluetoothOut = mBluetoothSocket.getOutputStream(); }
-    	        catch (IOException e) { e.printStackTrace(); }
-    	        
-    	        // Obtengo el InputStream para recibir datos desde el Bluetooth
-    			try { mBluetoothInput = mBluetoothSocket.getInputStream(); }
-    			catch (IOException e) { e.printStackTrace(); }
-    			
-    		    // Verifico si hubo una excepción entonces no se pudo conectar al dispositivo, de otro modo sí
-    		    if(noException){
-    		    	runOnUiThread(new Runnable() {
-    					public void run() { 
-    						Toast.makeText(BrazoRobot.this, "Conectado a " + mBluetoothDevice.getName(), Toast.LENGTH_SHORT).show(); 
-    					}
-    		    	});
-    		        Log.i("BrazoBT", "Conectado a " + mBluetoothDevice.getName());
-    		    }
-    		    else{
-    		    	runOnUiThread(new Runnable() {
-    					public void run() { 
-    						Toast.makeText(BrazoRobot.this, "Error de conexion", Toast.LENGTH_SHORT).show(); 
-    					}
-    		    	});
-    		    	Log.i("BrazoBT", "Error");
-    		    	finish();
-    		    }
-    	        if(noException){
-    	        	mBluetoothDataTransfer = new BluetoothDataTransfer(mBluetoothOut, mBluetoothInput);
-    	        	isBTConnected = noException;
-    	        	mBluetoothDataTransfer.start();
-    	        	//mBTThread.start();
-    	        }
-    	        else{
-    	        	finish();
-    	        }
-    	    }
-        };
-        // Thread que ejecuta al Runnable
-        final Thread mThread = new Thread(){
-        	@Override
-            public void run() {
-               mRunnable.run();
-            }
-        };
-        mThread.start();
-    };
+	}
     
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -426,10 +266,7 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 	public boolean onTouch(View v, MotionEvent event) {
 		// Evita que se modifique pad1 y pad2 si aún no han sido creados porque las medidas de la pantalla no se tomaron aún
 		if(isSystemRdy && isBTConnected){
-			//if(DEBUG) Log.i("BrazoRobotTouch", "--------------------------");
 			if(DEBUG) Log.i("BrazoRobotTouch", "onTouch()");
-			//if(DEBUG) Log.i("BrazoRobotTouch", "v: " + v.getId());
-			//if(DEBUG) Log.i("BrazoRobotTouch", "mView: " + mView.getId());
 			
 			int touchEvents = event.getPointerCount();
 			float tempX[] = new float[touchEvents];
@@ -459,7 +296,7 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 					//pad1.setX(tempX[n]);
 					if( Math.abs(pad1.getY() - tempY[n]) > 10){
 						pad1.setY(tempY[n]);
-						mBluetoothDataTransfer.btSendDataWithSync(pad1.toYBytes(), Pad1);
+						mBTSingleSynchTransfer.btSendDataWithSync(pad1.toYBytes(), Pad1);
 					}
 					pointerID1 = event.getPointerId(n);		// Obtengo el ID del touch este
 				}
@@ -470,7 +307,7 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 					//pad2.setX(tempX[n]);
 					if( Math.abs(pad2.getY() - tempY[n]) > 10){
 						pad2.setY(tempY[n]);
-						mBluetoothDataTransfer.btSendDataWithSync(pad2.toYBytes(), Pad2);
+						mBTSingleSynchTransfer.btSendDataWithSync(pad2.toYBytes(), Pad2);
 					}
 					pointerID2 = event.getPointerId(n);		// Obtengo el ID del touch este
 				}
@@ -496,20 +333,17 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 			        	if(DEBUG) Log.i("BrazoRobotTouch", "Reset 1");
 						//pad1.setX(xCenter1);
 						pad1.setY(yCenter1);
-						mBluetoothDataTransfer.btSendDataWithSync(pad1.toYBytes(), Pad1);
+						mBTSingleSynchTransfer.btSendDataWithSync(pad1.toYBytes(), Pad1);
 			        }
 			        // Si el ID es del segundo circulo
 			        if(pointerID == pointerID2) {
 			        	if(DEBUG) Log.i("BrazoRobotTouch", "Reset 2");
 						//pad2.setX(xCenter2);
 						pad2.setY(yCenter2);
-						mBluetoothDataTransfer.btSendDataWithSync(pad2.toYBytes(), Pad2);
+						mBTSingleSynchTransfer.btSendDataWithSync(pad2.toYBytes(), Pad2);
 			        }
 				}
 			mView.redraw();
-			
-			//if(DEBUG) Log.i("BrazoRobotTouchC", "x1: " + pad1.getX() + "   y1: " + pad1.getY());
-			//if(DEBUG) Log.i("BrazoRobotTouchC", "x2: " + pad2.getX() + "   y2: " + pad2.getY());
 			
 			// Duermo el Thread por 20mS para reducir uso de CPU
 			try { Thread.sleep(20); } 
@@ -518,6 +352,13 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 		
 		return true;	// Si el valor aqui es 'false' se retorna y se espera a que se suelte y se toque de nuevo la pantalla
 						// Si el valor aqui es 'true' nos da continuamente las coordenadas (permite deslizarnos sin clicks)
+	}
+
+	@Override
+	public void onBluetoothConnected(InputStream mInputStream, OutputStream mOutputStream) {
+		mBTSingleSynchTransfer = new BTSingleSynchTransfer(mOutputStream, mInputStream);
+    	mBTSingleSynchTransfer.start();
+    	isBTConnected = true;
 	}
 
 }
