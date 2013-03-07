@@ -4,7 +4,6 @@ import java.util.BitSet;
 
 import org.apache.http.util.ByteArrayBuffer;
 
-import android.R.integer;
 import android.util.Log;
 
 public class LogicHelper {
