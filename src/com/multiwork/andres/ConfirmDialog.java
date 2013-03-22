@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class ConfirmDialog extends Activity{
 	
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

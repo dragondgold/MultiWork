@@ -67,6 +67,8 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
     private static final double xMax = 10;				
     /** Colores de linea para cada canal */
     private static final int lineColor[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
+    /** Constantes */
+    private static final int CONFIRM_DIALOG = 0, PREFERENCES_CODE = 1, RESULT_OK = -1;
     
     /** Vibrador del dispositivo */
     private static Vibrator vibration;
@@ -74,8 +76,6 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
     private static String sesionDirectory;
     /** Directorio para guardar las imagenes */
     private static String imagesDirectory;
-    
-    private static final int CONFIRM_DIALOG = 0, PREFERENCES_CODE = 1, RESULT_OK = -1;
     
 	/** ActionBar */
 	private static ActionBar actionBar;		
@@ -155,7 +155,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
         actionBar = mActivity.getSupportActionBar();				// Obtengo el ActionBar
         actionBar.setDisplayHomeAsUpEnabled(true);					// El icono de la aplicacion funciona como boton HOME
         actionBar.setTitle(getString(R.string.AnalyzerName)) ;		// Nombre
-        this.setHasOptionsMenu(true);
+        this.setHasOptionsMenu(true);								
         
         // Crea las Serie que es una linea en el grafico (cada una de las entradas)
         mSerie[0] = new XYSeries(getString(R.string.AnalyzerChannel) + "1");	
@@ -219,9 +219,6 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
         mChartView.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {		
-				//if(DEBUG) Log.i("ClickListener", "X: " + event.getX());
-				//if(DEBUG) Log.i("ClickListener", "Y: " + event.getY());
-				
 				// Si me movi al menos 20 unidades en cualquier direccion ya se toma como scroll NO long-press
 				if(Math.abs(event.getX() - x) > 20 || Math.abs(event.getY() - y) > 20) {
 					//if(DEBUG) Log.i("ClickListener", "isMoving = true");
@@ -274,10 +271,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 		
 	}
     
-	/**
-	 * Activa el ActionMode del ActionBar
-	 * @author Andres Torti
-	 */
+	// Activa el ActionMode del ActionBar
 	private final class ActionModeEnable implements ActionMode.Callback {
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -293,9 +287,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 			return false;
 		}
 
-		/**
-		 * Al presionar iconos en el ActionMode
-		 */
+		// Al presionar iconos en el ActionMode
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			if(DEBUG) Log.i("ActionMode", "Item clicked: " + item.getItemId() + " - " + item.getTitle());
