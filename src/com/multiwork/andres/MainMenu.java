@@ -1,11 +1,11 @@
 package com.multiwork.andres;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,54 +13,23 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-/** Documentacion de ActionBar en: http://developer.android.com/guide/topics/ui/actionbar.html#Style
- * 	Toast.makeText(this, "MenuItem " + item.getTitle() + " selected.", Toast.LENGTH_SHORT).show();
- * 
+/**
  * @author Andres Torti
  * @version 1.0
- * 
+ * Services: http://developer.android.com/guide/components/services.html
  */
 public class MainMenu extends SherlockListActivity{
    
 	private static final boolean DEBUG = true;
 	private static final String[] ClassName = {"com.multiwork.andres.LCView", "com.multiwork.andres.FrecView",
-		"com.protocolanalyzer.LogicAnalizerActivity", "com.roboticarm.andres.BrazoRobot",
+		"com.protocolanalyzer.andres.LogicAnalizerActivity", "com.roboticarm.andres.BrazoRobot",
 		"com.protocolanalyzer.andres.PruebaParser"};
 	private static String[] MenuNames = new String[ClassName.length];
-	private static ActionBar actionBar;
-	
-	//private final String ACTION_USB_PERMISSION = "com.multitools.andres.USB_PERMISSION";
-	//UsbDevice device;
-	
-	/*
-	//Pide permisos al usuario para comunicacion con el dispositivo USB
-	private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			String action = intent.getAction();
-		    if (ACTION_USB_PERMISSION.equals(action)) {
-		    	synchronized (this) {
-		    		UsbDevice device = (UsbDevice)intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
-		            if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
-		            	if(device != null){
-		            		//call method to set up device communication
-			            }
-			        } 
-			        else {
-			        	Log.i(TAG, "Permission denied for device " + device);
-			        }
-			    }
-			}
-		}
-	};*/
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(DEBUG) Log.i("MainMenu", "onCreate() -> MainMenu");
-        
-        // ActionBar
-        actionBar = getSupportActionBar();						// Obtengo el ActionBar
         
         // Nombres de los Menu
         MenuNames[0] = getString(R.string.LCMeterMenu);
@@ -71,29 +40,20 @@ public class MainMenu extends SherlockListActivity{
         
         // Menu
         setListAdapter(new ArrayAdapter<String>(MainMenu.this, android.R.layout.simple_list_item_1, MenuNames));
-        
-		/*
-		// USB
-        if(DEBUG) Log.i(TAG, "Setting UsbManager -> MainMenu");
-        UsbManager mUsbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
-        if(DEBUG) Log.i(TAG, "mUsbManager: " + mUsbManager);
-        PendingIntent mPermissionIntent;
-        
-        if(DEBUG) Log.i(TAG, "Setting PermissionIntent -> MainMenu");
-        mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0); Log.i(TAG, "mPermissionIntent: " +  mPermissionIntent);
-        if(DEBUG) Log.i(TAG, "Setting IntentFilter -> MainMenu");
-        IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION); Log.i(TAG, "IntentFilter: " +  filter);
-        if(DEBUG) Log.i(TAG, "Setting registerReceiver -> MainMenu");
-        registerReceiver(mUsbReceiver, filter);
-        if(DEBUG) Log.i(TAG, "Setting requestPermission -> MainMenu");
-        
-        HashMap<String, UsbDevice> deviceList = mUsbManager.getDeviceList();
-        Log.i(TAG, "Device List: " + deviceList);
-        //mUsbManager.requestPermission(device, mPermissionIntent);
-        */
     }
     
-    // Click en algun elemento de la lista
+    @Override
+	protected void onResume() {
+    	// Creo y me uno al Service
+    	Intent mServiceIntent = new Intent();
+    	mServiceIntent.setClassName("com.multiwork.andres.MultiService", "com.multiwork.andres.MainMenu");
+    	bindService(mServiceIntent, null, Context.BIND_AUTO_CREATE);
+    	startService(mServiceIntent);
+    	
+		super.onResume();
+	}
+
+	// Click en algun elemento de la lista
     @Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
@@ -101,8 +61,8 @@ public class MainMenu extends SherlockListActivity{
 		
 		try{
 			Class<?> myClass = Class.forName(ClassName[position]);
-			Intent myIntent = new Intent(MainMenu.this, myClass);
-			startActivity(myIntent);
+			Intent mIntent = new Intent(MainMenu.this, myClass);
+			startActivity(mIntent);
 		}catch (ClassNotFoundException e){
 			e.printStackTrace();
 		}

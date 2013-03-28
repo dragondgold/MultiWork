@@ -12,12 +12,14 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.bluetoothutils.andres.BluetoothHelper;
 import com.bluetoothutils.andres.OnNewBluetoothDataReceived;
+import com.multiwork.andres.MultiService;
 import com.multiwork.andres.R;
 
 import com.protocolanalyzer.api.andres.LogicData;
@@ -106,14 +108,15 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	protected void onResume() {
 		if(DEBUG) Log.i("mFragmentActivity","onResume() - " + this.toString());
 		
-		// Conecto al dispositivo bluetooth
-		mBluetoothHelper = new BluetoothHelper(this, "linvor");
-		mBluetoothHelper.connect();
-		mBluetoothHelper.setOnNewBluetoothDataReceived(this);
+		// Solo si estoy en modo online procedo a obtener la conexion
+		if(!MultiService.offlineMode){
+			// Obtengo la conexión Bluetooth
+			mBluetoothHelper = MultiService.getBluetoothHelper();
+			mBluetoothHelper.setOnNewBluetoothDataReceived(this);
+			// Indico que entré en el analizador lógico
+			mBluetoothHelper.write(logicAnalyzerMode);
+		}
 		setPreferences();
-		
-		// Indico que entro en el Analizador lógico
-		mBluetoothHelper.write(logicAnalyzerMode);
 		
 		this.supportInvalidateOptionsMenu();  // Actualizo el ActionBar
 		super.onResume();
@@ -130,16 +133,18 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		switch(buttonID){
 		// Boton Play/Pause
 		case R.id.PlayPauseLogic:
-			// Digo al PIC que comienze el muestreo
-			mBluetoothHelper.write(1);
-			// Envío la frecuencia de muestreo que quiero
-			if(LogicData.getSampleRate() == 40000000) mBluetoothHelper.write(F40MHz);
-			else if(LogicData.getSampleRate() == 20000000) mBluetoothHelper.write(F20MHz);
-			else if(LogicData.getSampleRate() == 10000000) mBluetoothHelper.write(F10MHz);
-			else if(LogicData.getSampleRate() == 4000000) mBluetoothHelper.write(F4MHz);
-			else if(LogicData.getSampleRate() == 400000) mBluetoothHelper.write(F400KHz);
-			else if(LogicData.getSampleRate() == 2000) mBluetoothHelper.write(F2KHz);
-			else if(LogicData.getSampleRate() == 10) mBluetoothHelper.write(F10Hz);
+			if(!MultiService.offlineMode){
+				// Digo al PIC que comienze el muestreo
+				mBluetoothHelper.write(1);
+				// Envío la frecuencia de muestreo que quiero
+				if(LogicData.getSampleRate() == 40000000) mBluetoothHelper.write(F40MHz);
+				else if(LogicData.getSampleRate() == 20000000) mBluetoothHelper.write(F20MHz);
+				else if(LogicData.getSampleRate() == 10000000) mBluetoothHelper.write(F10MHz);
+				else if(LogicData.getSampleRate() == 4000000) mBluetoothHelper.write(F4MHz);
+				else if(LogicData.getSampleRate() == 400000) mBluetoothHelper.write(F400KHz);
+				else if(LogicData.getSampleRate() == 2000) mBluetoothHelper.write(F2KHz);
+				else if(LogicData.getSampleRate() == 10) mBluetoothHelper.write(F10Hz);
+			}
 			break;
 		case R.id.restartLogic:
 			for(int n=0; n < channelsNumber; ++n){
@@ -229,6 +234,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	@Override
 	public void onNewBluetoothDataReceivedListener(InputStream mBTIn, OutputStream mBTOut) {
 		if(DEBUG) Log.i("LogicAnalizerBT", "onNewBluetoothDataReceivedListener()");
+		// La primera vez veo que lo que halla recibido coincida con el modo en el que estoy
 		if(isStarting){
 			if(DEBUG) Log.i("LogicAnalizerBT", "Starting");
 			try {
@@ -238,6 +244,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 						break;
 					}
 				}
+				// Si no tengo el modo que corresponde notifico con un Toast
+				if(DEBUG) Log.i("LogicAnalizerBT", "Nothing detected");
+				Toast.makeText(this, R.string.AnalyzerConnectError, Toast.LENGTH_LONG).show();
 			} catch (IOException e) { e.printStackTrace(); }
 		}
 		else if(isPlaying){

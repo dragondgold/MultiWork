@@ -4,12 +4,10 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.multiwork.andres.R;
-import com.multiwork.andres.R.id;
-import com.multiwork.andres.R.layout;
-import com.multiwork.andres.R.string;
 import com.protocolanalyzer.api.andres.LogicData;
 import com.protocolanalyzer.api.andres.LogicData.Protocol;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+@SuppressLint("ValidFragment")
 public class LogicAnalizerListFragment extends SherlockFragment implements OnDataDecodedListener{
 
 	private static final boolean DEBUG = true;
@@ -31,7 +30,6 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 	private static ActionBar mActionBar;
 	private static TextView mRawData[] = new TextView[LogicAnalizerActivity.channelsNumber];
 	private static TextView mRawDataTitle[] = new TextView[LogicAnalizerActivity.channelsNumber];
-	private static OnActionBarClickListener mActionBarListener;
 	private static View v;
 	
 	private static LogicData[] logicData;
@@ -61,10 +59,6 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 		mActionBar.setDisplayHomeAsUpEnabled(true);					// El icono de la aplicacion funciona como boton HOME
 		mActionBar.setTitle(getString(R.string.AnalyzerName)) ;		// Nombre
         this.setHasOptionsMenu(true);
-        
-        // Obtengo el OnActionBarClickListener de la Activity
-     	try { mActionBarListener = (OnActionBarClickListener) mActivity; }
-     	catch (ClassCastException e) { throw new ClassCastException(mActivity.toString() + " must implement OnActionBarClickListener"); }
      	
 		// Muestro un diálogo de progreso indeterminado mientras se procesan los datos
 		dialog = ProgressDialog.show(mActivity, mActivity.getString(R.string.AnalyzerDialogLoading),

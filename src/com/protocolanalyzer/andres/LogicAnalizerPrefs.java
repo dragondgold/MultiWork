@@ -3,8 +3,6 @@ package com.protocolanalyzer.andres;
 import java.util.List;
 
 import com.multiwork.andres.R;
-import com.multiwork.andres.R.string;
-import com.multiwork.andres.R.xml;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;

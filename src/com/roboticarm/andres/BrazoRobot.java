@@ -1,18 +1,11 @@
 package com.roboticarm.andres;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import com.bluetoothutils.andres.BluetoothHelper;
 import com.bluetoothutils.andres.BTSingleSynchTransfer;
-import com.bluetoothutils.andres.OnBluetoothConnected;
+import com.multiwork.andres.MultiService;
 import com.multiwork.andres.R;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -22,7 +15,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-public class BrazoRobot extends Activity implements OnTouchListener, OnBluetoothConnected{
+public class BrazoRobot extends Activity implements OnTouchListener{
 
 	private static final boolean DEBUG = true;
 	
@@ -85,10 +78,6 @@ public class BrazoRobot extends Activity implements OnTouchListener, OnBluetooth
 	
 	/** Código que obtengo en onActivityResult() al recibir el resultado de activar el bluetooth */
 	private static final int REQUEST_ENABLE_BT = 1;
-	/** UUID del Bluetooth */
-	private static final String bluetoothName = "linvor"; 
-	
-	private static BluetoothHelper mBluetoothHelper;
 	private static BTSingleSynchTransfer mBTSingleSynchTransfer;
 	
 	/** Inidica si hay un dispositivo BT conectado, en caso de no haberlo no envio datos */
@@ -246,9 +235,10 @@ public class BrazoRobot extends Activity implements OnTouchListener, OnBluetooth
 		if(DEBUG) Log.i("BrazoRobot", "onResume()");
 		isSystemRdy = false;
 		
-		mBluetoothHelper = new BluetoothHelper(this, bluetoothName);
-		mBluetoothHelper.connect();
-		mBluetoothHelper.setOnBluetoothConnected(this);
+		mBTSingleSynchTransfer = new BTSingleSynchTransfer(MultiService.getBTOutputStream(),
+				MultiService.getBTInputStream());
+    	mBTSingleSynchTransfer.start();
+    	isBTConnected = true;
 		
 	}
     
@@ -352,13 +342,6 @@ public class BrazoRobot extends Activity implements OnTouchListener, OnBluetooth
 		
 		return true;	// Si el valor aqui es 'false' se retorna y se espera a que se suelte y se toque de nuevo la pantalla
 						// Si el valor aqui es 'true' nos da continuamente las coordenadas (permite deslizarnos sin clicks)
-	}
-
-	@Override
-	public void onBluetoothConnected(InputStream mInputStream, OutputStream mOutputStream) {
-		mBTSingleSynchTransfer = new BTSingleSynchTransfer(mOutputStream, mInputStream);
-    	mBTSingleSynchTransfer.start();
-    	isBTConnected = true;
 	}
 
 }

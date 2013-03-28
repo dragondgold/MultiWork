@@ -140,9 +140,7 @@ public class LogicAnalizerFragment extends SherlockFragment implements OnDataDec
 		return 0;
 	}
 	
-    /**
-     * Creacion de la Activity
-     */
+    // Creacion del Fragment
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

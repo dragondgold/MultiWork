@@ -37,6 +37,9 @@ public class BluetoothHelper {
 	private static OutputStream mBluetoothOut;
 	private static InputStream mBluetoothIn;
 	
+	private static boolean noException = false;
+	private static boolean keepRunning = false;
+	
 	/**
 	 * Constructor
 	 * @param ctx contexto de la Activity
@@ -55,7 +58,18 @@ public class BluetoothHelper {
 	 */
 	public void setOnNewBluetoothDataReceived (OnNewBluetoothDataReceived mInterface){
 		mOnNewBluetoothDataReceived = mInterface;	// Interface
-		mBTThread.start();							// Inicio el Thread que busca por datos provenientes del BT
+		if(noException){							// Arranco el Thread
+			keepRunning = true;
+			mBTThread.start();
+		}
+	}
+	
+	/**
+	 * Elimina el OnNewBluetoothDataReceived 
+	 */
+	public void removeOnNewBluetoothDataReceived (){
+		mOnNewBluetoothDataReceived = null;
+		keepRunning = false;
 	}
 	
 	/**
@@ -66,21 +80,27 @@ public class BluetoothHelper {
 		mOnBluetoothConnected = mInterface;
 	}
 	
+	public void removeOnBluetoothConnected (){
+		mOnBluetoothConnected = null;
+	}
+	
 	/**
 	 * Envía un byte por Bluetooth
 	 * @param data
 	 */
 	public void write (int data){
-		while(mBluetoothOut == null);
-		try { mBluetoothOut.write(data); }
-		catch (IOException e) { e.printStackTrace(); }
+		if(mBluetoothOut != null){
+			try { mBluetoothOut.write(data); }
+			catch (IOException e) { e.printStackTrace(); }
+		}
 	}
 	
 	/**
 	 * Se conecta al dispositivo Bluetooth cuyo nombre se definió en el constructor.
+	 * @param finishOnFail si es true finaliza la Activity si hay un error de conexión
 	 */
-	public void connect (){
-		if(DEBUG) Log.i("BrazoRobotBT", "connect()...");
+	public void connect (final boolean finishOnFail){
+		if(DEBUG) Log.i("BluetoothHelper", "connect()...");
 		// Compruebo que el dispositivo tenga Bluetooth
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (mBluetoothAdapter == null) {
@@ -91,8 +111,8 @@ public class BluetoothHelper {
 		    dialog.setPositiveButton(ctx.getString(R.string.Ok), new OnClickListener(){
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					if(DEBUG) Log.i("BrazoRobotBT", "No bluetooth on device");
-					mActivity.finish();	// Cierro porque no existe un módulo Bluetooth
+					if(DEBUG) Log.i("BluetoothHelper", "No bluetooth on device");
+					if(finishOnFail) mActivity.finish();	// Cierro porque no existe un módulo Bluetooth
 				}
 		    });
 		}
@@ -107,7 +127,7 @@ public class BluetoothHelper {
 				mDialog.setPositiveButton(ctx.getString(R.string.Yes), new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						if(DEBUG) Log.i("BrazoRobotBT", "Turning on Bluetooth...");
+						if(DEBUG) Log.i("BluetoothHelper", "Turning on Bluetooth...");
 						mBluetoothAdapter.enable();		// Enciendo el Bluetooth
 						
 						// Espero a que encienda el Bluetooth
@@ -118,7 +138,7 @@ public class BluetoothHelper {
 						if (pairedDevices.size() > 0) {
 						    // Loop a travez de los dispositivos emparejados (paired)
 						    for (BluetoothDevice device : pairedDevices) {
-						        if(DEBUG) Log.i("BrazoRobotBT", "Name: " + device.getName() + " -- Address:  " + device.getAddress());
+						        if(DEBUG) Log.i("BluetoothHelper", "Name: " + device.getName() + " -- Address:  " + device.getAddress());
 						        // Si el dispositivo coincide con el que busco lo asigno
 						        if(device.getName().equals(bluetoothName)){
 						        	mBluetoothDevice = device;
@@ -130,9 +150,9 @@ public class BluetoothHelper {
 						}
 						// Sino salgo, debe estar en los dispositivos emparejados
 						else{
-							if(DEBUG) Log.i("BrazoRobotBT", "Finish Activity not in paired devices");
+							if(DEBUG) Log.i("BluetoothHelper", "Finish Activity not in paired devices");
 							mBluetoothAdapter.disable();
-							mActivity.finish();
+							if(finishOnFail) mActivity.finish();
 						}
 					}
 				});
@@ -140,11 +160,10 @@ public class BluetoothHelper {
 				mDialog.setNegativeButton(ctx.getString(R.string.No), new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						if(DEBUG) Log.i("BrazoRobotBT", "Exit");
-						mActivity.finish();
+						if(DEBUG) Log.i("BluetoothHelper", "Exit");
+						if(finishOnFail) mActivity.finish();
 					}
 				});
-				
 				mDialog.show();
 			}
 		}
@@ -152,7 +171,7 @@ public class BluetoothHelper {
 	
 	// Establezco una conexión con el dispositivo que ya definí anteriormente
 	private void establishConnection () {
-		if(DEBUG) Log.i("BrazoBT", "Connecting...");
+		if(DEBUG) Log.i("BluetoothHelper", "Connecting...");
 		
 		// Establesco una conexión con el dispositivo bluetooth asignado en mBluetoothDevice
         try { mBluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(mUUID); }
@@ -161,7 +180,7 @@ public class BluetoothHelper {
         // Runnable donde se encuentra el código a ejecutar por un Handler o Thread
         final Runnable mRunnable = new Runnable() {
             public void run() {
-            	boolean noException = true;
+            	noException = true;
     			// Desactivo el descubrimiento de dispositivos porque hace lenta la conexion
     			if(mBluetoothAdapter.isDiscovering()) mBluetoothAdapter.cancelDiscovery();
     	        
@@ -171,7 +190,7 @@ public class BluetoothHelper {
     	        catch (IOException e) { 
     	        	try { mBluetoothSocket.close(); }
     	        	catch (IOException e1) { e1.printStackTrace(); }
-    	        	Log.i("BrazoBT", "Connection Exception");
+    	        	Log.i("BluetoothHelper", "Connection Exception");
     	        	noException = false;
     	        }
     	        
@@ -190,8 +209,9 @@ public class BluetoothHelper {
     						Toast.makeText(mActivity, "Conectado a " + mBluetoothDevice.getName(), Toast.LENGTH_SHORT).show(); 
     					}
     		    	});
-    		        Log.i("BrazoBT", "Conectado a " + mBluetoothDevice.getName());
+    		        Log.i("BluetoothHelper", "Conectado a " + mBluetoothDevice.getName());
     		        if(mOnBluetoothConnected != null) mOnBluetoothConnected.onBluetoothConnected(mBluetoothIn, mBluetoothOut);
+    		        if(mOnNewBluetoothDataReceived != null && keepRunning == false) mBTThread.start();
     		    }
     		    else{
     		    	mActivity.runOnUiThread(new Runnable() {
@@ -199,7 +219,7 @@ public class BluetoothHelper {
     						Toast.makeText(mActivity, "Error de conexion", Toast.LENGTH_SHORT).show(); 
     					}
     		    	});
-    		    	Log.i("BrazoBT", "Error");
+    		    	Log.i("BluetoothHelper", "Error");
     		    	mActivity.finish();
     		    }
     	    }
@@ -219,7 +239,7 @@ public class BluetoothHelper {
     	@Override
         public void run() {
     		if(DEBUG) Log.i("BTThread", "Thread Running");
-    		while(true){
+    		while(keepRunning){
     			try {
     				// Si hay algún dato disponible ejecuto la interface para avisar a la Activity
 					if(mBluetoothIn.available() > 0){

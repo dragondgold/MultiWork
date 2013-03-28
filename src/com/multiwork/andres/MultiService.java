@@ -1,16 +1,41 @@
 package com.multiwork.andres;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Random;
 
+import com.bluetoothutils.andres.BluetoothHelper;
+import com.bluetoothutils.andres.OnBluetoothConnected;
+
+import android.app.AlertDialog;
 import android.app.Service;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
-public class MultiService extends Service{
+/**
+ * El Service crea la conexión Bluetooth con el dispositivo y mantiene los objetos de Stream para
+ * que puedan ser accedidos desde cualquier Activity de forma estática
+ * @author andres
+ *
+ */
+public class MultiService extends Service implements OnBluetoothConnected{
+	
+	private static final boolean DEBUG = true;
 	
 	public static final String mAction = "MY_ACTION";
 	public static boolean isRunning = false;
+	public static boolean offlineMode = false;
+	
+	private static final String bluetoothName = "linvor";
+	
+	private static BluetoothHelper mBluetoothHelper;
+	private static InputStream mInputStream;
+	private static OutputStream mOutputStream;
 	
 	/**
 	 * @author Andres Torti
@@ -22,12 +47,13 @@ public class MultiService extends Service{
 		public void run() {
 			while(true){
 				try {
+					/*
 					Intent intent = new Intent();
 					intent.setAction(mAction);
 					intent.putExtra("LogicData", getLogicAnalizerData());
 					intent.putExtra("FrecMode", getDataFrec());
 					intent.putExtra("LCMode", getDataLC());
-					sendBroadcast(intent);
+					sendBroadcast(intent); */
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -41,7 +67,38 @@ public class MultiService extends Service{
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		MyThread myThread = new MyThread();
 		myThread.start();
+		
 		isRunning = true;
+		final Context ctx = this;
+		
+		// Pregunto si deseo entrar en modo offline primero
+		final AlertDialog.Builder mDialog = new AlertDialog.Builder(this);
+		mDialog.setTitle(getString(R.string.BTOfflineTitle));
+		mDialog.setMessage(getString(R.string.BTOfflineSummary));
+		
+		mDialog.setPositiveButton(getString(R.string.Yes), new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if(DEBUG) Log.i("MultiService", "Offline mode enabled");
+				mOutputStream = null;
+				mInputStream = null;
+				offlineMode = true;
+			}
+		});
+		
+		mDialog.setNegativeButton(getString(R.string.No), new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if(DEBUG) Log.i("MultiService", "Offline mode disabled");
+				offlineMode = false;
+				// Modo offline descativado, me conecto al Bluetooth
+				mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName);
+				mBluetoothHelper.connect(true);
+				mBluetoothHelper.setOnBluetoothConnected((OnBluetoothConnected)ctx);
+			}
+		});
+		mDialog.show();
+		
 		return super.onStartCommand(intent, flags, startId);
 	}
 	
@@ -57,13 +114,37 @@ public class MultiService extends Service{
 	}
 	
 	/**
+	 * Obtiene el OutputStream del Bluetooth, null si no se ha conectado
+	 * @return
+	 */
+	public static OutputStream getBTOutputStream (){
+		return mOutputStream;
+	}
+	
+	/**
+	 * Obtiene el InputStream del Bluetooth, null si no se ha conectado
+	 * @return
+	 */
+	public static InputStream getBTInputStream (){
+		return mInputStream;
+	}
+	
+	/**
+	 * Obtiene el BluetoothHelper
+	 * @return
+	 */
+	public static BluetoothHelper getBluetoothHelper (){
+		return mBluetoothHelper;
+	}
+	
+	/**
 	 * Se llama a este metodo para obtener 64 bytes con los datos leidos del analizador logico, siendo cada byte un muestreo
 	 * y el muestreo de cada canal se toma desde el LSB al MSB:
 	 * 		bit 0 = Canal 0
 	 * 		bit 1 = Canal 1
 	 *		bit 2 = Canal 2
 	 *		bit 3 = Canal 3 
-	 * El tama�o del array devuelto es variable de acuerdo a la cantidad de datos enviados desde el PIC
+	 * El tamaño del array devuelto es variable de acuerdo a la cantidad de datos enviados desde el PIC
 	 * @return Array de bytes con los 64 bytes de los muestreos
 	 */
 	public static byte[] getLogicAnalizerData (){
@@ -101,6 +182,12 @@ public class MultiService extends Service{
 		data.putLong("frec", Math.abs(crazy.nextInt(20000)));	// Frecuencia en Hz
 		data.putLong("frec2", Math.abs(crazy.nextInt(20000)));	// Frecuencia en Hz
 		return data;
+	}
+
+	@Override
+	public void onBluetoothConnected(InputStream mInputStream, OutputStream mOutputStream) {
+		MultiService.mInputStream = mInputStream;
+		MultiService.mOutputStream = mOutputStream;
 	}
 
 }
