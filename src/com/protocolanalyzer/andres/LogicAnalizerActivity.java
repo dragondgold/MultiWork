@@ -133,18 +133,16 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		switch(buttonID){
 		// Boton Play/Pause
 		case R.id.PlayPauseLogic:
-			if(!MultiService.offlineMode){
-				// Digo al PIC que comienze el muestreo
-				mBluetoothHelper.write(1);
-				// Envío la frecuencia de muestreo que quiero
-				if(LogicData.getSampleRate() == 40000000) mBluetoothHelper.write(F40MHz);
-				else if(LogicData.getSampleRate() == 20000000) mBluetoothHelper.write(F20MHz);
-				else if(LogicData.getSampleRate() == 10000000) mBluetoothHelper.write(F10MHz);
-				else if(LogicData.getSampleRate() == 4000000) mBluetoothHelper.write(F4MHz);
-				else if(LogicData.getSampleRate() == 400000) mBluetoothHelper.write(F400KHz);
-				else if(LogicData.getSampleRate() == 2000) mBluetoothHelper.write(F2KHz);
-				else if(LogicData.getSampleRate() == 10) mBluetoothHelper.write(F10Hz);
-			}
+			// Digo al PIC que comienze el muestreo
+			mBluetoothHelper.write(1);
+			// Envío la frecuencia de muestreo que quiero
+			if(LogicData.getSampleRate() == 40000000) mBluetoothHelper.write(F40MHz);
+			else if(LogicData.getSampleRate() == 20000000) mBluetoothHelper.write(F20MHz);
+			else if(LogicData.getSampleRate() == 10000000) mBluetoothHelper.write(F10MHz);
+			else if(LogicData.getSampleRate() == 4000000) mBluetoothHelper.write(F4MHz);
+			else if(LogicData.getSampleRate() == 400000) mBluetoothHelper.write(F400KHz);
+			else if(LogicData.getSampleRate() == 2000) mBluetoothHelper.write(F2KHz);
+			else if(LogicData.getSampleRate() == 10) mBluetoothHelper.write(F10Hz);
 			break;
 		case R.id.restartLogic:
 			for(int n=0; n < channelsNumber; ++n){
