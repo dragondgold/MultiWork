@@ -9,33 +9,33 @@
 
     <item
         android:id="@+id/listLogic"
-        android:icon="@drawable/list"
+        android:icon="@drawable/chart2"
         android:showAsAction="always"
-        android:title="Raw Data">
+        android:title="@string/AnalyzerActionRawData">
     </item>
     <item
         android:id="@+id/zoomOutLogic"
         android:icon="@drawable/zoom_out"
         android:showAsAction="always"
-        android:title="Zoom Out">
+        android:title="@string/AnalyzerActionZoomOut">
     </item>
     <item
         android:id="@+id/zoomInLogic"
         android:icon="@drawable/zoom_in"
         android:showAsAction="always"
-        android:title="Zoom In">
+        android:title="@string/AnalyzerActionZoomIn">
     </item>
     <item
         android:id="@+id/settingsLogic"
         android:icon="@drawable/settings"
         android:showAsAction="always"
-        android:title="Config">
+        android:title="@string/AnalyzerActionConfig">
     </item>
     <item
         android:id="@+id/PlayPauseLogic"
         android:icon="@drawable/play"
         android:showAsAction="always"
-        android:title="Play">
+        android:title="@string/AnalyzerActionPlay">
     </item>
 
 </menu>

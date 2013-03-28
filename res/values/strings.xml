@@ -8,12 +8,15 @@
     <string name="ScreenTitle">					Mantener pantalla encendida</string>
     <string name="Yes">							Si</string>
     <string name="No">							No</string>
-    <string name="Ok">							Ok</string>
+    <string name="Ok">							OK</string>
     <string name="Cancel">						Cancelar</string>
     <string name="PleaseWait">					Por favor, espere</string>
     
     <string name="BTRequestTitle">				Petición del sistema</string>
     <string name="BTRequestSummary">			¿Desea encender el Bluetooth?</string>
+    <string name="BTOfflineTitle">				Modo sin conexion</string>
+    <string name="BTOfflineSummary">			¿Desea usar el modo sin conexion? Si activa el mismo
+        										 no se conectara al dispositivo Bluetooth.</string>
     
     <!-- LC Meter -->
     <string name="LCMeterMenu">					Medidor LC</string>
@@ -31,6 +34,7 @@
     <string name="AnalyzerData">				Datos</string>
     <string name="AnalyzerYTitle">				Canales</string>
     <string name="AnalyzerXTitle">				Tiempo</string>
+    <string name="AnalyzerConnectError">		Error en la conexion</string>
     
     <string name="AnalyzerImagen">				Imagen</string>
     <string name="AnalyzerSesion">				Sesion</string>
@@ -43,7 +47,7 @@
     <string name="AnalyzerDialogSampleAlert">	La configuracion actual de Baudios y SampleRate no permitirá un muestreo adecuado.
         										 Aumente la velocidad de muestreo o disminuya los Baudios para un correcto muestreo.</string>
     <string name="AnalyzerDialogSampleTitle">	Advertencia</string>
-    <string name="AnalyzerDialogLoading">		Procesando...</string>
+    <string name="AnalyzerDialogLoading">		Procesando…</string>
     
     <string name="AnalyzerProtocolSummary">		Protocolo</string>
     <string name="AnalyzerProtocolTitle1">		Protocolo canal 1</string>
@@ -66,6 +70,12 @@
     <string name="AnalyzerDirectoryImageSummary">	Directorio donde guardar las imágenes</string>
     <string name="AnalyzerDirectorySesionTitle">	Directorio para sesiones</string>
     <string name="AnalyzerDirectorySesionSummary">	Directorio donde guardar las sesiones</string>
+    
+    <string name="AnalyzerActionRawData">			Datos directos</string>
+    <string name="AnalyzerActionZoomOut">			Menos zoom</string>
+    <string name="AnalyzerActionZoomIn">			Mas zoom</string>
+    <string name="AnalyzerActionConfig">			Opciones</string>
+    <string name="AnalyzerActionPlay">				Play</string>
     
     <!--Brazo Robot -->
     <string name="NoBTAlertTitle">					No existe Bluetooth</string>
