@@ -19,7 +19,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.bluetoothutils.andres.BluetoothHelper;
 import com.bluetoothutils.andres.OnNewBluetoothDataReceived;
-import com.multiwork.andres.MultiService;
+import com.multiwork.andres.MainMenu;
 import com.multiwork.andres.R;
 
 import com.protocolanalyzer.api.andres.LogicData;
@@ -60,7 +60,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
     
     private static BluetoothHelper mBluetoothHelper;
 	
-	/** Buffers de recepcion donde se guarda los bytes recibidos desde el USBMultiService */
+	/** Buffers de recepcion donde se guarda los bytes recibidos */
     private static byte[] ReceptionBuffer;	
     private static ByteArrayBuffer mByteArrayBuffer = new ByteArrayBuffer(initialBufferSize);
     /** Dato decodificado desde LogicHelper para ser mostrado en el grafico, contiene las posiciones para mostar
@@ -109,13 +109,11 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		if(DEBUG) Log.i("mFragmentActivity","onResume() - " + this.toString());
 		
 		// Solo si estoy en modo online procedo a obtener la conexion
-		if(!MultiService.offlineMode){
-			// Obtengo la conexión Bluetooth
-			mBluetoothHelper = MultiService.getBluetoothHelper();
-			mBluetoothHelper.setOnNewBluetoothDataReceived(this);
-			// Indico que entré en el analizador lógico
-			mBluetoothHelper.write(logicAnalyzerMode);
-		}
+		// Obtengo la conexión Bluetooth
+		mBluetoothHelper = MainMenu.mBluetoothHelper;
+		mBluetoothHelper.setOnNewBluetoothDataReceived(this);
+		// Indico que entré en el analizador lógico
+		mBluetoothHelper.write(logicAnalyzerMode);
 		setPreferences();
 		
 		this.supportInvalidateOptionsMenu();  // Actualizo el ActionBar

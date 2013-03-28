@@ -34,21 +34,23 @@ public class BluetoothHelper {
 	private BluetoothDevice mBluetoothDevice;
 	private BluetoothSocket mBluetoothSocket;
 	
-	private static OutputStream mBluetoothOut;
-	private static InputStream mBluetoothIn;
+	private OutputStream mBluetoothOut;
+	private InputStream mBluetoothIn;
 	
-	private static boolean noException = false;
-	private static boolean keepRunning = false;
+	private boolean noException = false;
+	private boolean keepRunning = false;
+	private boolean offlineMode = false;
 	
 	/**
 	 * Constructor
 	 * @param ctx contexto de la Activity
 	 * @param bluetoothName nombre del bluetooth al cual conectarse
 	 */
-	public BluetoothHelper (final Context ctx, final String bluetoothName) {
+	public BluetoothHelper (final Context ctx, final String bluetoothName, boolean offlineMode) {
 		mActivity = ((Activity)ctx);
 		this.ctx = ctx;
 		this.bluetoothName = bluetoothName;
+		this.offlineMode = offlineMode;
 	}
 	
 	/**
@@ -89,7 +91,7 @@ public class BluetoothHelper {
 	 * @param data
 	 */
 	public void write (int data){
-		if(mBluetoothOut != null){
+		if(mBluetoothOut != null && !offlineMode){
 			try { mBluetoothOut.write(data); }
 			catch (IOException e) { e.printStackTrace(); }
 		}

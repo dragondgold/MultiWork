@@ -1,7 +1,7 @@
 package com.roboticarm.andres;
 
 import com.bluetoothutils.andres.BTSingleSynchTransfer;
-import com.multiwork.andres.MultiService;
+import com.multiwork.andres.MainMenu;
 import com.multiwork.andres.R;
 
 import android.app.Activity;
@@ -80,8 +80,6 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 	private static final int REQUEST_ENABLE_BT = 1;
 	private static BTSingleSynchTransfer mBTSingleSynchTransfer;
 	
-	/** Inidica si hay un dispositivo BT conectado, en caso de no haberlo no envio datos */
-	private static boolean isBTConnected = false;
 	/** Inidica si ya se tomaron las medidas de la pantalla y se puede usar el touchscreen */
 	private static boolean isSystemRdy = false;
 	
@@ -235,11 +233,9 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 		if(DEBUG) Log.i("BrazoRobot", "onResume()");
 		isSystemRdy = false;
 		
-		mBTSingleSynchTransfer = new BTSingleSynchTransfer(MultiService.getBTOutputStream(),
-				MultiService.getBTInputStream());
+		mBTSingleSynchTransfer = new BTSingleSynchTransfer(MainMenu.mOutputStream,
+				MainMenu.mInputStream);
     	mBTSingleSynchTransfer.start();
-    	isBTConnected = true;
-		
 	}
     
 	@Override
@@ -255,7 +251,7 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		// Evita que se modifique pad1 y pad2 si aún no han sido creados porque las medidas de la pantalla no se tomaron aún
-		if(isSystemRdy && isBTConnected){
+		if(isSystemRdy){
 			if(DEBUG) Log.i("BrazoRobotTouch", "onTouch()");
 			
 			int touchEvents = event.getPointerCount();

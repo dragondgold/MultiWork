@@ -1,21 +1,11 @@
 package com.multiwork.andres;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Random;
 
-import com.bluetoothutils.andres.BluetoothHelper;
-import com.bluetoothutils.andres.OnBluetoothConnected;
-
-import android.app.AlertDialog;
 import android.app.Service;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 
 /**
  * El Service crea la conexión Bluetooth con el dispositivo y mantiene los objetos de Stream para
@@ -23,19 +13,10 @@ import android.util.Log;
  * @author andres
  *
  */
-public class MultiService extends Service implements OnBluetoothConnected{
-	
-	private static final boolean DEBUG = true;
+public class MultiService extends Service{
 	
 	public static final String mAction = "MY_ACTION";
 	public static boolean isRunning = false;
-	public static boolean offlineMode = false;
-	
-	private static final String bluetoothName = "linvor";
-	
-	private static BluetoothHelper mBluetoothHelper;
-	private static InputStream mInputStream;
-	private static OutputStream mOutputStream;
 	
 	/**
 	 * @author Andres Torti
@@ -68,37 +49,6 @@ public class MultiService extends Service implements OnBluetoothConnected{
 		MyThread myThread = new MyThread();
 		myThread.start();
 		
-		isRunning = true;
-		final Context ctx = this;
-		
-		// Pregunto si deseo entrar en modo offline primero
-		final AlertDialog.Builder mDialog = new AlertDialog.Builder(this);
-		mDialog.setTitle(getString(R.string.BTOfflineTitle));
-		mDialog.setMessage(getString(R.string.BTOfflineSummary));
-		
-		mDialog.setPositiveButton(getString(R.string.Yes), new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				if(DEBUG) Log.i("MultiService", "Offline mode enabled");
-				mOutputStream = null;
-				mInputStream = null;
-				offlineMode = true;
-			}
-		});
-		
-		mDialog.setNegativeButton(getString(R.string.No), new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				if(DEBUG) Log.i("MultiService", "Offline mode disabled");
-				offlineMode = false;
-				// Modo offline descativado, me conecto al Bluetooth
-				mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName);
-				mBluetoothHelper.connect(true);
-				mBluetoothHelper.setOnBluetoothConnected((OnBluetoothConnected)ctx);
-			}
-		});
-		mDialog.show();
-		
 		return super.onStartCommand(intent, flags, startId);
 	}
 	
@@ -111,30 +61,6 @@ public class MultiService extends Service implements OnBluetoothConnected{
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
-	}
-	
-	/**
-	 * Obtiene el OutputStream del Bluetooth, null si no se ha conectado
-	 * @return
-	 */
-	public static OutputStream getBTOutputStream (){
-		return mOutputStream;
-	}
-	
-	/**
-	 * Obtiene el InputStream del Bluetooth, null si no se ha conectado
-	 * @return
-	 */
-	public static InputStream getBTInputStream (){
-		return mInputStream;
-	}
-	
-	/**
-	 * Obtiene el BluetoothHelper
-	 * @return
-	 */
-	public static BluetoothHelper getBluetoothHelper (){
-		return mBluetoothHelper;
 	}
 	
 	/**
@@ -182,12 +108,6 @@ public class MultiService extends Service implements OnBluetoothConnected{
 		data.putLong("frec", Math.abs(crazy.nextInt(20000)));	// Frecuencia en Hz
 		data.putLong("frec2", Math.abs(crazy.nextInt(20000)));	// Frecuencia en Hz
 		return data;
-	}
-
-	@Override
-	public void onBluetoothConnected(InputStream mInputStream, OutputStream mOutputStream) {
-		MultiService.mInputStream = mInputStream;
-		MultiService.mOutputStream = mOutputStream;
 	}
 
 }

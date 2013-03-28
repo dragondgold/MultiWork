@@ -1,12 +1,20 @@
 package com.multiwork.andres;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.bluetoothutils.andres.BluetoothHelper;
+import com.bluetoothutils.andres.OnBluetoothConnected;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +26,15 @@ import android.widget.ListView;
  * @version 1.0
  * Services: http://developer.android.com/guide/components/services.html
  */
-public class MainMenu extends SherlockListActivity{
+public class MainMenu extends SherlockListActivity implements OnBluetoothConnected{
    
+	public static BluetoothHelper mBluetoothHelper = null;
+	public static final String bluetoothName = "linvor";
+	public static boolean offlineMode = false;
+	
+	public static InputStream mInputStream = null;
+	public static OutputStream mOutputStream = null;
+	
 	private static final boolean DEBUG = true;
 	private static final String[] ClassName = {"com.multiwork.andres.LCView", "com.multiwork.andres.FrecView",
 		"com.protocolanalyzer.andres.LogicAnalizerActivity", "com.roboticarm.andres.BrazoRobot",
@@ -40,16 +55,45 @@ public class MainMenu extends SherlockListActivity{
         
         // Menu
         setListAdapter(new ArrayAdapter<String>(MainMenu.this, android.R.layout.simple_list_item_1, MenuNames));
+    
+        final Context ctx = this;
+    	
+    	// Pregunto si deseo entrar en modo offline primero
+		final AlertDialog.Builder mDialog = new AlertDialog.Builder(this);
+		mDialog.setTitle(getString(R.string.BTOfflineTitle));
+		mDialog.setMessage(getString(R.string.BTOfflineSummary));
+		
+		mDialog.setPositiveButton(getString(R.string.Yes), new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if(DEBUG) Log.i("MultiService", "Offline mode enabled");
+				// Offline
+				mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, true);
+				mBluetoothHelper.connect(true);
+				mBluetoothHelper.setOnBluetoothConnected((OnBluetoothConnected)ctx);
+			}
+		});
+		
+		mDialog.setNegativeButton(getString(R.string.No), new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if(DEBUG) Log.i("MultiService", "Offline mode disabled");
+				// Online
+				mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, false);
+				mBluetoothHelper.connect(true);
+				mBluetoothHelper.setOnBluetoothConnected((OnBluetoothConnected)ctx);
+				
+				// Creo y me uno al Service porque el modo no es offline
+		    	// Intent mServiceIntent = new Intent(MainMenu.this, MultiService.class);
+		    	// startService(mServiceIntent);
+		    	// bindService(mServiceIntent, null, Context.BIND_AUTO_CREATE);
+			}
+		});
+		mDialog.show();
     }
     
     @Override
 	protected void onResume() {
-    	// Creo y me uno al Service
-    	Intent mServiceIntent = new Intent();
-    	mServiceIntent.setClassName("com.multiwork.andres.MultiService", "com.multiwork.andres.MainMenu");
-    	bindService(mServiceIntent, null, Context.BIND_AUTO_CREATE);
-    	startService(mServiceIntent);
-    	
 		super.onResume();
 	}
 
@@ -94,6 +138,12 @@ public class MainMenu extends SherlockListActivity{
 		}
 		
 		return true;
+	}
+	
+	@Override
+	public void onBluetoothConnected(InputStream mInputStream, OutputStream mOutputStream) {
+		MainMenu.mInputStream = mInputStream;
+		MainMenu.mOutputStream = mOutputStream;
 	}
 	
 }
