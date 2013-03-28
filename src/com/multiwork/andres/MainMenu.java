@@ -129,9 +129,7 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 		
 		switch(item.getItemId()){
 		case R.id.exitMain:
-			// Detengo el service y salgo de la aplicacion
-			if(MultiService.isRunning) stopService(new Intent(MainMenu.this,MultiService.class));
-			this.finish();
+			finish();
 			break;
 		case R.id.settingsMain:
  			startActivity(new Intent(this, MainPrefs.class));
