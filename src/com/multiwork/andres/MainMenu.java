@@ -66,29 +66,24 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 		mDialog.setPositiveButton(getString(R.string.Yes), new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				if(DEBUG) Log.i("MultiService", "Offline mode enabled");
+				if(DEBUG) Log.i("MainMenu", "Offline mode enabled");
 				// Offline
 				mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, true);
-				mBluetoothHelper.connect(true);
-				mBluetoothHelper.setOnBluetoothConnected((OnBluetoothConnected)ctx);
 			}
 		});
 		
 		mDialog.setNegativeButton(getString(R.string.No), new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				if(DEBUG) Log.i("MultiService", "Offline mode disabled");
+				if(DEBUG) Log.i("MainMenu", "Offline mode disabled");
 				// Online
 				mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, false);
 				mBluetoothHelper.connect(true);
 				mBluetoothHelper.setOnBluetoothConnected((OnBluetoothConnected)ctx);
-				
-				// Creo y me uno al Service porque el modo no es offline
-		    	// Intent mServiceIntent = new Intent(MainMenu.this, MultiService.class);
-		    	// startService(mServiceIntent);
-		    	// bindService(mServiceIntent, null, Context.BIND_AUTO_CREATE);
 			}
 		});
+		
+		mDialog.setCancelable(false);
 		mDialog.show();
     }
     
