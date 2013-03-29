@@ -5,9 +5,9 @@
     android:orientation="vertical" >
 
     <fragment
-        android:id="@+id/chartFragment"
+        android:id="@+id/logicFragment"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        class="com.protocolanalyzer.andres.LogicAnalizerFragment" />
+        class="com.protocolanalyzer.andres.LogicAnalizerListFragment" />
 
 </FrameLayout>
