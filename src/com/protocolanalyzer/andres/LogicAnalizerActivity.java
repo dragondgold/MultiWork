@@ -80,11 +80,11 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		if(DEBUG) Log.i("mFragmentActivity","onCreate() LogicAnalizerActivity");
 		
 		setContentView(R.layout.logic_fragments);
-		mFragmentChart = getSupportFragmentManager().findFragmentById(R.id.chartFragment);
+		mFragmentList = getSupportFragmentManager().findFragmentById(R.id.logicFragment);
 		
 		// Obtengo el OnDataDecodedListener de los Fragments
-		try { mChartDataDecodedListener = (OnDataDecodedListener) mFragmentChart; }
-		catch (ClassCastException e) { throw new ClassCastException(mFragmentChart.toString() + " must implement OnDataDecodedListener"); }
+		try { mListDataDecodedListener = (OnDataDecodedListener) mFragmentList; }
+		catch (ClassCastException e) { throw new ClassCastException(mFragmentList.toString() + " must implement OnDataDecodedListener"); }
 		
 		// Creo los LogicData y los agrego al DataSet
 		for(int n=0; n < channelsNumber; ++n){
@@ -93,9 +93,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		}
 	}
 	
-	/**
-	 * Si estoy tomando datos y salgo de la Activity elimino el CallBack para no recibir mas datos desde el Service.
-	 */
+	// Si estoy tomando datos y salgo de la Activity elimino el CallBack para no recibir mas datos desde el Service.
 	@Override
 	protected void onPause() {
 		if(DEBUG) Log.i("mFragmentActivity","onPause() - " + this.toString());
@@ -149,20 +147,20 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 				break;
 	 		case R.id.listLogic:
 	 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-	 			// Reemplazo este Fragment con el de la lista de datos, addToBackStack() hace que al presionar la tecla
+	 			// Reemplazo este Fragment con el gráfico, addToBackStack() hace que al presionar la tecla
 	 			// de atras se vuelva a este Fragment y no se destruya el mismo
-	 			if(getSupportFragmentManager().findFragmentByTag("ListLogic") == null
-	 					|| !getSupportFragmentManager().findFragmentByTag("ListLogic").isVisible()){
-	 				if(DEBUG) Log.i("mFragmentActivity", "List Fragment Launched");
-		 			transaction.replace(R.id.chartFragment, new LogicAnalizerListFragment(mData), "ListLogic");
+	 			if(getSupportFragmentManager().findFragmentByTag("ChartLogic") == null
+	 					|| !getSupportFragmentManager().findFragmentByTag("ChartLogic").isVisible()){
+	 				if(DEBUG) Log.i("mFragmentActivity", "Chart Fragment Launched");
+		 			transaction.replace(R.id.logicFragment, new LogicAnalizerChartFragment(mData), "ChartLogic");
 		 			transaction.addToBackStack(null);
 		 			transaction.commit();
 		 			getSupportFragmentManager().executePendingTransactions();
 		 			
 		 			// Agrego el OnDataDecodedListener cuando se agrega el nuevo Fragment
-					mFragmentList = getSupportFragmentManager().findFragmentByTag("ListLogic");
-					try { mListDataDecodedListener = (OnDataDecodedListener) mFragmentList; }
-					catch (ClassCastException e) { throw new ClassCastException(mFragmentList.toString() + " must implement OnDataDecodedListener"); }
+					mFragmentChart = getSupportFragmentManager().findFragmentByTag("ChartLogic");
+					try { mChartDataDecodedListener = (OnDataDecodedListener) mFragmentChart; }
+					catch (ClassCastException e) { throw new ClassCastException(mFragmentChart.toString() + " must implement OnDataDecodedListener"); }
 	 			}
 		}
 		return super.onOptionsItemSelected(item);
@@ -304,8 +302,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 						mDataSet.decode(n, time);
 					}
 				    // Paso los datos decodificados a los Fragment
-					time = mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length);
-					if(mFragmentList != null) mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length);
+					time = mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length);
+					if(mFragmentChart != null) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length);
 				}
 			}
 			} catch (IOException e) { e.printStackTrace(); }
