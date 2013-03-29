@@ -6,6 +6,7 @@ import java.io.OutputStream;
 
 import org.apache.http.util.ByteArrayBuffer;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -73,6 +74,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static LogicDataSet mDataSet = new LogicDataSet();
 	
 	private static boolean isStarting = true;
+	private static ProgressDialog mDialog;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -144,6 +146,11 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 				else if(LogicData.getSampleRate() == 10) mBluetoothHelper.write(F10Hz);
 				isPlaying = true;
 				supportInvalidateOptionsMenu();
+				
+				// Muestro un diálogo de progreso indeterminado mientras se procesan los datos
+				mDialog = ProgressDialog.show(this, getString(R.string.AnalyzerDialogLoading),
+						getString(R.string.PleaseWait), true);
+				mDialog.setCancelable(false);
 				break;
 	 		case R.id.listLogic:
 	 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -308,6 +315,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 			}
 			} catch (IOException e) { e.printStackTrace(); }
 			isPlaying = false;
+			mDialog.dismiss();
 		}
 	}
 }
