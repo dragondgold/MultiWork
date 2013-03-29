@@ -6,10 +6,12 @@ import java.io.OutputStream;
 
 import org.apache.http.util.ByteArrayBuffer;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.bluetoothutils.andres.BluetoothHelper;
 import com.bluetoothutils.andres.OnNewBluetoothDataReceived;
 import com.multiwork.andres.MainMenu;
@@ -119,6 +122,51 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		this.supportInvalidateOptionsMenu();  // Actualizo el ActionBar
 		super.onResume();
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+	 		case android.R.id.home:
+	 			Intent intent = new Intent(this, MainMenu.class);
+	 			// Si la aplicacion ya esta abierta ir a ella no abrir otra nueva
+	 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	 			startActivity(intent);
+	 			break;
+	 		// Boton Play/Pause
+			case R.id.PlayPauseLogic:
+				// Digo al PIC que comienze el muestreo
+				mBluetoothHelper.write(1);
+				// Envío la frecuencia de muestreo que quiero
+				if(LogicData.getSampleRate() == 40000000) mBluetoothHelper.write(F40MHz);
+				else if(LogicData.getSampleRate() == 20000000) mBluetoothHelper.write(F20MHz);
+				else if(LogicData.getSampleRate() == 10000000) mBluetoothHelper.write(F10MHz);
+				else if(LogicData.getSampleRate() == 4000000) mBluetoothHelper.write(F4MHz);
+				else if(LogicData.getSampleRate() == 400000) mBluetoothHelper.write(F400KHz);
+				else if(LogicData.getSampleRate() == 2000) mBluetoothHelper.write(F2KHz);
+				else if(LogicData.getSampleRate() == 10) mBluetoothHelper.write(F10Hz);
+				isPlaying = true;
+				supportInvalidateOptionsMenu();
+				break;
+	 		case R.id.listLogic:
+	 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+	 			// Reemplazo este Fragment con el de la lista de datos, addToBackStack() hace que al presionar la tecla
+	 			// de atras se vuelva a este Fragment y no se destruya el mismo
+	 			if(getSupportFragmentManager().findFragmentByTag("ListLogic") == null
+	 					|| !getSupportFragmentManager().findFragmentByTag("ListLogic").isVisible()){
+	 				if(DEBUG) Log.i("mFragmentActivity", "List Fragment Launched");
+		 			transaction.replace(R.id.chartFragment, new LogicAnalizerListFragment(mData), "ListLogic");
+		 			transaction.addToBackStack(null);
+		 			transaction.commit();
+		 			getSupportFragmentManager().executePendingTransactions();
+		 			
+		 			// Agrego el OnDataDecodedListener cuando se agrega el nuevo Fragment
+					mFragmentList = getSupportFragmentManager().findFragmentByTag("ListLogic");
+					try { mListDataDecodedListener = (OnDataDecodedListener) mFragmentList; }
+					catch (ClassCastException e) { throw new ClassCastException(mFragmentList.toString() + " must implement OnDataDecodedListener"); }
+	 			}
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
 	/**
 	 * Listener cuando se presiona los botones del ActionBar de alguno de los Fragment. La Activity implementa
@@ -129,39 +177,19 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	public void onActionBarClickListener(int buttonID) {
 		if(DEBUG) Log.i("mFragmentActivity","onActionBarClickListener() - " + this.toString());
 		switch(buttonID){
-		// Boton Play/Pause
-		case R.id.PlayPauseLogic:
-			// Digo al PIC que comienze el muestreo
-			mBluetoothHelper.write(1);
-			// Envío la frecuencia de muestreo que quiero
-			if(LogicData.getSampleRate() == 40000000) mBluetoothHelper.write(F40MHz);
-			else if(LogicData.getSampleRate() == 20000000) mBluetoothHelper.write(F20MHz);
-			else if(LogicData.getSampleRate() == 10000000) mBluetoothHelper.write(F10MHz);
-			else if(LogicData.getSampleRate() == 4000000) mBluetoothHelper.write(F4MHz);
-			else if(LogicData.getSampleRate() == 400000) mBluetoothHelper.write(F400KHz);
-			else if(LogicData.getSampleRate() == 2000) mBluetoothHelper.write(F2KHz);
-			else if(LogicData.getSampleRate() == 10) mBluetoothHelper.write(F10Hz);
-			break;
-		case R.id.restartLogic:
-			for(int n=0; n < channelsNumber; ++n){
-				mData[n].freeDataMemory();
-				mData[n].clearDecodedData();
-			}
-			break;
-		case R.id.settingsLogic:
-			setPreferences();
-			break;
-		case R.id.listLogic:
-			mFragmentList = getSupportFragmentManager().findFragmentByTag("ListLogic");
-			try { mListDataDecodedListener = (OnDataDecodedListener) mFragmentList; }
-			catch (ClassCastException e) { throw new ClassCastException(mFragmentList.toString() + " must implement OnDataDecodedListener"); }
-			break;
+			case R.id.restartLogic:
+				for(int n=0; n < channelsNumber; ++n){
+					mData[n].freeDataMemory();
+					mData[n].clearDecodedData();
+				}
+				break;
+			case R.id.settingsLogic:
+				setPreferences();
+				break;
 		}
 	}
 	
-	/**
-	 * Crea el ActionBar desde el XML actionbarlogic.xml que define los iconos en el mismo
-	 */
+	// Crea el ActionBar desde el XML actionbarlogic.xml que define los iconos en el mismo
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater inflater = getSupportMenuInflater();
@@ -176,12 +204,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	 */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if(isPlaying) {
-			menu.findItem(R.id.PlayPauseLogic).setIcon(R.drawable.pause);
-		}
-		else {
-			menu.findItem(R.id.PlayPauseLogic).setIcon(R.drawable.play);
-		}
+		if(isPlaying) menu.findItem(R.id.PlayPauseLogic).setIcon(R.drawable.pause);
+		else menu.findItem(R.id.PlayPauseLogic).setIcon(R.drawable.play);
+		
 		return true;
 	}
 	
@@ -284,6 +309,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 				}
 			}
 			} catch (IOException e) { e.printStackTrace(); }
+			isPlaying = false;
 		}
 	}
 }
