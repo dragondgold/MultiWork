@@ -125,8 +125,8 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	
 	@Override
 	public double onDataDecodedListener(LogicData[] mLogicData, int samplesCount) {
-		if(DEBUG) Log.i("mFragment","onDataDecoded()");
-		if(DEBUG) Log.i("mFragment","Data: " + mLogicData.toString());
+		if(DEBUG) Log.i("mFragmentChart","onDataDecoded()");
+		if(DEBUG) Log.i("mFragmentChart","Data: " + mLogicData.toString());
 		
 		mData = mLogicData;
 		samplesNumber = samplesCount;
@@ -311,7 +311,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	// Listener de los items en el ActionBar
  	@Override
  	public boolean onOptionsItemSelected(MenuItem item) {
- 		if(DEBUG) Log.i("ActionBar", "LogicAnalizerFragment ActionBar -> " + item.getTitle());
+ 		if(DEBUG) Log.i("mFragmentChart", "ActionBar -> " + item.getTitle());
  		switch(item.getItemId()){
  		case R.id.settingsLogic:
  			mActivity.startActivityForResult(new Intent(mActivity, LogicAnalizerPrefs.class), PREFERENCES_CODE);
@@ -333,9 +333,9 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
  	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(DEBUG) Log.i("mFragment", "Activity Result");
-		if(DEBUG) Log.i("mFragment", "resultCode: " + resultCode);
-		if(DEBUG) Log.i("mFragment", "requestCode: " + requestCode);
+		if(DEBUG) Log.i("mFragmentChart", "Activity Result");
+		if(DEBUG) Log.i("mFragmentChart", "resultCode: " + resultCode);
+		if(DEBUG) Log.i("mFragmentChart", "requestCode: " + requestCode);
 		
 		// Cambio en las preferencias
 		if(requestCode == PREFERENCES_CODE){

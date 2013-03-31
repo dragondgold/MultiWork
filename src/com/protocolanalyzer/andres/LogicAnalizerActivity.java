@@ -169,6 +169,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					try { mChartDataDecodedListener = (OnDataDecodedListener) mFragmentChart; }
 					catch (ClassCastException e) { throw new ClassCastException(mFragmentChart.toString() + " must implement OnDataDecodedListener"); }
 	 			}
+	 			else{
+	 				if(DEBUG) Log.i("mFragmentActivity","Chart Fragment Removed");
+					getSupportFragmentManager().popBackStack();
+	 			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -252,7 +256,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
          * @see http://stackoverflow.com/questions/2131948/force-screen-on
          */
         if(getPrefs.getBoolean("keepScreenAwake", false)) {
-        	if(DEBUG) Log.i("LogicAnalizerView","Screen Awake");
+        	if(DEBUG) Log.i("LogicAnalizerActivity","Screen Awake");
         	getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
  	}

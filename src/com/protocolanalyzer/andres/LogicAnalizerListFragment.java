@@ -29,7 +29,7 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 	private static TextView mRawData[] = new TextView[LogicAnalizerActivity.channelsNumber];
 	private static TextView mRawDataTitle[] = new TextView[LogicAnalizerActivity.channelsNumber];
 	private static View v;
-	
+
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.listLogic).setIcon(R.drawable.chart2);
@@ -39,7 +39,7 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(DEBUG) Log.i("mFragment2","onCreate()");
+		if(DEBUG) Log.i("mFragmentList","onCreate()");
 		
 		// Obtengo la Activity que contiene el Fragment
 		mActivity = getSherlockActivity();
@@ -82,12 +82,12 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(DEBUG) Log.i("mFragment2","Resume");
+		if(DEBUG) Log.i("mFragmentList","Resume");
 	}
 
 	@Override
 	public double onDataDecodedListener(LogicData[] mLogicData, int samplesCount) {
-		if(DEBUG) Log.i("mFragment2","onDataDecodedListener() - " + mLogicData.length + " channels");
+		if(DEBUG) Log.i("mFragmentList","onDataDecodedListener() - " + mLogicData.length + " channels");
 		
 		for(int n=0; n < mRawData.length; ++n) mRawData[n].setText("");
 
