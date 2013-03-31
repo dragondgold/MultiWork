@@ -37,6 +37,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static final byte startByte = 'S';
 	private static final byte logicAnalyzerMode = 'L';
 	private static final int initialBufferSize = 1000;
+	private static final int PREFERENCES_CODE = 1;
 	
 	private static final int F40MHz = 1;
 	private static final int F20MHz = 2;
@@ -80,6 +81,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		if(DEBUG) Log.i("mFragmentActivity","onCreate() LogicAnalizerActivity");
+		
+		ReceptionBuffer = new byte[1];
 		
 		setContentView(R.layout.logic_fragments);
 		mFragmentList = getSupportFragmentManager().findFragmentById(R.id.logicFragment);
@@ -173,8 +176,26 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	 				if(DEBUG) Log.i("mFragmentActivity","Chart Fragment Removed");
 					getSupportFragmentManager().popBackStack();
 	 			}
+	 			break;
+	 		case R.id.settingsLogic:
+	 			startActivityForResult(new Intent(this, LogicAnalizerPrefs.class), PREFERENCES_CODE);
+	 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Cambio en las preferencias
+		if(requestCode == PREFERENCES_CODE){
+			if(resultCode == RESULT_OK) {
+				if(DEBUG) Log.i("mFragmentActivity", "Preferences Setted");
+				// Aviso a la Activity que cambiaron las preferencias
+				mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, true);
+				if(mFragmentChart != null) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, true);
+				setPreferences();
+			}
+		}
 	}
 
 	/**
@@ -313,8 +334,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 						mDataSet.decode(n, time);
 					}
 				    // Paso los datos decodificados a los Fragment
-					time = mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length);
-					if(mFragmentChart != null) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length);
+					time = mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
+					if(mFragmentChart != null) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
 				}
 			}
 			} catch (IOException e) { e.printStackTrace(); }

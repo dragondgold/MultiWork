@@ -68,7 +68,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
     /** Colores de linea para cada canal */
     private static final int lineColor[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
     /** Constantes */
-    private static final int CONFIRM_DIALOG = 0, PREFERENCES_CODE = 1, RESULT_OK = -1;
+    private static final int CONFIRM_DIALOG = 0, RESULT_OK = -1;
     
     /** Vibrador del dispositivo */
     private static Vibrator mVibrator;
@@ -124,18 +124,22 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	}
 	
 	@Override
-	public double onDataDecodedListener(LogicData[] mLogicData, int samplesCount) {
-		if(DEBUG) Log.i("mFragmentChart","onDataDecoded()");
-		if(DEBUG) Log.i("mFragmentChart","Data: " + mLogicData.toString());
-		
-		mData = mLogicData;
-		samplesNumber = samplesCount;
-		mUpdaterHandler.post(mUpdaterTask);
-		
-		// Configuro las variables en base a las preferencias la primera vez unicamente
-		if(firstTime){
-			setChartPreferences();
-			firstTime = false;
+	public double onDataDecodedListener(LogicData[] mLogicData, int samplesCount, boolean isConfig) {
+		// Si se cambiaron las configuraciones las actualizo
+		if(isConfig) setChartPreferences();
+		else{
+			if(DEBUG) Log.i("mFragmentChart","onDataDecoded()");
+			if(DEBUG) Log.i("mFragmentChart","Data: " + mLogicData.toString());
+			
+			mData = mLogicData;
+			samplesNumber = samplesCount;
+			mUpdaterHandler.post(mUpdaterTask);
+			
+			// Configuro las variables en base a las preferencias la primera vez unicamente
+			if(firstTime){
+				setChartPreferences();
+				firstTime = false;
+			}
 		}
 			
 		return 0;
@@ -313,9 +317,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
  	public boolean onOptionsItemSelected(MenuItem item) {
  		if(DEBUG) Log.i("mFragmentChart", "ActionBar -> " + item.getTitle());
  		switch(item.getItemId()){
- 		case R.id.settingsLogic:
- 			mActivity.startActivityForResult(new Intent(mActivity, LogicAnalizerPrefs.class), PREFERENCES_CODE);
- 			break;
  		case R.id.zoomInLogic:
  			mChartView.zoomIn();
  			break;
@@ -337,15 +338,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		if(DEBUG) Log.i("mFragmentChart", "resultCode: " + resultCode);
 		if(DEBUG) Log.i("mFragmentChart", "requestCode: " + requestCode);
 		
-		// Cambio en las preferencias
-		if(requestCode == PREFERENCES_CODE){
-			if(resultCode == RESULT_OK) {
-				if(DEBUG) Log.i("ActivityResult", "Preferences Setted");
-				// Aviso a la Activity que cambiaron las preferencias
-				mActionBarListener.onActionBarClickListener(R.id.settingsLogic);
-				setChartPreferences();
-			}
-		}
 		// Dialogo de confirmación para guardar imagen
 		else if(requestCode == CONFIRM_DIALOG){
 			if(resultCode == RESULT_OK){
