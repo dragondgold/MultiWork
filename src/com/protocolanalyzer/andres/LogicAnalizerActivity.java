@@ -150,7 +150,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 				supportInvalidateOptionsMenu();
 				
 				// Muestro un diálogo de progreso indeterminado mientras se procesan los datos
-				mDialog = ProgressDialog.show(this, getString(R.string.AnalyzerDialogLoading),
+				mDialog = ProgressDialog.show(this, getString(R.string.AnalyzerDialogReceiving),
 						getString(R.string.PleaseWait), true);
 				mDialog.setCancelable(false);
 				break;
@@ -329,6 +329,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					}
 					
 					if(DEBUG) Log.i("LogicAnalizerBT", "Byte buffer lenght: " + mByteArrayBuffer.length());
+					mDialog.setMessage(getString(R.string.AnalyzerDialogLoading));
 					
 					// Paso el array de bytes decodificados con el algoritmo Run Lenght
 					mDataSet.BufferToChannel(LogicHelper.runLenghtDecode(mByteArrayBuffer));
