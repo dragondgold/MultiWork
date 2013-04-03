@@ -48,6 +48,7 @@
         										 Aumente la velocidad de muestreo o disminuya los Baudios para un correcto muestreo.</string>
     <string name="AnalyzerDialogSampleTitle">	Advertencia</string>
     <string name="AnalyzerDialogLoading">		Procesando…</string>
+    <string name="AnalyzerDialogReceiving">		Reciviendo datos…</string>
     
     <string name="AnalyzerProtocolSummary">		Protocolo</string>
     <string name="AnalyzerProtocolTitle1">		Protocolo canal 1</string>
