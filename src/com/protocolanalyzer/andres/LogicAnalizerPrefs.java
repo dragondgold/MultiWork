@@ -36,7 +36,7 @@ public class LogicAnalizerPrefs extends PreferenceActivity {
         SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         testIntegrity("sampleRate", Long.decode(getPrefs.getString("sampleRate", "4000000")) );
         
-     // Android menor a GingerBread (sin fragments)
+        // Android menor a GingerBread (sin fragments)
         if(android.os.Build.VERSION.SDK_INT < 12) {
 	        // Cambio en preferencias
 	        this.findPreference("sampleRate").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -137,7 +137,7 @@ public class LogicAnalizerPrefs extends PreferenceActivity {
     
     /**
 	 * Crea una ventana advirtiendo al usuario que la configuraci�n del SampleRate y Baudios no es posible
-	 * osea que no se alcanzar�a a muestrear debidamente
+	 * osea que no se alcanzaría a muestrear debidamente
  	 * @author Andres Torti
  	 * @see http://developer.android.com/guide/topics/ui/menus.html
  	 */

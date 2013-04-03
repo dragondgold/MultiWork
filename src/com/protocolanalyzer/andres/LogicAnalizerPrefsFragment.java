@@ -15,7 +15,6 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
         if(DEBUG) Log.i("PreferenceFragment", "onCreate() -> LogicAnalizerPrefsFragment");
         int res = getActivity().getResources().getIdentifier(getArguments().getString("logicprefsheaders"), "xml", getActivity().getPackageName());
         addPreferencesFromResource(res);
-        
     }
 	
 }
