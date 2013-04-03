@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.bluetoothutils.andres.BluetoothHelper;
 import com.bluetoothutils.andres.OnNewBluetoothDataReceived;
@@ -184,6 +183,19 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		return super.onOptionsItemSelected(item);
 	}
 	
+	/**
+	 * Detecta si el Fragment identificado con el fragmentTag esta activo o no
+	 * @param fragmentTag nombre del Fragment
+	 * @return true si esta activo, false de otro modo
+	 */
+	private boolean isFragmentActive (String fragmentTag){
+		if(getSupportFragmentManager().findFragmentByTag(fragmentTag) == null ||
+				!getSupportFragmentManager().findFragmentByTag(fragmentTag).isVisible()){
+			return false;
+		}
+		else return true;
+	}
+	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// Cambio en las preferencias
@@ -192,7 +204,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 				if(DEBUG) Log.i("mFragmentActivity", "Preferences Setted");
 				// Aviso a la Activity que cambiaron las preferencias
 				mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, true);
-				if(mFragmentChart != null) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, true);
+				if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, true);
 				setPreferences();
 			}
 		}
@@ -217,14 +229,6 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 				setPreferences();
 				break;
 		}
-	}
-	
-	// Crea el ActionBar desde el XML actionbarlogic.xml que define los iconos en el mismo
-    @Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-    	MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.actionbarlogic, menu);
-		return true;
 	}
 	
 	/**
@@ -335,7 +339,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					}
 				    // Paso los datos decodificados a los Fragment
 					time = mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
-					if(mFragmentChart != null) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
+					if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
 				}
 			}
 			} catch (IOException e) { e.printStackTrace(); }

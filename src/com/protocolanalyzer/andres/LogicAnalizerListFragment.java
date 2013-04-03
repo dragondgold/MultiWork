@@ -4,6 +4,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.multiwork.andres.R;
 import com.protocolanalyzer.api.andres.LogicData;
 import com.protocolanalyzer.api.andres.LogicData.Protocol;
@@ -31,9 +32,10 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 	private static View v;
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.listLogic).setIcon(R.drawable.chart2);
-		super.onPrepareOptionsMenu(menu);
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.clear();
+		inflater.inflate(R.menu.actionbar_logiclist, menu);
+		super.onCreateOptionsMenu(menu, inflater);
 	}
 	
 	@Override

@@ -248,9 +248,10 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.listLogic).setIcon(R.drawable.list);
-		super.onPrepareOptionsMenu(menu);
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.clear();
+		inflater.inflate(R.menu.actionbar_logicchart, menu);
+		super.onCreateOptionsMenu(menu, inflater);
 	}
 	
 	@Override
