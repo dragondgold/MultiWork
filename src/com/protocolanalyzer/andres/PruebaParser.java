@@ -9,8 +9,10 @@ import com.protocolanalyzer.api.andres.UARTDecoder;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PruebaParser extends Activity {
 	
@@ -25,6 +27,7 @@ public class PruebaParser extends Activity {
 		
 		TextView text = new TextView(this);
 		text.setText("Strings decodificados del protocolo " + I2C + " :\n");
+		text.setMovementMethod(new ScrollingMovementMethod());
 		
 		setContentView(text);
 		
@@ -79,15 +82,15 @@ public class PruebaParser extends Activity {
 			
 			for(int n = 0; n < dataChannel.getStringCount(); ++n){
 				Log.i("Parser", "String " + n + ": " + dataChannel.getString(n));
-				Log.i("Parser", "String " + n + " position: " + dataChannel.getPositionAt(n)[0]);
+				Log.i("Parser", "String " + n + " position: " + dataChannel.getPositionAt(n)[0]*1000000 + " uS");
 				// Escribo en el TextView
 				text.append("\nString " + n + ": " + dataChannel.getString(n));
-				text.append("\nString " + n + " position: " + dataChannel.getPositionAt(n)[0]);
+				text.append("\nString " + n + " position: " + dataChannel.getPositionAt(n)[0]*1000000 + " uS");
 			}
 			text.append("\nData Decoded in " + ((stop-start)/1000000) + " mS");
 
 			Log.i("Parser", "Strings Decoded in " + ((stop-start)/1000000) + " mS");
-			
+			Toast.makeText(this, "Data Decoded in " + ((stop-start)/1000000) + " mS", Toast.LENGTH_LONG).show();
 		}
 		
 	}
