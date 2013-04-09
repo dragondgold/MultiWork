@@ -28,10 +28,9 @@ import android.widget.ListView;
  */
 public class MainMenu extends SherlockListActivity implements OnBluetoothConnected{
    
-	public static BluetoothHelper mBluetoothHelper = null;
-	public static final String bluetoothName = "linvor";
-	public static boolean offlineMode = false;
+	private static final String bluetoothName = "linvor";
 	
+	public static BluetoothHelper mBluetoothHelper = null;
 	public static InputStream mInputStream = null;
 	public static OutputStream mOutputStream = null;
 	
