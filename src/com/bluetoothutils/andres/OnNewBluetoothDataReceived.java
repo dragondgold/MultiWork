@@ -5,6 +5,11 @@ import java.io.OutputStream;
 
 public interface OnNewBluetoothDataReceived {
 
-	public void onNewBluetoothDataReceivedListener (InputStream mBTIn, OutputStream mBTOut);
+	/**
+	 * @param mBTIn InputStream del Bluetooth
+	 * @param mBTOut OutputStream del Bluetooth
+	 * @return true si se continua el listener, false de otro modo
+	 */
+	public boolean onNewBluetoothDataReceivedListener (InputStream mBTIn, OutputStream mBTOut);
 	
 }
