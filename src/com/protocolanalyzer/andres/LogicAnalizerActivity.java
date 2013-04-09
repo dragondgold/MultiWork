@@ -285,9 +285,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
         	getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
  	}
-	
+ 	
+ 	// TODO: la recepción de los datos hay que hacerla en otro Thread con AsyncTask o Runnable
 	@Override
-	public void onNewBluetoothDataReceivedListener(InputStream mBTIn, OutputStream mBTOut) {
+	public boolean onNewBluetoothDataReceivedListener(InputStream mBTIn, OutputStream mBTOut) {
 		if(DEBUG) Log.i("LogicAnalizerBT", "onNewBluetoothDataReceivedListener()");
 		// La primera vez veo que lo que halla recibido coincida con el modo en el que estoy
 		if(isStarting){
@@ -347,5 +348,6 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 			isPlaying = false;
 			mDialog.dismiss();
 		}
+		return true;
 	}
 }
