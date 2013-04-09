@@ -245,8 +245,11 @@ public class BluetoothHelper {
     			try {
     				// Si hay algún dato disponible ejecuto la interface para avisar a la Activity
 					if(mBluetoothIn.available() > 0){
-						mOnNewBluetoothDataReceived.onNewBluetoothDataReceivedListener(
-								mBluetoothIn, mBluetoothOut); 
+						if(mOnNewBluetoothDataReceived.onNewBluetoothDataReceivedListener(
+								mBluetoothIn, mBluetoothOut) == false){
+							// Si es falso, ya no ejecuto el listener
+							removeOnNewBluetoothDataReceived();
+						}
 					}
 				}
     			catch (IOException e) { e.printStackTrace(); }
