@@ -29,6 +29,7 @@
     <string name="FrecPeriodo">					Periodo:</string>
     
     <!-- Analizador Logico -->
+    <string name="AnalyzerHeaderSummary">		Canal de entrada</string>
     <string name="AnalyzerName">				Analizador Logico</string>
     <string name="AnalyzerChannel">				Canal</string>
     <string name="AnalyzerData">				Datos</string>
@@ -51,11 +52,8 @@
     <string name="AnalyzerDialogReceiving">		Reciviendo datos…</string>
     
     <string name="AnalyzerProtocolSummary">		Protocolo</string>
-    <string name="AnalyzerProtocolTitle1">		Protocolo canal 1</string>
-    <string name="AnalyzerProtocolTitle2">		Protocolo canal 2</string>
-    <string name="AnalyzerProtocolTitle3">		Protocolo canal 3</string>
-    <string name="AnalyzerProtocolTitle4">		Protocolo canal 4</string>
-    <string name="AnalyzerSCLSummary">			Linea de datos</string>
+    <string name="AnalyzerProtocolTitle">		Protocolo canal</string>
+    <string name="AnalyzerSCLSummary">			Linea de clock</string>
     <string name="AnalyzerSCLTitle">			Linea SCL</string>
     <string name="AnalyzerBaudSummary">			Baudios UART</string>
     <string name="AnalyzerBaudTitle">			Baudios</string>

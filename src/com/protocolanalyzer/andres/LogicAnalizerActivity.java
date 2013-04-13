@@ -101,7 +101,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	@Override
 	protected void onPause() {
 		if(DEBUG) Log.i("mFragmentActivity","onPause() - " + this.toString());
-		mBluetoothHelper.write(0);	// Indico al PIC que salí de la Activity
+		//mBluetoothHelper.write(0);	// Indico al PIC que salí de la Activity
 		super.onPause();
 	}
 	
@@ -115,10 +115,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		
 		// Solo si estoy en modo online procedo a obtener la conexion
 		// Obtengo la conexión Bluetooth
-		mBluetoothHelper = MainMenu.mBluetoothHelper;
-		mBluetoothHelper.setOnNewBluetoothDataReceived(this);
+		//mBluetoothHelper = MainMenu.mBluetoothHelper;
+		//mBluetoothHelper.setOnNewBluetoothDataReceived(this);
 		// Indico que entré en el analizador lógico
-		mBluetoothHelper.write(logicAnalyzerMode);
+		//mBluetoothHelper.write(logicAnalyzerMode);
 		setPreferences();
 		
 		this.supportInvalidateOptionsMenu();  // Actualizo el ActionBar

@@ -2,15 +2,19 @@ package com.protocolanalyzer.andres;
 
 import java.util.List;
 
+import com.multiwork.andres.MainMenu;
 import com.multiwork.andres.R;
 
+import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceActivity.Header;
 import android.util.Log;
 
 public class LogicAnalizerPrefs extends PreferenceActivity {
@@ -24,10 +28,10 @@ public class LogicAnalizerPrefs extends PreferenceActivity {
         if(DEBUG) Log.i("PreferenceActivity", "onCreate() -> LogicAnalizerPrefs");
         // Si no estoy en Android GingerBread no uso fragments
         if(android.os.Build.VERSION.SDK_INT < 12) {
-        	this.addPreferencesFromResource(R.xml.c1analizerprefs);
-        	this.addPreferencesFromResource(R.xml.c2analizerprefs);
-        	this.addPreferencesFromResource(R.xml.c3analizerprefs);
-        	this.addPreferencesFromResource(R.xml.c4analizerprefs);
+        	//this.addPreferencesFromResource(R.xml.c1analizerprefs);
+        	//this.addPreferencesFromResource(R.xml.c2analizerprefs);
+        	//this.addPreferencesFromResource(R.xml.c3analizerprefs);
+        	//this.addPreferencesFromResource(R.xml.c4analizerprefs);
         	this.addPreferencesFromResource(R.xml.logicgeneral);
         }
         // Resultado que enviara cuando esta Activity termine y sea llamada con startActivityForResult();
@@ -95,9 +99,52 @@ public class LogicAnalizerPrefs extends PreferenceActivity {
     public void onBuildHeaders(List<Header> target) {  
     	if(DEBUG) Log.i("PreferenceActivity", "onBuildHeaders() -> LogicAnalizerPrefs");
     	if(android.os.Build.VERSION.SDK_INT >= 12) {
-    		loadHeadersFromResource(R.xml.preference_header_logicanalizer, target);
+    		
+    		Bundle mBundle = new Bundle();
+    		mBundle.putString("name", "General");
+    		target.add(createHeader(0, getString(R.string.GeneralTitle), "", "", "", R.drawable.settings,
+    				"com.protocolanalyzer.andres.LogicAnalizerPrefsFragment", mBundle));	
+    		
+    		for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
+    			mBundle = new Bundle();
+    			mBundle.putString("name", "Channel" + (n+1));
+    			target.add(createHeader(0, getString(R.string.AnalyzerChannel) + " " + (n+1), getString(R.string.AnalyzerHeaderSummary),
+    					"", "", R.drawable.settings, "com.protocolanalyzer.andres.LogicAnalizerPrefsFragment", mBundle));	
+    		}
     	}
     }
+    
+    /**
+     * Crea un nuevo header con los datos especificados
+     * @param mID ID del Header, 0 si no se usa
+     * @param mTitle Título del Header
+     * @param mSummary Sumario del Header
+     * @param mBreadCrumbTitle BreadCrumbTitle del Header
+     * @param mShortBreadCrumbTitle Header del Fragment
+     * @param mIcon ID donde se encuentra el icono del Header
+     * @param mFragment Nombre del Fragment a llamar
+     * @param mExtrasBundle Extras
+     * @return Nuevo Header
+     */
+    @SuppressLint("NewApi")
+	private Header createHeader(long mID, String mTitle, String mSummary, String mBreadCrumbTitle,
+    		String mShortBreadCrumbTitle, int mIcon, String mFragment, Bundle mExtrasBundle) {
+    	Header mHeader = new Header();
+    	
+    	if(mID != 0) mHeader.id = mID;
+    	else mHeader.id = HEADER_ID_UNDEFINED;
+    	
+    	mHeader.title = mTitle;
+    	mHeader.summary = mSummary;
+    	mHeader.breadCrumbTitle = mBreadCrumbTitle;
+    	mHeader.breadCrumbShortTitle = mShortBreadCrumbTitle;
+    	
+    	mHeader.iconRes = mIcon;
+    	mHeader.fragment = mFragment;
+    	mHeader.fragmentArguments = mExtrasBundle;	
+    	
+    	return mHeader;
+	}
     
     /**
      * Comprueba que el sampleRate y los baudios del UART den para que sea posible un muestreo
