@@ -2,19 +2,15 @@ package com.protocolanalyzer.andres;
 
 import java.util.List;
 
-import com.multiwork.andres.MainMenu;
 import com.multiwork.andres.R;
 
-import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.preference.PreferenceActivity.Header;
 import android.util.Log;
 
 public class LogicAnalizerPrefs extends PreferenceActivity {
