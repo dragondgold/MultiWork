@@ -51,6 +51,7 @@
     <string name="AnalyzerDialogLoading">		Procesando…</string>
     <string name="AnalyzerDialogReceiving">		Reciviendo datos…</string>
     
+    <string name="AnalyzerProtocolCategory">	Configuracion canal</string>
     <string name="AnalyzerProtocolSummary">		Protocolo</string>
     <string name="AnalyzerProtocolTitle">		Protocolo canal</string>
     <string name="AnalyzerSCLSummary">			Linea de clock</string>
