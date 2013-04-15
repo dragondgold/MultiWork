@@ -26,7 +26,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
     			if(DEBUG) Log.i("PreferenceFragment", "n: " + n);
     			
     			PreferenceCategory mPreferenceCategory = new PreferenceCategory(getActivity());
-                mPreferenceCategory.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle));
+                mPreferenceCategory.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolCategory) + " " + n);
     			
     			ListPreference mListPreference = new ListPreference(getActivity());
         		mListPreference.setDefaultValue("0");
@@ -35,7 +35,8 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
         		mListPreference.setKey("protocol" + n);
         		mListPreference.setSummary(com.multiwork.andres.R.string.AnalyzerProtocolSummary);
         		mListPreference.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + n);
-        	
+        		mListPreference.setDialogTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + n);
+        		
         		ListPreference mListPreference2 = new ListPreference(getActivity());
         		mListPreference2.setDefaultValue("1");
         		mListPreference2.setEntries(com.multiwork.andres.R.array.channelNames);
@@ -43,12 +44,14 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
         		mListPreference2.setKey("SCL" + n);
         		mListPreference2.setSummary(com.multiwork.andres.R.string.AnalyzerSCLSummary);
         		mListPreference2.setTitle(com.multiwork.andres.R.string.AnalyzerSCLTitle);
+        		mListPreference2.setDialogTitle(com.multiwork.andres.R.string.AnalyzerSCLTitle);
         		
         		EditTextPreference mEditTextPreference = new EditTextPreference(getActivity());
         		mEditTextPreference.setDefaultValue("9600");
         		mEditTextPreference.setTitle(com.multiwork.andres.R.string.AnalyzerBaudTitle);
         		mEditTextPreference.setKey("BaudRate" + n);
         		mEditTextPreference.setSummary(com.multiwork.andres.R.string.AnalyzerBaudSummary);
+        		mEditTextPreference.setDialogTitle(com.multiwork.andres.R.string.AnalyzerBaudSummary);
                 
                 mPreferenceScreen.addPreference(mPreferenceCategory);
         		mPreferenceScreen.addPreference(mListPreference);
