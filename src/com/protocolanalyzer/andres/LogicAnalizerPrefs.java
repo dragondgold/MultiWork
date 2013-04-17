@@ -6,16 +6,22 @@ import com.multiwork.andres.R;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.preference.Preference;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.util.Log;
 
 public class LogicAnalizerPrefs extends PreferenceActivity {
 
 	private static final boolean DEBUG = true;
+	private static OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener;
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -23,71 +29,64 @@ public class LogicAnalizerPrefs extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         if(DEBUG) Log.i("PreferenceActivity", "onCreate() -> LogicAnalizerPrefs");
         // Si no estoy en Android GingerBread no uso fragments
-        if(android.os.Build.VERSION.SDK_INT < 12) {
-        	//this.addPreferencesFromResource(R.xml.c1analizerprefs);
-        	//this.addPreferencesFromResource(R.xml.c2analizerprefs);
-        	//this.addPreferencesFromResource(R.xml.c3analizerprefs);
-        	//this.addPreferencesFromResource(R.xml.c4analizerprefs);
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+        	// Agrego todas las preferencias de cada canal
+        	for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
+        		PreferenceScreen mPreferenceScreen = getPreferenceManager().createPreferenceScreen(this);
+    			    			
+    			PreferenceCategory mPreferenceCategory = new PreferenceCategory(this);
+                mPreferenceCategory.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolCategory) + " " + n);
+    			
+    			ListPreference mListPreference = new ListPreference(this);
+        		mListPreference.setDefaultValue("0");
+        		mListPreference.setEntries(com.multiwork.andres.R.array.protocolList);
+        		mListPreference.setEntryValues(com.multiwork.andres.R.array.protocolValues);
+        		mListPreference.setKey("protocol" + n);
+        		mListPreference.setSummary(com.multiwork.andres.R.string.AnalyzerProtocolSummary);
+        		mListPreference.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + n);
+        		mListPreference.setDialogTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + n);
+        		
+        		ListPreference mListPreference2 = new ListPreference(this);
+        		mListPreference2.setDefaultValue("1");
+        		mListPreference2.setEntries(com.multiwork.andres.R.array.channelNames);
+        		mListPreference2.setEntryValues(com.multiwork.andres.R.array.protocolValues);
+        		mListPreference2.setKey("SCL" + n);
+        		mListPreference2.setSummary(com.multiwork.andres.R.string.AnalyzerSCLSummary);
+        		mListPreference2.setTitle(com.multiwork.andres.R.string.AnalyzerSCLTitle);
+        		mListPreference2.setDialogTitle(com.multiwork.andres.R.string.AnalyzerSCLTitle);
+        		
+        		EditTextPreference mEditTextPreference = new EditTextPreference(this);
+        		mEditTextPreference.setDefaultValue("9600");
+        		mEditTextPreference.setTitle(com.multiwork.andres.R.string.AnalyzerBaudTitle);
+        		mEditTextPreference.setKey("BaudRate" + n);
+        		mEditTextPreference.setSummary(com.multiwork.andres.R.string.AnalyzerBaudSummary);
+        		mEditTextPreference.setDialogTitle(com.multiwork.andres.R.string.AnalyzerBaudSummary);
+                
+                mPreferenceScreen.addPreference(mPreferenceCategory);
+        		mPreferenceScreen.addPreference(mListPreference);
+        		mPreferenceScreen.addPreference(mListPreference2);
+        		mPreferenceScreen.addPreference(mEditTextPreference);
+        		setPreferenceScreen(mPreferenceScreen);
+        	}
         	this.addPreferencesFromResource(R.xml.logicgeneral);
         }
         // Resultado que enviara cuando esta Activity termine y sea llamada con startActivityForResult();
         this.setResult(RESULT_OK);
         
-        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        testIntegrity("sampleRate", Long.decode(getPrefs.getString("sampleRate", "4000000")) );
+        SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        testIntegrity("sampleRate", Long.decode(mPrefs.getString("sampleRate", "4000000")) );
         
-        // Android menor a GingerBread (sin fragments)
-        if(android.os.Build.VERSION.SDK_INT < 12) {
-	        // Cambio en preferencias
-	        this.findPreference("sampleRate").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-				@Override
-				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					Log.i("Preferences", "Change: " + newValue.toString());
-					testIntegrity("sampleRate", Long.decode(newValue.toString()));
-					return true;
+        // Detección del cambio en las preferencias
+        mOnSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
+			@Override
+			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+				if(key.contains("BaudRate") || key.equals("sampleRate")){
+					Log.i("Preferences", "Changed " + key + " to: " + sharedPreferences.getString(key, "0"));
+					testIntegrity( key, Long.decode(sharedPreferences.getString(key, "0")) ); 
 				}
-			});
-	        
-	        // BaudRate1
-	        this.findPreference("BaudRate1").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-				@Override
-				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					Log.i("Preferences", "Change: " + newValue.toString());
-					testIntegrity("BaudRate1", Long.decode(newValue.toString()));
-					return true;
-				}
-			});
-	        
-	        // BaudRate2
-	        this.findPreference("BaudRate2").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-				@Override
-				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					Log.i("Preferences", "Change: " + newValue.toString());
-					testIntegrity("BaudRate2", Long.decode(newValue.toString()));
-					return true;
-				}
-			});
-	        
-	        // BaudRate3
-	        this.findPreference("BaudRate3").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-				@Override
-				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					Log.i("Preferences", "Change: " + newValue.toString());
-					testIntegrity("BaudRate3", Long.decode(newValue.toString()));
-					return true;
-				}
-			});
-	        
-	        // BaudRate4
-	        this.findPreference("BaudRate4").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-				@Override
-				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					Log.i("Preferences", "Change: " + newValue.toString());
-					testIntegrity("BaudRate4", Long.decode(newValue.toString()));
-					return true;
-				}
-			});
-        }
+			}
+		};
+		mPrefs.registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
     }
 
     @SuppressLint("NewApi")
@@ -143,8 +142,8 @@ public class LogicAnalizerPrefs extends PreferenceActivity {
 	}
     
     /**
-     * Comprueba que el sampleRate y los baudios del UART den para que sea posible un muestreo
-     * Debe haber por lo menos 3 muestreos por cada bit
+     * Comprueba que el sampleRate y los baudios del UART den para que sea posible un muestreo.
+     * Debe haber por lo menos 3 muestreos por cada bit.
      * @param changedPreference, nombre de la preferencia cambiada
      * @param newValue, nuevo valor de la preferencia que se cambio
      */
@@ -179,7 +178,7 @@ public class LogicAnalizerPrefs extends PreferenceActivity {
     }
     
     /**
-	 * Crea una ventana advirtiendo al usuario que la configuraci�n del SampleRate y Baudios no es posible
+	 * Crea una ventana advirtiendo al usuario que la configuración del SampleRate y Baudios no es posible
 	 * osea que no se alcanzaría a muestrear debidamente
  	 * @author Andres Torti
  	 * @see http://developer.android.com/guide/topics/ui/menus.html
@@ -188,9 +187,13 @@ public class LogicAnalizerPrefs extends PreferenceActivity {
 		Log.i("Preferences", "ALERT DIALOG");
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle(getString(R.string.AnalyzerDialogSampleTitle));
-
-		alert.setMessage(getString(R.string.AnalyzerDialogSampleAlert));		
-		
+		alert.setMessage(getString(R.string.AnalyzerDialogSampleAlert));	
+		alert.setPositiveButton(getString(R.string.Ok), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
 		alert.show();
 	}
 }
