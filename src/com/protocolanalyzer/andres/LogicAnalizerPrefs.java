@@ -31,20 +31,19 @@ public class LogicAnalizerPrefs extends PreferenceActivity {
         // Si no estoy en Android GingerBread no uso fragments
         if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
         	// Agrego todas las preferencias de cada canal
+        	PreferenceScreen mPreferenceScreen = getPreferenceManager().createPreferenceScreen(this);
         	for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
-        		PreferenceScreen mPreferenceScreen = getPreferenceManager().createPreferenceScreen(this);
-    			    			
-    			PreferenceCategory mPreferenceCategory = new PreferenceCategory(this);
-                mPreferenceCategory.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolCategory) + " " + n);
+        		PreferenceCategory mPreferenceCategory = new PreferenceCategory(this);
+                mPreferenceCategory.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolCategory) + " " + (n+1));
     			
-    			ListPreference mListPreference = new ListPreference(this);
+                ListPreference mListPreference = new ListPreference(this);
         		mListPreference.setDefaultValue("0");
         		mListPreference.setEntries(com.multiwork.andres.R.array.protocolList);
         		mListPreference.setEntryValues(com.multiwork.andres.R.array.protocolValues);
         		mListPreference.setKey("protocol" + n);
         		mListPreference.setSummary(com.multiwork.andres.R.string.AnalyzerProtocolSummary);
-        		mListPreference.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + n);
-        		mListPreference.setDialogTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + n);
+        		mListPreference.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + (n+1));
+        		mListPreference.setDialogTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + (n+1));
         		
         		ListPreference mListPreference2 = new ListPreference(this);
         		mListPreference2.setDefaultValue("1");
