@@ -168,6 +168,30 @@ public class BluetoothHelper {
 				});
 				mDialog.show();
 			}
+			// Bluetooth ya encendido, me conecto
+			else{
+				// Compruebo si el dispositivo no esta en los dispositivos emparejados (paired)
+				Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+				if (pairedDevices.size() > 0) {
+				    // Loop a travez de los dispositivos emparejados (paired)
+				    for (BluetoothDevice device : pairedDevices) {
+				        if(DEBUG) Log.i("BluetoothHelper", "Name: " + device.getName() + " -- Address:  " + device.getAddress());
+				        // Si el dispositivo coincide con el que busco lo asigno
+				        if(device.getName().equals(bluetoothName)){
+				        	mBluetoothDevice = device;
+							// Establezco una conexión Bluetooth para enviar datos
+							establishConnection();
+				        	break;
+				        }
+				    }
+				}
+				// Sino salgo, debe estar en los dispositivos emparejados
+				else{
+					if(DEBUG) Log.i("BluetoothHelper", "Finish Activity not in paired devices");
+					mBluetoothAdapter.disable();
+					if(finishOnFail) mActivity.finish();
+				}
+			}
 		}
 	}
 	
@@ -204,7 +228,7 @@ public class BluetoothHelper {
     			try { mBluetoothIn = mBluetoothSocket.getInputStream(); }
     			catch (IOException e) { e.printStackTrace(); }
     			
-    		    // Verifico si hubo una excepción entonces no se pudo conectar al dispositivo, de otro modo sí
+    		    // Conectado
     		    if(noException){
     		    	mActivity.runOnUiThread(new Runnable() {
     					public void run() { 
@@ -215,6 +239,7 @@ public class BluetoothHelper {
     		        if(mOnBluetoothConnected != null) mOnBluetoothConnected.onBluetoothConnected(mBluetoothIn, mBluetoothOut);
     		        if(mOnNewBluetoothDataReceived != null && keepRunning == false) mBTThread.start();
     		    }
+    		    // Error
     		    else{
     		    	mActivity.runOnUiThread(new Runnable() {
     					public void run() { 
