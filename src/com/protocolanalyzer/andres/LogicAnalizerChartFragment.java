@@ -125,12 +125,11 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	
 	@Override
 	public double onDataDecodedListener(LogicData[] mLogicData, int samplesCount, boolean isConfig) {
+		if(DEBUG) Log.i("mFragmentChart","onDataDecoded() - isConfig: " + isConfig);
+		if(DEBUG) Log.i("mFragmentChart","Data: " + mLogicData.toString());
 		// Si se cambiaron las configuraciones las actualizo
 		if(isConfig) setChartPreferences();
 		else{
-			if(DEBUG) Log.i("mFragmentChart","onDataDecoded()");
-			if(DEBUG) Log.i("mFragmentChart","Data: " + mLogicData.toString());
-			
 			mData = mLogicData;
 			samplesNumber = samplesCount;
 			mUpdaterHandler.post(mUpdaterTask);
@@ -141,7 +140,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 				firstTime = false;
 			}
 		}
-			
 		return 0;
 	}
 	
@@ -150,11 +148,9 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		Log.i("onCreate()", "onCreate LogicAnalizerView");
+		Log.i("mFragmentChart", "onCreate()");
 		
-		// Obtengo la Activity que contiene el Fragment
-		mActivity = getSherlockActivity();
-		
+		mActivity = getSherlockActivity();							// Obtengo la Activity que contiene el Fragment
         mActionBar = mActivity.getSupportActionBar();				// Obtengo el ActionBar
         mActionBar.setDisplayHomeAsUpEnabled(true);					// El icono de la aplicacion funciona como boton HOME
         mActionBar.setTitle(getString(R.string.AnalyzerName)) ;		// Nombre
@@ -257,6 +253,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Log.i("mFragmentChart", "onCreateView()");
 		// Renderizo el layout
 		return inflater.inflate(R.layout.logicanalizer, container, false);
 	}
@@ -264,7 +261,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(DEBUG) Log.i("onResume()","Resume LogicAnalizerView");
+		if(DEBUG) Log.i("mFragmentChart","onResume()");
 		
 		// Elimino primero el View porque si ya esta agregado genera una excepcion
 		((FrameLayout) mActivity.findViewById(R.id.mChart)).removeViewInLayout(mChartView);
