@@ -15,7 +15,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -30,7 +29,7 @@ import com.protocolanalyzer.api.andres.LogicDataSet;
 import com.protocolanalyzer.api.andres.LogicHelper;
 import com.protocolanalyzer.api.andres.LogicData.Protocol;
 
-public class LogicAnalizerActivity extends SherlockFragmentActivity implements OnActionBarClickListener, OnNewBluetoothDataReceived {
+public class LogicAnalizerActivity extends SherlockFragmentActivity implements OnActionBarClickListener, OnNewBluetoothDataReceived{
 
 	private static final boolean DEBUG = true;
 	private static final byte startByte = 'S';
@@ -38,13 +37,13 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static final int initialBufferSize = 1000;
 	private static final int PREFERENCES_CODE = 1;
 	
-	private static final int F40MHz = 1;
-	private static final int F20MHz = 2;
-	private static final int F10MHz = 3;
-	private static final int F4MHz = 4;
-	private static final int F400KHz = 5;
-	private static final int F2KHz = 6;
-	private static final int F10Hz = 7;
+	private static final int F40MHz = 'A';
+	private static final int F20MHz = 'S';
+	private static final int F10MHz = 'D';
+	private static final int F4MHz = 'F';
+	private static final int F400KHz = 'G';
+	private static final int F2KHz = 'H';
+	private static final int F10Hz = 'J';
 	
 	/** Interface donde paso los datos decodificados a los Fragments, los mismo deben implementar el Listener */
 	private static OnDataDecodedListener mChartDataDecodedListener;
@@ -100,7 +99,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	// Si estoy tomando datos y salgo de la Activity elimino el CallBack para no recibir mas datos desde el Service.
 	@Override
 	protected void onPause() {
-		if(DEBUG) Log.i("mFragmentActivity","onPause() - " + this.toString());
+		if(DEBUG) Log.i("mFragmentActivity","onPause()");
 		mBluetoothHelper.write(0);	// Indico al PIC que salí de la Activity
 		super.onPause();
 	}
@@ -301,15 +300,16 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					}
 				}
 				// Si no tengo el modo que corresponde notifico con un Toast
-				if(DEBUG) Log.i("LogicAnalizerBT", "Nothing detected");
-				Toast.makeText(this, R.string.AnalyzerConnectError, Toast.LENGTH_LONG).show();
+				if(isStarting){
+					if(DEBUG) Log.i("LogicAnalizerBT", "Nothing detected");
+				}
 			} catch (IOException e) { e.printStackTrace(); }
 		}
 		else if(isPlaying){
 			if(DEBUG) Log.i("LogicAnalizerBT", "Data receive");
 			try {
 			int[] data = new int[3];
-			while(mBTIn.available() > 0){
+			while(mBTIn.available() >= 2){
 				if(mBTIn.read() == startByte && mBTIn.read() == logicAnalyzerMode){
 					if(DEBUG) Log.i("LogicAnalizerBT", "Receiving data...");
 					boolean keepGoing = true;
@@ -317,6 +317,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					while(mBTIn.available() > 0 && keepGoing){
 						for(int n = 0; n < data.length; ++n){
 							data[n] = mBTIn.read();
+							if(DEBUG) Log.i("LogicAnalizerBT", "Data [HEX] " + n + ": " + Integer.toHexString(data[n]));
 							if(n == 1 && data[0] == 0xFF && data[1] == 0xFF){
 								keepGoing = false;
 								break;
@@ -330,8 +331,12 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					}
 					
 					if(DEBUG) Log.i("LogicAnalizerBT", "Byte buffer lenght: " + mByteArrayBuffer.length());
-					mDialog.setMessage(getString(R.string.AnalyzerDialogLoading));
-					
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							mDialog.setTitle(getString(R.string.AnalyzerDialogLoading));
+						}
+					});
 					// Paso el array de bytes decodificados con el algoritmo Run Lenght
 					mDataSet.BufferToChannel(LogicHelper.runLenghtDecode(mByteArrayBuffer));
 					
@@ -339,14 +344,21 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					for(int n = 0; n < channelsNumber; ++n) {
 						mDataSet.decode(n, time);
 					}
-				    // Paso los datos decodificados a los Fragment
-					time = mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
-					if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
+					
+					// Paso los datos decodificados a los Fragment en el Thread de la UI
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							time = mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
+							if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
+						}
+					});
 				}
 			}
 			} catch (IOException e) { e.printStackTrace(); }
 			isPlaying = false;
 			mDialog.dismiss();
+			supportInvalidateOptionsMenu();
 		}
 		return true;
 	}
