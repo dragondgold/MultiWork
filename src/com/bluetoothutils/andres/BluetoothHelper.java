@@ -36,6 +36,7 @@ public class BluetoothHelper {
 	
 	private OutputStream mBluetoothOut;
 	private InputStream mBluetoothIn;
+	private Thread mBTThread;
 	
 	private boolean noException = false;
 	private boolean keepRunning = false;
@@ -62,6 +63,7 @@ public class BluetoothHelper {
 		mOnNewBluetoothDataReceived = mInterface;	// Interface
 		if(noException){							// Arranco el Thread
 			keepRunning = true;
+			mBTThread = new Thread(mBTRunnable);
 			mBTThread.start();
 		}
 	}
@@ -261,11 +263,11 @@ public class BluetoothHelper {
         mThread.start();
     }
 	
-	// Thread que ejecuta al Runnable
-	private final Thread mBTThread = new Thread(){
-    	@Override
-        public void run() {
-    		if(DEBUG) Log.i("BTThread", "Thread Running");
+	private final Runnable mBTRunnable = new Runnable() {
+		
+		@Override
+		public void run() {
+			if(DEBUG) Log.i("BTThread", "Thread Running");
     		while(keepRunning){
     			try {
     				// Si hay algún dato disponible ejecuto la interface para avisar a la Activity
@@ -281,7 +283,8 @@ public class BluetoothHelper {
     			try { Thread.sleep(20); }
 				catch (InterruptedException e) { e.printStackTrace(); }
     		}
-        }
-    };
+    		if(DEBUG) Log.i("BTThread", "Thread Stop");
+		}
+	};
 
 }
