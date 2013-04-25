@@ -10,6 +10,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -44,6 +46,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static final int F400KHz = 'G';
 	private static final int F2KHz = 'H';
 	private static final int F10Hz = 'J';
+	
+	private static final int updateDialogTitle = 0;
+	private static final int dispatchInterfaces = 1;
+	private static final int dismissDialog = 2;
 	
 	/** Interface donde paso los datos decodificados a los Fragments, los mismo deben implementar el Listener */
 	private static OnDataDecodedListener mChartDataDecodedListener;
@@ -110,7 +116,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	 */
 	@Override
 	protected void onResume() {
-		if(DEBUG) Log.i("mFragmentActivity","onResume() - " + this.toString());
+		if(DEBUG) Log.i("mFragmentActivity","onResume()");
+		
+		isStarting = true;
+		isPlaying = false;
 		
 		// Solo si estoy en modo online procedo a obtener la conexion
 		// Obtengo la conexión Bluetooth
@@ -285,7 +294,28 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
         }
  	}
  	
- 	// TODO: la recepción de los datos hay que hacerla en otro Thread con AsyncTask o Runnable
+ 	// Handler para actualizar el UI Thread
+ 	final Handler updateUIThread = new Handler(){
+ 		@Override 
+ 	    public void handleMessage(Message msg) { 
+ 			switch (msg.what) {
+ 				case updateDialogTitle:
+ 					mDialog.setTitle(getString(R.string.AnalyzerDialogLoading));
+ 					break;
+
+ 				case dispatchInterfaces:
+ 					time = mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
+					if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
+ 					break;
+ 				
+ 				case dismissDialog:
+ 					mDialog.dismiss();
+ 					supportInvalidateOptionsMenu();
+ 					break;
+			}
+ 	    } 
+ 	};
+ 	
 	@Override
 	public boolean onNewBluetoothDataReceivedListener(InputStream mBTIn, OutputStream mBTOut) {
 		if(DEBUG) Log.i("LogicAnalizerBT", "onNewBluetoothDataReceivedListener()");
@@ -309,7 +339,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 			if(DEBUG) Log.i("LogicAnalizerBT", "Data receive");
 			try {
 			int[] data = new int[3];
-			while(mBTIn.available() >= 2){
+			while(mBTIn.available() > 0){
 				if(mBTIn.read() == startByte && mBTIn.read() == logicAnalyzerMode){
 					if(DEBUG) Log.i("LogicAnalizerBT", "Receiving data...");
 					boolean keepGoing = true;
@@ -331,12 +361,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					}
 					
 					if(DEBUG) Log.i("LogicAnalizerBT", "Byte buffer lenght: " + mByteArrayBuffer.length());
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							mDialog.setTitle(getString(R.string.AnalyzerDialogLoading));
-						}
-					});
+					updateUIThread.sendEmptyMessage(updateDialogTitle);
+					
 					// Paso el array de bytes decodificados con el algoritmo Run Lenght
 					mDataSet.BufferToChannel(LogicHelper.runLenghtDecode(mByteArrayBuffer));
 					
@@ -346,19 +372,12 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					}
 					
 					// Paso los datos decodificados a los Fragment en el Thread de la UI
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							time = mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
-							if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
-						}
-					});
+					updateUIThread.sendEmptyMessage(dispatchInterfaces);
 				}
 			}
 			} catch (IOException e) { e.printStackTrace(); }
 			isPlaying = false;
-			mDialog.dismiss();
-			supportInvalidateOptionsMenu();
+			updateUIThread.sendEmptyMessage(dismissDialog);
 		}
 		return true;
 	}
