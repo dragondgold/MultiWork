@@ -38,6 +38,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static final byte logicAnalyzerMode = 'L';
 	private static final int initialBufferSize = 1000;
 	private static final int PREFERENCES_CODE = 1;
+	public static final int maxBufferSize = 16000;
 	
 	private static final int F40MHz = 'A';
 	private static final int F20MHz = 'S';

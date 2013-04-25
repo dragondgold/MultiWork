@@ -168,11 +168,25 @@ public class LogicAnalizerPrefs extends PreferenceActivity {
 				Log.i("Preferences", "baudRate[" + n + "]: " + baudRate[n]);
 				if( ((1.0d/baudRate[n]) /  (1.0d/newValue)) < 3.0d) state = true;
 			}
-			if(state) dialog();
+			if(state) dialog(0);
+			// Si todo esta bien compruebo si el sample rate no es demasiado alto y no van a entrar
+			// todos los bits en el buffer
+			else{
+				final long bufferSize = LogicAnalizerActivity.maxBufferSize;
+				state = false;
+				for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n) {
+					baudRate[n] = Long.decode(getPrefs.getString("BaudRate" + (n+1), "9600"));
+					Log.i("Preferences", "baudRate[" + n + "]: " + baudRate[n]);
+					if((Math.ceil((1.0d/baudRate[n]) / sampleTime)*10) > bufferSize) state = true; 
+				}
+				if(state) dialog(1);
+			}
 		}
 		// Si cambio un baudio verifico que sea posible con el SampleRate actual
 		else if(changedPreference.contains("BaudRate")) {
-			if( ((1.0d/newValue) / sampleTime) < 3.0d ) dialog();
+			final long bufferSize = LogicAnalizerActivity.maxBufferSize;
+			if( ((1.0d/newValue) / sampleTime) < 3.0d ) dialog(0);
+			if((Math.ceil((1.0d/newValue) / sampleTime)*10) > bufferSize) dialog(1);
 		}
     }
     
@@ -182,17 +196,32 @@ public class LogicAnalizerPrefs extends PreferenceActivity {
  	 * @author Andres Torti
  	 * @see http://developer.android.com/guide/topics/ui/menus.html
  	 */
-	private void dialog() {
+	private void dialog(int dialogType) {
 		Log.i("Preferences", "ALERT DIALOG");
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle(getString(R.string.AnalyzerDialogSampleTitle));
-		alert.setMessage(getString(R.string.AnalyzerDialogSampleAlert));	
-		alert.setPositiveButton(getString(R.string.Ok), new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-			}
-		});
-		alert.show();
+		// Velocidad de muestreo muy baja
+		if(dialogType == 0){
+			alert.setTitle(getString(R.string.AnalyzerDialogSampleTitle));
+			alert.setMessage(getString(R.string.AnalyzerDialogSampleAlert));	
+			alert.setPositiveButton(getString(R.string.Ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+			alert.show();
+		}
+		// Velocidad de muestreo muy alta
+		else if(dialogType == 1){
+			alert.setTitle(getString(R.string.AnalyzerDialogSampleTitle));
+			alert.setMessage(getString(R.string.AnalyzerDialogSampleAlert2));	
+			alert.setPositiveButton(getString(R.string.Ok), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+			alert.show();
+		}
 	}
 }
