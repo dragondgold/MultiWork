@@ -2,6 +2,7 @@ package com.protocolanalyzer.andres;
 
 import java.util.List;
 
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.multiwork.andres.R;
 
 import android.annotation.SuppressLint;
@@ -12,13 +13,12 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 
-public class LogicAnalizerPrefs extends PreferenceActivity {
+public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 
 	private static final boolean DEBUG = true;
 	private static OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener;
@@ -28,6 +28,9 @@ public class LogicAnalizerPrefs extends PreferenceActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(DEBUG) Log.i("PreferenceActivity", "onCreate() -> LogicAnalizerPrefs");
+        
+        getSupportActionBar().setTitle(getString(R.string.AnalyzerPrefsActionTitle));
+        
         // Si no estoy en Android GingerBread no uso fragments
         if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
         	// Agrego todas las preferencias de cada canal
