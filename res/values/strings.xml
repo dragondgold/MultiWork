@@ -29,6 +29,7 @@
     <string name="FrecPeriodo">					Periodo:</string>
     
     <!-- Analizador Logico -->
+    <string name="AnalyzerPrefsActionTitle">	Configuración</string>
     <string name="AnalyzerHeaderSummary">		Canal de entrada</string>
     <string name="AnalyzerName">				Analizador Logico</string>
     <string name="AnalyzerChannel">				Canal</string>
@@ -45,8 +46,11 @@
     <string name="AnalyzerDialogFileNotSaved">	Error al guardar el archivo</string>
     <string name="AnalyzerDialogSesionSaved">	Sesion guardada</string>
     <string name="AnalyzerDialogOverwrite">		El archivo existe, sobreescribir ?</string>
-    <string name="AnalyzerDialogSampleAlert">	La configuracion actual de Baudios y SampleRate no permitirá un muestreo adecuado.
+    <string name="AnalyzerDialogSampleAlert">	La configuracion actual de baudios y velocidad de muestreo no permitirá un muestreo adecuado.
         										 Aumente la velocidad de muestreo o disminuya los Baudios para un correcto muestreo.</string>
+    <string name="AnalyzerDialogSampleAlert2">	La configuracion actual de baudios, velocidad de muestreo y tamaño del bufffer llenará el buffer
+        										 antes de poder muestrar la mínima cantidad de bits necesarios para una trama de UART. Aumente
+        										 el tamaño del buffer o disminuya la velocidad de muestreo.</string>
     <string name="AnalyzerDialogSampleTitle">	Advertencia</string>
     <string name="AnalyzerDialogLoading">		Procesando…</string>
     <string name="AnalyzerDialogReceiving">		Recibiendo datos…</string>
