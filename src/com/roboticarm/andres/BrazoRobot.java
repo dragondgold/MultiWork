@@ -1,7 +1,7 @@
 package com.roboticarm.andres;
 
 import com.bluetoothutils.andres.BTSingleSynchTransfer;
-import com.multiwork.andres.MainMenu;
+import com.multiwork.andres.ApplicationContext;
 import com.multiwork.andres.R;
 
 import android.app.Activity;
@@ -231,10 +231,12 @@ public class BrazoRobot extends Activity implements OnTouchListener{
 	protected void onResume() {
 		super.onResume();
 		if(DEBUG) Log.i("BrazoRobot", "onResume()");
+		
+		ApplicationContext myApp = (ApplicationContext)getApplication();
 		isSystemRdy = false;
 		
-		mBTSingleSynchTransfer = new BTSingleSynchTransfer(MainMenu.mOutputStream,
-				MainMenu.mInputStream);
+		mBTSingleSynchTransfer = new BTSingleSynchTransfer(myApp.mOutputStream,
+				myApp.mInputStream);
     	mBTSingleSynchTransfer.start();
 	}
     

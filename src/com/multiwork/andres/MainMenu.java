@@ -30,20 +30,19 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
    
 	private static final String bluetoothName = "linvor";
 	
-	public static BluetoothHelper mBluetoothHelper = null;
-	public static InputStream mInputStream = null;
-	public static OutputStream mOutputStream = null;
-	
 	private static final boolean DEBUG = true;
 	private static final String[] ClassName = {"com.multiwork.andres.LCView", "com.multiwork.andres.FrecView",
 		"com.protocolanalyzer.andres.LogicAnalizerActivity", "com.roboticarm.andres.BrazoRobot",
 		"com.protocolanalyzer.andres.PruebaParser"};
 	private static String[] MenuNames = new String[ClassName.length];
+	ApplicationContext myApp;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(DEBUG) Log.i("MainMenu", "onCreate() -> MainMenu");
+        
+        myApp = (ApplicationContext)getApplication();
         
         // Nombres de los Menu
         MenuNames[0] = getString(R.string.LCMeterMenu);
@@ -67,7 +66,7 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 			public void onClick(DialogInterface dialog, int which) {
 				if(DEBUG) Log.i("MainMenu", "Offline mode enabled");
 				// Offline
-				mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, true);
+				myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, true);
 			}
 		});
 		
@@ -76,9 +75,9 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 			public void onClick(DialogInterface dialog, int which) {
 				if(DEBUG) Log.i("MainMenu", "Offline mode disabled");
 				// Online
-				mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, false);
-				mBluetoothHelper.connect(true);
-				mBluetoothHelper.setOnBluetoothConnected((OnBluetoothConnected)ctx);
+				myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, false);
+				myApp.mBluetoothHelper.connect(true);
+				myApp.mBluetoothHelper.setOnBluetoothConnected((OnBluetoothConnected)ctx);
 			}
 		});
 		
@@ -134,8 +133,8 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 	
 	@Override
 	public void onBluetoothConnected(InputStream mInputStream, OutputStream mOutputStream) {
-		MainMenu.mInputStream = mInputStream;
-		MainMenu.mOutputStream = mOutputStream;
+		myApp.mInputStream = mInputStream;
+		myApp.mOutputStream = mOutputStream;
 	}
 	
 }

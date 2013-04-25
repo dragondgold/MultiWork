@@ -23,6 +23,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.bluetoothutils.andres.BluetoothHelper;
 import com.bluetoothutils.andres.OnNewBluetoothDataReceived;
+import com.multiwork.andres.ApplicationContext;
 import com.multiwork.andres.MainMenu;
 import com.multiwork.andres.R;
 
@@ -119,12 +120,14 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	protected void onResume() {
 		if(DEBUG) Log.i("mFragmentActivity","onResume()");
 		
+		ApplicationContext myApp = (ApplicationContext)getApplication();
+		
 		isStarting = true;
 		isPlaying = false;
 		
 		// Solo si estoy en modo online procedo a obtener la conexion
 		// Obtengo la conexión Bluetooth
-		mBluetoothHelper = MainMenu.mBluetoothHelper;
+		mBluetoothHelper = myApp.mBluetoothHelper;
 		mBluetoothHelper.setOnNewBluetoothDataReceived(this);
 		// Indico que entré en el analizador lógico
 		mBluetoothHelper.write(logicAnalyzerMode);
