@@ -11,9 +11,9 @@ public class UARTDecoder {
 	 * Decodifica el BitSet (grupo de bits) que le es pasado segun el protocolo UART
 	 * @param dataSource con el canal
 	 * @return LogicData que contiene Strings con los datos decodificados siendo:
-	 * 			"S" -> bit de Start
+	 * 			"\S" -> bit de Start
 	 * 			[numero] -> valor de los 8 bits
-	 * 			"P" -> bit de Stop
+	 * 			"\P" -> bit de Stop
 	 * Ademas contiene las posiciones del array donde se decodifican los datos para luego ser mostrados en graficos y
 	 * el tipo de protocolo
 	 * @see http://stackoverflow.com/questions/2978569/android-java-append-string-int (para StringBuilder)
@@ -48,18 +48,18 @@ public class UARTDecoder {
 		// al menos 10 bits para la trama del UART, si hay menos esta incompleta)
 		while(n <= (data.length()-(samplesPerBit*10))){
 			n = data.nextFallingEdge(n); if(n == -1) break;		// Busco un flanco de bajada (Start)
-			if(DEBUG) Log.i("", "-------------------------------");
-			if(DEBUG) Log.i("", "n Falling Edge: " + n);
+			if(DEBUG) Log.i("UARTDecode", "-------------------------------");
+			if(DEBUG) Log.i("UARTDecode", "n Falling Edge: " + n);
 			// Voy a la mitad del bit de Start para verificar si es 0
 			n += halfBit;
-			if(DEBUG) Log.i("", "n Start: " + n);
+			if(DEBUG) Log.i("UARTDecode", "n Start: " + n);
 			if(data.get(n) == false){ 							// Si el siguiente bit es 0 entonces es el bit de Start
 				tempIndex = n - halfBit;						// Lugar de inicio del bit de Start
 				n += samplesPerBit;								// Sumo un bit para estar a la mitad del otro
 				if(DEBUG) Log.i("UARTDecode", "n de inicio de byte: " + n);
 				int dataByte = 0;
 				// Empiezo leyendo desde el LSB y lo voy colocando en el byte
-				for(int bit = 0; bit < dataBits; ++bit){				// Voy tomando los bits y armo el byte del dato
+				for(int bit = 0; bit < dataBits; ++bit){		// Voy tomando los bits y armo el byte del dato
 					dataByte = LogicHelper.bitSet(dataByte, data.get(n), (dataBits-1) - bit);
 					n += samplesPerBit;
 				}
@@ -70,12 +70,12 @@ public class UARTDecoder {
 				if(data.get(n) == true){	
 					if(DEBUG) Log.i("UARTDecode", "n stopBit: " + n);
 					// Bit de Start
-					dataSource.addStringS("S", tempIndex*sampleTime, (tempIndex+samplesPerBit)*sampleTime);		
+					dataSource.addStringS("\\S", tempIndex*sampleTime, (tempIndex+samplesPerBit)*sampleTime);		
 					// Posicion de inicio al bit siguiente al de Start (dato)
 					dataSource.addStringS(""+dataByte, (tempIndex+samplesPerBit)*sampleTime,
 							(tempIndex+samplesPerBit+(samplesPerBit*dataBits)*sampleTime));
 					// Bit de Stop
-					dataSource.addStringS("P", ((n-halfBit)*sampleTime), ((n-halfBit)+samplesPerBit)*sampleTime);	
+					dataSource.addStringS("\\P", ((n-halfBit)*sampleTime), ((n-halfBit)+samplesPerBit)*sampleTime);	
 				}
 				n -= halfBit;
 			}
