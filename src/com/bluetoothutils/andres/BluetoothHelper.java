@@ -46,6 +46,8 @@ public class BluetoothHelper {
 	 * Constructor
 	 * @param ctx contexto de la Activity
 	 * @param bluetoothName nombre del bluetooth al cual conectarse
+	 * @param offlineMode indica si se encuentra en modo offline. Esto permite que se usen todas los metodos
+	 * de la clase y no se envíe nada y/o reciba nada.
 	 */
 	public BluetoothHelper (final Context ctx, final String bluetoothName, boolean offlineMode) {
 		mActivity = ((Activity)ctx);
