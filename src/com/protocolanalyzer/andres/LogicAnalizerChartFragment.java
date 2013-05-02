@@ -132,13 +132,14 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		else{
 			mData = mLogicData;
 			samplesNumber = samplesCount;
-			mUpdaterHandler.post(mUpdaterTask);
 			
 			// Configuro las variables en base a las preferencias la primera vez unicamente
 			if(firstTime){
 				setChartPreferences();
 				firstTime = false;
 			}
+			
+			if(samplesNumber > 0) mUpdaterHandler.post(mUpdaterTask);
 		}
 		return 0;
 	}
@@ -530,7 +531,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			}
 
 	    	// Si los bit son 1 le sumo 1 a los valores tomados como 0 logicos
-			for(int n=0; n <samplesNumber; ++n){
+			for(int n=0; n < samplesNumber; ++n){
 				for(int channel=0; channel < LogicAnalizerActivity.channelsNumber; ++channel){	
 					if(mData[channel].getBits().get(n)){	// Si es 1
 						// Nivel tomado como 0 + un alto de bit

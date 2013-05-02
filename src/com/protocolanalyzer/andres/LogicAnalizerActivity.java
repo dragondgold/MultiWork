@@ -72,7 +72,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
     private static BluetoothHelper mBluetoothHelper;
 	
 	/** Buffers de recepcion donde se guarda los bytes recibidos */
-    private static byte[] ReceptionBuffer;	
+    private static byte[] tempBuffer;	
     private static ByteArrayBuffer mByteArrayBuffer = new ByteArrayBuffer(initialBufferSize);
     /** Dato decodificado desde LogicHelper para ser mostrado en el grafico, contiene las posiciones para mostar
       * el tipo de protocolo, etc
@@ -88,9 +88,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		if(DEBUG) Log.i("mFragmentActivity","onCreate() LogicAnalizerActivity");
-		
-		ReceptionBuffer = new byte[1];
-		
+				
 		setContentView(R.layout.logic_fragments);
 		mFragmentList = getSupportFragmentManager().findFragmentById(R.id.logicFragment);
 		
@@ -221,8 +219,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 			if(resultCode == RESULT_OK) {
 				if(DEBUG) Log.i("mFragmentActivity", "Preferences Setted");
 				// Aviso a la Activity que cambiaron las preferencias
-				mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, true);
-				if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, true);
+				mListDataDecodedListener.onDataDecodedListener(mData, tempBuffer.length, true);
+				if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(mData, tempBuffer.length, true);
 				setPreferences();
 			}
 		}
@@ -312,8 +310,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
  					break;
 
  				case dispatchInterfaces:
- 					time = mListDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
-					if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(mData, ReceptionBuffer.length, false);
+ 					time = mListDataDecodedListener.onDataDecodedListener(mData, tempBuffer.length, false);
+					if(isFragmentActive("ChartLogic")) mChartDataDecodedListener.onDataDecodedListener(mData, tempBuffer.length, false);
  					break;
  				
  				case dismissDialog:
@@ -351,6 +349,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 				if(mBTIn.read() == startByte && mBTIn.read() == logicAnalyzerMode){
 					if(DEBUG) Log.i("LogicAnalizerBT", "Receiving data...");
 					boolean keepGoing = true;
+					mByteArrayBuffer.clear();
 					
 					while(mBTIn.available() > 0 && keepGoing){
 						for(int n = 0; n < data.length; ++n){
@@ -372,7 +371,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					updateUIThread.sendEmptyMessage(updateDialogTitle);
 					
 					// Paso el array de bytes decodificados con el algoritmo Run Lenght
-					mDataSet.BufferToChannel(LogicHelper.runLenghtDecode(mByteArrayBuffer));
+					tempBuffer = LogicHelper.runLenghtDecode(mByteArrayBuffer);
+					mDataSet.BufferToChannel(tempBuffer);
 					
 					// Decodifico cada canal con su correspondiente fuente de clock
 					for(int n = 0; n < channelsNumber; ++n) {

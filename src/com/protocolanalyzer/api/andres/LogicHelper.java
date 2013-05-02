@@ -103,7 +103,7 @@ public class LogicHelper {
 	 */
 	public static byte[] runLenghtDecode (final ByteArrayBuffer data){
 		
-		int lenght = data.length()-3;
+		int lenght = data.length();
 		int repeat;
 		ByteArrayBuffer returnData = new ByteArrayBuffer(data.length());
 		
