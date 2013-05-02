@@ -82,6 +82,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	
 	private static boolean isStarting = true;
 	private static ProgressDialog mDialog;
+	SharedPreferences getPrefs;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -121,6 +122,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		if(DEBUG) Log.i("mFragmentActivity","onResume()");
 		
 		ApplicationContext myApp = (ApplicationContext)getApplication();
+		getPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		isStarting = true;
 		isPlaying = false;
@@ -158,6 +160,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 				else if(LogicData.getSampleRate() == 400000) mBluetoothHelper.write(F400KHz);
 				else if(LogicData.getSampleRate() == 2000) mBluetoothHelper.write(F2KHz);
 				else if(LogicData.getSampleRate() == 10) mBluetoothHelper.write(F10Hz);
+				// Si usa trigger o no
+				mBluetoothHelper.write(getPrefs.getBoolean("simpleTriggerGeneral", false) ? 1 : 0);
+				// Mask
+				mBluetoothHelper.write(getPrefs.getInt("simpleTriggerMask", 0));
 				isPlaying = true;
 				supportInvalidateOptionsMenu();
 				
@@ -261,8 +267,6 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	 * velocidad en Baudios para el UART y si la pantalla debe permanecer o no encendida.
 	 */
  	private void setPreferences() {
-        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
         for(int n=0; n < channelsNumber; ++n){
         	// Seteo el protocolo para cada canal
         	switch(Byte.decode(getPrefs.getString("protocol" + (n+1), "0"))){

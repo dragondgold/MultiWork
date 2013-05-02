@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.multiwork.andres.R;
+import com.protocolanalyzer.api.andres.LogicHelper;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -11,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceCategory;
@@ -43,7 +45,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
         		mListPreference.setDefaultValue("0");
         		mListPreference.setEntries(com.multiwork.andres.R.array.protocolList);
         		mListPreference.setEntryValues(com.multiwork.andres.R.array.protocolValues);
-        		mListPreference.setKey("protocol" + n);
+        		mListPreference.setKey("protocol" + (n+1));
         		mListPreference.setSummary(com.multiwork.andres.R.string.AnalyzerProtocolSummary);
         		mListPreference.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + (n+1));
         		mListPreference.setDialogTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + (n+1));
@@ -52,7 +54,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
         		mListPreference2.setDefaultValue("1");
         		mListPreference2.setEntries(com.multiwork.andres.R.array.channelNames);
         		mListPreference2.setEntryValues(com.multiwork.andres.R.array.protocolValues);
-        		mListPreference2.setKey("SCL" + n);
+        		mListPreference2.setKey("SCL" + (n+1));
         		mListPreference2.setSummary(com.multiwork.andres.R.string.AnalyzerSCLSummary);
         		mListPreference2.setTitle(com.multiwork.andres.R.string.AnalyzerSCLTitle);
         		mListPreference2.setDialogTitle(com.multiwork.andres.R.string.AnalyzerSCLTitle);
@@ -60,14 +62,21 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
         		EditTextPreference mEditTextPreference = new EditTextPreference(this);
         		mEditTextPreference.setDefaultValue("9600");
         		mEditTextPreference.setTitle(com.multiwork.andres.R.string.AnalyzerBaudTitle);
-        		mEditTextPreference.setKey("BaudRate" + n);
+        		mEditTextPreference.setKey("BaudRate" + (n+1));
         		mEditTextPreference.setSummary(com.multiwork.andres.R.string.AnalyzerBaudSummary);
         		mEditTextPreference.setDialogTitle(com.multiwork.andres.R.string.AnalyzerBaudSummary);
                 
+        		CheckBoxPreference mBoxPreference = new CheckBoxPreference(this);
+        		mBoxPreference.setDefaultValue(false);
+        		mBoxPreference.setTitle(getString(R.string.AnalyzerSimpleTriggerTitle));
+        		mBoxPreference.setKey("simpleTrigger" + (n+1));
+        		mBoxPreference.setSummary(getString(R.string.AnalyzerSimpleTriggerChannelSummary));
+        		
                 mPreferenceScreen.addPreference(mPreferenceCategory);
         		mPreferenceScreen.addPreference(mListPreference);
         		mPreferenceScreen.addPreference(mListPreference2);
         		mPreferenceScreen.addPreference(mEditTextPreference);
+        		mPreferenceScreen.addPreference(mBoxPreference);
         		setPreferenceScreen(mPreferenceScreen);
         	}
         	this.addPreferencesFromResource(R.xml.logicgeneral);
@@ -82,9 +91,24 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
         mOnSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
 			@Override
 			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+				// Veo si debo alertar al usuario por el cambio de Baudios o SampleRate
 				if(key.contains("BaudRate") || key.equals("sampleRate")){
 					Log.i("Preferences", "Changed " + key + " to: " + sharedPreferences.getString(key, "0"));
 					testIntegrity( key, Long.decode(sharedPreferences.getString(key, "0")) ); 
+				}
+				// Si cambié algun trigger reconstruyo la máscara de trigger
+				if(key.contains("simpleTrigger")){
+					boolean state;
+					byte mask = 0;
+					// Coloca cada bit del mask a 1 o 0 dependiendo si tiene activado o no el trigger
+					for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
+						state = sharedPreferences.getBoolean("simpleTrigger" + (n+1), false);
+						mask = LogicHelper.bitSet(mask, state, n);
+					}
+					// Guardo la nueva mascara
+					sharedPreferences.edit().putInt("simpleTriggerMask", mask).commit();
+					if(DEBUG) Log.i("PreferenceActivity", "Mask: " + Integer.toBinaryString(mask));
+					
 				}
 			}
 		};
@@ -156,8 +180,8 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 		final long sampleRate = Long.decode(getPrefs.getString("sampleRate", "4000000"));
 		final double sampleTime = 1.0d/sampleRate;
 		
-		Log.i("Preferences", "sampleRate: " + sampleRate);
-		Log.i("Preferences", "newValue: " + newValue);
+		if(DEBUG)Log.i("Preferences", "sampleRate: " + sampleRate);
+		if(DEBUG)Log.i("Preferences", "newValue: " + newValue);
 		
 		// Si cambio el SampleRate verifico que sea posible para cada baudio seleccionado
 		if(changedPreference.contains("sampleRate")) {
@@ -168,7 +192,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 			// Compruebo para cada baudio si es posible un correcto muestreo
 			for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n) {
 				baudRate[n] = Long.decode(getPrefs.getString("BaudRate" + (n+1), "9600"));
-				Log.i("Preferences", "baudRate[" + n + "]: " + baudRate[n]);
+				if(DEBUG)Log.i("Preferences", "baudRate[" + n + "]: " + baudRate[n]);
 				if( ((1.0d/baudRate[n]) /  (1.0d/newValue)) < 3.0d) state = true;
 			}
 			if(state) dialog(0);
@@ -179,7 +203,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 				state = false;
 				for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n) {
 					baudRate[n] = Long.decode(getPrefs.getString("BaudRate" + (n+1), "9600"));
-					Log.i("Preferences", "baudRate[" + n + "]: " + baudRate[n]);
+					if(DEBUG)Log.i("Preferences", "baudRate[" + n + "]: " + baudRate[n]);
 					if((Math.ceil((1.0d/baudRate[n]) / sampleTime)*10) > bufferSize) state = true; 
 				}
 				if(state) dialog(1);
@@ -200,7 +224,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
  	 * @see http://developer.android.com/guide/topics/ui/menus.html
  	 */
 	private void dialog(int dialogType) {
-		Log.i("Preferences", "ALERT DIALOG");
+		if(DEBUG)Log.i("Preferences", "ALERT DIALOG");
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		// Velocidad de muestreo muy baja
 		if(dialogType == 0){

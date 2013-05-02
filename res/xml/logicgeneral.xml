@@ -15,6 +15,11 @@
             android:key="maxSamples"
            	android:summary="@string/AnalyzerSampleMaxSummary"
            	android:inputType="number" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:title="@string/AnalyzerSimpleTriggerTitle"
+            android:key="simpleTriggerGeneral"
+            android:summary="@string/AnalyzerSimpleTriggerSummary" />
     </PreferenceCategory>
     
     <PreferenceCategory android:title="@string/AnalyzerDirectoryTitle" >

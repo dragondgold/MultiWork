@@ -1,6 +1,9 @@
 package com.protocolanalyzer.andres;
 
+import com.multiwork.andres.R;
+
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceCategory;
@@ -52,11 +55,18 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
         		mEditTextPreference.setKey("BaudRate" + n);
         		mEditTextPreference.setSummary(com.multiwork.andres.R.string.AnalyzerBaudSummary);
         		mEditTextPreference.setDialogTitle(com.multiwork.andres.R.string.AnalyzerBaudSummary);
+        		
+        		CheckBoxPreference mBoxPreference = new CheckBoxPreference(getActivity());
+        		mBoxPreference.setDefaultValue(false);
+        		mBoxPreference.setTitle(getString(R.string.AnalyzerSimpleTriggerTitle));
+        		mBoxPreference.setKey("simpleTrigger" + n);
+        		mBoxPreference.setSummary(getString(R.string.AnalyzerSimpleTriggerChannelSummary));
                 
                 mPreferenceScreen.addPreference(mPreferenceCategory);
         		mPreferenceScreen.addPreference(mListPreference);
         		mPreferenceScreen.addPreference(mListPreference2);
         		mPreferenceScreen.addPreference(mEditTextPreference);
+        		mPreferenceScreen.addPreference(mBoxPreference);
         		setPreferenceScreen(mPreferenceScreen);
     		}
     		else if(mString.equals("General")){

@@ -48,7 +48,7 @@
     <string name="AnalyzerDialogOverwrite">		El archivo existe, sobreescribir ?</string>
     <string name="AnalyzerDialogSampleAlert">	La configuracion actual de baudios y velocidad de muestreo no permitirá un muestreo adecuado.
         										 Aumente la velocidad de muestreo o disminuya los Baudios para un correcto muestreo.</string>
-    <string name="AnalyzerDialogSampleAlert2">	La configuracion actual de baudios, velocidad de muestreo y tamaño del bufffer llenará el buffer
+    <string name="AnalyzerDialogSampleAlert2">	La configuracion actual de baudios, velocidad de muestreo y tamaño del buffer llenará el buffer
         										 antes de poder muestrar la mínima cantidad de bits necesarios para una trama de UART. Aumente
         										 el tamaño del buffer o disminuya la velocidad de muestreo.</string>
     <string name="AnalyzerDialogSampleTitle">	Advertencia</string>
@@ -68,6 +68,10 @@
     <string name="AnalyzerSampleRateSummary">	Velocidad de muestreo del analizador</string>
     <string name="AnalyzerSampleMaxTitle">		Maxima retencion de muestras</string>
     <string name="AnalyzerSampleMaxSummary">	Maxima cantidad de muestras a almacenar (Entre mayor sea mas RAM se utilizara)</string>
+    
+    <string name="AnalyzerSimpleTriggerTitle">  	Trigger simple</string>
+    <string name="AnalyzerSimpleTriggerSummary">  	Usar trigger por cambio de estado para iniciar el muestreo</string>
+    <string name="AnalyzerSimpleTriggerChannelSummary">	Habilita este canal para ser utilizado como fuente de trigger simple</string>
     
     <string name="AnalyzerDirectoryTitle">			Directorios</string>
     <string name="AnalyzerDirectoryImageTitle">		Directorio para imágenes</string>
