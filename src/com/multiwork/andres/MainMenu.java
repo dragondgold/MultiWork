@@ -9,6 +9,9 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.bluetoothutils.andres.BluetoothHelper;
 import com.bluetoothutils.andres.OnBluetoothConnected;
+import com.protocolanalyzer.andres.LogicAnalizerActivity;
+import com.protocolanalyzer.andres.PruebaParser;
+import com.roboticarm.andres.BrazoRobot;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -31,10 +34,9 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 	private static final String bluetoothName = "linvor";
 	
 	private static final boolean DEBUG = true;
-	private static final String[] ClassName = {"com.multiwork.andres.LCView", "com.multiwork.andres.FrecView",
-		"com.protocolanalyzer.andres.LogicAnalizerActivity", "com.roboticarm.andres.BrazoRobot",
-		"com.protocolanalyzer.andres.PruebaParser"};
-	private static String[] MenuNames = new String[ClassName.length];
+	private static final Class<?>[] className = {LCView.class, FrecView.class,
+		LogicAnalizerActivity.class, BrazoRobot.class, PruebaParser.class};
+	private static String[] MenuNames = new String[className.length];
 	ApplicationContext myApp;
 	
     @Override
@@ -43,7 +45,6 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
         if(DEBUG) Log.i("MainMenu", "onCreate() -> MainMenu");
         
         myApp = (ApplicationContext)getApplication();
-        
         // Nombres de los Menu
         MenuNames[0] = getString(R.string.LCMeterMenu);
         MenuNames[1] = getString(R.string.FrecMenu);
@@ -54,35 +55,38 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
         // Menu
         setListAdapter(new ArrayAdapter<String>(MainMenu.this, android.R.layout.simple_list_item_1, MenuNames));
     
-        final Context ctx = this;
-    	
-    	// Pregunto si deseo entrar en modo offline primero
-		final AlertDialog.Builder mDialog = new AlertDialog.Builder(this);
-		mDialog.setTitle(getString(R.string.BTOfflineTitle));
-		mDialog.setMessage(getString(R.string.BTOfflineSummary));
-		
-		mDialog.setPositiveButton(getString(R.string.Yes), new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				if(DEBUG) Log.i("MainMenu", "Offline mode enabled");
-				// Offline
-				myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, true);
-			}
-		});
-		
-		mDialog.setNegativeButton(getString(R.string.No), new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				if(DEBUG) Log.i("MainMenu", "Offline mode disabled");
-				// Online
-				myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, false);
-				myApp.mBluetoothHelper.connect(true);
-				myApp.mBluetoothHelper.setOnBluetoothConnected((OnBluetoothConnected)ctx);
-			}
-		});
-		
-		mDialog.setCancelable(false);
-		mDialog.show();
+        // Solo creo el diálogo si ya no lo cree antes
+        if(myApp.mBluetoothHelper == null){
+	        final Context ctx = this;
+	    	
+	    	// Pregunto si deseo entrar en modo offline primero
+			final AlertDialog.Builder mDialog = new AlertDialog.Builder(this);
+			mDialog.setTitle(getString(R.string.BTOfflineTitle));
+			mDialog.setMessage(getString(R.string.BTOfflineSummary));
+			
+			mDialog.setPositiveButton(getString(R.string.Yes), new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if(DEBUG) Log.i("MainMenu", "Offline mode enabled");
+					// Offline
+					myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, true);
+				}
+			});
+			
+			mDialog.setNegativeButton(getString(R.string.No), new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if(DEBUG) Log.i("MainMenu", "Offline mode disabled");
+					// Online
+					myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, false);
+					myApp.mBluetoothHelper.connect(true);
+					myApp.mBluetoothHelper.setOnBluetoothConnected((OnBluetoothConnected)ctx);
+				}
+			});
+			
+			mDialog.setCancelable(false);
+			mDialog.show();
+        }
     }
     
     @Override
@@ -96,14 +100,8 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 		super.onListItemClick(l, v, position, id);
 		if(DEBUG) Log.i("MainMenu", "onListItemClick() - Position: " + position);
 		
-		try{
-			Class<?> myClass = Class.forName(ClassName[position]);
-			Intent mIntent = new Intent(MainMenu.this, myClass);
-			startActivity(mIntent);
-		}catch (ClassNotFoundException e){
-			e.printStackTrace();
-		}
-			
+		Intent mIntent = new Intent(MainMenu.this, className[position]);
+		startActivity(mIntent);
 	}
     
     // Creo el ActionBar con los iconos
