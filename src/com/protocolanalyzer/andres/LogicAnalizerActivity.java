@@ -101,6 +101,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 			mData[n] = new LogicData();
 			mDataSet.addLogicData(mData[n]);
 		}
+		
+		// Array de tamaño 0 para evitar NullPointerException
+		tempBuffer = new byte[0];
 	}
 	
 	// Si estoy tomando datos y salgo de la Activity elimino el CallBack para no recibir mas datos desde el Service.
