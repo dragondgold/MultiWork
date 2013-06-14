@@ -246,12 +246,12 @@ public class LCView extends SherlockActivity{
  			}
  			else {
  				// Inicio el Servicio
- 				serviceIntent = new Intent(LCView.this, MultiService.class);
+ 				//serviceIntent = new Intent(LCView.this, MultiService.class);
  				startService(serviceIntent);
  				// Registro el broadcast del Service para obtener los datos
  		 		mServiceReceiver = new MyReceiver();
  		 		IntentFilter intentFilter = new IntentFilter();
- 		 		intentFilter.addAction(MultiService.mAction);
+ 		 		//intentFilter.addAction(MultiService.mAction);
  		 		registerReceiver(mServiceReceiver, intentFilter);
  		 		isPlaying = true;
  	 			this.invalidateOptionsMenu();
@@ -259,7 +259,7 @@ public class LCView extends SherlockActivity{
  			break;
  		case R.id.LCMode:
  			LCMode = (LCMode == Capacitor) ? Inductor : Capacitor;
- 			MultiService.setLCMode(LCMode);
+ 			//MultiService.setLCMode(LCMode);
  			firstTime = true;
  			this.invalidateOptionsMenu();
  			break;
@@ -339,10 +339,10 @@ public class LCView extends SherlockActivity{
 			// Obtengo el dato de la frecuencia y el LC y lo muestro
 			if(isPlaying)	// Si no estoy en pause muestro los datos
 			{
-				// Si la Inductancia/Capacitor es distinta de infinita determino el máximo y mínimo
+				// Si la Inductancia/Capacitor es distinta de infinita determino el mï¿½ximo y mï¿½nimo
 				if(!tvLcDisplay.getText().toString().contains("Infinity")) {
 					// Coloco el minimo y el maximo de los valores de LC leidos
-					// Máximo
+					// Mï¿½ximo
 					if(LCValue > Double.parseDouble(tvMax.getText().toString().substring(0, 
 							tvMax.getText().toString().indexOf(" ")))*Escala ){
 						

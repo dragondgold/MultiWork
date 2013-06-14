@@ -259,12 +259,12 @@ public class FrecView extends SherlockActivity {
  			}
  			else {
  				// Inicio el Servicio
- 				serviceIntent = new Intent(FrecView.this, MultiService.class);
+ 				//serviceIntent = new Intent(FrecView.this, MultiService.class);
  				startService(serviceIntent);
  				// Registro el broadcast del Service para obtener los datos
  		 		mServiceReceiver = new MyReceiver();
  		 		IntentFilter intentFilter = new IntentFilter();
- 		 		intentFilter.addAction(MultiService.mAction);
+ 		 		//intentFilter.addAction(MultiService.mAction);
  		 		registerReceiver(mServiceReceiver, intentFilter);
  		 		isPlaying = true;
  	 			this.invalidateOptionsMenu();
