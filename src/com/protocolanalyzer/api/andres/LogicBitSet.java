@@ -7,14 +7,14 @@ import java.util.BitSet;
  * y bajada y la mitad de un bit en alto
  * @author andres
  */
-public class LogicBit extends BitSet{
+public class LogicBitSet extends BitSet{
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Constructor
 	 */
-	LogicBit(){
+	LogicBitSet(){
 		super();	// Creo un BitSet
 	}
 	
@@ -22,7 +22,7 @@ public class LogicBit extends BitSet{
 	 * Constructor con tamaño del BitSet
 	 * @param size es el tama�o del BitSet
 	 */
-	LogicBit(int size){
+	LogicBitSet(int size){
 		super(size);
 	}
 	

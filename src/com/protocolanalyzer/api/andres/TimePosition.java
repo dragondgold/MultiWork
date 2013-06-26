@@ -33,5 +33,21 @@ public class TimePosition {
 		return text;
 	}
 	
+	/**
+	 * Tiempo de inicio del String en mili-segundos
+	 * @return
+	 */
+	public double startTime(){
+		return time[0];
+	}
+	
+	/**
+	 * Tiempo de terminacion del String en mili-segundos
+	 * @return
+	 */
+	public double endTime(){
+		return time[1];
+	}
+	
 }
 

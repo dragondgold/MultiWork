@@ -1,13 +1,16 @@
 package com.protocolanalyzer.andres;
 
+import java.util.List;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.multiwork.andres.R;
-import com.protocolanalyzer.api.andres.LogicData;
-import com.protocolanalyzer.api.andres.LogicData.Protocol;
+import com.protocolanalyzer.api.andres.Protocol;
+import com.protocolanalyzer.api.andres.TimePosition;
+import com.protocolanalyzer.api.andres.Protocol.ProtocolType;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -88,20 +91,24 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 	}
 
 	@Override
-	public double onDataDecodedListener(LogicData[] mLogicData, int samplesCount, boolean isConfig) {
-		if(DEBUG) Log.i("mFragmentList","onDataDecodedListener() - " + mLogicData.length + " channels");
+	public double onDataDecodedListener(Protocol[] data, int samplesCount, boolean isConfig) {
+		if(DEBUG) Log.i("mFragmentList","onDataDecodedListener() - " + data.length + " channels");
 		for(int n=0; n < mRawData.length; ++n) mRawData[n].setText("");
+		
 		for(int n=0; n < mRawData.length; ++n){
-			if(mLogicData[n].getProtocol() != Protocol.CLOCK){
+			List<TimePosition> stringData = data[n].getDecodedData();
+			
+			if(data[n].getProtocol() != ProtocolType.CLOCK){
 				mRawDataTitle[n].setText( Html.fromHtml("<u>" + getString(R.string.AnalyzerChannel) + " " + (n+1) 
-						+ " - " + mLogicData[n].getProtocol().toString() + "</u>") );
+						+ " - " + data[n].getProtocol().toString() + "</u>") );
 				
-				for(int i=0; i < mLogicData[n].getStringCount(); ++i){
+				
+				for(int i=0; i < stringData.size(); ++i){
 					// Con código HTML se puede aplicar propiedades de texto a ciertas partes unicamente
 					// http://stackoverflow.com/questions/1529068/is-it-possible-to-have-multiple-styles-inside-a-textview
 					mRawData[n].append( Html.fromHtml("<b><font color=#ff0000>" +
-							mLogicData[n].getString(i) + "</font></b>"  
-							+ "\t --> " + String.format("%.2f", (mLogicData[n].getPositionAt(i)[0]*1000000))
+							stringData.get(i).getString() + "</font></b>"  
+							+ "\t --> " + String.format("%.3f", (stringData.get(i).startTime()*1000))
 							+ "uS<br/>") );
 				}
 			}

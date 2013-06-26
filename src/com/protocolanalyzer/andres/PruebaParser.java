@@ -1,11 +1,11 @@
 package com.protocolanalyzer.andres;
 
-import java.util.BitSet;
-
-import com.protocolanalyzer.api.andres.I2CDecoder;
-import com.protocolanalyzer.api.andres.LogicData;
+import com.protocolanalyzer.api.andres.Clock;
+import com.protocolanalyzer.api.andres.I2CProtocol;
+import com.protocolanalyzer.api.andres.LogicBitSet;
 import com.protocolanalyzer.api.andres.LogicHelper;
-import com.protocolanalyzer.api.andres.UARTDecoder;
+import com.protocolanalyzer.api.andres.UARTProtocol;
+import com.protocolanalyzer.api.andres.Protocol.ProtocolType;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,81 +16,82 @@ import android.widget.Toast;
 
 public class PruebaParser extends Activity {
 	
-	private static final int UART = 0;
-	private static final int I2C = 1;
-	private static final int state = I2C;
+	private static final ProtocolType mType = ProtocolType.I2C;
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		TextView text = new TextView(this);
-		text.setText("Strings decodificados del protocolo " + I2C + " :\n");
+		text.setText("Strings decodificados del protocolo " + mType + " :\n");
 		text.setMovementMethod(new ScrollingMovementMethod());
 		
 		setContentView(text);
 		
-		if(state == UART){
-			BitSet dataUART;
-			LogicData channel = new LogicData();
-			
-			dataUART = LogicHelper.bitParser("1101101010011", 21, 1);
-			
-			channel.setBaudRate(9600);			// 9600 Baudios
-			LogicData.setSampleRate(200000);	// 200KHz
-			channel.setLogicBits(dataUART);		// Copio el BitSet al canal
-			channel.set9BitsTransmission(true);
-			
-			UARTDecoder.UARTDecode(channel);
-	
-			Log.i("Parser", "Strings Decoded");
-			for(int n = 0; n < channel.getStringCount(); ++n){
-				Log.i("Parser", "String " + n + ": " + channel.getString(n));
-				Log.i("Parser", "String " + n + " position: " + channel.getPositionAt(n));
-				// Escribo en el TextView
-				text.append("\nString " + n + ": " + channel.getString(n));
-				text.append("\nString " + n + " position: " + channel.getPositionAt(n)[0]);
-			}
-		}
-		else if(state == I2C){
-			BitSet dataI2C, clock;
-			LogicData dataChannel, clockChannel;
+		long start, end;
+		
+		if(mType == ProtocolType.UART){
+			LogicBitSet data;
+			UARTProtocol channelUART = new UARTProtocol(200000);
 			
 			Log.i("Parser", "Parsing");
+			data = LogicHelper.bitParser("1101101010011", 21, 1);
+			
+			channelUART.setBaudRate(9600);			// 9600 Baudios
+			channelUART.setChannelBitsData(data);	// Bits
+			channelUART.set9BitsMode(false);
+			
+			start = System.currentTimeMillis();
+			Log.i("Parser", "Decoding");
+			channelUART.decode(0);
+			Log.i("Parser", "Decoded");	
+			end = System.currentTimeMillis();
+	
+			Log.i("Parser", "Data decoded in: " + (end-start) + " mS");
+			for(int n = 0; n < channelUART.getDecodedData().size(); ++n){
+				Log.i("Parser", "String " + n + ": " + channelUART.getDecodedData().get(n).getString());
+				Log.i("Parser", "String " + n + " position: " + channelUART.getDecodedData().get(n).startTime());
+				// Escribo en el TextView
+				text.append("\nString " + n + ": " + channelUART.getDecodedData().get(n).getString());
+				text.append("\nString " + n + " position: " + channelUART.getDecodedData().get(n).startTime());
+			}
+		}
+		else if(mType == ProtocolType.I2C){
+			LogicBitSet dataI2C, clkI2C;
+			
+			I2CProtocol channelI2C = new I2CProtocol(200000);
+			Clock clockI2C = new Clock(200000);
 
-			//								  S		  Adress       A 		Byte		A  ST
-			dataI2C = LogicHelper.bitParser("100 11010010011100101 0 111010011110000111 0 001", 5, 300);
-			clock = LogicHelper.bitParser(  "110 01010101010101010 1 001010101010101010 1 011", 5, 300);
+			Log.i("Parser", "Parsing");
+			//								  S		  Address        A 		Byte		  A  ST
+			dataI2C = LogicHelper.bitParser("100  11010010011100101  0 111010011110000111 0 001", 5, 300);
+			clkI2C = LogicHelper.bitParser( "110  01010101010101010  1 001010101010101010 1 011", 5, 300);
 			
-			dataChannel = new LogicData();
-			clockChannel = new LogicData();
-			
-			LogicData.setSampleRate(2000000);
-			dataChannel.setLogicBits(dataI2C);
-			clockChannel.setLogicBits(clock);
+			channelI2C.setChannelBitsData(dataI2C);
+			channelI2C.setClockSource(clockI2C);
+			clockI2C.setChannelBitsData(clkI2C);
 			
 			Log.i("Parser", "Parsed");	
 			text.append("Data:  100-11010010011100101-0-111010011110000111-0-001\n");
 			text.append("Clock: 110-01010101010101010-1-001010101010101010-1-011\n");
 				
-			long start = System.nanoTime();
+			start = System.currentTimeMillis();
 			Log.i("Parser", "Decoding");
-			I2CDecoder.i2cProtocolDecode(dataChannel, clockChannel);
+			channelI2C.decode(0);
 			Log.i("Parser", "Decoded");	
-			long stop = System.nanoTime();
+			end = System.currentTimeMillis();
 			
-			for(int n = 0; n < dataChannel.getStringCount(); ++n){
-				Log.i("Parser", "String " + n + ": " + dataChannel.getString(n));
-				Log.i("Parser", "String " + n + " position: " + dataChannel.getPositionAt(n)[0]*1000000 + " uS");
+			text.append("Data Decoded in " + (end-start) + " mS\n");
+			
+			for(int n = 0; n < channelI2C.getDecodedData().size(); ++n){
+				Log.i("Parser", "String " + n + ": " + channelI2C.getDecodedData().get(n).getString());
+				Log.i("Parser", "String " + n + " position: " + channelI2C.getDecodedData().get(n).startTime()*1000 + " uS");
 				// Escribo en el TextView
-				text.append("\nString " + n + ": " + dataChannel.getString(n));
-				text.append("\nString " + n + " position: " + dataChannel.getPositionAt(n)[0]*1000000 + " uS");
+				text.append("\nString " + n + ": " + channelI2C.getDecodedData().get(n).getString());
+				text.append("\nString " + n + " position: " + channelI2C.getDecodedData().get(n).startTime()*1000 + " uS");
 			}
-			text.append("\nData Decoded in " + ((stop-start)/1000000) + " mS");
-
-			Log.i("Parser", "Strings Decoded in " + ((stop-start)/1000000) + " mS");
-			Toast.makeText(this, "Data Decoded in " + ((stop-start)/1000000) + " mS", Toast.LENGTH_LONG).show();
+			Log.i("Parser", "Data Decoded in " + (end-start) + " mS");;
+			Toast.makeText(this, "Data Decoded in " + (end-start) + " mS", Toast.LENGTH_LONG).show();
 		}
 		
 	}

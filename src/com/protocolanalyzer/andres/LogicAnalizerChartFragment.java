@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -51,7 +52,9 @@ import com.actionbarsherlock.view.ActionMode;
 
 import com.multiwork.andres.ConfirmDialog;
 import com.multiwork.andres.R;
-import com.protocolanalyzer.api.andres.LogicData;
+import com.protocolanalyzer.api.andres.LogicBitSet;
+import com.protocolanalyzer.api.andres.Protocol;
+import com.protocolanalyzer.api.andres.TimePosition;
 
 @SuppressLint("ValidFragment")
 public class LogicAnalizerChartFragment extends SherlockFragment implements OnDataDecodedListener{
@@ -113,24 +116,24 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	/** Dato decodificado desde LogicHelper para ser mostrado en el grafico, contiene las posiciones para mostar
      * el tipo de protocolo, etc
      * @see LogicData.java */
-	private static LogicData[] mData = new LogicData[LogicAnalizerActivity.channelsNumber];
+	private static Protocol[] decodedData = new Protocol[LogicAnalizerActivity.channelsNumber];
 	
 	private static boolean firstTime = true;
 	private static int samplesNumber = 0;
 	
 	// Constructor
-	public LogicAnalizerChartFragment(LogicData[] data) {
-		mData = data;
+	public LogicAnalizerChartFragment(Protocol[] data) {
+		decodedData = data;
 	}
 	
 	@Override
-	public double onDataDecodedListener(LogicData[] mLogicData, int samplesCount, boolean isConfig) {
+	public double onDataDecodedListener(Protocol[] data, int samplesCount, boolean isConfig) {
 		if(DEBUG) Log.i("mFragmentChart","onDataDecoded() - isConfig: " + isConfig);
-		if(DEBUG) Log.i("mFragmentChart","Data: " + mLogicData.toString());
+		if(DEBUG) Log.i("mFragmentChart","Data: " + data.toString());
 		// Si se cambiaron las configuraciones las actualizo
 		if(isConfig) setChartPreferences();
 		else{
-			mData = mLogicData;
+			decodedData = data;
 			samplesNumber = samplesCount;
 			
 			// Configuro las variables en base a las preferencias la primera vez unicamente
@@ -522,22 +525,19 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		@Override
 		public void run() {
 			
-			if(DEBUG) {
-				for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n) {
-					for(int i = 0; i < mData[n].getStringCount(); ++i) {
-						Log.i("Data", "Data[" + n + "]: " + mData[n].getString(i));
-					}
-				}
-			}
-
 	    	// Si los bit son 1 le sumo 1 a los valores tomados como 0 logicos
 			for(int n=0; n < samplesNumber; ++n){
 				for(int channel=0; channel < LogicAnalizerActivity.channelsNumber; ++channel){	
-					if(mData[channel].getBits().get(n)){	// Si es 1
+					
+					LogicBitSet bitsData = decodedData[n].getChannelBitsData();
+					
+					// Si es 1
+					if(bitsData.get(n)){
 						// Nivel tomado como 0 + un alto de bit
 						mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]+bitScale);
 					}
-					else{									// Si es 0
+					// Si es 0
+					else{				
 						mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]);
 					}
 				}
@@ -548,7 +548,8 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 					mRenderDataset.setXAxisMax(mRenderDataset.getXAxisMax()+1d);
 					mRenderDataset.setXAxisMin(mRenderDataset.getXAxisMin()+1d);
 				}
-				time += 1.0d/LogicData.getSampleRate();	// Incremento el tiempo
+				// Incremento el tiempo
+				time += 1.0d/decodedData[n].getSampleFrequency();
 			}
 			// Agrego un espacio para indicar que el buffer de muestreo llego hasta aqui
 			time += (10*timeScale);
@@ -557,18 +558,21 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			}
 			
 			for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
-				for(int i = 0; i < mData[n].getStringCount(); ++i){
+				List<TimePosition> stringData = decodedData[n].getDecodedData();
+				
+				for(int i = 0; i < stringData.size(); ++i){
+					
+					TimePosition timePosition = stringData.get(i);
 					
 					// Agrego el texto en el centro del area de tiempo que contiene el string
-					mSerie[n].addAnnotation(mData[n].getString(i),
-							toCoordinate(mData[n].getPositionAt(i)[0]+((mData[n].getPositionAt(i)[1]-mData[n].getPositionAt(i)[0])/2.0d),
-									timeScale),
-							yChannel[n]+2f);
+					mSerie[n].addAnnotation(timePosition.getString(),
+							toCoordinate(timePosition.startTime()+((timePosition.endTime()-timePosition.startTime())/2.0d),
+									timeScale), yChannel[n]+2f);
 				
 					// Agrego el recuadro
-					mSerie[n].addRectangle(toCoordinate(mData[n].getPositionAt(i)[0], timeScale)+0.0000001,
+					mSerie[n].addRectangle(toCoordinate(timePosition.startTime(), timeScale)+0.0000001,
 							yChannel[n]+3.5f,
-							toCoordinate(mData[n].getPositionAt(i)[1], timeScale),
+							toCoordinate(timePosition.endTime(), timeScale),
 							yChannel[n]+bitScale+0.5f);
 				}
 			}
@@ -590,9 +594,9 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	};
 	
 	/**
-	 * Convierte el tiempo en segundo a la escala del grafico segunda la escala de tiempos
-	 * @param time tiempo en segundos
-	 * @param timeScale cuantos segundos equivalen a una unidad en el grafico
+	 * Convierte el tiempo en mili-segundos a la escala del grafico segun la escala de tiempos
+	 * @param time tiempo en mili-segundos
+	 * @param timeScale cuantos mili-segundos equivalen a una unidad en el grafico
 	 * @return coordenada equivalente
 	 */
 	private static double toCoordinate (double time, double timeScale){
@@ -627,25 +631,25 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
         maxSamples = Integer.decode(getPrefs.getString("maxSamples","5"));
     	
         // Escala del eje X de acuerdo al sample rate
-        if(LogicData.getSampleRate() == 40000000) {
+        if(decodedData[0].getSampleFrequency() == 40E6) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x25nS");
         	timeScale = 0.000000025d;		// 25nS
-        }else if(LogicData.getSampleRate() == 20000000) {
+        }else if(decodedData[0].getSampleFrequency() == 20E6) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x50 nS");
         	timeScale = 0.000000050d;		// 50nS
-        }else if(LogicData.getSampleRate() == 10000000) {
+        }else if(decodedData[0].getSampleFrequency() == 10E6) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x100 nS");
         	timeScale = 0.000000100d;		// 100nS
-        }else if(LogicData.getSampleRate() == 4000000) {
+        }else if(decodedData[0].getSampleFrequency() == 4E6) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x250 nS");
         	timeScale = 0.000000250d;		// 250nS
-        }else if(LogicData.getSampleRate() == 400000) {
+        }else if(decodedData[0].getSampleFrequency() == 400000) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x2.5 uS");
         	timeScale = 0.0000025d;			// 2.5uS
-        }else if(LogicData.getSampleRate() == 2000) {
+        }else if(decodedData[0].getSampleFrequency() == 2000) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x500 uS");
         	timeScale = 0.000500d;			// 500uS
-        }else if(LogicData.getSampleRate() == 10) {
+        }else if(decodedData[0].getSampleFrequency() == 10) {
         	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x100 mS");
         	timeScale = 0.1d;				// 100mS
         }

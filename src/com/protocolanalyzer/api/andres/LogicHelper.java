@@ -1,13 +1,13 @@
 package com.protocolanalyzer.api.andres;
 
-import java.util.BitSet;
-
 import org.apache.http.util.ByteArrayBuffer;
 
 import android.util.Log;
 
 public class LogicHelper {
     
+	private static final boolean DEBUG = false;
+	
 	/**
 	 * Testea un bit dentro de un byte
 	 * @author Andres Torti
@@ -48,15 +48,15 @@ public class LogicHelper {
 	}
 	
 	/**
-	 * Parseador de bits, se la pasa un String con los 1 y 0 que se desean y los coloca en un BitSet con el numero
-	 * de muestreos por bit que se deseen
+	 * Parseador de bits, se la pasa un String con los 1 y 0 que se desean y los coloca en un LogicBitSet
+	 * con el numero de muestreos por bit que se deseen
 	 * @param data String con los 1 y 0, los demas caracteres son ignorados
 	 * @param samplesPerBit numero de bits por cada 1 y 0
 	 * @param times indica la cantidad de veces que se repite el String pasado para crear cadenas mas largas
-	 * @return BitSet con los bits de acuerdo al String y los samplesPerBit
+	 * @return LogicBitSet con los bits de acuerdo al String y los samplesPerBit
 	 */
-	public static BitSet bitParser (final String data, final int samplesPerBit, final int times){
-		BitSet bitSet = new BitSet();
+	public static LogicBitSet bitParser (final String data, final int samplesPerBit, final int times){
+		LogicBitSet bitSet = new LogicBitSet();
 		
 		Log.i("BitParse", "samplesPerBit: " + samplesPerBit);
 		Log.i("BitParse", "String: " + data);
@@ -115,6 +115,31 @@ public class LogicHelper {
 		}
 		
 		return returnData.toByteArray();
+	}
+	
+	/**
+	 * Pasa un buffer de bytes a los buffers individuales de cada canal
+	 * @author Andres
+	 * @param data es un array de bytes con los bytes que se reciben del analizador logico, siendo el bit 0 el estado
+	 * del canal 0 hasta el bit 8 el estado del canal 8
+	 */
+	 public static void bufferToChannel (final byte[] data, Protocol[] list) {
+		
+		if(DEBUG) Log.i("LogicHelper-BufferToChannel", "Lenght data array: " + data.length);
+		
+		// Borro los bits anteriores porq ya no me hacen falta
+		for(int n=0; n < list.length; ++n) list[n].getChannelBitsData().clear();
+		
+		for(int n=0; n < data.length; ++n){						// Voy a traves de los bytes recibidos
+			for(int bit=0; bit < list.length; ++bit){			// Voy a traves de cada canal (cada bit del byte)
+				if(LogicHelper.bitTest(data[n], bit)){			// Si es 1
+					list[bit].getChannelBitsData().set(n);		// bit es el numero del canal y el bit a poner a 1 o 0
+				}
+				else{											// Si es 0
+					list[bit].getChannelBitsData().clear(n);
+				}
+			}
+		}
 	}
 	
 }
