@@ -97,9 +97,6 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		try { mListDataDecodedListener = (OnDataDecodedListener) mFragmentList; }
 		catch (ClassCastException e) { throw new ClassCastException(mFragmentList.toString() + " must implement OnDataDecodedListener"); }
 		
-		// Configuro cada canal
-		setPreferences();
-		
 		// Array de tamaño 0 para evitar NullPointerException
 		tempBuffer = new byte[0];
 	}
@@ -107,9 +104,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	// Si estoy tomando datos y salgo de la Activity elimino el CallBack para no recibir mas datos desde el Service.
 	@Override
 	protected void onPause() {
+		super.onPause();
 		if(DEBUG) Log.i("mFragmentActivity","onPause()");
 		mBluetoothHelper.write(0);	// Indico al PIC que salí de la Activity
-		super.onPause();
 	}
 	
 	/**
@@ -118,6 +115,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	 */
 	@Override
 	protected void onResume() {
+		super.onResume();
 		if(DEBUG) Log.i("mFragmentActivity","onResume()");
 		
 		ApplicationContext myApp = (ApplicationContext)getApplication();
@@ -135,7 +133,6 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		setPreferences();
 		
 		this.supportInvalidateOptionsMenu();  // Actualizo el ActionBar
-		super.onResume();
 	}
 	
 	@Override
@@ -166,6 +163,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 				isPlaying = true;
 				supportInvalidateOptionsMenu();
 				
+				if(DEBUG) Log.i("mFragmentActivity", "Data sent, waiting for data");
 				// Muestro un diálogo de progreso indeterminado mientras se procesan los datos
 				mDialog = ProgressDialog.show(this, getString(R.string.AnalyzerDialogReceiving),
 						getString(R.string.PleaseWait), true);
