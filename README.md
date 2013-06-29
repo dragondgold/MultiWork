@@ -20,7 +20,7 @@ The hardware is made by me with a dsPIC Microcontroller and communicates with th
 </a> Requirements </h2>
 <ul>
 <li>Android based device with at least Android Gingerbread 2.3</li>
-<li>Electronic hardware which sample the data (will release the schematics and PIC source code soon)
+<li>Electronic hardware which sample the data (will release the schematics soon, dsPIC firmware can be found <a href="https://github.com/dragondgold/MultiWork_dsPIC">here</a>)
 </li>
 </ul>
 
