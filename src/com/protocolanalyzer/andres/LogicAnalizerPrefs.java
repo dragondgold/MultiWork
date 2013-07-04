@@ -33,7 +33,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
         
         getSupportActionBar().setTitle(getString(R.string.AnalyzerPrefsActionTitle));
         
-        // Si no estoy en Android GingerBread no uso fragments
+        // Si no estoy en al menos Android Honeycomb no uso fragments
         if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
         	// Agrego todas las preferencias de cada canal
         	PreferenceScreen mPreferenceScreen = getPreferenceManager().createPreferenceScreen(this);
@@ -110,6 +110,12 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 					if(DEBUG) Log.i("PreferenceActivity", "Mask: " + Integer.toBinaryString(mask));
 					
 				}
+				// Si cambió alguna definicion de fuente de clock o protocolo
+				if(key.contains("SCL") || key.contains("protocol")){
+					// Si el protocolo es de tipo I2C, configuro el canal indicado por SCL como Clock
+					if(sharedPreferences.getInt("protocol" + key.charAt(3), 0) == LogicAnalizerActivity.I2C)
+						sharedPreferences.edit().putInt("protocol" + key.charAt(3), LogicAnalizerActivity.Clock).commit();
+				}
 			}
 		};
 		mPrefs.registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
@@ -119,7 +125,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 	@Override
     public void onBuildHeaders(List<Header> target) {  
     	if(DEBUG) Log.i("PreferenceActivity", "onBuildHeaders() -> LogicAnalizerPrefs");
-    	if(android.os.Build.VERSION.SDK_INT >= 12) {
+    	if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
     		
     		Bundle mBundle = new Bundle();
     		mBundle.putString("name", "General");

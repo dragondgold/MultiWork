@@ -55,6 +55,11 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static final int dispatchInterfaces = 1;
 	private static final int dismissDialog = 2;
 	
+	public static final int I2C = 0;
+	public static final int UART = 1;
+	public static final int Clock = 2;
+	public static final int NA = 3;
+	
 	/** Interface donde paso los datos decodificados a los Fragments, los mismo deben implementar el Listener */
 	private static OnDataDecodedListener mChartDataDecodedListener;
 	private static OnDataDecodedListener mListDataDecodedListener;
@@ -269,7 +274,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
         for(int n=0; n < channelsNumber; ++n){
         	// Seteo el protocolo para cada canal
         	switch(Byte.decode(getPrefs.getString("protocol" + (n+1), "0"))){
-	        	case 0:		// I2C
+	        	case I2C:		// I2C
 	        		channel[n] = new I2CProtocol(sampleFrec);
 	        		
 	        		// Configuro la fuente de clock
@@ -278,18 +283,18 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	        			((I2CProtocol)channel[n]).setClockSource((Clock)channel[index]);
 	        		break;
 	        		
-	        	case 1:		// UART
+	        	case UART:		// UART
 	        		channel[n] = new UARTProtocol(sampleFrec);
 	        		
 	        		// Defino la velocidad en baudios
 		        	((UARTProtocol)channel[n]).setBaudRate(Integer.decode(getPrefs.getString("BaudRate" + (n+1), "9600")));
 	        		break;
 	        		
-	        	case 2:		// CLOCK
+	        	case Clock:		// CLOCK
 	        		channel[n] = new Clock(sampleFrec);
 	        		break;
 	        		
-	        	case 3:		// NONE
+	        	case NA:		// NONE
 	        		channel[n] = null;
 	        		break;
         	}
@@ -382,7 +387,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					
 					// Decodifico cada canal
 					for(int n = 0; n < channelsNumber; ++n) {
-						channel[n].decode(time);
+						if(channel[n] != null) channel[n].decode(time);
 					}
 					
 					// Paso los datos decodificados a los Fragment en el Thread de la UI
