@@ -10,7 +10,7 @@ public abstract class Protocol {
 	 * @author andres
 	 */
 	public enum ProtocolType {
-		UART, I2C, SPI, CLOCK, NONE
+		UART, I2C, CLOCK, NONE
 	}
 	
 	/** Contiene un String con las posiciones iniciales y finales del mismo en el tiempo */
