@@ -609,17 +609,17 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 
         for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n){
         	// Seteo el protocolo para cada canal
-        	switch(Byte.decode(getPrefs.getString("protocol" + (n+1), "0"))){
-	        	case 0:		// I2C
+        	switch(Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+LogicAnalizerActivity.NA))){
+	        	case LogicAnalizerActivity.I2C:		// I2C
 	        		mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + " [I2C]");
 	        		break;
-	        	case 1:		// UART
+	        	case LogicAnalizerActivity.UART:	// UART
 	        		mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + " [UART]");
 	        		break;
-	        	case 2:		// CLOCK
+	        	case LogicAnalizerActivity.Clock:	// CLOCK
 	        		mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + "[CLK]");
 	        		break;
-	        	case 3:		// NONE
+	        	case LogicAnalizerActivity.NA:		// NONE
 	        		mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + "[---]");
 	        		break;
         	}

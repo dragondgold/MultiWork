@@ -31,8 +31,9 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
     			PreferenceCategory mPreferenceCategory = new PreferenceCategory(getActivity());
                 mPreferenceCategory.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolCategory) + " " + n);
     			
+                // Protocol
     			ListPreference mListPreference = new ListPreference(getActivity());
-        		mListPreference.setDefaultValue("0");
+        		mListPreference.setDefaultValue("2");
         		mListPreference.setEntries(com.multiwork.andres.R.array.protocolList);
         		mListPreference.setEntryValues(com.multiwork.andres.R.array.protocolValues);
         		mListPreference.setKey("protocol" + n);
@@ -40,15 +41,17 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
         		mListPreference.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + n);
         		mListPreference.setDialogTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + n);
         		
+        		// Clock
         		ListPreference mListPreference2 = new ListPreference(getActivity());
-        		mListPreference2.setDefaultValue("1");
-        		mListPreference2.setEntries(com.multiwork.andres.R.array.channelNames);
-        		mListPreference2.setEntryValues(com.multiwork.andres.R.array.protocolValues);
-        		mListPreference2.setKey("SCL" + n);
-        		mListPreference2.setSummary(com.multiwork.andres.R.string.AnalyzerSCLSummary);
-        		mListPreference2.setTitle(com.multiwork.andres.R.string.AnalyzerSCLTitle);
-        		mListPreference2.setDialogTitle(com.multiwork.andres.R.string.AnalyzerSCLTitle);
+        		mListPreference2.setDefaultValue("-1");
+        		mListPreference2.setEntries(LogicAnalizerPrefs.idChannels[n-1]);
+        		mListPreference2.setEntryValues(LogicAnalizerPrefs.idChannelsValues[n-1]);
+        		mListPreference2.setKey("CLK" + n);
+        		mListPreference2.setSummary(com.multiwork.andres.R.string.AnalyzerCLKSummary);
+        		mListPreference2.setTitle(com.multiwork.andres.R.string.AnalyzerCLKTitle);
+        		mListPreference2.setDialogTitle(com.multiwork.andres.R.string.AnalyzerCLKTitle);
         		
+        		// Baudios
         		EditTextPreference mEditTextPreference = new EditTextPreference(getActivity());
         		mEditTextPreference.setDefaultValue("9600");
         		mEditTextPreference.setTitle(com.multiwork.andres.R.string.AnalyzerBaudTitle);
@@ -56,6 +59,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
         		mEditTextPreference.setSummary(com.multiwork.andres.R.string.AnalyzerBaudSummary);
         		mEditTextPreference.setDialogTitle(com.multiwork.andres.R.string.AnalyzerBaudSummary);
         		
+        		// Simple Trigger
         		CheckBoxPreference mBoxPreference = new CheckBoxPreference(getActivity());
         		mBoxPreference.setDefaultValue(false);
         		mBoxPreference.setTitle(getString(R.string.AnalyzerSimpleTriggerTitle));

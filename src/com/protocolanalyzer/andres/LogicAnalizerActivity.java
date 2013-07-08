@@ -28,11 +28,11 @@ import com.multiwork.andres.MainMenu;
 import com.multiwork.andres.R;
 
 import com.protocolanalyzer.api.andres.Clock;
+import com.protocolanalyzer.api.andres.EmptyProtocol;
 import com.protocolanalyzer.api.andres.I2CProtocol;
 import com.protocolanalyzer.api.andres.LogicHelper;
 import com.protocolanalyzer.api.andres.Protocol;
 import com.protocolanalyzer.api.andres.UARTProtocol;
-import com.protocolanalyzer.api.andres.Protocol.ProtocolType;
 
 public class LogicAnalizerActivity extends SherlockFragmentActivity implements OnActionBarClickListener, OnNewBluetoothDataReceived{
 
@@ -55,10 +55,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static final int dispatchInterfaces = 1;
 	private static final int dismissDialog = 2;
 	
-	public static final int I2C = 0;
-	public static final int UART = 1;
-	public static final int Clock = 2;
-	public static final int NA = 3;
+	public static final int I2C = 1;
+	public static final int UART = 2;
+	public static final int Clock = 3;
+	public static final int NA = -1;
 	
 	/** Interface donde paso los datos decodificados a los Fragments, los mismo deben implementar el Listener */
 	private static OnDataDecodedListener mChartDataDecodedListener;
@@ -162,7 +162,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 				else if(channel[0].getSampleFrequency() == 2000) mBluetoothHelper.write(F2KHz);
 				else if(channel[0].getSampleFrequency() == 10) mBluetoothHelper.write(F10Hz);
 				// Si usa trigger o no
-				mBluetoothHelper.write(getPrefs.getBoolean("simpleTriggerGeneral", false) ? 1 : 0);
+				mBluetoothHelper.write(getPrefs.getBoolean("simpleTriggerGeneral", false) ? 'S' : 'N');
 				// Mask
 				mBluetoothHelper.write(getPrefs.getInt("simpleTriggerMask", 0));
 				isPlaying = true;
@@ -272,15 +272,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
  		long sampleFrec = Long.decode(getPrefs.getString("sampleRate", "4000000"));
  		
         for(int n=0; n < channelsNumber; ++n){
-        	// Seteo el protocolo para cada canal
-        	switch(Byte.decode(getPrefs.getString("protocol" + (n+1), "0"))){
+        	// Seteo el protocolo para cada canal y configuraciones generales
+        	switch(Integer.decode(getPrefs.getString("protocol" + (n+1), ""+NA))){
 	        	case I2C:		// I2C
 	        		channel[n] = new I2CProtocol(sampleFrec);
-	        		
-	        		// Configuro la fuente de clock
-	        		final int index = Integer.decode(getPrefs.getString("SCL" + (n+1), "0"));
-	        		if( channel[index].getProtocol() == ProtocolType.CLOCK )
-	        			((I2CProtocol)channel[n]).setClockSource((Clock)channel[index]);
 	        		break;
 	        		
 	        	case UART:		// UART
@@ -295,7 +290,11 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	        		break;
 	        		
 	        	case NA:		// NONE
-	        		channel[n] = null;
+	        		channel[n] = new EmptyProtocol(sampleFrec);
+	        		break;
+	        		
+	        	default:
+	        		channel[n] = new EmptyProtocol(sampleFrec);
 	        		break;
         	}
         }
@@ -312,26 +311,28 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
  	}
  	
  	// Handler para actualizar el UI Thread
- 	final Handler updateUIThread = new Handler(){
- 		@Override 
- 	    public void handleMessage(Message msg) { 
- 			switch (msg.what) {
- 				case updateDialogTitle:
- 					mDialog.setTitle(getString(R.string.AnalyzerDialogLoading));
- 					break;
+ 	final Handler updateUIThread = new Handler(new Handler.Callback() {
+		
+		@Override
+		public boolean handleMessage(Message msg) {
+			switch (msg.what) {
+				case updateDialogTitle:
+					mDialog.setTitle(getString(R.string.AnalyzerDialogLoading));
+					break;
 
- 				case dispatchInterfaces:
- 					time = mListDataDecodedListener.onDataDecodedListener(channel, tempBuffer.length, false);
+				case dispatchInterfaces:
+					time = mListDataDecodedListener.onDataDecodedListener(channel, tempBuffer.length, false);
 					if(isFragmentActive("ChartLogic")) mChartDataDecodedListener.onDataDecodedListener(channel, tempBuffer.length, false);
- 					break;
- 				
- 				case dismissDialog:
- 					mDialog.dismiss();
- 					supportInvalidateOptionsMenu();
- 					break;
+					break;
+				
+				case dismissDialog:
+					mDialog.dismiss();
+					supportInvalidateOptionsMenu();
+					break;
 			}
- 	    } 
- 	};
+			return false;
+		}
+	});
  	
 	@Override
 	public boolean onNewBluetoothDataReceivedListener(InputStream mBTIn, OutputStream mBTOut) {

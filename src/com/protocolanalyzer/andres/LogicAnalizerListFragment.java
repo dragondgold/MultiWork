@@ -92,24 +92,26 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 
 	@Override
 	public double onDataDecodedListener(Protocol[] data, int samplesCount, boolean isConfig) {
-		if(DEBUG) Log.i("mFragmentList","onDataDecodedListener() - " + data.length + " channels");
-		for(int n=0; n < mRawData.length; ++n) mRawData[n].setText("");
-		
-		for(int n=0; n < mRawData.length; ++n){
-			List<TimePosition> stringData = data[n].getDecodedData();
+		if(!isConfig){
+			if(DEBUG) Log.i("mFragmentList","onDataDecodedListener() - " + data.length + " channels");
+			for(int n=0; n < mRawData.length; ++n) mRawData[n].setText("");
 			
-			if(data[n].getProtocol() != ProtocolType.CLOCK){
-				mRawDataTitle[n].setText( Html.fromHtml("<u>" + getString(R.string.AnalyzerChannel) + " " + (n+1) 
-						+ " - " + data[n].getProtocol().toString() + "</u>") );
+			for(int n=0; n < mRawData.length; ++n){
+				List<TimePosition> stringData = data[n].getDecodedData();
 				
-				
-				for(int i=0; i < stringData.size(); ++i){
-					// Con código HTML se puede aplicar propiedades de texto a ciertas partes unicamente
-					// http://stackoverflow.com/questions/1529068/is-it-possible-to-have-multiple-styles-inside-a-textview
-					mRawData[n].append( Html.fromHtml("<b><font color=#ff0000>" +
-							stringData.get(i).getString() + "</font></b>"  
-							+ "\t --> " + String.format("%.3f", (stringData.get(i).startTime()*1000))
-							+ "uS<br/>") );
+				if(data[n].getProtocol() != ProtocolType.CLOCK){
+					mRawDataTitle[n].setText( Html.fromHtml("<u>" + getString(R.string.AnalyzerChannel) + " " + (n+1) 
+							+ " - " + data[n].getProtocol().toString() + "</u>") );
+					
+					
+					for(int i=0; i < stringData.size(); ++i){
+						// Con código HTML se puede aplicar propiedades de texto a ciertas partes unicamente
+						// http://stackoverflow.com/questions/1529068/is-it-possible-to-have-multiple-styles-inside-a-textview
+						mRawData[n].append( Html.fromHtml("<b><font color=#ff0000>" +
+								stringData.get(i).getString() + "</font></b>"  
+								+ "\t --> " + String.format("%.3f", (stringData.get(i).startTime()*1000))
+								+ "uS<br/>") );
+					}
 				}
 			}
 		}
