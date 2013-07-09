@@ -3,8 +3,6 @@ package com.protocolanalyzer.andres;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
@@ -63,9 +61,9 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	private static final boolean DEBUG = true;
 	
 	/** Valores del eje Y que son tomados como inicio ('0' lógico) para las Series de los canales de entrada */
-	private static final float yChannel[] = {12f, 8f, 4f, 0};
+	private static final float yChannel[] = {0, 4, 8, 12};
     /** Cuanto se incrementa en el eje Y para hacer un '1' logico */
-	private static final float bitScale = 1.00f;		
+	private static final float bitScale = 1;		
     /** Valor del eje X maximo inicial */
     private static final double xMax = 10;				
     /** Colores de linea para cada canal */
@@ -75,8 +73,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
     
     /** Vibrador del dispositivo */
     private static Vibrator mVibrator;
-    /** Directorio para guardar las sesiones */
-    private static String sesionDirectory;
     /** Directorio para guardar las imagenes */
     private static String imagesDirectory;
     
@@ -85,7 +81,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	/** Handler para la actualizacion del grafico en el UI Thread */
     private static Handler mUpdaterHandler = new Handler();	
     /** Tiempo que va transcurriendo (eje x del grafico) */
-    private static double time = 0.0d;		
+    private static double time = 0;		
     /** Cuantos segundos representa un cuadrito (una unidad) en el grafico */
     private static double timeScale; 
     
@@ -94,13 +90,13 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
     private static int currentSamples = 0;
     
     /** Serie que muestra los '1' y '0' de cada canal */
-    private static XYSeries[] mSerie = new XYSeries[LogicAnalizerActivity.channelsNumber];
+    private static XYSeries[] mSerie;
     /** Renderer para cada Serie, indica color, tamaño, etc */
-    private static XYSeriesRenderer[] mRenderer = new XYSeriesRenderer[LogicAnalizerActivity.channelsNumber];
+    private static XYSeriesRenderer[] mRenderer;
     /** Dataset para agrupar las Series */
-    private static XYMultipleSeriesDataset mSerieDataset = new XYMultipleSeriesDataset();
+    private static XYMultipleSeriesDataset mSerieDataset;
     /** Dataser para agrupar los Renderer */
-    private static XYMultipleSeriesRenderer mRenderDataset = new XYMultipleSeriesRenderer();
+    private static XYMultipleSeriesRenderer mRenderDataset;
 	
 	private static GraphicalView mChartView;
 	private static SherlockFragmentActivity mActivity;
@@ -116,14 +112,19 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	/** Dato decodificado desde LogicHelper para ser mostrado en el grafico, contiene las posiciones para mostar
      * el tipo de protocolo, etc
      * @see LogicData.java */
-	private static Protocol[] decodedData = new Protocol[LogicAnalizerActivity.channelsNumber];
+	private static Protocol[] decodedData;
 	
-	private static boolean firstTime = true;
 	private static int samplesNumber = 0;
 	
 	// Constructor
-	public LogicAnalizerChartFragment(Protocol[] data) {
+	public LogicAnalizerChartFragment(Protocol[] data, int samplesCount) {
+		if(DEBUG) Log.i("mFragmentChart","LogicAnalizerChartFragment() Constructor");
 		decodedData = data;
+		samplesNumber = samplesCount;
+	}
+	
+	public LogicAnalizerChartFragment() {
+		decodedData = null;
 	}
 	
 	@Override
@@ -136,68 +137,22 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			decodedData = data;
 			samplesNumber = samplesCount;
 			
-			// Configuro las variables en base a las preferencias la primera vez unicamente
-			if(firstTime){
-				setChartPreferences();
-				firstTime = false;
-			}
-			
-			if(samplesNumber > 0) mUpdaterHandler.post(mUpdaterTask);
+			if(samplesNumber > 0) mUpdaterHandler.post(mUpdaterTask);;
 		}
 		return 0;
 	}
 	
-    // Creacion del Fragment
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 		
 		Log.i("mFragmentChart", "onCreate()");
 		
-		mActivity = getSherlockActivity();							// Obtengo la Activity que contiene el Fragment
         mActionBar = mActivity.getSupportActionBar();				// Obtengo el ActionBar
         mActionBar.setDisplayHomeAsUpEnabled(true);					// El icono de la aplicacion funciona como boton HOME
         mActionBar.setTitle(getString(R.string.AnalyzerName)) ;		// Nombre
         this.setHasOptionsMenu(true);								
         
-        for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n) {
-        	// Crea las Serie que es una linea en el grafico (cada una de las entradas)
-        	mSerie[n] = new XYSeries(getString(R.string.AnalyzerName) + n);
-        	
-        	mRenderer[n] = new XYSeriesRenderer();			// Creo el renderer de la Serie
-        	mRenderDataset.addSeriesRenderer(mRenderer[n]);	// Agrego el renderer al Dataset
-        	mSerieDataset.addSeries(mSerie[n]);				// Agrego la seria al Dataset
-        	
-        	mRenderer[n].setColor(lineColor[n]);			// Color de la Serie
-        	mRenderer[n].setFillPoints(true);
-        	mRenderer[n].setPointStyle(PointStyle.CIRCLE);
-        	mRenderer[n].setLineWidth(2f);
-        	
-        	mRenderer[n].getTextPaint().setTextSize(30);	// Tamaño del texto
-        	mRenderer[n].getTextPaint().setColor(Color.WHITE);
-        	mRenderer[n].getTextPaint().setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
-        	mRenderer[n].getTextPaint().setTextAlign(Align.CENTER);
-        	
-        	mRenderer[n].getRectPaint().setColor(Color.WHITE);
-        	mRenderer[n].getRectPaint().setStrokeWidth(2f);
-        	mRenderer[n].getRectPaint().setStyle(Style.STROKE);
-        }
-
-        // Configuraciones generales
-        mRenderDataset.setYTitle(getString(R.string.AnalyzerYTitle));
-        mRenderDataset.setAntialiasing(true);
-        mRenderDataset.setYAxisMax(yChannel[0]+4);
-        mRenderDataset.setXAxisMin(0);
-        mRenderDataset.setXAxisMax(xMax);
-        mRenderDataset.setPanEnabled(true);
-        mRenderDataset.setShowGrid(true);
-        mRenderDataset.setPointSize(4f);
-        mRenderDataset.setExternalZoomEnabled(true);
-        mRenderDataset.setPanEnabled(true, false);
-        mRenderDataset.setZoomEnabled(true, false);
-        mRenderDataset.setPanLimits(new double[] {0d , Double.MAX_VALUE, -1d, yChannel[0]+4});
-        
-        mChartView = ChartFactory.getLineChartView(mActivity, mSerieDataset, mRenderDataset);
         setChartPreferences();
      
         // Obtengo el OnActionBarClickListener de la Activity que creo este Fragment
@@ -245,6 +200,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 				return false;
 			}
         });   
+        if(decodedData != null) mUpdaterHandler.post(mUpdaterTask);
 	}
 
 	@Override
@@ -258,8 +214,61 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		Log.i("mFragmentChart", "onCreateView()");
+		
+		// Obtengo la Activity que contiene el Fragment
+		mActivity = getSherlockActivity();
+		
+		mSerieDataset = new XYMultipleSeriesDataset();
+		mRenderDataset = new XYMultipleSeriesRenderer();
+		mSerie = new XYSeries[LogicAnalizerActivity.channelsNumber];
+		mRenderer = new XYSeriesRenderer[LogicAnalizerActivity.channelsNumber];
+		
+		for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n) {
+	    	// Crea las Serie que es una linea en el grafico (cada una de las entradas)
+	    	mSerie[n] = new XYSeries(getString(R.string.AnalyzerName) + n);
+	    	
+	    	mRenderer[n] = new XYSeriesRenderer();			// Creo el renderer de la Serie
+	    	mRenderDataset.addSeriesRenderer(mRenderer[n]);	// Agrego el renderer al Dataset
+	    	mSerieDataset.addSeries(mSerie[n]);				// Agrego la seria al Dataset
+	    	
+	    	mRenderer[n].setColor(lineColor[n]);			// Color de la Serie
+	    	mRenderer[n].setFillPoints(true);
+	    	mRenderer[n].setPointStyle(PointStyle.CIRCLE);
+	    	mRenderer[n].setLineWidth(2f);
+	    	
+	    	mRenderer[n].getTextPaint().setTextSize(30);	// Tamaño del texto
+	    	mRenderer[n].getTextPaint().setColor(Color.WHITE);
+	    	mRenderer[n].getTextPaint().setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+	    	mRenderer[n].getTextPaint().setTextAlign(Align.CENTER);
+	    	
+	    	mRenderer[n].getRectPaint().setColor(Color.WHITE);
+	    	mRenderer[n].getRectPaint().setStrokeWidth(2f);
+	    	mRenderer[n].getRectPaint().setStyle(Style.STROKE);
+	    }
+
+        // Configuraciones generales
+        mRenderDataset.setYTitle(getString(R.string.AnalyzerYTitle));
+        mRenderDataset.setAntialiasing(true);
+        mRenderDataset.setYAxisMax(yChannel[yChannel.length-1]+4);
+        mRenderDataset.setXAxisMin(0);
+        mRenderDataset.setXAxisMax(xMax);
+        mRenderDataset.setPanEnabled(true);
+        mRenderDataset.setShowGrid(true);
+        mRenderDataset.setPointSize(4f);
+        mRenderDataset.setExternalZoomEnabled(true);
+        mRenderDataset.setPanEnabled(true, false);
+        mRenderDataset.setZoomEnabled(true, false);
+        mRenderDataset.setPanLimits(new double[] {0d , Double.MAX_VALUE, -1d, yChannel[yChannel.length-1]+4});
+        
+        mChartView = ChartFactory.getLineChartView(mActivity, mSerieDataset, mRenderDataset);
+        setChartPreferences();
+		
 		// Renderizo el layout
-		return inflater.inflate(R.layout.logicanalizer, container, false);
+		View view = inflater.inflate(R.layout.logicanalizer, container, false);
+		FrameLayout f = (FrameLayout)view.findViewById(R.id.mChart);
+		f.addView(mChartView);
+		
+		return view;
 	}
 
 	@Override
@@ -267,11 +276,12 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		super.onResume();
 		if(DEBUG) Log.i("mFragmentChart","onResume()");
 		
+		/*
 		// Elimino primero el View porque si ya esta agregado genera una excepcion
 		((FrameLayout) mActivity.findViewById(R.id.mChart)).removeViewInLayout(mChartView);
 		// Agrego un View al layout que se renderizo en onCreateView. No puedo hacerlo antes porque dentro de 
 		// onCreateView() el layout no se renderizo y por lo tanto es null.
-		((FrameLayout) mActivity.findViewById(R.id.mChart)).addView(mChartView);
+		((FrameLayout) mActivity.findViewById(R.id.mChart)).addView(mChartView);*/
 		
 	}
     
@@ -388,7 +398,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		        	saveImageDialog();
 		        }
 		        else {
-		        	saveSesionDialog();
+		        	// TODO: guardar sesion
 		        }
 		    }
 		});
@@ -456,62 +466,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		});
 		alert.show();
 	}
-	
-	// Guarda la sesion actual, osea los datos contenidos en las series y el grafico
-	//TODO: hay que hacer que se pueda abrir la sesion con un explorador de archivos
-	//TODO: guardar las anotaciones del grafico tambien
-	private void saveSesionDialog() {
-
-		AlertDialog.Builder dialog = new AlertDialog.Builder(mActivity);
-		dialog.setTitle(getString(R.string.AnalyzerDialogSaveTitle));
-		dialog.setMessage(getString(R.string.AnalyzerDialogFileName));
-		
-		// Creamos un EditView para que el usuario escriba
-		final EditText textInput = new EditText(mActivity);
-		dialog.setView(textInput);
-		
-		dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface arg0, int arg1) {
-				new Thread(new Runnable() {		// Creo un nuevo Thread para evitar bloquear el UI Thread
-					@Override					// (Guardar el archivos lleva algunos segundos a veces)
-					public void run() {
-						try {
-							// Creo el directorio por si no existe
-							new File(Environment.getExternalStorageDirectory().getPath() 
-									+ sesionDirectory).mkdirs();
-							// Creo el archivo
-							final File path = new File(Environment.getExternalStorageDirectory().getPath() 
-									+ sesionDirectory + textInput.getText().toString() + ".ms");
-							final FileOutputStream fos = new FileOutputStream(path);
-							
-							// Guardo las Series
-							ObjectOutputStream os = new ObjectOutputStream(fos);
-							os.writeInt(LogicAnalizerActivity.channelsNumber);	// Numero de canales que voy a guardar
-							for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n) {
-								os.writeObject(mSerie[n]);
-							}
-							os.close();
-						} catch (IOException e) { e.printStackTrace(); }
-						mActivity.runOnUiThread(new Runnable() {	// El Toast debe mostrarse en el Thread de la UI
-							@Override
-							public void run() {
-								Toast.makeText(mActivity, getString(R.string.AnalyzerDialogSesionSaved), Toast.LENGTH_SHORT).show();
-							}
-						});
-					}
-				}).start();
-			}
-		});
-		
-		dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				
-			}
-		});
-		dialog.show();
-	}
 
 	/**
 	 * Los Handlers ejecutan sus operaciones en el Thread de la UI haciendo posible la modificacion de la misma desde Threads no UI.
@@ -525,38 +479,38 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		@Override
 		public void run() {
 			
-	    	// Si los bit son 1 le sumo 1 a los valores tomados como 0 logicos
-			for(int n=0; n < samplesNumber; ++n){
-				for(int channel=0; channel < LogicAnalizerActivity.channelsNumber; ++channel){	
-					
-					LogicBitSet bitsData = decodedData[n].getChannelBitsData();
-					
-					// Si es 1
+			if(DEBUG) Log.i("mFragmentChart", "Updater Task");
+			final double initTime = time;
+			
+			for(int channel = 0; channel < LogicAnalizerActivity.channelsNumber; ++channel){	
+				LogicBitSet bitsData = decodedData[channel].getChannelBitsData();
+				
+				for(int n = 0; n < samplesNumber; ++n){
 					if(bitsData.get(n)){
 						// Nivel tomado como 0 + un alto de bit
 						mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]+bitScale);
 					}
-					// Si es 0
 					else{				
 						mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]);
 					}
+					// Incremento el tiempo
+					time += 1.0d/decodedData[0].getSampleFrequency();
 				}
-				//Si llego al maximo del cuadro (borde derecho) aumento el maximo y el minimo para dibujar un tiempo mas
-				//(desplazamiento del cuadro) de esta manera si deslizamos el cuadro horizontalmente tendremos los datos
-				if(toCoordinate(time, timeScale) >= xMax){
-					//if(DEBUG) Log.i("Move", "Chart moved");
-					mRenderDataset.setXAxisMax(mRenderDataset.getXAxisMax()+1d);
-					mRenderDataset.setXAxisMin(mRenderDataset.getXAxisMin()+1d);
-				}
-				// Incremento el tiempo
-				time += 1.0d/decodedData[n].getSampleFrequency();
+				if(channel < LogicAnalizerActivity.channelsNumber-1) time = initTime;
 			}
+			// Muevo el grafico al final de las lineas
+			mRenderDataset.setXAxisMax(toCoordinate(time, timeScale)+1d);
+			mRenderDataset.setXAxisMin(0);
+			
 			// Agrego un espacio para indicar que el buffer de muestreo llego hasta aqui
 			time += (10*timeScale);
 			for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n){
-				mSerie[n].add(mSerie[n].getX(mSerie[n].getItemCount()-1)+0.0000001d, MathHelper.NULL_VALUE);
+				if(mSerie[n].getItemCount() > 0){
+					mSerie[n].add(mSerie[n].getX(mSerie[n].getItemCount()-1)+0.0000001d, MathHelper.NULL_VALUE);
+				}
 			}
 			
+			// Anotaciones
 			for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
 				List<TimePosition> stringData = decodedData[n].getDecodedData();
 				
@@ -577,8 +531,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 				}
 			}
 			
-			// Encuadro el área y redibujo
-			mRenderDataset.setXAxisMax(mRenderDataset.getXAxisMax()+1);
 			mChartView.repaint();	// Redibujo el grafico
 			++currentSamples;
 			
@@ -626,7 +578,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
         }
     	// Directorios para guardar las imagenes y sesiones
     	imagesDirectory = getPrefs.getString("logicImageSave","Multi/Work/Images/");
-    	sesionDirectory = getPrefs.getString("logicSesionSave","Multi/Work/Sesion/");
     	// Máxima cantidad de muestras para almacenar
         maxSamples = Integer.decode(getPrefs.getString("maxSamples","5"));
     	

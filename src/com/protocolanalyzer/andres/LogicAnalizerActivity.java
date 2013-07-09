@@ -88,7 +88,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	
 	private static boolean isStarting = true;
 	private static ProgressDialog mDialog;
-	SharedPreferences getPrefs;
+	private static SharedPreferences getPrefs;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -96,7 +96,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		if(DEBUG) Log.i("mFragmentActivity","onCreate() LogicAnalizerActivity");
 				
 		setContentView(R.layout.logic_fragments);
-		mFragmentList = getSupportFragmentManager().findFragmentById(R.id.logicFragment);
+		//mFragmentList = getSupportFragmentManager().findFragmentById(R.id.logicFragment);
+		mFragmentList = new LogicAnalizerListFragment();
+		getSupportFragmentManager().beginTransaction().add(R.id.logicFragment, mFragmentList).commit();
 		
 		// Obtengo el OnDataDecodedListener de los Fragments
 		try { mListDataDecodedListener = (OnDataDecodedListener) mFragmentList; }
@@ -111,6 +113,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	protected void onPause() {
 		super.onPause();
 		if(DEBUG) Log.i("mFragmentActivity","onPause()");
+		getSupportFragmentManager().beginTransaction().remove(mFragmentList).commit();
+		mBluetoothHelper.removeOnNewBluetoothDataReceived();
 		mBluetoothHelper.write(0);	// Indico al PIC que salí de la Activity
 	}
 	
@@ -178,16 +182,16 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 	 			// Reemplazo este Fragment con el gráfico, addToBackStack() hace que al presionar la tecla
 	 			// de atras se vuelva a este Fragment y no se destruya el mismo
-	 			if(getSupportFragmentManager().findFragmentByTag("ChartLogic") == null
-	 					|| !getSupportFragmentManager().findFragmentByTag("ChartLogic").isVisible()){
-	 				if(DEBUG) Log.i("mFragmentActivity", "Chart Fragment Launched");
-		 			transaction.replace(R.id.logicFragment, new LogicAnalizerChartFragment(channel), "ChartLogic");
+	 			if(!isFragmentActive("ChartLogic")){
+	 				if(DEBUG) Log.i("mFragmentActivity", "Chart Fragment Created");
+	 				mFragmentChart = new LogicAnalizerChartFragment(channel, tempBuffer.length);
+	 				
+		 			transaction.replace(R.id.logicFragment, mFragmentChart, "ChartLogic");
 		 			transaction.addToBackStack(null);
 		 			transaction.commit();
 		 			getSupportFragmentManager().executePendingTransactions();
 		 			
 		 			// Agrego el OnDataDecodedListener cuando se agrega el nuevo Fragment
-					mFragmentChart = getSupportFragmentManager().findFragmentByTag("ChartLogic");
 					try { mChartDataDecodedListener = (OnDataDecodedListener) mFragmentChart; }
 					catch (ClassCastException e) { throw new ClassCastException(mFragmentChart.toString() + " must implement OnDataDecodedListener"); }
 	 			}
@@ -222,7 +226,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		if(requestCode == PREFERENCES_CODE){
 			if(resultCode == RESULT_OK) {
 				if(DEBUG) Log.i("mFragmentActivity", "Preferences Setted");
-				// Aviso a la Activity que cambiaron las preferencias
+				// Aviso a los fragment que cambiaron las preferencias
 				mListDataDecodedListener.onDataDecodedListener(channel, tempBuffer.length, true);
 				if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(channel, tempBuffer.length, true);
 				setPreferences();
@@ -347,7 +351,6 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 						break;
 					}
 				}
-				// Si no tengo el modo que corresponde notifico con un Toast
 				if(isStarting){
 					if(DEBUG) Log.i("LogicAnalizerBT", "Nothing detected");
 				}
@@ -388,9 +391,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					
 					// Decodifico cada canal
 					for(int n = 0; n < channelsNumber; ++n) {
-						if(channel[n] != null) channel[n].decode(time);
+						channel[n].decode(time);
 					}
 					
+					if(DEBUG) Log.i("LogicAnalizerBT", "Dispatching interfaces");
 					// Paso los datos decodificados a los Fragment en el Thread de la UI
 					updateUIThread.sendEmptyMessage(dispatchInterfaces);
 				}

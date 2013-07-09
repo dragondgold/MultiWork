@@ -8,6 +8,13 @@
     	<item> Deshabilitado </item>
    	</string-array>
    	
+	<string-array name="protocolValues" >
+    	<item> 1 </item>
+    	<item> 2 </item> 
+    	<item> 3 </item>
+    	<item> -1 </item> 
+   	</string-array>
+   	
 	<string-array name="sampleRateList" >
     	<item> 40 MHz </item>
     	<item> 20 MHz </item>
@@ -27,19 +34,62 @@
     	<item> 2000 </item>
     	<item> 10 </item>        
    	</string-array>
-	
-	<string-array name="protocolValues" >
-    	<item> 0 </item>
-    	<item> 1 </item> 
-    	<item> 2 </item>
-    	<item> 3 </item> 
-   	</string-array>
    	
-	<string-array name="channelNames" >
-    	<item> Canal 1 </item>
+	<string-array name="channelNames1" >
     	<item> Canal 2 </item> 
     	<item> Canal 3 </item> 
     	<item> Canal 4 </item>
+    	<item> Ninguna </item>
+   	</string-array>
+   	
+	<string-array name="channelNames2" >
+	    <item> Canal 1 </item> 
+    	<item> Canal 3 </item> 
+    	<item> Canal 4 </item>
+    	<item> Ninguna </item>
+   	</string-array>
+   	
+   	<string-array name="channelNames3" >
+    	<item> Canal 1 </item> 
+    	<item> Canal 2 </item> 
+    	<item> Canal 4 </item>
+    	<item> Ninguna </item>
+   	</string-array>
+   	
+   	<string-array name="channelNames4" >
+   	    <item> Canal 1 </item> 
+    	<item> Canal 2 </item> 
+    	<item> Canal 3 </item> 
+    	<item> Ninguna </item>
+   	</string-array>
+   	
+   	
+   	<string-array name="clockValues1" >
+    	<item> 2 </item> 
+    	<item> 3 </item>
+    	<item> 4 </item>
+    	<item> -1 </item>
+   	</string-array>
+   	
+   	<string-array name="clockValues2" >
+    	<item> 1 </item>
+    	<item> 3 </item>
+    	<item> 4 </item>
+    	<item> -1 </item>
+   	</string-array>
+   	
+   	<string-array name="clockValues3" >
+    	<item> 1 </item>
+    	<item> 2 </item> 
+    	<item> 4 </item>
+    	<item> -1 </item>
+   	</string-array>
+   	
+   	<string-array name="clockValues4" >
+    	<item> 1 </item>
+    	<item> 2 </item> 
+    	<item> 3 </item>
+    	<item> -1 </item>
    	</string-array>
     
 </resources>

@@ -270,21 +270,23 @@ public class BluetoothHelper {
 		@Override
 		public void run() {
 			if(DEBUG) Log.i("BTThread", "Thread Running");
-    		while(keepRunning){
-    			try {
-    				// Si hay algún dato disponible ejecuto la interface para avisar a la Activity
-					if(mBluetoothIn.available() > 0){
-						if(mOnNewBluetoothDataReceived.onNewBluetoothDataReceivedListener(
-								mBluetoothIn, mBluetoothOut) == false){
-							// Si es falso, ya no ejecuto el listener
-							removeOnNewBluetoothDataReceived();
+			try {
+				int prevData = mBluetoothIn.available();
+	    		while(keepRunning){
+	    				// Si hay algún dato disponible ejecuto la interface para avisar a la Activity
+						if(mBluetoothIn.available() != prevData){
+							prevData = mBluetoothIn.available();
+							if(mOnNewBluetoothDataReceived.onNewBluetoothDataReceivedListener(
+									mBluetoothIn, mBluetoothOut) == false){
+								// Si es falso, ya no ejecuto el listener
+								removeOnNewBluetoothDataReceived();
+							}
 						}
 					}
-				}
-    			catch (IOException e) { e.printStackTrace(); }
-    			try { Thread.sleep(20); }
-				catch (InterruptedException e) { e.printStackTrace(); }
-    		}
+	    			try { Thread.sleep(20); }
+					catch (InterruptedException e) { e.printStackTrace(); }
+	    		}
+			catch (IOException e) { e.printStackTrace(); }
     		if(DEBUG) Log.i("BTThread", "Thread Stop");
 		}
 	};
