@@ -101,6 +101,21 @@ public class BluetoothHelper {
 		}
 	}
 	
+	public void disconnect() {
+		if(mBluetoothIn != null){
+			try {mBluetoothIn.close();} catch (Exception e) {}
+			mBluetoothIn = null;
+		}
+		if(mBluetoothOut != null){
+			try {mBluetoothOut.close();} catch (Exception e) {}
+			mBluetoothOut = null;
+		}
+		if(mBluetoothSocket != null){
+            try {mBluetoothSocket.close();} catch (Exception e) {}
+            mBluetoothSocket = null;
+		}
+	}
+	
 	/**
 	 * Se conecta al dispositivo Bluetooth cuyo nombre se definió en el constructor.
 	 * @param finishOnFail si es true finaliza la Activity si hay un error de conexión

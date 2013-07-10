@@ -113,7 +113,6 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	protected void onPause() {
 		super.onPause();
 		if(DEBUG) Log.i("mFragmentActivity","onPause()");
-		getSupportFragmentManager().beginTransaction().remove(mFragmentList).commit();
 		mBluetoothHelper.removeOnNewBluetoothDataReceived();
 		mBluetoothHelper.write(0);	// Indico al PIC que salí de la Activity
 	}
@@ -356,6 +355,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 				}
 			} catch (IOException e) { e.printStackTrace(); }
 		}
+		// Sino recibo los datos
 		else if(isPlaying){
 			if(DEBUG) Log.i("LogicAnalizerBT", "Data receive");
 			try {
@@ -372,6 +372,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 							if(DEBUG) Log.i("LogicAnalizerBT", "Data [HEX] " + n + ": " + Integer.toHexString(data[n]));
 							if(n == 1 && data[0] == 0xFF && data[1] == 0xFF){
 								keepGoing = false;
+								if(DEBUG) Log.i("LogicAnalizerBT", "Finished receiving data");
 								break;
 							}
 						}
@@ -382,11 +383,13 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 						}
 					}
 					
-					if(DEBUG) Log.i("LogicAnalizerBT", "Byte buffer lenght: " + mByteArrayBuffer.length());
+					if(DEBUG) Log.i("LogicAnalizerBT", "Received data lenght: " + mByteArrayBuffer.length());
 					updateUIThread.sendEmptyMessage(updateDialogTitle);
 					
 					// Paso el array de bytes decodificados con el algoritmo Run Lenght
 					tempBuffer = LogicHelper.runLenghtDecode(mByteArrayBuffer);
+					if(DEBUG) Log.i("LogicAnalizerBT", "Received data full lenght: " + tempBuffer.length);
+					
 					LogicHelper.bufferToChannel(tempBuffer, channel);
 					
 					// Decodifico cada canal

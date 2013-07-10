@@ -120,6 +120,8 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 		
 		switch(item.getItemId()){
 		case R.id.exitMain:
+			myApp.mBluetoothHelper.disconnect();
+			myApp.mBluetoothHelper = null;
 			finish();
 			break;
 		case R.id.settingsMain:

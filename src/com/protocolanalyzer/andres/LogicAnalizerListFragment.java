@@ -33,6 +33,9 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 	private static TextView mRawData[] = new TextView[LogicAnalizerActivity.channelsNumber];
 	private static TextView mRawDataTitle[] = new TextView[LogicAnalizerActivity.channelsNumber];
 	private static View v;
+	
+	private static Protocol[] mProtocols;
+	private static int samplesCount;
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -59,6 +62,7 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
+		if(DEBUG) Log.i("mFragmentList","onCreateView()");
 		v = inflater.inflate(R.layout.logic_rawdata, container, false);
 		
 		int tvRawDataLogic[] = {R.id.tvRawDataLogic1, R.id.tvRawDataLogic2, R.id.tvRawDataLogic3, R.id.tvRawDataLogic4};
@@ -88,11 +92,13 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 	public void onResume() {
 		super.onResume();
 		if(DEBUG) Log.i("mFragmentList","Resume");
+		if(mProtocols != null) onDataDecodedListener(mProtocols, samplesCount, false);
 	}
 
 	@Override
 	public double onDataDecodedListener(Protocol[] data, int samplesCount, boolean isConfig) {
 		if(!isConfig){
+			mProtocols = data; this.samplesCount = samplesCount;
 			if(DEBUG) Log.i("mFragmentList","onDataDecodedListener() - " + data.length + " channels");
 			for(int n=0; n < mRawData.length; ++n) mRawData[n].setText("");
 			
