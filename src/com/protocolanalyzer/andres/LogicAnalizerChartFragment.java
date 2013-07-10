@@ -1,8 +1,5 @@
 package com.protocolanalyzer.andres;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
@@ -20,23 +17,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -48,7 +40,6 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.ActionMode;
 
-import com.multiwork.andres.ConfirmDialog;
 import com.multiwork.andres.R;
 import com.protocolanalyzer.api.andres.LogicBitSet;
 import com.protocolanalyzer.api.andres.Protocol;
@@ -68,13 +59,9 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
     private static final double xMax = 10;				
     /** Colores de linea para cada canal */
     private static final int lineColor[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
-    /** Constantes */
-    private static final int CONFIRM_DIALOG = 0, RESULT_OK = -1;
     
     /** Vibrador del dispositivo */
     private static Vibrator mVibrator;
-    /** Directorio para guardar las imagenes */
-    private static String imagesDirectory;
     
 	/** ActionBar */
 	private static ActionBar mActionBar;		
@@ -349,25 +336,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		if(DEBUG) Log.i("mFragmentChart", "Activity Result");
 		if(DEBUG) Log.i("mFragmentChart", "resultCode: " + resultCode);
 		if(DEBUG) Log.i("mFragmentChart", "requestCode: " + requestCode);
-		
-		// Dialogo de confirmación para guardar imagen
-		else if(requestCode == CONFIRM_DIALOG){
-			if(resultCode == RESULT_OK){
-				if(DEBUG) Log.i("ActivityResult", "Confirm Dialog OK");
-				Bitmap bitmap = mChartView.toBitmap();	// Creo un nuevo BitMap
-				try {
-					FileOutputStream output = new FileOutputStream(new File(Environment.getExternalStorageDirectory().getPath() 
-							+ imagesDirectory + data.getExtras().getString("text") + ".jpeg")); // Guardo la imagen con el nombre
-					bitmap.compress(CompressFormat.JPEG, 95, output);			// Formato JPEG
-				} catch (FileNotFoundException e) { e.printStackTrace(); }
-				mActivity.runOnUiThread(new Runnable() {
-					@Override													// Toast en el UI Thread
-					public void run() {
-						Toast.makeText(mActivity, getString(R.string.AnalyzerDialogFileSaved), Toast.LENGTH_SHORT).show();
-					}
-				});
-			}
-		}
 	}
 
  	// Reinicia el gŕafico y las variables involucradas
@@ -395,74 +363,12 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		alert.setItems(items, new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int item) {
 		        if(item == 0) {
-		        	saveImageDialog();
+		        	// TODO: guardar imagen
 		        }
 		        else {
 		        	// TODO: guardar sesion
 		        }
 		    }
-		});
-		alert.show();
-	}
-	
-	/**
-	 * Guarda un screenshot del grafico actual en la tarjeta de memoria
-	 * @author Andres Torti
-	 */
-	private void saveImageDialog() {
-		// Creo el dialogo
-		AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
-		alert.setTitle(getString(R.string.AnalyzerDialogSaveTitle));
-		alert.setMessage(getString(R.string.AnalyzerDialogFileName));
-		
-		// Creamos un EditView para que el usuario escriba
-		final EditText input = new EditText(mActivity);
-		alert.setView(input);
-		
-		// Creamos el boton OK y su onClickListener
-		alert.setPositiveButton(getString(R.string.Ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				Editable text = input.getText();		// Obtengo el texto que escribio el usuario
-					// Creo un nuevo archivo con el nombre del usuario y extension .jpeg
-					// Verifico que pueda escribir en la SD
-					if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-						// Creo el directorio si ya existe no hace nada
-						new File(Environment.getExternalStorageDirectory().getPath() 
-								+ imagesDirectory).mkdirs();
-						// Creo el archivo
-						final File imageFile = new File(Environment.getExternalStorageDirectory().getPath() 
-								+ imagesDirectory + text.toString() + ".jpeg");
-						
-						// Si el archivo ya existe pregunto por confirmacion
-						if(imageFile.exists()){
-							if(DEBUG) Log.i("Dialog", "File exists");
-							// Creo un diálogo preguntando por confirmación de sobreescribir el archivo y paso el nombre del archivo
-							startActivityForResult(new Intent(mActivity, ConfirmDialog.class).putExtra("text", text.toString()), CONFIRM_DIALOG);
-						}
-						// Si no existe el archivo directamente lo guardo
-						else {
-							if(DEBUG) Log.i("Dialog", "File doesn't exists)");
-							Bitmap bitmap = mChartView.toBitmap();		// Creo un nuevo BitMap
-							try {	
-								// Formato JPEG, 95% de calidad guardado en imageFile
-								bitmap.compress(CompressFormat.JPEG, 95, new FileOutputStream(imageFile));
-							} catch (FileNotFoundException e) { e.printStackTrace(); }	
-							Toast.makeText(mActivity, getString(R.string.AnalyzerDialogFileSaved), Toast.LENGTH_SHORT).show();
-						}
-					}
-					// Si no se puede escribir en la tarjeta SD muestro un Toast con error
-					else {
-						Toast.makeText(mActivity, getString(R.string.AnalyzerDialogFileNotSaved), Toast.LENGTH_LONG).show();
-					}
-				dialog.dismiss();
-			}
-		});
-
-		// Boton cancelar
-		alert.setNegativeButton(getString(R.string.Cancel), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				dialog.dismiss();	  
-			}
 		});
 		alert.show();
 	}
@@ -576,8 +482,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	        		break;
         	}
         }
-    	// Directorios para guardar las imagenes y sesiones
-    	imagesDirectory = getPrefs.getString("logicImageSave","Multi/Work/Images/");
     	// Máxima cantidad de muestras para almacenar
         maxSamples = Integer.decode(getPrefs.getString("maxSamples","5"));
     	

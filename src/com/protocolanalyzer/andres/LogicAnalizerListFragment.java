@@ -98,7 +98,7 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 	@Override
 	public double onDataDecodedListener(Protocol[] data, int samplesCount, boolean isConfig) {
 		if(!isConfig){
-			mProtocols = data; this.samplesCount = samplesCount;
+			mProtocols = data; LogicAnalizerListFragment.samplesCount = samplesCount;
 			if(DEBUG) Log.i("mFragmentList","onDataDecodedListener() - " + data.length + " channels");
 			for(int n=0; n < mRawData.length; ++n) mRawData[n].setText("");
 			
