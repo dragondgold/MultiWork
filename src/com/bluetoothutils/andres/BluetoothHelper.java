@@ -12,6 +12,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,12 +22,13 @@ import com.multiwork.andres.R;
 public class BluetoothHelper {
 
 	private static final boolean DEBUG = true; 
+	public static final int BLUETOOTH_CONNECTION = 1;
 	
 	private static final UUID mUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	
 	private final Activity mActivity;
 	private final Context ctx;
-	private final String bluetoothName;
+	private String bluetoothName;
 	
 	private OnNewBluetoothDataReceived mOnNewBluetoothDataReceived = null;
 	private OnBluetoothConnected mOnBluetoothConnected = null;
@@ -48,12 +50,14 @@ public class BluetoothHelper {
 	 * @param bluetoothName nombre del bluetooth al cual conectarse
 	 * @param offlineMode indica si se encuentra en modo offline. Esto permite que se usen todas los metodos
 	 * de la clase y no se envíe nada y/o reciba nada.
+	 * @param mInterface la interface a ser ejecutada cuando se realize la conexión con el dispositivo bluetooth
 	 */
-	public BluetoothHelper (final Context ctx, final String bluetoothName, boolean offlineMode) {
+	public BluetoothHelper (final Context ctx, String bluetoothName, boolean offlineMode, OnBluetoothConnected mInterface) {
 		mActivity = ((Activity)ctx);
 		this.ctx = ctx;
 		this.bluetoothName = bluetoothName;
 		this.offlineMode = offlineMode;
+		setOnBluetoothConnected(mInterface);
 	}
 	
 	/**
@@ -82,7 +86,7 @@ public class BluetoothHelper {
 	 * Establece un OnBluetoothConnected para ser llamado cuando se conecta al dispositivo deseado.
 	 * @param mInterface
 	 */
-	public void setOnBluetoothConnected (OnBluetoothConnected mInterface){
+	private void setOnBluetoothConnected (OnBluetoothConnected mInterface){
 		mOnBluetoothConnected = mInterface;
 	}
 	
@@ -116,8 +120,31 @@ public class BluetoothHelper {
 		}
 	}
 	
+	public boolean isConnected(){
+		if(mBluetoothSocket != null) return mBluetoothSocket.isConnected();
+		else return false;
+	}
+	
+	public void scanForDevices() {
+		mActivity.startActivityForResult(new Intent(ctx, DeviceListActivity.class), BLUETOOTH_CONNECTION);
+	}
+	
 	/**
-	 * Se conecta al dispositivo Bluetooth cuyo nombre se definió en el constructor.
+	 * Se conecta con el dispositivo dado por la dirección address. Este método solo debe llamarse luego de haberse
+	 * ejecutado connect(), se lo utiliza en el onActivityResult().
+	 * @param address
+	 */
+	public void connectWithAddress (String address){
+		mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(address);
+		bluetoothName = mBluetoothDevice.getName(); 
+		establishConnection();
+	}
+	
+	/**
+	 * Se conecta al dispositivo Bluetooth cuyo nombre se definió en el constructor, si el dispositivo no
+	 * esta en los emparejados se le dara al usuario una lista de los dispositivos bluetooth disponibles por lo
+	 * que se debe implementar onActivityResult() con el requestCode = BLUETOOTH_CONNECTION donde se dará
+	 * el nombre y MAC del dispositivo bluetooth que se seleccionó.
 	 * @param finishOnFail si es true finaliza la Activity si hay un error de conexión
 	 */
 	public void connect (final boolean finishOnFail){
@@ -133,7 +160,10 @@ public class BluetoothHelper {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					if(DEBUG) Log.i("BluetoothHelper", "No bluetooth on device");
-					if(finishOnFail) mActivity.finish();	// Cierro porque no existe un módulo Bluetooth
+					if(finishOnFail){
+						disconnect();
+						mActivity.finish();	// Cierro porque no existe un módulo Bluetooth
+					}
 				}
 		    });
 		}
@@ -153,6 +183,7 @@ public class BluetoothHelper {
 						
 						// Espero a que encienda el Bluetooth
 						while(!mBluetoothAdapter.isEnabled());
+						boolean inPaired = false;
 						
 						// Compruebo si el dispositivo no esta en los dispositivos emparejados (paired)
 						Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
@@ -165,16 +196,13 @@ public class BluetoothHelper {
 						        	mBluetoothDevice = device;
 									// Establezco una conexión Bluetooth para enviar datos
 									establishConnection();
+									inPaired = true;
 						        	break;
 						        }
 						    }
 						}
-						// Sino salgo, debe estar en los dispositivos emparejados
-						else{
-							if(DEBUG) Log.i("BluetoothHelper", "Finish Activity not in paired devices");
-							mBluetoothAdapter.disable();
-							if(finishOnFail) mActivity.finish();
-						}
+						// Si no estan en los emparejados busco nuevos dispositivos
+						if(!inPaired) scanForDevices();
 					}
 				});
 				
@@ -182,13 +210,17 @@ public class BluetoothHelper {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if(DEBUG) Log.i("BluetoothHelper", "Exit");
-						if(finishOnFail) mActivity.finish();
+						if(finishOnFail){
+							disconnect();
+							mActivity.finish();
+						}
 					}
 				});
 				mDialog.show();
 			}
 			// Bluetooth ya encendido, me conecto
 			else{
+				boolean inPaired = false;
 				// Compruebo si el dispositivo no esta en los dispositivos emparejados (paired)
 				Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
 				if (pairedDevices.size() > 0) {
@@ -200,16 +232,13 @@ public class BluetoothHelper {
 				        	mBluetoothDevice = device;
 							// Establezco una conexión Bluetooth para enviar datos
 							establishConnection();
+							inPaired = true;
 				        	break;
 				        }
 				    }
 				}
-				// Sino salgo, debe estar en los dispositivos emparejados
-				else{
-					if(DEBUG) Log.i("BluetoothHelper", "Finish Activity not in paired devices");
-					mBluetoothAdapter.disable();
-					if(finishOnFail) mActivity.finish();
-				}
+				// Si no estan en los emparejados busco nuevos dispositivos
+				if(!inPaired) scanForDevices();
 			}
 		}
 	}
@@ -217,7 +246,7 @@ public class BluetoothHelper {
 	// Establezco una conexión con el dispositivo que ya definí anteriormente
 	private void establishConnection () {
 		if(DEBUG) Log.i("BluetoothHelper", "Connecting...");
-		
+				
 		// Establesco una conexión con el dispositivo bluetooth asignado en mBluetoothDevice
         try { mBluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(mUUID); }
         catch (IOException e1) { e1.printStackTrace(); }
@@ -266,6 +295,7 @@ public class BluetoothHelper {
     					}
     		    	});
     		    	Log.i("BluetoothHelper", "Error");
+    		    	disconnect();
     		    	mActivity.finish();
     		    }
     	    }

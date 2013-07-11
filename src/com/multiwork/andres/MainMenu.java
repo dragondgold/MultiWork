@@ -8,6 +8,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.bluetoothutils.andres.BluetoothHelper;
+import com.bluetoothutils.andres.DeviceListActivity;
 import com.bluetoothutils.andres.OnBluetoothConnected;
 import com.protocolanalyzer.andres.LogicAnalizerActivity;
 import com.protocolanalyzer.andres.PruebaParser;
@@ -17,8 +18,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,13 +34,14 @@ import android.widget.ListView;
  */
 public class MainMenu extends SherlockListActivity implements OnBluetoothConnected{
    
-	private static final String bluetoothName = "linvor";
-	
 	private static final boolean DEBUG = true;
 	private static final Class<?>[] className = {LCView.class, FrecView.class,
 		LogicAnalizerActivity.class, BrazoRobot.class, PruebaParser.class};
 	private static String[] MenuNames = new String[className.length];
-	ApplicationContext myApp;
+
+	private static ApplicationContext myApp;
+	private static SharedPreferences mPrefs;
+	private static String bluetoothName = "linvor";
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,11 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
         
         // Menu
         setListAdapter(new ArrayAdapter<String>(MainMenu.this, android.R.layout.simple_list_item_1, MenuNames));
-    
+        
+        // Obtengo el nombre del dispositivo bluetooth al cual conectarme
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        bluetoothName = mPrefs.getString("btName", "linvor");
+        
         // Solo creo el diálogo si ya no lo cree antes
         if(myApp.mBluetoothHelper == null){
 	        final Context ctx = this;
@@ -69,7 +77,7 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 				public void onClick(DialogInterface dialog, int which) {
 					if(DEBUG) Log.i("MainMenu", "Offline mode enabled");
 					// Offline
-					myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, true);
+					myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, true, (OnBluetoothConnected)ctx);
 				}
 			});
 			
@@ -78,9 +86,8 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 				public void onClick(DialogInterface dialog, int which) {
 					if(DEBUG) Log.i("MainMenu", "Offline mode disabled");
 					// Online
-					myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, false);
-					myApp.mBluetoothHelper.connect(true);
-					myApp.mBluetoothHelper.setOnBluetoothConnected((OnBluetoothConnected)ctx);
+					myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, false, (OnBluetoothConnected)ctx);
+					myApp.mBluetoothHelper.connect(false);
 				}
 			});
 			
@@ -90,6 +97,27 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
     }
     
     @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode != RESULT_CANCELED){
+			if(requestCode == BluetoothHelper.BLUETOOTH_CONNECTION){
+				Bundle extras = data.getExtras();
+				String btAddress = extras.getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+				String btName = extras.getString(DeviceListActivity.EXTRA_DEVICE_NAME);
+				
+				myApp.mBluetoothHelper.connectWithAddress(btAddress);
+				
+				// Guardo el nuevo nombre del bluetooth
+				mPrefs.edit().putString("btName", btName).apply();
+			}
+		}else{
+			if(requestCode == BluetoothHelper.BLUETOOTH_CONNECTION){
+				// TODO: no se conecto
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 	}

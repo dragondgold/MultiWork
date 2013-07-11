@@ -88,10 +88,11 @@
             android:name="com.roboticarm.andres.BrazoRobot"
             android:screenOrientation="landscape" >
         </activity>
-        
-       	<activity 
-       	    android:name=".ConfirmDialog"
-       	    android:theme="@android:style/Theme.Dialog" >
+       	
+       	<activity android:name="com.bluetoothutils.andres.DeviceListActivity"
+                  android:label="@string/select_device"
+                  android:theme="@android:style/Theme.Holo.Dialog"
+                  android:configChanges="orientation|keyboardHidden" >
        	</activity>
         
     </application>
