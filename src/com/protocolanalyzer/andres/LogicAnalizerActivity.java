@@ -381,6 +381,12 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 							mByteArrayBuffer.append(data[1]);
 							mByteArrayBuffer.append(data[2]);
 						}
+						if(!(mBTIn.available() > 0)){
+							if(DEBUG) Log.i("LogicAnalizerBT", "Waiting more data");
+							try { Thread.sleep(30); }
+							catch (InterruptedException e) { e.printStackTrace(); }
+							if(DEBUG) Log.i("LogicAnalizerBT", "Finish Waiting data");
+						}
 					}
 					
 					if(DEBUG) Log.i("LogicAnalizerBT", "Received data lenght: " + mByteArrayBuffer.length());

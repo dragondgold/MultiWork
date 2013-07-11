@@ -56,7 +56,9 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
     /** Cuanto se incrementa en el eje Y para hacer un '1' logico */
 	private static final float bitScale = 1;		
     /** Valor del eje X maximo inicial */
-    private static final double xMax = 10;				
+    private static final double xMax = 10;
+    /** Valor del eje X minimo inicial */
+    private static final double xMin = -1000;
     /** Colores de linea para cada canal */
     private static final int lineColor[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
     
@@ -237,7 +239,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
         mRenderDataset.setYTitle(getString(R.string.AnalyzerYTitle));
         mRenderDataset.setAntialiasing(true);
         mRenderDataset.setYAxisMax(yChannel[yChannel.length-1]+4);
-        mRenderDataset.setXAxisMin(0);
+        mRenderDataset.setXAxisMin(xMin);
         mRenderDataset.setXAxisMax(xMax);
         mRenderDataset.setPanEnabled(true);
         mRenderDataset.setShowGrid(true);
@@ -245,9 +247,11 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
         mRenderDataset.setExternalZoomEnabled(true);
         mRenderDataset.setPanEnabled(true, false);
         mRenderDataset.setZoomEnabled(true, false);
-        mRenderDataset.setPanLimits(new double[] {0d , Double.MAX_VALUE, -1d, yChannel[yChannel.length-1]+4});
+        mRenderDataset.setPanLimits(new double[] {xMin , Double.MAX_VALUE, -1d, yChannel[yChannel.length-1]+4});
         
         mChartView = ChartFactory.getLineChartView(mActivity, mSerieDataset, mRenderDataset);
+        // Renderizado por software, el hardware trae problemas con paths muy largos en el Canvas (bug de Android)
+        mChartView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         setChartPreferences();
 		
 		// Renderizo el layout
@@ -262,14 +266,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	public void onResume() {
 		super.onResume();
 		if(DEBUG) Log.i("mFragmentChart","onResume()");
-		
-		/*
-		// Elimino primero el View porque si ya esta agregado genera una excepcion
-		((FrameLayout) mActivity.findViewById(R.id.mChart)).removeViewInLayout(mChartView);
-		// Agrego un View al layout que se renderizo en onCreateView. No puedo hacerlo antes porque dentro de 
-		// onCreateView() el layout no se renderizo y por lo tanto es null.
-		((FrameLayout) mActivity.findViewById(R.id.mChart)).addView(mChartView);*/
-		
 	}
     
 	// Activa el ActionMode del ActionBar
@@ -344,7 +340,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			mSerie[n].clear();
 		}
 		mRenderDataset.setXAxisMax(xMax);
-		mRenderDataset.setXAxisMin(0);
+		mRenderDataset.setXAxisMin(xMin);
 		time = 0;
 		mChartView.repaint();
 		Toast.makeText(mActivity, getString(R.string.FrecReinicio), Toast.LENGTH_SHORT).show();
@@ -391,13 +387,35 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			for(int channel = 0; channel < LogicAnalizerActivity.channelsNumber; ++channel){	
 				LogicBitSet bitsData = decodedData[channel].getChannelBitsData();
 				
+				boolean bitState = false;
+				
+				// En vez de poner todos los puntos en la serie coloco solo cada vez que se cambia de estado
+				// de este modo agrego muchos menos elementos y el gráfico se hace usable ya que con 16000 muestras
+				// la performance es muy baja
 				for(int n = 0; n < samplesNumber; ++n){
-					if(bitsData.get(n)){
-						// Nivel tomado como 0 + un alto de bit
-						mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]+bitScale);
-					}
-					else{				
-						mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]);
+					// Punto inicial
+					if(n == 0){
+						bitState = bitsData.get(0);
+						if(bitsData.get(n)){	// 1
+							mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]+bitScale);
+						}
+						else{					// 0
+							mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]);
+						}
+					// Punto si hay un cambio de estado
+					}else if(bitsData.get(n) != bitState){
+						bitState = bitsData.get(n);
+						double tTime = time - (1.0d/decodedData[0].getSampleFrequency()); 
+						
+						if(bitsData.get(n-1)) mSerie[channel].add(toCoordinate(tTime, timeScale), yChannel[channel]+bitScale);
+						else mSerie[channel].add(toCoordinate(tTime, timeScale), yChannel[channel]);
+						
+						if(bitsData.get(n)) mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]+bitScale);
+						else mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]);
+					// Punto al final
+					}else if(n == (samplesNumber-1)){
+						if(bitsData.get(n)) mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]+bitScale);
+						else mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]);
 					}
 					// Incremento el tiempo
 					time += 1.0d/decodedData[0].getSampleFrequency();
@@ -405,8 +423,8 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 				if(channel < LogicAnalizerActivity.channelsNumber-1) time = initTime;
 			}
 			// Muevo el grafico al final de las lineas
-			mRenderDataset.setXAxisMax(toCoordinate(time, timeScale)+1d);
-			mRenderDataset.setXAxisMin(0);
+			mRenderDataset.setXAxisMax(toCoordinate(time, timeScale)+1000);
+			mRenderDataset.setXAxisMin(xMin);
 			
 			// Agrego un espacio para indicar que el buffer de muestreo llego hasta aqui
 			time += (10*timeScale);
@@ -436,7 +454,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 							yChannel[n]+bitScale+0.5f);
 				}
 			}
-			
 			mChartView.repaint();	// Redibujo el grafico
 			++currentSamples;
 			
@@ -444,6 +461,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			if(currentSamples > maxSamples){
 				for(int n = 0; n < LogicAnalizerActivity.channelsNumber; n++) mSerie[n].clear();
 				currentSamples = 0;
+				time = 0;
 			}
 	
 			// Cada vez que recibo un buffer del analizador logico, lo muestro todo y pauso
