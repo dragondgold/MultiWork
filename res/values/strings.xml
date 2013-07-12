@@ -16,7 +16,9 @@
     <string name="BTRequestSummary">			¿Desea encender el Bluetooth?</string>
     <string name="BTOfflineTitle">				Modo sin conexion</string>
     <string name="BTOfflineSummary">			¿Desea usar el modo sin conexion? Si activa el mismo
-        										 no se conectara al dispositivo Bluetooth.</string>    										 
+        										 no se conectara al dispositivo Bluetooth.</string>  
+    <string name="BTConnecting">				Conectando…</string>			 
+    										 
     <!--  DeviceListActivity -->
     <string name="scanning">					Escaneando por dispositivos…</string>
     <string name="select_device">				Seleccione un dispositivo</string>
@@ -52,8 +54,6 @@
     <string name="AnalyzerDialogFileName">		Nombre de archivo</string>
     <string name="AnalyzerDialogFileSaved">		Archivo guardado</string>
     <string name="AnalyzerDialogFileNotSaved">	Error al guardar el archivo</string>
-    <string name="AnalyzerDialogSesionSaved">	Sesion guardada</string>
-    <string name="AnalyzerDialogOverwrite">		El archivo existe, sobreescribir ?</string>
     <string name="AnalyzerDialogSampleAlert">	La configuracion actual de baudios y velocidad de muestreo no permitirá un muestreo adecuado.
         										 Aumente la velocidad de muestreo o disminuya los Baudios para un correcto muestreo.</string>
     <string name="AnalyzerDialogSampleAlert2">	La configuracion actual de baudios, velocidad de muestreo y tamaño del buffer llenará el buffer

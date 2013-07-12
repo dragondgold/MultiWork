@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.UUID;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -39,10 +40,12 @@ public class BluetoothHelper {
 	private OutputStream mBluetoothOut;
 	private InputStream mBluetoothIn;
 	private Thread mBTThread;
+	private ProgressDialog mDialog;
 	
 	private boolean noException = false;
 	private boolean keepRunning = false;
 	private boolean offlineMode = false;
+	private boolean connectionDialog = false;
 	
 	/**
 	 * Constructor
@@ -80,6 +83,14 @@ public class BluetoothHelper {
 	public void removeOnNewBluetoothDataReceived (){
 		mOnNewBluetoothDataReceived = null;
 		keepRunning = false;
+	}
+	
+	/**
+	 * Define si se muestra un diálogo de espera mientras se está conectando al Bluetooth
+	 * @param state
+	 */
+	public void setConnectionDialog (boolean state){
+		connectionDialog = state;
 	}
 	
 	/**
@@ -250,6 +261,12 @@ public class BluetoothHelper {
 		// Establesco una conexión con el dispositivo bluetooth asignado en mBluetoothDevice
         try { mBluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(mUUID); }
         catch (IOException e1) { e1.printStackTrace(); }
+        
+        if(connectionDialog){
+	         mDialog = ProgressDialog.show(mActivity, mActivity.getString(R.string.PleaseWait),
+	        		mActivity.getString(R.string.BTConnecting), true);
+	        mDialog.setCancelable(false);
+        }
         	
         // Runnable donde se encuentra el código a ejecutar por un Handler o Thread
         final Runnable mRunnable = new Runnable() {
@@ -280,7 +297,8 @@ public class BluetoothHelper {
     		    if(noException){
     		    	mActivity.runOnUiThread(new Runnable() {
     					public void run() { 
-    						Toast.makeText(mActivity, "Conectado a " + mBluetoothDevice.getName(), Toast.LENGTH_SHORT).show(); 
+    						Toast.makeText(mActivity, "Conectado a " + mBluetoothDevice.getName(), Toast.LENGTH_SHORT).show();
+    						if(connectionDialog) mDialog.dismiss();
     					}
     		    	});
     		        Log.i("BluetoothHelper", "Conectado a " + mBluetoothDevice.getName());
@@ -292,9 +310,10 @@ public class BluetoothHelper {
     		    	mActivity.runOnUiThread(new Runnable() {
     					public void run() { 
     						Toast.makeText(mActivity, "Error de conexion", Toast.LENGTH_SHORT).show(); 
+    						if(connectionDialog) mDialog.dismiss();
     					}
     		    	});
-    		    	Log.i("BluetoothHelper", "Error");
+    		    	Log.i("BluetoothHelper", "Error Connecting");
     		    	disconnect();
     		    	mActivity.finish();
     		    }

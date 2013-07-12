@@ -87,6 +87,7 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 					if(DEBUG) Log.i("MainMenu", "Offline mode disabled");
 					// Online
 					myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, false, (OnBluetoothConnected)ctx);
+					myApp.mBluetoothHelper.setConnectionDialog(true);
 					myApp.mBluetoothHelper.connect(false);
 				}
 			});
