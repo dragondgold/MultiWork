@@ -36,6 +36,16 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 	
 	private static Protocol[] mProtocols;
 	private static int samplesCount;
+	
+	private static final int tvRawDataLogic[] = {R.id.tvRawDataLogic1, R.id.tvRawDataLogic2,
+													R.id.tvRawDataLogic3, R.id.tvRawDataLogic4,
+													R.id.tvRawDataLogic5, R.id.tvRawDataLogic6,
+													R.id.tvRawDataLogic7, R.id.tvRawDataLogic8,};
+	
+	private static final int tvRawDataChannelTitle[] = { R.id.tvRawDataChannelTitle1, R.id.tvRawDataChannelTitle2,
+																R.id.tvRawDataChannelTitle3, R.id.tvRawDataChannelTitle4,
+																R.id.tvRawDataChannelTitle5, R.id.tvRawDataChannelTitle6,
+																R.id.tvRawDataChannelTitle7, R.id.tvRawDataChannelTitle8,};
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -64,10 +74,6 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 		
 		if(DEBUG) Log.i("mFragmentList","onCreateView()");
 		v = inflater.inflate(R.layout.logic_rawdata, container, false);
-		
-		int tvRawDataLogic[] = {R.id.tvRawDataLogic1, R.id.tvRawDataLogic2, R.id.tvRawDataLogic3, R.id.tvRawDataLogic4};
-		int tvRawDataChannelTitle[] = { R.id.tvRawDataChannelTitle1, R.id.tvRawDataChannelTitle2, R.id.tvRawDataChannelTitle3,
-				R.id.tvRawDataChannelTitle4};
 		
 		for(int n = 0; n < tvRawDataLogic.length; ++n){
 			mRawData[n] = (TextView) v.findViewById(tvRawDataLogic[n]);

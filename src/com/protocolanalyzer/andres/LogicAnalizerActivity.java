@@ -70,7 +70,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static Fragment mFragmentList;
 	
     /** Numero de canales de entrada */
-    public static final int channelsNumber = 4;
+    public static final int channelsNumber = 8;
     /** Indica si recibo datos del Service o no (Play o Pause) */
     private static boolean isPlaying = false; 
     /** Tiempo del grafico */

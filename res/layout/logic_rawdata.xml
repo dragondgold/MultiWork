@@ -1,74 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#000000"
+    android:layout_height="match_parent" 
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/tvRawDataChannelTitle1"
+    <HorizontalScrollView 
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+        android:layout_height="wrap_content" >
+        
+        <RelativeLayout 
+            android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:background="#000000" >
+            
+            <TextView
+		        android:id="@+id/tvRawDataChannelTitle1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentTop="true" />
 
-    <TextView
-        android:id="@+id/tvRawDataChannelTitle2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/tvRawDataChannelTitle1"
-        android:paddingLeft="60dp" />
-
-    <TextView
-        android:id="@+id/tvRawDataChannelTitle3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/tvRawDataChannelTitle2"
-        android:paddingLeft="60dp" />
-
-    <TextView
-        android:id="@+id/tvRawDataChannelTitle4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/tvRawDataChannelTitle3"
-        android:paddingLeft="60dp" />
-
-    <TextView
-        android:id="@+id/tvRawDataLogic1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/tvRawDataChannelTitle1"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/tvRawDataLogic2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvRawDataChannelTitle2"
-        android:layout_below="@+id/tvRawDataChannelTitle2"
-        android:paddingLeft="60dp"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/tvRawDataLogic3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvRawDataChannelTitle3"
-        android:layout_below="@+id/tvRawDataChannelTitle3"
-        android:paddingLeft="60dp"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/tvRawDataLogic4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvRawDataChannelTitle4"
-        android:layout_below="@+id/tvRawDataChannelTitle4"
-        android:paddingLeft="60dp"
-        android:textSize="15sp" />
-
-</RelativeLayout>
+		    <TextView
+		        android:id="@+id/tvRawDataChannelTitle2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentTop="true"
+		        android:layout_toRightOf="@+id/tvRawDataChannelTitle1"
+		        android:paddingLeft="60dp" />
+		
+		    <TextView
+		        android:id="@+id/tvRawDataChannelTitle3"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentTop="true"
+		        android:layout_toRightOf="@+id/tvRawDataChannelTitle2"
+		        android:paddingLeft="60dp" />
+		
+		    <TextView
+		        android:id="@+id/tvRawDataChannelTitle4"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentTop="true"
+		        android:layout_toRightOf="@+id/tvRawDataChannelTitle3"
+		        android:paddingLeft="60dp" />
+		    
+		    <TextView
+		        android:id="@+id/tvRawDataChannelTitle5"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentTop="true"
+		        android:layout_toRightOf="@+id/tvRawDataChannelTitle4"
+		        android:paddingLeft="60dp" />
+		    
+		    <TextView
+		        android:id="@+id/tvRawDataChannelTitle6"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentTop="true"
+		        android:layout_toRightOf="@+id/tvRawDataChannelTitle5"
+		        android:paddingLeft="60dp" />
+		    
+		    <TextView
+		        android:id="@+id/tvRawDataChannelTitle7"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentTop="true"
+		        android:layout_toRightOf="@+id/tvRawDataChannelTitle6"
+		        android:paddingLeft="60dp" />
+		    
+		    <TextView
+		        android:id="@+id/tvRawDataChannelTitle8"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentTop="true"
+		        android:layout_toRightOf="@+id/tvRawDataChannelTitle7"
+		        android:paddingLeft="60dp" />
+		
+		    
+		    <TextView
+		        android:id="@+id/tvRawDataLogic1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:layout_below="@+id/tvRawDataChannelTitle1"
+		        android:textSize="15sp" />
+		
+		    <TextView
+		        android:id="@+id/tvRawDataLogic2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignLeft="@+id/tvRawDataChannelTitle2"
+		        android:layout_below="@+id/tvRawDataChannelTitle2"
+		        android:paddingLeft="60dp"
+		        android:textSize="15sp" />
+		
+		    <TextView
+		        android:id="@+id/tvRawDataLogic3"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignLeft="@+id/tvRawDataChannelTitle3"
+		        android:layout_below="@+id/tvRawDataChannelTitle3"
+		        android:paddingLeft="60dp"
+		        android:textSize="15sp" />
+		
+		    <TextView
+		        android:id="@+id/tvRawDataLogic4"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignLeft="@+id/tvRawDataChannelTitle4"
+		        android:layout_below="@+id/tvRawDataChannelTitle4"
+		        android:paddingLeft="60dp"
+		        android:textSize="15sp" />
+		    
+		    <TextView
+		        android:id="@+id/tvRawDataLogic5"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignLeft="@+id/tvRawDataChannelTitle5"
+		        android:layout_below="@+id/tvRawDataChannelTitle5"
+		        android:paddingLeft="60dp"
+		        android:textSize="15sp" />
+		    
+		    <TextView
+		        android:id="@+id/tvRawDataLogic6"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignLeft="@+id/tvRawDataChannelTitle6"
+		        android:layout_below="@+id/tvRawDataChannelTitle6"
+		        android:paddingLeft="60dp"
+		        android:textSize="15sp" />
+		    
+		    <TextView
+		        android:id="@+id/tvRawDataLogic7"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignLeft="@+id/tvRawDataChannelTitle7"
+		        android:layout_below="@+id/tvRawDataChannelTitle7"
+		        android:paddingLeft="60dp"
+		        android:textSize="15sp" />
+		    
+		    <TextView
+		        android:id="@+id/tvRawDataLogic8"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignLeft="@+id/tvRawDataChannelTitle8"
+		        android:layout_below="@+id/tvRawDataChannelTitle8"
+		        android:paddingLeft="60dp"
+		        android:textSize="15sp" />
+		    
+		</RelativeLayout>
+		    
+	</HorizontalScrollView>
+            
+</LinearLayout>

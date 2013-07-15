@@ -35,14 +35,22 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
     final static public int[] idChannels = {com.multiwork.andres.R.array.channelNames1,
     		com.multiwork.andres.R.array.channelNames2,
     		com.multiwork.andres.R.array.channelNames3,
-    		com.multiwork.andres.R.array.channelNames4
+    		com.multiwork.andres.R.array.channelNames4,
+    		com.multiwork.andres.R.array.channelNames5,
+    		com.multiwork.andres.R.array.channelNames6,
+    		com.multiwork.andres.R.array.channelNames7,
+    		com.multiwork.andres.R.array.channelNames8,
     };
     
     // Id de los valores de la lista para cada canal
     final static public int[] idChannelsValues = {com.multiwork.andres.R.array.clockValues1,
     		com.multiwork.andres.R.array.clockValues2,
     		com.multiwork.andres.R.array.clockValues3,
-    		com.multiwork.andres.R.array.clockValues4
+    		com.multiwork.andres.R.array.clockValues4,
+    		com.multiwork.andres.R.array.clockValues5,
+    		com.multiwork.andres.R.array.clockValues6,
+    		com.multiwork.andres.R.array.clockValues7,
+    		com.multiwork.andres.R.array.clockValues8,
     };
 	
 	@SuppressWarnings("deprecation")

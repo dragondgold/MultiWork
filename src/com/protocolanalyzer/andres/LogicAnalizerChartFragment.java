@@ -52,15 +52,16 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	private static final boolean DEBUG = true;
 	
 	/** Valores del eje Y que son tomados como inicio ('0' lógico) para las Series de los canales de entrada */
-	private static final float yChannel[] = {0, 4, 8, 12};
+	private static final float yChannel[] = {0, 4, 8, 12, 16, 20, 24, 28};
     /** Cuanto se incrementa en el eje Y para hacer un '1' logico */
 	private static final float bitScale = 1;		
     /** Valor del eje X maximo inicial */
     private static final double xMax = 10;
     /** Valor del eje X minimo inicial */
-    private static final double xMin = -1000;
+    private static final double xMin = -10000;
     /** Colores de linea para cada canal */
-    private static final int lineColor[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
+    private static final int lineColor[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW,
+    											Color.MAGENTA, Color.CYAN, Color.LTGRAY, Color.WHITE};
     
     /** Vibrador del dispositivo */
     private static Vibrator mVibrator;
@@ -485,7 +486,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 
         for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n){
         	// Seteo el protocolo para cada canal
-        	switch(Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+LogicAnalizerActivity.NA))){
+        	switch(Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+LogicAnalizerActivity.UART))){
 	        	case LogicAnalizerActivity.I2C:		// I2C
 	        		mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + " [I2C]");
 	        		break;
