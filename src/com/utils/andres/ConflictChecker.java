@@ -47,7 +47,12 @@ public class ConflictChecker {
 						else{
 							int refValue = Integer.valueOf(mPreferences.getString(refKey, null));
 							String targetKey = key.replace("*", ""+refValue);
-							if(Integer.valueOf(mPreferences.getString(targetKey, null)) != value){
+							try {
+								if(Integer.valueOf(mPreferences.getString(targetKey, null)) != value){
+									invalidateDependency(mDependency, refKey, mDependency.getInvalidationValue());
+									conflictsCorrected = true;
+								}	
+							} catch (NumberFormatException e) {
 								invalidateDependency(mDependency, refKey, mDependency.getInvalidationValue());
 								conflictsCorrected = true;
 							}

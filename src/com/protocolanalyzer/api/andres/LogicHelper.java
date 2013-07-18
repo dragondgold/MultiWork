@@ -58,9 +58,9 @@ public class LogicHelper {
 	public static LogicBitSet bitParser (final String data, final int samplesPerBit, final int times){
 		LogicBitSet bitSet = new LogicBitSet();
 		
-		Log.i("BitParse", "samplesPerBit: " + samplesPerBit);
-		Log.i("BitParse", "String: " + data);
-		Log.i("BitParse", "String Length: " + data.length());
+		if(DEBUG) Log.i("BitParse", "samplesPerBit: " + samplesPerBit);
+		if(DEBUG) Log.i("BitParse", "String: " + data);
+		if(DEBUG) Log.i("BitParse", "String Length: " + data.length());
 		
 		int bitPosition = 0;
 		
@@ -78,7 +78,7 @@ public class LogicHelper {
 				}
 			}
 		}
-		Log.i("BitParse", "BitSet length: " + bitSet.length());
+		if(DEBUG) Log.i("BitParse", "BitSet length: " + bitSet.length());
 		return bitSet;
 	}
 	

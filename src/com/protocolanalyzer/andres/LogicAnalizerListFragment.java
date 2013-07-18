@@ -110,6 +110,7 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 			
 			for(int n=0; n < mRawData.length; ++n){
 				List<TimePosition> stringData = data[n].getDecodedData();
+				if(DEBUG) Log.i("mFragmentList","onDataDecodedListener() Channel " + n + " -> " + stringData.size());
 				
 				if(data[n].getProtocol() != ProtocolType.CLOCK){
 					mRawDataTitle[n].setText( Html.fromHtml("<u>" + getString(R.string.AnalyzerChannel) + " " + (n+1) 

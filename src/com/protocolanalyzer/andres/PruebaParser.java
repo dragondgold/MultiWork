@@ -9,7 +9,6 @@ import com.protocolanalyzer.api.andres.Protocol.ProtocolType;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.TextView;
@@ -62,13 +61,16 @@ public class PruebaParser extends Activity {
 		else if(mType == ProtocolType.I2C){
 			LogicBitSet dataI2C, clkI2C;
 			
-			I2CProtocol channelI2C = new I2CProtocol(200000);
-			Clock clockI2C = new Clock(200000);
+			I2CProtocol channelI2C = new I2CProtocol(400000);
+			Clock clockI2C = new Clock(400000);
 
 			Log.i("Parser", "Parsing");
 			//								  S		  Address        A 		  Byte		  A  	   Byte       A   ST
 			dataI2C = LogicHelper.bitParser("100  11010010011100101  0  11010011110000111 0 11010011110000111 1  0011", 5, 2);
 			clkI2C = LogicHelper.bitParser( "110  01010101010101010  1  01010101010101010 1 01010101010101010 1  0111", 5, 2);
+			
+			Log.i("Parser", "Data: " + dataI2C.toString());
+			Log.i("Parser", "Clock: " + clkI2C.toString());
 			
 			channelI2C.setChannelBitsData(dataI2C);
 			channelI2C.setClockSource(clockI2C);

@@ -105,6 +105,10 @@ public class BluetoothHelper {
 		mOnBluetoothConnected = null;
 	}
 	
+	public boolean isOfflineMode (){
+		return offlineMode;
+	}
+	
 	/**
 	 * Envía un byte por Bluetooth
 	 * @param data

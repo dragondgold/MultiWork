@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class UARTProtocol extends Protocol{
 
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	
 	private int baudRate = 9600;
 	private boolean is9Bits = false;

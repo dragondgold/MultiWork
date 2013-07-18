@@ -30,9 +30,11 @@ import com.multiwork.andres.R;
 import com.protocolanalyzer.api.andres.Clock;
 import com.protocolanalyzer.api.andres.EmptyProtocol;
 import com.protocolanalyzer.api.andres.I2CProtocol;
+import com.protocolanalyzer.api.andres.LogicBitSet;
 import com.protocolanalyzer.api.andres.LogicHelper;
 import com.protocolanalyzer.api.andres.Protocol;
 import com.protocolanalyzer.api.andres.UARTProtocol;
+import com.protocolanalyzer.api.andres.Protocol.ProtocolType;
 
 public class LogicAnalizerActivity extends SherlockFragmentActivity implements OnActionBarClickListener, OnNewBluetoothDataReceived{
 
@@ -89,6 +91,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static boolean isStarting = true;
 	private static ProgressDialog mDialog;
 	private static SharedPreferences getPrefs;
+	private static int samplesNumber;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -106,8 +109,19 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		
 		// Array de tamaño 0 para evitar NullPointerException
 		tempBuffer = new byte[0];
+		getPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		
+		if(arg0 == null || !arg0.getBoolean("setStuff")){
+			setPreferences();
+		}
 	}
 	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean("setStuff", true);
+		super.onSaveInstanceState(outState);
+	}
+
 	// Si estoy tomando datos y salgo de la Activity elimino el CallBack para no recibir mas datos desde el Service.
 	@Override
 	protected void onPause() {
@@ -127,7 +141,6 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		if(DEBUG) Log.i("mFragmentActivity","onResume()");
 		
 		ApplicationContext myApp = (ApplicationContext)getApplication();
-		getPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		isStarting = true;
 		isPlaying = false;
@@ -138,7 +151,6 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		mBluetoothHelper.setOnNewBluetoothDataReceived(this);
 		// Indico que entré en el analizador lógico
 		mBluetoothHelper.write(logicAnalyzerMode);
-		setPreferences();
 		
 		this.supportInvalidateOptionsMenu();  // Actualizo el ActionBar
 	}
@@ -154,28 +166,34 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	 			break;
 	 		// Boton Play/Pause
 			case R.id.PlayPauseLogic:
-				// Digo al PIC que comienze el muestreo
-				mBluetoothHelper.write(1);
-				// Envío la frecuencia de muestreo que quiero
-				if(channel[0].getSampleFrequency() == 40000000) mBluetoothHelper.write(F40MHz);
-				else if(channel[0].getSampleFrequency() == 20000000) mBluetoothHelper.write(F20MHz);
-				else if(channel[0].getSampleFrequency() == 10000000) mBluetoothHelper.write(F10MHz);
-				else if(channel[0].getSampleFrequency() == 4000000) mBluetoothHelper.write(F4MHz);
-				else if(channel[0].getSampleFrequency() == 400000) mBluetoothHelper.write(F400KHz);
-				else if(channel[0].getSampleFrequency() == 2000) mBluetoothHelper.write(F2KHz);
-				else if(channel[0].getSampleFrequency() == 10) mBluetoothHelper.write(F10Hz);
-				// Si usa trigger o no
-				mBluetoothHelper.write(getPrefs.getBoolean("simpleTriggerGeneral", false) ? 'S' : 'N');
-				// Mask
-				mBluetoothHelper.write(getPrefs.getInt("simpleTriggerMask", 0));
-				isPlaying = true;
-				supportInvalidateOptionsMenu();
-				
-				if(DEBUG) Log.i("mFragmentActivity", "Data sent, waiting for data");
-				// Muestro un diálogo de progreso indeterminado mientras se procesan los datos
-				mDialog = ProgressDialog.show(this, getString(R.string.AnalyzerDialogReceiving),
-						getString(R.string.PleaseWait), true);
-				mDialog.setCancelable(false);
+				if(!mBluetoothHelper.isOfflineMode()){
+					// Digo al PIC que comienze el muestreo
+					startSample();
+				}else{
+					// Demo de señal
+					for(int n = 0; n < channelsNumber; ++n){
+						if(channel[n].getProtocol() != ProtocolType.CLOCK){
+							LogicBitSet data, clk;
+							data = LogicHelper.bitParser("100 11010010011100101 0 11010011110000111 0 11010011110000111 1 0011", 5, 2);
+							channel[n].setChannelBitsData(data);
+							
+							if(channel[n].getProtocol() == ProtocolType.I2C){
+								clk = LogicHelper.bitParser( "110 01010101010101010 1 01010101010101010 1 01010101010101010 1 0111", 5, 2);
+								if(DEBUG) Log.i("mFragmentActivity", "Clk: " + clk.toString());
+								
+								Clock clockChannel = ((I2CProtocol)channel[n]).getClockSource();
+								clockChannel.setChannelBitsData(clk);
+							}
+						}
+					}
+					// Decodifico cada canal
+					for(int n = 0; n < channelsNumber; ++n) {
+						channel[n].decode(time);
+					}
+					
+					samplesNumber = 61*5*2;
+					updateUIThread.sendEmptyMessage(dispatchInterfaces);
+				}
 				break;
 	 		case R.id.listLogic:
 	 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -183,7 +201,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	 			// de atras se vuelva a este Fragment y no se destruya el mismo
 	 			if(!isFragmentActive("ChartLogic")){
 	 				if(DEBUG) Log.i("mFragmentActivity", "Chart Fragment Created");
-	 				mFragmentChart = new LogicAnalizerChartFragment(channel, tempBuffer.length);
+	 				mFragmentChart = new LogicAnalizerChartFragment(channel, samplesNumber);
 	 				
 		 			transaction.replace(R.id.logicFragment, mFragmentChart, "ChartLogic");
 		 			transaction.addToBackStack(null);
@@ -206,6 +224,30 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		return super.onOptionsItemSelected(item);
 	}
 	
+	private void startSample() {
+		mBluetoothHelper.write(1);
+		// Envío la frecuencia de muestreo que quiero
+		if(channel[0].getSampleFrequency() == 40000000) mBluetoothHelper.write(F40MHz);
+		else if(channel[0].getSampleFrequency() == 20000000) mBluetoothHelper.write(F20MHz);
+		else if(channel[0].getSampleFrequency() == 10000000) mBluetoothHelper.write(F10MHz);
+		else if(channel[0].getSampleFrequency() == 4000000) mBluetoothHelper.write(F4MHz);
+		else if(channel[0].getSampleFrequency() == 400000) mBluetoothHelper.write(F400KHz);
+		else if(channel[0].getSampleFrequency() == 2000) mBluetoothHelper.write(F2KHz);
+		else if(channel[0].getSampleFrequency() == 10) mBluetoothHelper.write(F10Hz);
+		// Si usa trigger o no
+		mBluetoothHelper.write(getPrefs.getBoolean("simpleTriggerGeneral", false) ? 'S' : 'N');
+		// Mask
+		mBluetoothHelper.write(getPrefs.getInt("simpleTriggerMask", 0));
+		isPlaying = true;
+		supportInvalidateOptionsMenu();
+		
+		if(DEBUG) Log.i("mFragmentActivity", "Data sent, waiting for data");
+		// Muestro un diálogo de progreso indeterminado mientras se procesan los datos
+		mDialog = ProgressDialog.show(this, getString(R.string.AnalyzerDialogReceiving),
+				getString(R.string.PleaseWait), true);
+		mDialog.setCancelable(false);
+	}
+	
 	/**
 	 * Detecta si el Fragment identificado con el fragmentTag esta activo o no
 	 * @param fragmentTag nombre del Fragment
@@ -226,8 +268,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 			if(resultCode == RESULT_OK) {
 				if(DEBUG) Log.i("mFragmentActivity", "Preferences Setted");
 				// Aviso a los fragment que cambiaron las preferencias
-				mListDataDecodedListener.onDataDecodedListener(channel, tempBuffer.length, true);
-				if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(channel, tempBuffer.length, true);
+				mListDataDecodedListener.onDataDecodedListener(channel, samplesNumber, true);
+				if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(channel, samplesNumber, true);
 				setPreferences();
 			}
 		}
@@ -240,7 +282,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	 */
 	@Override
 	public void onActionBarClickListener(int buttonID) {
-		if(DEBUG) Log.i("mFragmentActivity","onActionBarClickListener() - " + this.toString());
+		if(DEBUG) Log.i("mFragmentActivity","onActionBarClickListener()");
 		switch(buttonID){
 			case R.id.restartLogic:
 				for(int n=0; n < channelsNumber; ++n){
@@ -272,11 +314,12 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	 */
  	private void setPreferences() {
  		// Defino la velocidad de muestreo que es comun a todos los canales (por defecto 4MHz)
- 		long sampleFrec = Long.decode(getPrefs.getString("sampleRate", "4000000"));
+ 		long sampleFrec = Long.valueOf(getPrefs.getString("sampleRate", "4000000"));
  		
         for(int n=0; n < channelsNumber; ++n){
+        	if(DEBUG) Log.i("mFragmentActivity", "Channel " + (n+1) + ": " + getPrefs.getString("protocol" + (n+1), ""+UART));
         	// Seteo el protocolo para cada canal y configuraciones generales
-        	switch(Integer.decode(getPrefs.getString("protocol" + (n+1), ""+NA))){
+        	switch(Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+UART))){
 	        	case I2C:		// I2C
 	        		channel[n] = new I2CProtocol(sampleFrec);
 	        		break;
@@ -301,6 +344,16 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	        		break;
         	}
         }
+        // Configuro las fuentes de clock
+        for(int n = 0; n < channelsNumber; ++n) {
+        	if(DEBUG) Log.i("mFragmentActivity", "n: " + n);
+        	if(channel[n].getProtocol() == ProtocolType.I2C){
+        		int clockIndex = Integer.valueOf(getPrefs.getString("CLK" + (n+1), NA+""));
+        		if(DEBUG) Log.i("mFragmentActivity", "Clock Index: " + clockIndex);
+        		
+        		((I2CProtocol)channel[n]).setClockSource((Clock)channel[clockIndex-1]);
+        	}
+		}
 
         /**
          * Mantiene a la pantalla encendida en esta Activity unicamente
@@ -324,8 +377,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					break;
 
 				case dispatchInterfaces:
-					time = mListDataDecodedListener.onDataDecodedListener(channel, tempBuffer.length, false);
-					if(isFragmentActive("ChartLogic")) mChartDataDecodedListener.onDataDecodedListener(channel, tempBuffer.length, false);
+					time = mListDataDecodedListener.onDataDecodedListener(channel, samplesNumber, false);
+					if(isFragmentActive("ChartLogic")) mChartDataDecodedListener.onDataDecodedListener(channel, samplesNumber, false);
 					break;
 				
 				case dismissDialog:
@@ -402,6 +455,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					for(int n = 0; n < channelsNumber; ++n) {
 						channel[n].decode(time);
 					}
+					samplesNumber = tempBuffer.length;
 					
 					if(DEBUG) Log.i("LogicAnalizerBT", "Dispatching interfaces");
 					// Paso los datos decodificados a los Fragment en el Thread de la UI

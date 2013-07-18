@@ -120,7 +120,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	@Override
 	public double onDataDecodedListener(Protocol[] data, int samplesCount, boolean isConfig) {
 		if(DEBUG) Log.i("mFragmentChart","onDataDecoded() - isConfig: " + isConfig);
-		if(DEBUG) Log.i("mFragmentChart","Data: " + data.toString());
 		// Si se cambiaron las configuraciones las actualizo
 		if(isConfig) setChartPreferences();
 		else{
@@ -445,14 +444,14 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 					
 					// Agrego el texto en el centro del area de tiempo que contiene el string
 					mSerie[n].addAnnotation(timePosition.getString(),
-							toCoordinate(timePosition.startTime()+((timePosition.endTime()-timePosition.startTime())/2.0d),
-									timeScale), yChannel[n]+2f);
+							toCoordinate(timePosition.startTime(), timeScale), yChannel[n]+2f);
 				
+					/*
 					// Agrego el recuadro
 					mSerie[n].addRectangle(toCoordinate(timePosition.startTime(), timeScale)+0.0000001,
 							yChannel[n]+3.5f,
 							toCoordinate(timePosition.endTime(), timeScale),
-							yChannel[n]+bitScale+0.5f);
+							yChannel[n]+bitScale+0.5f);*/
 				}
 			}
 			mChartView.repaint();	// Redibujo el grafico
@@ -473,11 +472,11 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	/**
 	 * Convierte el tiempo en mili-segundos a la escala del grafico segun la escala de tiempos
 	 * @param time tiempo en mili-segundos
-	 * @param timeScale cuantos mili-segundos equivalen a una unidad en el grafico
+	 * @param timeScale cuantos segundos equivalen a una unidad en el grafico
 	 * @return coordenada equivalente
 	 */
 	private static double toCoordinate (double time, double timeScale){
-		return (time/timeScale);
+		return ((time/1000d)/timeScale);
 	}
 	
 	// Define los parametros de acuerdo a las preferencias
