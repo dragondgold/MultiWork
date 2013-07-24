@@ -6,15 +6,19 @@ It is a Logic Analyzer, Frecuencimeter, LC Meter and Joystick to control my Robo
 The hardware is made by me with a dsPIC Microcontroller and communicates with the smartphone through Bluetooth with an HC-06 module. 
 
 ## Logic Analyzer Features
-* 8 channels available (currently 4 enabled in software by now)
+* 8 channels available
 * Capable of decoding UART and I2C communications
 * Data can be showed in a list with the decoded data or in a chart to see communication waveform
 * Smartphone and tablet adapted UI
+* Up to 40MSPS
+* Buffer size for 16000 samples
+* Trigger by state changing for each channel
 * More features and protocols will be added by the time...
 
 ## Requirements
 * Android based device with at least Android Gingerbread 2.3</li>
-* Electronic hardware which sample the data (will release the schematics soon, dsPIC firmware can be found [here](https://github.com/dragondgold/MultiWork_dsPIC))
+* Electronic hardware which sample the data, schematics and PCB can be found [here](https://www.dropbox.com/sh/oq76xrg0jv6cvfu/KZ4UXd6o5D/MultiWork%20Altium)
+* dsPIC firmware which can be found [here](https://github.com/dragondgold/MultiWork_dsPIC))
 
 ## Libraries/API
 * MultiWork uses [achartengine](https://code.google.com/p/achartengine/) to show data waveform, thanks to Dan for this great framework and helping me to add annotations capabilities.
