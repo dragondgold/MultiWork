@@ -78,9 +78,11 @@ public class I2CProtocol extends Protocol{
 			// Condicion de START
 			case startCondition:					
 				// Si existe una condición de Start leo, sino salgo de la función
-				if(nextStartCondition(index) != -1){
+				int start = nextStartCondition(index);
+				if(start != -1){
 					if(DEBUG) Log.i("I2CDecode", "Start Condition - index: " + index);
-					addString("S", (index*sampleTime), nextStartCondition(index)*sampleTime, startTime);
+					addString("S", (index*sampleTime), start*sampleTime, startTime);
+					index = start;
 					I2Cstate = readAddress;
 				}
 				else return;
@@ -214,8 +216,9 @@ public class I2CProtocol extends Protocol{
 	private int[] readBits (int index, int nBits){
 		int[] i2cData = new int[3];
 		// Index de inicio
-		if(clockSource.getChannelBitsData().nextSetBitToTest(index) != -1) 
-			i2cData[0] = clockSource.getChannelBitsData().nextSetBitToTest(index);
+		if(clockSource.getChannelBitsData().nextRisingEdge(index) != -1) 
+			i2cData[0] = clockSource.getChannelBitsData().nextRisingEdge(index);
+		else return null;
 		
 		// Leo la cantidad de bits especificados empezando por el MSB
 		for(int bit = nBits; bit > 0; --bit){			

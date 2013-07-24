@@ -179,7 +179,6 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 							
 							if(channel[n].getProtocol() == ProtocolType.I2C){
 								clk = LogicHelper.bitParser( "110 01010101010101010 1 01010101010101010 1 01010101010101010 1 0111", 5, 2);
-								if(DEBUG) Log.i("mFragmentActivity", "Clk: " + clk.toString());
 								
 								Clock clockChannel = ((I2CProtocol)channel[n]).getClockSource();
 								clockChannel.setChannelBitsData(clk);

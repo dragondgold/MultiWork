@@ -9,6 +9,7 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.util.IndexXYMap;
 import org.achartengine.util.MathHelper;
 
 import android.annotation.SuppressLint;
@@ -19,7 +20,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
-import android.graphics.Paint.Style;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -51,18 +51,34 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	/** Debugging */
 	private static final boolean DEBUG = true;
 	
+	private static final String TAG = "logic:mFragmentChart";
+	
 	/** Valores del eje Y que son tomados como inicio ('0' lógico) para las Series de los canales de entrada */
-	private static final float yChannel[] = {0, 4, 8, 12, 16, 20, 24, 28};
+	private static final float yChannel[] = {0, 5, 10, 15, 20, 25, 30, 35};
     /** Cuanto se incrementa en el eje Y para hacer un '1' logico */
 	private static final float bitScale = 1;		
     /** Valor del eje X maximo inicial */
-    private static final double xMax = 10;
+    private static final double xMax = 100;
     /** Valor del eje X minimo inicial */
-    private static final double xMin = -10000;
+    private static final double xMin = -100;
     /** Colores de linea para cada canal */
     private static final int lineColor[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW,
     											Color.MAGENTA, Color.CYAN, Color.LTGRAY, Color.WHITE};
     
+    /** Escala de tiempo (cuanto equivale un cuadro del grafico */
+    private static final double timeScaleValues[] = { 	0.000000001d,		// 1nS
+    														0.000000010d,		// 10nS
+    														0.000000025d,		// 25nS
+    														0.000000050d,		// 50nS
+    														0.000000100d,		// 100nS
+    														0.000000250d,		// 250nS
+    														0.0000025d,			// 2.5uS
+    														0.000500d,			// 500uS
+    														0.001d,				// 1mS
+    														0.01d,				// 10mS
+    														0.1d				// 1mS
+    };
+        
     /** Vibrador del dispositivo */
     private static Vibrator mVibrator;
     
@@ -108,7 +124,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	
 	// Constructor
 	public LogicAnalizerChartFragment(Protocol[] data, int samplesCount) {
-		if(DEBUG) Log.i("mFragmentChart","LogicAnalizerChartFragment() Constructor");
+		if(DEBUG) Log.i(TAG,"LogicAnalizerChartFragment() Constructor");
 		decodedData = data;
 		samplesNumber = samplesCount;
 	}
@@ -119,7 +135,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	
 	@Override
 	public double onDataDecodedListener(Protocol[] data, int samplesCount, boolean isConfig) {
-		if(DEBUG) Log.i("mFragmentChart","onDataDecoded() - isConfig: " + isConfig);
+		if(DEBUG) Log.i(TAG,"onDataDecoded() - isConfig: " + isConfig);
 		// Si se cambiaron las configuraciones las actualizo
 		if(isConfig) setChartPreferences();
 		else{
@@ -131,11 +147,133 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		return 0;
 	}
 	
+	/**
+	 * Configura el label del eje X del gráfico en base a la escala de tiempo
+	 */
+	private void updateXLabels(){
+		int currentIndex = 0;
+		for(int n = 0; n < timeScaleValues.length; ++n){
+			if(timeScaleValues[n] == timeScale){
+				currentIndex = n;
+				break;
+			}
+		}
+		
+		// Si es mayor a 1000uS, lo muestro como mS
+		if(timeScaleValues[currentIndex] * 1E6 >= 1000){
+			mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x" + String.format("%.2f", timeScaleValues[currentIndex]*1E3) + " mS");
+		}
+		// Si es mayor a 1000nS lo muestro como uS
+		else if(timeScaleValues[currentIndex] * 1E9 >= 1000){
+			mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x" + String.format("%.2f", timeScaleValues[currentIndex]*1E6) + " uS");
+		}
+		// Sino lo muestro como nS
+		else{
+			mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x" + String.format("%.2f", timeScaleValues[currentIndex]*1E9) + " nS");
+		}
+	}
+	
+	/**
+	 * Hace un zoom in del gráfico teniendo en cuenta las escalas en timeScaleValues
+	 */
+	private void zoomIn(){
+		int currentIndex = 0;
+		for(int n = 0; n < timeScaleValues.length; ++n){
+			if(timeScaleValues[n] == timeScale){
+				currentIndex = n;
+				break;
+			}
+		}
+		
+		if(currentIndex == 0) return;
+		else{
+			double prevTimeScale = timeScale;
+			timeScale = timeScaleValues[currentIndex-1];
+
+			double prevX1 = mRenderDataset.getXAxisMin()*prevTimeScale*1000;
+			double prevX2 = mRenderDataset.getXAxisMax()*prevTimeScale*1000;
+			
+			double minX = toCoordinate(prevX1, timeScale);
+			double maxX = toCoordinate(prevX2, timeScale);
+			double width = toCoordinate(mSerie[0].getItemCount() * (1d/decodedData[0].getSampleFrequency()), timeScale);
+			
+			for(XYSeries series : mSerie){
+				@SuppressWarnings("unchecked")
+				IndexXYMap<Double, Double> map = (IndexXYMap<Double, Double>)series.getXYMap().clone();
+
+				series.clearSeriesValues();
+				for(java.util.Map.Entry<Double, Double> entry : map.entrySet()){
+					series.add(toCoordinate(entry.getKey()*prevTimeScale*1000, timeScale), entry.getValue());
+				}
+				
+				for(int n = 0; n < series.getAnnotationCount(); ++n){
+					double x = toCoordinate(series.getAnnotationX(n)*prevTimeScale*1000, timeScale);
+					double y = series.getAnnotationY(n);
+					
+					series.replaceAnnotation(n, series.getAnnotationAt(n), x, y);
+				}
+			}
+			mRenderDataset.setXAxisMax(maxX - (width*40)/100);
+			mRenderDataset.setXAxisMin(minX + (width*40)/100);
+			
+			updateXLabels();
+			if(DEBUG) Log.i(TAG, "Redrawing Zoomed Chart");
+			mChartView.repaint();
+		}
+	}
+	
+	/**
+	 * Hace un zoom out del gráfico teniendo en cuenta las escalas en timeScaleValues
+	 */
+	private void zoomOut(){
+		int currentIndex = 0;
+		for(int n = 0; n < timeScaleValues.length; ++n){
+			if(timeScaleValues[n] == timeScale){
+				currentIndex = n;
+				break;
+			}
+		}
+		
+		if(currentIndex == timeScaleValues.length-1) return;
+		else{
+			double prevTimeScale = timeScale;
+			timeScale = timeScaleValues[currentIndex+1];
+
+			double prevX1 = mRenderDataset.getXAxisMin()*prevTimeScale*1000;
+			double prevX2 = mRenderDataset.getXAxisMax()*prevTimeScale*1000;
+			
+			double minX = toCoordinate(prevX1, timeScale);
+			double maxX = toCoordinate(prevX2, timeScale);
+			double width = toCoordinate(mSerie[0].getItemCount() * (1d/decodedData[0].getSampleFrequency()), timeScale);
+			
+			for(XYSeries series : mSerie){
+				@SuppressWarnings("unchecked")
+				IndexXYMap<Double, Double> map = (IndexXYMap<Double, Double>)series.getXYMap().clone();
+				
+				series.clearSeriesValues();
+				for(java.util.Map.Entry<Double, Double> entry : map.entrySet()){
+					series.add(toCoordinate(entry.getKey()*prevTimeScale*1000, timeScale), entry.getValue());
+				}
+				for(int n = 0; n < series.getAnnotationCount(); ++n){
+					double x = toCoordinate(series.getAnnotationX(n)*prevTimeScale*1000, timeScale);
+					double y = series.getAnnotationY(n);
+					
+					series.replaceAnnotation(n, series.getAnnotationAt(n), x, y);
+				}
+			}
+			mRenderDataset.setXAxisMax(maxX + (width*40)/100);
+			mRenderDataset.setXAxisMin(minX - (width*40)/100);
+			
+			updateXLabels();
+			mChartView.repaint();
+		}
+	}
+	
     @Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		Log.i("mFragmentChart", "onCreate()");
+		Log.i(TAG, "onCreate()");
 		
         mActionBar = mActivity.getSupportActionBar();				// Obtengo el ActionBar
         mActionBar.setDisplayHomeAsUpEnabled(true);					// El icono de la aplicacion funciona como boton HOME
@@ -202,7 +340,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Log.i("mFragmentChart", "onCreateView()");
+		Log.i(TAG, "onCreateView()");
 		
 		// Obtengo la Activity que contiene el Fragment
 		mActivity = getSherlockActivity();
@@ -225,29 +363,30 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	    	mRenderer[n].setPointStyle(PointStyle.CIRCLE);
 	    	mRenderer[n].setLineWidth(2f);
 	    	
-	    	mRenderer[n].getTextPaint().setTextSize(30);	// Tamaño del texto
-	    	mRenderer[n].getTextPaint().setColor(Color.WHITE);
-	    	mRenderer[n].getTextPaint().setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
-	    	mRenderer[n].getTextPaint().setTextAlign(Align.CENTER);
+	    	mRenderer[n].setAnnotationsTextSize(10);
+	    	mRenderer[n].setAnnotationsColor(Color.WHITE);
+	    	mRenderer[n].setAnnotationsTextAlign(Align.LEFT);
 	    	
+	    	/*
 	    	mRenderer[n].getRectPaint().setColor(Color.WHITE);
 	    	mRenderer[n].getRectPaint().setStrokeWidth(2f);
-	    	mRenderer[n].getRectPaint().setStyle(Style.STROKE);
+	    	mRenderer[n].getRectPaint().setStyle(Style.STROKE);*/
 	    }
 
         // Configuraciones generales
         mRenderDataset.setYTitle(getString(R.string.AnalyzerYTitle));
         mRenderDataset.setAntialiasing(true);
-        mRenderDataset.setYAxisMax(yChannel[yChannel.length-1]+4);
+        mRenderDataset.setYAxisMax(yChannel[yChannel.length/2]+4);
         mRenderDataset.setXAxisMin(xMin);
         mRenderDataset.setXAxisMax(xMax);
         mRenderDataset.setPanEnabled(true);
         mRenderDataset.setShowGrid(true);
         mRenderDataset.setPointSize(4f);
         mRenderDataset.setExternalZoomEnabled(true);
-        mRenderDataset.setPanEnabled(true, false);
+        mRenderDataset.setPanEnabled(true, true);
         mRenderDataset.setZoomEnabled(true, false);
         mRenderDataset.setPanLimits(new double[] {xMin , Double.MAX_VALUE, -1d, yChannel[yChannel.length-1]+4});
+        mRenderDataset.setXLabels(20);
         
         mChartView = ChartFactory.getLineChartView(mActivity, mSerieDataset, mRenderDataset);
         // Renderizado por software, el hardware trae problemas con paths muy largos en el Canvas (bug de Android)
@@ -265,14 +404,14 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(DEBUG) Log.i("mFragmentChart","onResume()");
+		if(DEBUG) Log.i(TAG,"onResume()");
 	}
     
 	// Activa el ActionMode del ActionBar
 	private final class ActionModeEnable implements ActionMode.Callback {
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			if(DEBUG) Log.i("ActionMode", "Create");
+			if(DEBUG) Log.i(TAG, "Action Mode onCreate()");
 			MenuInflater inflater = mActivity.getSupportMenuInflater();
 			inflater.inflate(R.menu.actionmodelogic, menu);
 			return true;
@@ -280,14 +419,14 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			if(DEBUG) Log.i("ActionMode", "Prepare");
+			if(DEBUG) Log.i(TAG, "Action Mode onPrepare");
 			return false;
 		}
 
 		// Al presionar iconos en el ActionMode
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			if(DEBUG) Log.i("ActionMode", "Item clicked: " + item.getItemId() + " - " + item.getTitle());
+			if(DEBUG) Log.i(TAG, "Item clicked: " + item.getItemId() + " - " + item.getTitle());
 			switch(item.getItemId()) {
 			case R.id.restartLogic:
 				mActionBarListener.onActionBarClickListener(R.id.restartLogic);
@@ -303,20 +442,20 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			if(DEBUG) Log.i("ActionMode", "Destroy");
+			if(DEBUG) Log.i(TAG, "Destroy");
 		}
 	}
     
 	// Listener de los items en el ActionBar
  	@Override
  	public boolean onOptionsItemSelected(MenuItem item) {
- 		if(DEBUG) Log.i("mFragmentChart", "ActionBar -> " + item.getTitle());
+ 		if(DEBUG) Log.i(TAG, "ActionBar -> " + item.getTitle());
  		switch(item.getItemId()){
  		case R.id.zoomInLogic:
- 			mChartView.zoomIn();
+ 			zoomIn();
  			break;
  		case R.id.zoomOutLogic:
- 			mChartView.zoomOut();
+ 			zoomOut();
  			break;
  		}
 		return true;
@@ -329,9 +468,9 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
  	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(DEBUG) Log.i("mFragmentChart", "Activity Result");
-		if(DEBUG) Log.i("mFragmentChart", "resultCode: " + resultCode);
-		if(DEBUG) Log.i("mFragmentChart", "requestCode: " + requestCode);
+		if(DEBUG) Log.i(TAG, "Activity Result");
+		if(DEBUG) Log.i(TAG, "resultCode: " + resultCode);
+		if(DEBUG) Log.i(TAG, "requestCode: " + requestCode);
 	}
 
  	// Reinicia el gŕafico y las variables involucradas
@@ -381,7 +520,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		@Override
 		public void run() {
 			
-			if(DEBUG) Log.i("mFragmentChart", "Updater Task");
+			if(DEBUG) Log.i(TAG, "Updater Task");
 			final double initTime = time;
 			
 			for(int channel = 0; channel < LogicAnalizerActivity.channelsNumber; ++channel){	
@@ -407,9 +546,11 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 						bitState = bitsData.get(n);
 						double tTime = time - (1.0d/decodedData[0].getSampleFrequency()); 
 						
+						// Estado anterior
 						if(bitsData.get(n-1)) mSerie[channel].add(toCoordinate(tTime, timeScale), yChannel[channel]+bitScale);
 						else mSerie[channel].add(toCoordinate(tTime, timeScale), yChannel[channel]);
 						
+						// Estado actual
 						if(bitsData.get(n)) mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]+bitScale);
 						else mSerie[channel].add(toCoordinate(time, timeScale), yChannel[channel]);
 					// Punto al final
@@ -422,15 +563,15 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 				}
 				if(channel < LogicAnalizerActivity.channelsNumber-1) time = initTime;
 			}
-			// Muevo el grafico al final de las lineas
-			mRenderDataset.setXAxisMax(toCoordinate(time, timeScale)+1000);
-			mRenderDataset.setXAxisMin(xMin);
+			// Muevo el grafico al final de las lineas, le sumo el 10% del valor máximo y mínimo para dar un margen
+			mRenderDataset.setXAxisMax(toCoordinate(time, timeScale)+(10*toCoordinate(time, timeScale))/100);
+			mRenderDataset.setXAxisMin(0-(10*toCoordinate(time, timeScale))/100);
 			
 			// Agrego un espacio para indicar que el buffer de muestreo llego hasta aqui
-			time += (10*timeScale);
+			time += (toCoordinate(mSerie[0].getItemCount() * (1d/decodedData[0].getSampleFrequency()), timeScale)*30)/100;
 			for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n){
 				if(mSerie[n].getItemCount() > 0){
-					mSerie[n].add(mSerie[n].getX(mSerie[n].getItemCount()-1)+0.0000001d, MathHelper.NULL_VALUE);
+					mSerie[n].add(mSerie[n].getX(mSerie[n].getItemCount()-1), MathHelper.NULL_VALUE);
 				}
 			}
 			
@@ -502,30 +643,12 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
         }
     	// Máxima cantidad de muestras para almacenar
         maxSamples = Integer.decode(getPrefs.getString("maxSamples","5"));
+        
+    	timeScale = 0.000500d;	// 500 uS
+    	updateXLabels();
+        
+    	if(DEBUG) Log.i(TAG, "Time Scale: " + timeScale);
     	
-        // Escala del eje X de acuerdo al sample rate
-        if(decodedData[0].getSampleFrequency() == 40E6) {
-        	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x25nS");
-        	timeScale = 0.000000025d;		// 25nS
-        }else if(decodedData[0].getSampleFrequency() == 20E6) {
-        	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x50 nS");
-        	timeScale = 0.000000050d;		// 50nS
-        }else if(decodedData[0].getSampleFrequency() == 10E6) {
-        	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x100 nS");
-        	timeScale = 0.000000100d;		// 100nS
-        }else if(decodedData[0].getSampleFrequency() == 4E6) {
-        	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x250 nS");
-        	timeScale = 0.000000250d;		// 250nS
-        }else if(decodedData[0].getSampleFrequency() == 400000) {
-        	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x2.5 uS");
-        	timeScale = 0.0000025d;			// 2.5uS
-        }else if(decodedData[0].getSampleFrequency() == 2000) {
-        	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x500 uS");
-        	timeScale = 0.000500d;			// 500uS
-        }else if(decodedData[0].getSampleFrequency() == 10) {
-        	mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x100 mS");
-        	timeScale = 0.1d;				// 100mS
-        }
         // Actualizo los datos del grafico
         mChartView.repaint();
  	}
