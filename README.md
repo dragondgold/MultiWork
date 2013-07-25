@@ -5,6 +5,8 @@ MultiWork is a project I have been working in my free time. It is an Android Bas
 It is a Logic Analyzer, Frecuencimeter, LC Meter and Joystick to control my Robotic Arm (I will upload some photos later).
 The hardware is made by me with a dsPIC Microcontroller and communicates with the smartphone through Bluetooth with an HC-06 module. 
 
+You can see my article of this project in Spanish [here](http://tortimax.wordpress.com/2013/07/24/multiwork/).
+
 ## Logic Analyzer Features
 * 8 channels available
 * Capable of decoding UART and I2C communications
