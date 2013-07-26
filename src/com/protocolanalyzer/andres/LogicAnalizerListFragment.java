@@ -122,7 +122,7 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 						// http://stackoverflow.com/questions/1529068/is-it-possible-to-have-multiple-styles-inside-a-textview
 						mRawData[n].append( Html.fromHtml("<b><font color=#ff0000>" +
 								stringData.get(i).getString() + "</font></b>"  
-								+ "\t --> " + String.format("%.3f", (stringData.get(i).startTime()*1000))
+								+ "\t --> " + String.format("%.3f", (stringData.get(i).startTime()*1E6))
 								+ "uS<br/>") );
 					}
 				}

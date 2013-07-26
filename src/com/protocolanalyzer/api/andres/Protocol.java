@@ -83,15 +83,11 @@ public abstract class Protocol {
 	/**
 	 * Agrega un String en la posicion dada sumando el tiempo de inicio initTime en mS
 	 * @param text String a agregar
-	 * @param startTime tiempo de inicio en mS
-	 * @param stopTime tiempo final en mS
-	 * @param initTime offset de tiempo a agregar en mS
+	 * @param startTime tiempo de inicio en segundos
+	 * @param stopTime tiempo final en segundos
+	 * @param initTime offset de tiempo a agregar en segundos
 	 */
 	public void addString (String text, double startTime, double stopTime, double initTime){
-		// Paso los tiempos de segundos a mili-segundos
-		stopTime *= 1000d;
-		initTime *= 1000d;
-		
 		if(stopTime >= startTime){
 			mDecodedData.add(new TimePosition(text, startTime+initTime, stopTime+initTime));
 		}else{

@@ -78,11 +78,11 @@ public class I2CProtocol extends Protocol{
 			// Condicion de START
 			case startCondition:					
 				// Si existe una condición de Start leo, sino salgo de la función
-				int start = nextStartCondition(index);
-				if(start != -1){
+				int[] start = nextStartCondition(index);
+				if(start != null){
 					if(DEBUG) Log.i("I2CDecode", "Start Condition - index: " + index);
-					addString("S", (index*sampleTime), start*sampleTime, startTime);
-					index = start;
+					addString("S", (start[0]*sampleTime), start[1]*sampleTime, startTime);
+					index = start[1];
 					I2Cstate = readAddress;
 				}
 				else return;
@@ -187,8 +187,8 @@ public class I2CProtocol extends Protocol{
 	 * @param index index donde empezar la busqueda de la condicion de start
 	 * @return
 	 */
-	private int nextStartCondition (int index){
-		if (index < 0) return -1;
+	private int[] nextStartCondition (int index){
+		if (index < 0) return null;
 		// Busco primero que SDA y SCL esten en alto
 		for(int n = index; n < logicData.length(); ++n){
 			if(logicData.get(n) && clockSource.getChannelBitsData().get(n)){
@@ -203,8 +203,9 @@ public class I2CProtocol extends Protocol{
 		while(fallIndex != -1 && clockSource.getChannelBitsData().get(fallIndex) == false){
 			fallIndex = logicData.nextFallingEdge(fallIndex);
 		}
-			
-		return fallIndex;
+		if(clockSource.getChannelBitsData().nextFallingEdge(fallIndex) == -1) return null;
+		
+		return new int[] {fallIndex, clockSource.getChannelBitsData().nextFallingEdge(fallIndex)};
 	}
 	
 	/**
@@ -258,7 +259,7 @@ public class I2CProtocol extends Protocol{
 		
 		if(dataRisingEdge != -1 && clockSource.getChannelBitsData().get(dataRisingEdge+(clockDuration/2)+1)
 				&& logicData.get(dataRisingEdge+(clockDuration/2)+1)) 
-			return new int[] {clockRisingEdge, dataRisingEdge+(clockDuration/2)+1};
+			return new int[] {clockRisingEdge, dataRisingEdge};
 		
 		else return null;
 	}

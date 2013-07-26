@@ -86,7 +86,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	private static ActionBar mActionBar;		
 	/** Handler para la actualizacion del grafico en el UI Thread */
     private static Handler mUpdaterHandler = new Handler();	
-    /** Tiempo que va transcurriendo (eje x del grafico) */
+    /** Tiempo transcurrido en mS (eje x) */
     private static double time = 0;		
     /** Cuantos segundos representa un cuadrito (una unidad) en el grafico */
     private static double timeScale; 
@@ -99,6 +99,12 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
     private static XYSeries[] mSerie;
     /** Renderer para cada Serie, indica color, tamaño, etc */
     private static XYSeriesRenderer[] mRenderer;
+    
+    /** Rectangulos delimitadores */
+    private static XYSeries[] rectangleSeries;
+    /** Renderer de los rectangulos */
+    private static XYSeriesRenderer[] rectangleRenderer;
+    
     /** Dataset para agrupar las Series */
     private static XYMultipleSeriesDataset mSerieDataset;
     /** Dataser para agrupar los Renderer */
@@ -190,27 +196,35 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			double prevTimeScale = timeScale;
 			timeScale = timeScaleValues[currentIndex-1];
 
-			double prevX1 = mRenderDataset.getXAxisMin()*prevTimeScale*1000;
-			double prevX2 = mRenderDataset.getXAxisMax()*prevTimeScale*1000;
+			double prevX1 = mRenderDataset.getXAxisMin()*prevTimeScale;
+			double prevX2 = mRenderDataset.getXAxisMax()*prevTimeScale;
 			
 			double minX = toCoordinate(prevX1, timeScale);
 			double maxX = toCoordinate(prevX2, timeScale);
 			double width = toCoordinate(mSerie[0].getItemCount() * (1d/decodedData[0].getSampleFrequency()), timeScale);
 			
-			for(XYSeries series : mSerie){
+			for(int n = 0; n < mSerie.length; ++n){
+				XYSeries series = mSerie[n];
+				
 				@SuppressWarnings("unchecked")
 				IndexXYMap<Double, Double> map = (IndexXYMap<Double, Double>)series.getXYMap().clone();
 
 				series.clearSeriesValues();
 				for(java.util.Map.Entry<Double, Double> entry : map.entrySet()){
-					series.add(toCoordinate(entry.getKey()*prevTimeScale*1000, timeScale), entry.getValue());
+					series.add(toCoordinate(entry.getKey()*prevTimeScale, timeScale), entry.getValue());
 				}
 				
-				for(int n = 0; n < series.getAnnotationCount(); ++n){
-					double x = toCoordinate(series.getAnnotationX(n)*prevTimeScale*1000, timeScale);
-					double y = series.getAnnotationY(n);
+				for(int j = 0; j < series.getAnnotationCount(); ++j){
+					double x = toCoordinate(series.getAnnotationX(j)*prevTimeScale, timeScale);
+					double y = series.getAnnotationY(j);
 					
-					series.replaceAnnotation(n, series.getAnnotationAt(n), x, y);
+					series.replaceAnnotation(j, series.getAnnotationAt(j), x, y);
+					
+					Double[] cord = rectangleSeries[n].getRectangle(j);
+					x = toCoordinate(cord[0]*prevTimeScale, timeScale);
+					double x2 = toCoordinate(cord[2]*prevTimeScale, timeScale);
+					
+					rectangleSeries[n].replaceRectangle(j, x, cord[1], x2, cord[3]);
 				}
 			}
 			mRenderDataset.setXAxisMax(maxX - (width*40)/100);
@@ -239,26 +253,34 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			double prevTimeScale = timeScale;
 			timeScale = timeScaleValues[currentIndex+1];
 
-			double prevX1 = mRenderDataset.getXAxisMin()*prevTimeScale*1000;
-			double prevX2 = mRenderDataset.getXAxisMax()*prevTimeScale*1000;
+			double prevX1 = mRenderDataset.getXAxisMin()*prevTimeScale;
+			double prevX2 = mRenderDataset.getXAxisMax()*prevTimeScale;
 			
 			double minX = toCoordinate(prevX1, timeScale);
 			double maxX = toCoordinate(prevX2, timeScale);
 			double width = toCoordinate(mSerie[0].getItemCount() * (1d/decodedData[0].getSampleFrequency()), timeScale);
 			
-			for(XYSeries series : mSerie){
+			for(int n = 0; n < mSerie.length; ++n){
+				XYSeries series = mSerie[n];
+				
 				@SuppressWarnings("unchecked")
 				IndexXYMap<Double, Double> map = (IndexXYMap<Double, Double>)series.getXYMap().clone();
 				
 				series.clearSeriesValues();
 				for(java.util.Map.Entry<Double, Double> entry : map.entrySet()){
-					series.add(toCoordinate(entry.getKey()*prevTimeScale*1000, timeScale), entry.getValue());
+					series.add(toCoordinate(entry.getKey()*prevTimeScale, timeScale), entry.getValue());
 				}
-				for(int n = 0; n < series.getAnnotationCount(); ++n){
-					double x = toCoordinate(series.getAnnotationX(n)*prevTimeScale*1000, timeScale);
-					double y = series.getAnnotationY(n);
+				for(int j = 0; j < series.getAnnotationCount(); ++j){
+					double x = toCoordinate(series.getAnnotationX(j)*prevTimeScale, timeScale);
+					double y = series.getAnnotationY(j);
 					
-					series.replaceAnnotation(n, series.getAnnotationAt(n), x, y);
+					series.replaceAnnotation(j, series.getAnnotationAt(j), x, y);
+					
+					Double[] cord = rectangleSeries[n].getRectangle(j);
+					x = toCoordinate(cord[0]*prevTimeScale, timeScale);
+					double x2 = toCoordinate(cord[2]*prevTimeScale, timeScale);
+					
+					rectangleSeries[n].replaceRectangle(j, x, cord[1], x2, cord[3]);
 				}
 			}
 			mRenderDataset.setXAxisMax(maxX + (width*40)/100);
@@ -347,8 +369,12 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		
 		mSerieDataset = new XYMultipleSeriesDataset();
 		mRenderDataset = new XYMultipleSeriesRenderer();
+		
 		mSerie = new XYSeries[LogicAnalizerActivity.channelsNumber];
+		rectangleSeries = new XYSeries[LogicAnalizerActivity.channelsNumber];
+		
 		mRenderer = new XYSeriesRenderer[LogicAnalizerActivity.channelsNumber];
+		rectangleRenderer = new XYSeriesRenderer[LogicAnalizerActivity.channelsNumber];
 		
 		for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n) {
 	    	// Crea las Serie que es una linea en el grafico (cada una de las entradas)
@@ -356,7 +382,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	    	
 	    	mRenderer[n] = new XYSeriesRenderer();			// Creo el renderer de la Serie
 	    	mRenderDataset.addSeriesRenderer(mRenderer[n]);	// Agrego el renderer al Dataset
-	    	mSerieDataset.addSeries(mSerie[n]);				// Agrego la seria al Dataset
+	    	mSerieDataset.addSeries(mSerie[n]);				// Agrego la serie al Dataset
 	    	
 	    	mRenderer[n].setColor(lineColor[n]);			// Color de la Serie
 	    	mRenderer[n].setFillPoints(true);
@@ -365,12 +391,17 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	    	
 	    	mRenderer[n].setAnnotationsTextSize(10);
 	    	mRenderer[n].setAnnotationsColor(Color.WHITE);
-	    	mRenderer[n].setAnnotationsTextAlign(Align.LEFT);
+	    	mRenderer[n].setAnnotationsTextAlign(Align.CENTER);
 	    	
-	    	/*
-	    	mRenderer[n].getRectPaint().setColor(Color.WHITE);
-	    	mRenderer[n].getRectPaint().setStrokeWidth(2f);
-	    	mRenderer[n].getRectPaint().setStyle(Style.STROKE);*/
+	    	// Rectangulos
+	    	rectangleSeries[n] = new XYSeries("");
+	    	rectangleSeries[n].setIsRectangleSeries(true);
+	    	rectangleRenderer[n] = new XYSeriesRenderer();
+	    	rectangleRenderer[n].setColor(lineColor[n]);
+	    	rectangleRenderer[n].setShowLegendItem(false);
+	    	
+	    	mSerieDataset.addSeries(rectangleSeries[n]);
+	    	mRenderDataset.addSeriesRenderer(rectangleRenderer[n]);
 	    }
 
         // Configuraciones generales
@@ -544,7 +575,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 					// Punto si hay un cambio de estado
 					}else if(bitsData.get(n) != bitState){
 						bitState = bitsData.get(n);
-						double tTime = time - (1.0d/decodedData[0].getSampleFrequency()); 
+						double tTime = time - 1.0d/decodedData[0].getSampleFrequency(); 
 						
 						// Estado anterior
 						if(bitsData.get(n-1)) mSerie[channel].add(toCoordinate(tTime, timeScale), yChannel[channel]+bitScale);
@@ -577,22 +608,19 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			
 			// Anotaciones
 			for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
-				List<TimePosition> stringData = decodedData[n].getDecodedData();
+				List<TimePosition> stringData = decodedData[n].getDecodedData(); 
 				
-				for(int i = 0; i < stringData.size(); ++i){
-					
-					TimePosition timePosition = stringData.get(i);
+				for(TimePosition timePosition : stringData){
 					
 					// Agrego el texto en el centro del area de tiempo que contiene el string
 					mSerie[n].addAnnotation(timePosition.getString(),
-							toCoordinate(timePosition.startTime(), timeScale), yChannel[n]+2f);
+							toCoordinate(timePosition.startTime() + (timePosition.endTime() - timePosition.startTime())/2, timeScale), yChannel[n]+2f);
 				
-					/*
-					// Agrego el recuadro
-					mSerie[n].addRectangle(toCoordinate(timePosition.startTime(), timeScale)+0.0000001,
-							yChannel[n]+3.5f,
-							toCoordinate(timePosition.endTime(), timeScale),
-							yChannel[n]+bitScale+0.5f);*/
+					// Rectangulos delimitadores
+					rectangleSeries[n].addRectangle(toCoordinate(timePosition.startTime(), timeScale),
+													yChannel[n]+bitScale+3.5f,
+													toCoordinate(timePosition.endTime(), timeScale),
+													yChannel[n]+bitScale+0.5f);
 				}
 			}
 			mChartView.repaint();	// Redibujo el grafico
@@ -611,13 +639,13 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	};
 	
 	/**
-	 * Convierte el tiempo en mili-segundos a la escala del grafico segun la escala de tiempos
-	 * @param time tiempo en mili-segundos
+	 * Convierte el tiempo en segundos a la escala del grafico segun la escala de tiempos
+	 * @param time tiempo en segundos
 	 * @param timeScale cuantos segundos equivalen a una unidad en el grafico
 	 * @return coordenada equivalente
 	 */
 	private static double toCoordinate (double time, double timeScale){
-		return ((time/1000d)/timeScale);
+		return (time/timeScale);
 	}
 	
 	// Define los parametros de acuerdo a las preferencias

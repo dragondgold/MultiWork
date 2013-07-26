@@ -8,8 +8,8 @@ public class TimePosition {
 	/**
 	 * Constructor
 	 * @param text String a agregar
-	 * @param startTime tiempo incial
-	 * @param stopTime tiempo final
+	 * @param startTime tiempo incial en segundos
+	 * @param stopTime tiempo final en segundos
 	 */
 	TimePosition(String text, double startTime, double stopTime){
 		time[0] = startTime;
@@ -34,7 +34,7 @@ public class TimePosition {
 	}
 	
 	/**
-	 * Tiempo de inicio del String en mili-segundos
+	 * Tiempo de inicio del String en segundos
 	 * @return
 	 */
 	public double startTime(){
@@ -42,7 +42,7 @@ public class TimePosition {
 	}
 	
 	/**
-	 * Tiempo de terminacion del String en mili-segundos
+	 * Tiempo de terminacion del String en segundos
 	 * @return
 	 */
 	public double endTime(){
