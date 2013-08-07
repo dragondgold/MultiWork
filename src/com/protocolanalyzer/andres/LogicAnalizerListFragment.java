@@ -35,7 +35,6 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 	private static View v;
 	
 	private static Protocol[] mProtocols;
-	private static int samplesCount;
 	
 	private static final int tvRawDataLogic[] = {R.id.tvRawDataLogic1, R.id.tvRawDataLogic2,
 													R.id.tvRawDataLogic3, R.id.tvRawDataLogic4,
@@ -98,13 +97,13 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 	public void onResume() {
 		super.onResume();
 		if(DEBUG) Log.i("mFragmentList","Resume");
-		if(mProtocols != null) onDataDecodedListener(mProtocols, samplesCount, false);
+		if(mProtocols != null) onDataDecodedListener(mProtocols, false);
 	}
 
 	@Override
-	public double onDataDecodedListener(Protocol[] data, int samplesCount, boolean isConfig) {
+	public void onDataDecodedListener(Protocol[] data, boolean isConfig) {
 		if(!isConfig){
-			mProtocols = data; LogicAnalizerListFragment.samplesCount = samplesCount;
+			mProtocols = data;
 			if(DEBUG) Log.i("mFragmentList","onDataDecodedListener() - " + data.length + " channels");
 			for(int n=0; n < mRawData.length; ++n) mRawData[n].setText("");
 			
@@ -128,7 +127,6 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 				}
 			}
 		}
-		return 0;
 	}
 	
 }

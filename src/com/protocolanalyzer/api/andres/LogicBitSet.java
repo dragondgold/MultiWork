@@ -5,22 +5,73 @@ import java.util.BitSet;
 /**
  * Esta clase es una extensión de la clase BitSet. Agrega funcionalidades como busqueda de flancos de subida
  * y bajada y la mitad de un bit en alto
- * @author andres
  */
 public class LogicBitSet extends BitSet{
 
 	private static final long serialVersionUID = 1L;
+	private int currentSize;
+
+	@Override
+	public void set(int index, boolean state) {
+		if(index > currentSize) currentSize = index;
+		super.set(index, state);
+	}
+
+	@Override
+	public void set(int index) {
+		if(index > currentSize) currentSize = index;
+		super.set(index);
+	}
+	
+	@Override
+	public void set(int fromIndex, int toIndex, boolean state) {
+		if(toIndex > currentSize) currentSize = toIndex;
+		super.set(fromIndex, toIndex, state);
+	}
+
+	@Override
+	public void set(int fromIndex, int toIndex) {
+		if(toIndex > currentSize) currentSize = toIndex;
+		super.set(fromIndex, toIndex);
+	}
+
+	@Override
+	public void clear() {
+		currentSize = 0;
+		super.clear();
+	}
+
+	@Override
+	public void clear(int index) {
+		if(index > currentSize) currentSize = index;
+		super.clear(index);
+	}
+	
+	@Override
+	public void clear(int fromIndex, int toIndex) {
+		if(toIndex > currentSize) currentSize = toIndex;
+		super.clear(fromIndex, toIndex);
+	}
+
+	/**
+	 * Index del último bit que se puso a '1' o '0'
+	 */
+	@Override
+	public int length() {
+		return currentSize;
+	}
 
 	/**
 	 * Constructor
 	 */
 	LogicBitSet(){
 		super();	// Creo un BitSet
+		currentSize = 0;
 	}
 	
 	/**
 	 * Constructor con tamaño del BitSet
-	 * @param size es el tama�o del BitSet
+	 * @param size es el tamaño del BitSet
 	 */
 	LogicBitSet(int size){
 		super(size);

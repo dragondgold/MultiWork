@@ -6,7 +6,8 @@ import android.util.Log;
 
 public class LogicHelper {
     
-	private static final boolean DEBUG = false;
+	private static final String TAG = "LogicHelper";
+	private static final boolean DEBUG = true;
 	
 	/**
 	 * Testea un bit dentro de un byte
@@ -125,12 +126,37 @@ public class LogicHelper {
 	 */
 	 public static void bufferToChannel (final byte[] data, Protocol[] list) {
 		
-		if(DEBUG) Log.i("LogicHelper-BufferToChannel", "Lenght data array: " + data.length);
+		if(DEBUG) Log.i(TAG, "Lenght data array: " + data.length);
 		
 		// Borro los bits anteriores porq ya no me hacen falta
 		for(int n=0; n < list.length; ++n) list[n].getChannelBitsData().clear();
 		
 		for(int n=0; n < data.length; ++n){						// Voy a traves de los bytes recibidos
+			for(int bit=0; bit < list.length; ++bit){			// Voy a traves de cada canal (cada bit del byte)
+				if(LogicHelper.bitTest(data[n], bit)){			// Si es 1
+					list[bit].getChannelBitsData().set(n);		// bit es el numero del canal y el bit a poner a 1 o 0
+				}
+				else{											// Si es 0
+					list[bit].getChannelBitsData().clear(n);
+				}
+			}
+		}
+	}
+	 
+	/**
+	 * Agrega un buffer de bytes a los buffers individuales de cada canal
+	 * @author Andres
+	 * @param data es un array de bytes con los bytes que se reciben del analizador logico, siendo el bit 0 el estado
+	 * del canal 0 hasta el bit 8 el estado del canal 8
+	 */
+	 public static void addBufferToChannel (final byte[] data, Protocol[] list) {
+		
+		if(DEBUG) Log.i(TAG, "Lenght data array: " + data.length);
+		if(DEBUG) Log.i(TAG, "Lenght BitSet: " + list[0].getChannelBitsData().length());
+		int initialLenght = list[0].getBitsNumber()+1;
+		
+		// Agrego los bits a los ganales
+		for(int n=initialLenght; n < (initialLenght+data.length); ++n){		// Voy a traves de los bytes recibidos
 			for(int bit=0; bit < list.length; ++bit){			// Voy a traves de cada canal (cada bit del byte)
 				if(LogicHelper.bitTest(data[n], bit)){			// Si es 1
 					list[bit].getChannelBitsData().set(n);		// bit es el numero del canal y el bit a poner a 1 o 0

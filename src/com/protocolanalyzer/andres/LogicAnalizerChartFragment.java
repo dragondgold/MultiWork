@@ -46,12 +46,13 @@ import com.protocolanalyzer.api.andres.Protocol;
 import com.protocolanalyzer.api.andres.TimePosition;
 
 @SuppressLint("ValidFragment")
-public class LogicAnalizerChartFragment extends SherlockFragment implements OnDataDecodedListener{
+public class LogicAnalizerChartFragment extends SherlockFragment implements OnDataDecodedListener, OnDataClearedListener{
 	
 	/** Debugging */
 	private static final boolean DEBUG = true;
 	
 	private static final String TAG = "logic:mFragmentChart";
+	private static final double initialTimeScale = 0.000500d;	// 500 uS
 	
 	/** Valores del eje Y que son tomados como inicio ('0' lógico) para las Series de los canales de entrada */
 	private static final float yChannel[] = {0, 5, 10, 15, 20, 25, 30, 35};
@@ -91,10 +92,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
     /** Cuantos segundos representa un cuadrito (una unidad) en el grafico */
     private static double timeScale; 
     
-    /** Numero maximo de muestras en las series (osea en el grafico) */
-    private static int maxSamples = 5;
-    private static int currentSamples = 0;
-    
     /** Serie que muestra los '1' y '0' de cada canal */
     private static XYSeries[] mSerie;
     /** Renderer para cada Serie, indica color, tamaño, etc */
@@ -129,28 +126,33 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	private static int samplesNumber = 0;
 	
 	// Constructor
-	public LogicAnalizerChartFragment(Protocol[] data, int samplesCount) {
+	public LogicAnalizerChartFragment(Protocol[] data) {
 		if(DEBUG) Log.i(TAG,"LogicAnalizerChartFragment() Constructor");
 		decodedData = data;
-		samplesNumber = samplesCount;
 	}
 	
+	// Constructor por defecto
 	public LogicAnalizerChartFragment() {
 		decodedData = null;
 	}
 	
 	@Override
-	public double onDataDecodedListener(Protocol[] data, int samplesCount, boolean isConfig) {
+	public void onDataDecodedListener(Protocol[] data, boolean isConfig) {
 		if(DEBUG) Log.i(TAG,"onDataDecoded() - isConfig: " + isConfig);
 		// Si se cambiaron las configuraciones las actualizo
 		if(isConfig) setChartPreferences();
 		else{
 			decodedData = data;
-			samplesNumber = samplesCount;
 			
-			if(samplesNumber > 0) mUpdaterHandler.post(mUpdaterTask);;
+			samplesNumber = data[0].getBitsNumber();
+			if(samplesNumber > 0) mUpdaterHandler.post(mUpdaterTask);
 		}
-		return 0;
+	}
+	
+	@Override
+	public void onDataCleared() {
+		if(DEBUG) Log.i(TAG,"onDataCleared()");
+		restart();
 	}
 	
 	/**
@@ -201,7 +203,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			
 			double minX = toCoordinate(prevX1, timeScale);
 			double maxX = toCoordinate(prevX2, timeScale);
-			double width = toCoordinate(mSerie[0].getItemCount() * (1d/decodedData[0].getSampleFrequency()), timeScale);
 			
 			for(int n = 0; n < mSerie.length; ++n){
 				XYSeries series = mSerie[n];
@@ -227,12 +228,12 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 					rectangleSeries[n].replaceRectangle(j, x, cord[1], x2, cord[3]);
 				}
 			}
-			mRenderDataset.setXAxisMax(maxX - (width*40)/100);
-			mRenderDataset.setXAxisMin(minX + (width*40)/100);
+			mRenderDataset.setXAxisMax(maxX);
+			mRenderDataset.setXAxisMin(minX);
 			
 			updateXLabels();
 			if(DEBUG) Log.i(TAG, "Redrawing Zoomed Chart");
-			mChartView.repaint();
+			mChartView.zoomIn();
 		}
 	}
 	
@@ -258,7 +259,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			
 			double minX = toCoordinate(prevX1, timeScale);
 			double maxX = toCoordinate(prevX2, timeScale);
-			double width = toCoordinate(mSerie[0].getItemCount() * (1d/decodedData[0].getSampleFrequency()), timeScale);
 			
 			for(int n = 0; n < mSerie.length; ++n){
 				XYSeries series = mSerie[n];
@@ -283,11 +283,12 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 					rectangleSeries[n].replaceRectangle(j, x, cord[1], x2, cord[3]);
 				}
 			}
-			mRenderDataset.setXAxisMax(maxX + (width*40)/100);
-			mRenderDataset.setXAxisMin(minX - (width*40)/100);
+			mRenderDataset.setXAxisMax(maxX);
+			mRenderDataset.setXAxisMin(minX);
 			
 			updateXLabels();
-			mChartView.repaint();
+			if(DEBUG) Log.i(TAG, "Redrawing Zoomed Chart");
+			mChartView.zoomOut();
 		}
 	}
 	
@@ -295,7 +296,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		Log.i(TAG, "onCreate()");
+		Log.i(TAG, "onActivityCreated()");
 		
         mActionBar = mActivity.getSupportActionBar();				// Obtengo el ActionBar
         mActionBar.setDisplayHomeAsUpEnabled(true);					// El icono de la aplicacion funciona como boton HOME
@@ -311,6 +312,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
      	// Vibrador
         mVibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
         
+        /** LongClick del gráfico. El onLongClickListener() no funciona */
         final Runnable longClickRun = new Runnable() {
 			@Override
 			public void run() {
@@ -349,7 +351,11 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 				return false;
 			}
         });   
-        if(decodedData != null) mUpdaterHandler.post(mUpdaterTask);
+        
+        if(decodedData != null){
+        	samplesNumber = decodedData[0].getBitsNumber();
+        	mUpdaterHandler.post(mUpdaterTask);
+        }
 	}
 
 	@Override
@@ -418,6 +424,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
         mRenderDataset.setZoomEnabled(true, false);
         mRenderDataset.setPanLimits(new double[] {xMin , Double.MAX_VALUE, -1d, yChannel[yChannel.length-1]+4});
         mRenderDataset.setXLabels(20);
+        time = 0;
         
         mChartView = ChartFactory.getLineChartView(mActivity, mSerieDataset, mRenderDataset);
         // Renderizado por software, el hardware trae problemas con paths muy largos en el Canvas (bug de Android)
@@ -513,12 +520,11 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		mRenderDataset.setXAxisMin(xMin);
 		time = 0;
 		mChartView.repaint();
-		Toast.makeText(mActivity, getString(R.string.FrecReinicio), Toast.LENGTH_SHORT).show();
+		Toast.makeText(mActivity, getString(R.string.Reinicio), Toast.LENGTH_SHORT).show();
 	}
 
 	/**
 	 * Crea una ventana preguntando al usuario si desea guardar la sesion o una imagen del grafico
- 	 * @author Andres Torti
  	 * @see http://developer.android.com/guide/topics/ui/menus.html
  	 */
 	private void createDialog() {
@@ -551,9 +557,17 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		@Override
 		public void run() {
 			
-			if(DEBUG) Log.i(TAG, "Updater Task");
-			final double initTime = time;
+			if(DEBUG) Log.i(TAG, "Updater Task - Samples: " + samplesNumber);
+			// Borro todos los valores previos
+			for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
+				mSerie[n].clear();
+				rectangleSeries[n].clear();
+			}
 			
+			final double initTime = 0;
+			time = 0;
+			
+			// Coloco los bits en el canal
 			for(int channel = 0; channel < LogicAnalizerActivity.channelsNumber; ++channel){	
 				LogicBitSet bitsData = decodedData[channel].getChannelBitsData();
 				
@@ -594,9 +608,12 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 				}
 				if(channel < LogicAnalizerActivity.channelsNumber-1) time = initTime;
 			}
-			// Muevo el grafico al final de las lineas, le sumo el 10% del valor máximo y mínimo para dar un margen
-			mRenderDataset.setXAxisMax(toCoordinate(time, timeScale)+(10*toCoordinate(time, timeScale))/100);
-			mRenderDataset.setXAxisMin(0-(10*toCoordinate(time, timeScale))/100);
+			// Solo si estoy en la escala inicial reacomodo el gráfico
+			if(timeScale == initialTimeScale){
+				// Muevo el grafico al final de las lineas, le sumo el 10% del valor máximo y mínimo para dar un margen
+				mRenderDataset.setXAxisMax(toCoordinate(time, timeScale)+(10*toCoordinate(time, timeScale))/100);
+				mRenderDataset.setXAxisMin(0-(10*toCoordinate(time, timeScale))/100);
+			}
 			
 			// Agrego un espacio para indicar que el buffer de muestreo llego hasta aqui
 			time += (toCoordinate(mSerie[0].getItemCount() * (1d/decodedData[0].getSampleFrequency()), timeScale)*30)/100;
@@ -609,6 +626,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			// Anotaciones
 			for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
 				List<TimePosition> stringData = decodedData[n].getDecodedData(); 
+				if(DEBUG) Log.i(TAG, "Channel " + n  + " annotations: " + stringData.size());
 				
 				for(TimePosition timePosition : stringData){
 					
@@ -623,15 +641,8 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 													yChannel[n]+bitScale+0.5f);
 				}
 			}
-			mChartView.repaint();	// Redibujo el grafico
-			++currentSamples;
 			
-			// Si me paso de las muestras borro los canales
-			if(currentSamples > maxSamples){
-				for(int n = 0; n < LogicAnalizerActivity.channelsNumber; n++) mSerie[n].clear();
-				currentSamples = 0;
-				time = 0;
-			}
+			mChartView.repaint();	// Redibujo el grafico
 	
 			// Cada vez que recibo un buffer del analizador logico, lo muestro todo y pauso
 			mActionBarListener.onActionBarClickListener(R.id.PlayPauseLogic);
@@ -669,10 +680,9 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	        		break;
         	}
         }
-    	// Máxima cantidad de muestras para almacenar
-        maxSamples = Integer.decode(getPrefs.getString("maxSamples","5"));
         
-    	timeScale = 0.000500d;	// 500 uS
+        // Escala inicial
+    	timeScale = initialTimeScale;
     	updateXLabels();
         
     	if(DEBUG) Log.i(TAG, "Time Scale: " + timeScale);

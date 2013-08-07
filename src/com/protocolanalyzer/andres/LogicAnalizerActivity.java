@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.WindowManager;
@@ -65,18 +64,17 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	/** Interface donde paso los datos decodificados a los Fragments, los mismo deben implementar el Listener */
 	private static OnDataDecodedListener mChartDataDecodedListener;
 	private static OnDataDecodedListener mListDataDecodedListener;
+	private static OnDataClearedListener mOnDataClearedListener;
 	
 	/** Fragment que contiene al grafico */
-	private static Fragment mFragmentChart;
+	private static LogicAnalizerChartFragment mFragmentChart;
 	/** Fragment que con la lista de datos en formato raw */
-	private static Fragment mFragmentList;
+	private static LogicAnalizerListFragment mFragmentList;
 	
     /** Numero de canales de entrada */
     public static final int channelsNumber = 8;
     /** Indica si recibo datos del Service o no (Play o Pause) */
     private static boolean isPlaying = false; 
-    /** Tiempo del grafico */
-    private static double time = 0;
     
     private static BluetoothHelper mBluetoothHelper;
 	
@@ -91,7 +89,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static boolean isStarting = true;
 	private static ProgressDialog mDialog;
 	private static SharedPreferences getPrefs;
-	private static int samplesNumber;
+	private static int maxSamplesNumber;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -170,6 +168,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					// Digo al PIC que comienze el muestreo
 					startSample();
 				}else{
+					// Reinicio cada canal
+					for(int n = 0; n < channelsNumber; ++n) {
+						channel[n].reset();
+					}
 					// Demo de señal
 					for(int n = 0; n < channelsNumber; ++n){
 						if(channel[n].getProtocol() != ProtocolType.CLOCK){
@@ -187,10 +189,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					}
 					// Decodifico cada canal
 					for(int n = 0; n < channelsNumber; ++n) {
-						channel[n].decode(time);
+						channel[n].decode(0);
 					}
 					
-					samplesNumber = 61*5*2;
 					updateUIThread.sendEmptyMessage(dispatchInterfaces);
 				}
 				break;
@@ -200,7 +201,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	 			// de atras se vuelva a este Fragment y no se destruya el mismo
 	 			if(!isFragmentActive("ChartLogic")){
 	 				if(DEBUG) Log.i("mFragmentActivity", "Chart Fragment Created");
-	 				mFragmentChart = new LogicAnalizerChartFragment(channel, samplesNumber);
+	 				mFragmentChart = new LogicAnalizerChartFragment(channel);
 	 				
 		 			transaction.replace(R.id.logicFragment, mFragmentChart, "ChartLogic");
 		 			transaction.addToBackStack(null);
@@ -210,6 +211,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		 			// Agrego el OnDataDecodedListener cuando se agrega el nuevo Fragment
 					try { mChartDataDecodedListener = (OnDataDecodedListener) mFragmentChart; }
 					catch (ClassCastException e) { throw new ClassCastException(mFragmentChart.toString() + " must implement OnDataDecodedListener"); }
+					// Agrego el OnDataCleared
+					try { mOnDataClearedListener = (OnDataClearedListener) mFragmentChart; }
+					catch (ClassCastException e) { throw new ClassCastException(mFragmentChart.toString() + " must implement OnDataClearedListener"); }
 	 			}
 	 			else{
 	 				if(DEBUG) Log.i("mFragmentActivity","Chart Fragment Removed");
@@ -267,8 +271,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 			if(resultCode == RESULT_OK) {
 				if(DEBUG) Log.i("mFragmentActivity", "Preferences Setted");
 				// Aviso a los fragment que cambiaron las preferencias
-				mListDataDecodedListener.onDataDecodedListener(channel, samplesNumber, true);
-				if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(channel, samplesNumber, true);
+				mListDataDecodedListener.onDataDecodedListener(channel, true);
+				if(isFragmentActive("ChartFragment")) mChartDataDecodedListener.onDataDecodedListener(channel, true);
 				setPreferences();
 			}
 		}
@@ -353,6 +357,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
         		((I2CProtocol)channel[n]).setClockSource((Clock)channel[clockIndex-1]);
         	}
 		}
+        
+        maxSamplesNumber = Integer.valueOf(getPrefs.getString("maxSamples","3"))*maxBufferSize;
 
         /**
          * Mantiene a la pantalla encendida en esta Activity unicamente
@@ -376,8 +382,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					break;
 
 				case dispatchInterfaces:
-					time = mListDataDecodedListener.onDataDecodedListener(channel, samplesNumber, false);
-					if(isFragmentActive("ChartLogic")) mChartDataDecodedListener.onDataDecodedListener(channel, samplesNumber, false);
+					mListDataDecodedListener.onDataDecodedListener(channel, false);
+					if(isFragmentActive("ChartLogic")) mChartDataDecodedListener.onDataDecodedListener(channel, false);
 					break;
 				
 				case dismissDialog:
@@ -447,14 +453,22 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					// Paso el array de bytes decodificados con el algoritmo Run Lenght
 					tempBuffer = LogicHelper.runLenghtDecode(mByteArrayBuffer);
 					if(DEBUG) Log.i("LogicAnalizerBT", "Received data full lenght: " + tempBuffer.length);
+					if(DEBUG) Log.i("LogicAnalizerBT", "Channels lenght: " + channel[0].getBitsNumber() + " samples");
 					
-					LogicHelper.bufferToChannel(tempBuffer, channel);
+					// Compruebo q ningun canal se pase de las muestras, si es así los reinicio
+					if(channel[0].getBitsNumber() > maxSamplesNumber){
+						if(DEBUG) Log.i("LogicAnalizerBT", "Reset Channels: " + channel[0].getBitsNumber() + " samples");
+						if(isFragmentActive("ChartLogic")) mOnDataClearedListener.onDataCleared();
+						for(Protocol mProtocol : channel){
+							mProtocol.reset();
+						}
+					}
+					LogicHelper.addBufferToChannel(tempBuffer, channel);
 					
 					// Decodifico cada canal
 					for(int n = 0; n < channelsNumber; ++n) {
-						channel[n].decode(time);
+						channel[n].decode(0);
 					}
-					samplesNumber = tempBuffer.length;
 					
 					if(DEBUG) Log.i("LogicAnalizerBT", "Dispatching interfaces");
 					// Paso los datos decodificados a los Fragment en el Thread de la UI

@@ -22,6 +22,10 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * DEPRECATED 
+ * @author andres
+ */
 public class LCView extends SherlockActivity{
 	
 	static final boolean DEBUG = true;

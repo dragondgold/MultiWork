@@ -76,8 +76,20 @@ public abstract class Protocol {
 	 * Frecuencia de muestreo que se utilizo
 	 * @return
 	 */
-	public long getSampleFrequency (){
+	public long getSampleFrequency(){
 		return sampleFrec;
+	}
+	
+	public int getBitsNumber(){
+		return logicData.length();
+	}
+	
+	/**
+	 * Elimina los datos de decodificación y los bits
+	 */
+	public void reset(){
+		mDecodedData.clear();
+		logicData.clear();
 	}
 	
 	/**

@@ -22,6 +22,10 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * DEPRECATED
+ * @author andres
+ */
 public class FrecView extends SherlockActivity {
 
 	private static final boolean DEBUG = true;
@@ -272,7 +276,7 @@ public class FrecView extends SherlockActivity {
  			break;
  		case R.id.restartFrec:
  			frec1.restart();
- 			Toast.makeText(FrecView.this, getString(R.string.FrecReinicio), Toast.LENGTH_SHORT).show();
+ 			Toast.makeText(FrecView.this, getString(R.string.Reinicio), Toast.LENGTH_SHORT).show();
  			break;
  		}
  		return true;
