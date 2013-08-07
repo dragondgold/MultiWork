@@ -88,7 +88,7 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 					// Online
 					myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, false, (OnBluetoothConnected)ctx);
 					myApp.mBluetoothHelper.setConnectionDialog(true);
-					myApp.mBluetoothHelper.connect(false);
+					myApp.mBluetoothHelper.connect(true);
 				}
 			});
 			
@@ -97,7 +97,14 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
         }
     }
     
-    @Override
+	@Override
+	protected void onDestroy() {
+		myApp.mBluetoothHelper.disconnect();
+		myApp.mBluetoothHelper = null;
+		super.onDestroy();
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(resultCode != RESULT_CANCELED){
 			if(requestCode == BluetoothHelper.BLUETOOTH_CONNECTION){
@@ -149,8 +156,6 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 		
 		switch(item.getItemId()){
 		case R.id.exitMain:
-			myApp.mBluetoothHelper.disconnect();
-			myApp.mBluetoothHelper = null;
 			finish();
 			break;
 		case R.id.settingsMain:
