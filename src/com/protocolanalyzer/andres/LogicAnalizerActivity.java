@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import org.apache.http.util.ByteArrayBuffer;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -55,6 +57,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static final int updateDialogTitle = 0;
 	private static final int dispatchInterfaces = 1;
 	private static final int dismissDialog = 2;
+	private static final int timeOutToast = 3;
+	
+	private static final int timeOutLimit = 67;
 	
 	public static final int I2C = 1;
 	public static final int UART = 2;
@@ -90,6 +95,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static ProgressDialog mDialog;
 	private static SharedPreferences getPrefs;
 	private static int maxSamplesNumber;
+	private static int timeOutCounter;
+	
+	private static Context mActivityContext;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -149,6 +157,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		mBluetoothHelper.setOnNewBluetoothDataReceived(this);
 		// Indico que entré en el analizador lógico
 		mBluetoothHelper.write(logicAnalyzerMode);
+		timeOutCounter = 0;
+		mActivityContext = this;
 		
 		this.supportInvalidateOptionsMenu();  // Actualizo el ActionBar
 	}
@@ -390,6 +400,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					mDialog.dismiss();
 					supportInvalidateOptionsMenu();
 					break;
+					
+				case timeOutToast:
+					Toast.makeText(mActivityContext, getString(R.string.AnalyzerConnectionTimeOut), Toast.LENGTH_LONG).show();
+					break;
 			}
 			return false;
 		}
@@ -418,13 +432,30 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 			if(DEBUG) Log.i("LogicAnalizerBT", "Data receive");
 			try {
 			int[] data = new int[3];
+			
 			while(mBTIn.available() > 0){
 				if(mBTIn.read() == startByte && mBTIn.read() == logicAnalyzerMode){
 					if(DEBUG) Log.i("LogicAnalizerBT", "Receiving data...");
 					boolean keepGoing = true;
 					mByteArrayBuffer.clear();
 					
-					while(mBTIn.available() > 0 && keepGoing){
+					while(keepGoing){
+						timeOutCounter = 0;
+						while(!(mBTIn.available() > 0)){
+							if(timeOutCounter >= timeOutLimit){
+								updateUIThread.sendEmptyMessage(dismissDialog);
+								updateUIThread.sendEmptyMessage(timeOutToast);
+								return true;
+							}
+							
+							if(DEBUG) Log.i("LogicAnalizerBT", "Waiting more data");
+							try { Thread.sleep(30); }
+							catch (InterruptedException e) { e.printStackTrace(); }
+							
+							++timeOutCounter;
+						}
+						if(DEBUG) Log.i("LogicAnalizerBT", "Finish Waiting data");
+						
 						for(int n = 0; n < data.length; ++n){
 							data[n] = mBTIn.read();
 							if(DEBUG) Log.i("LogicAnalizerBT", "Data [HEX] " + n + ": " + Integer.toHexString(data[n]));
@@ -438,12 +469,6 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 							mByteArrayBuffer.append(data[0]);
 							mByteArrayBuffer.append(data[1]);
 							mByteArrayBuffer.append(data[2]);
-						}
-						if(!(mBTIn.available() > 0)){
-							if(DEBUG) Log.i("LogicAnalizerBT", "Waiting more data");
-							try { Thread.sleep(30); }
-							catch (InterruptedException e) { e.printStackTrace(); }
-							if(DEBUG) Log.i("LogicAnalizerBT", "Finish Waiting data");
 						}
 					}
 					

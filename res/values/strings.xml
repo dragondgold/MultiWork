@@ -48,6 +48,7 @@
     <string name="AnalyzerYTitle">				Canales</string>
     <string name="AnalyzerXTitle">				Tiempo</string>
     <string name="AnalyzerConnectError">		Error en la conexion</string>
+    <string name="AnalyzerConnectionTimeOut">		Error en la comunicación. Timeout.</string>
     
     <string name="AnalyzerImagen">				Imagen</string>
     <string name="AnalyzerSesion">				Sesion</string>
@@ -99,9 +100,18 @@
     
     <string name="AnalyzerDependencies">			Conflictos correjidos</string>
     
-    <!--Brazo Robot -->
+    <!-- Brazo Robot -->
     <string name="NoBTAlertTitle">					No existe Bluetooth</string>
 	<string name="NoBTAlertText">					El dispositivo no dispone de Bluetooth por lo tanto no puede hacer
 	    											 uso de la aplicación, lo siento</string>
+	    											 
+	<!-- ACRA -->
+	<string name="Error">							Error inesperado en la aplicación…</string>
+	<string name="crash_notif_ticker_text">			Error inesperado, por favor envíe un informe…</string>
+	<string name="crash_notif_title">				MultiWork se ha detenido inesperadamente.</string>
+	<string name="crash_notif_text">				Por favor haga click aquí para ayudarnos a solucionar el problema enviando un reporte.</string>
+	<string name="crash_dialog_text">				Un error inesperado ha forzado a la aplicación a detenerse. Por favor ayúdenos a solucionar esto enviando
+	    												un informe de errores.</string>
+	<string name="crash_dialog_title">				MultiWork - Envío de reporte</string>
     
 </resources>

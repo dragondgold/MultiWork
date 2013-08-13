@@ -156,7 +156,7 @@ public class LogicHelper {
 		int initialLenght = list[0].getBitsNumber()+1;
 		
 		// Agrego los bits a los ganales
-		for(int n=initialLenght; n < (initialLenght+data.length); ++n){		// Voy a traves de los bytes recibidos
+		for(int n=initialLenght, k=0; n < (initialLenght+data.length); ++n, ++k){		// Voy a traves de los bytes recibidos
 			for(int bit=0; bit < list.length; ++bit){			// Voy a traves de cada canal (cada bit del byte)
 				if(LogicHelper.bitTest(data[n], bit)){			// Si es 1
 					list[bit].getChannelBitsData().set(n);		// bit es el numero del canal y el bit a poner a 1 o 0
