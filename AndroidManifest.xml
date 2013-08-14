@@ -13,7 +13,7 @@
     <uses-feature android:name="android.hardware.usb.host" />
 
     <uses-sdk 	android:minSdkVersion="9"
-        		android:targetSdkVersion="17"/>
+        		android:targetSdkVersion="18"/>
 
     <!--
     Los uiOptions="splitActionBarWhenNarrow" provocan que la ActionBar se divida (split) entre arriba y
