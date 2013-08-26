@@ -1,0 +1,1158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayoutPreviewToolWindow">
+    <option name="state">
+      <GlobalState />
+    </option>
+  </component>
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+    <layouts>
+      <layout url="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/frecview.xml">
+        <config>
+          <device>Nexus 4</device>
+          <state>Landscape</state>
+          <theme>@style/Theme.Sherlock</theme>
+        </config>
+      </layout>
+    </layouts>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e0500b10-0b14-41e6-94c1-b4e294edc18f" name="Default" comment="Actualizacion para Android Studio">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.classpath" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.project" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/actionbarsherlock/R$attr.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/actionbarsherlock/R$bool.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/actionbarsherlock/R$color.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/actionbarsherlock/R$dimen.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/actionbarsherlock/R$drawable.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/actionbarsherlock/R$id.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/actionbarsherlock/R$integer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/actionbarsherlock/R$layout.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/actionbarsherlock/R$string.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/actionbarsherlock/R$style.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/actionbarsherlock/R$styleable.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/actionbarsherlock/R.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/BTSingleSynchTransfer$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/BTSingleSynchTransfer$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/BTSingleSynchTransfer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/BluetoothHelper$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/BluetoothHelper$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/BluetoothHelper$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/BluetoothHelper$4.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/BluetoothHelper$5$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/BluetoothHelper$5$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/BluetoothHelper$5.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/BluetoothHelper$6.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/BluetoothHelper.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/OnBluetoothConnected.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/bluetoothutils/andres/OnNewBluetoothDataReceived.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/BuildConfig.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/FrecView$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/FrecView$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/FrecView$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/FrecView$4.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/FrecView$5.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/FrecView$MyReceiver.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/FrecView.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/Frecuencia.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/LCView$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/LCView$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/LCView$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/LCView$MyReceiver.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/LCView.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/MainMenu.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/MainPrefs.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$array.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$attr.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$bool.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$color.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$dimen.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$drawable.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$id.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$integer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$layout.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$menu.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$string.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$style.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$styleable.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R$xml.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/multiwork/andres/R.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/protocolanalyzer/andres/LogicAnalizerActivity.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/protocolanalyzer/andres/LogicAnalizerListFragment$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/protocolanalyzer/andres/LogicAnalizerListFragment.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/protocolanalyzer/andres/LogicAnalizerPrefs$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/protocolanalyzer/andres/LogicAnalizerPrefs$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/protocolanalyzer/andres/LogicAnalizerPrefs$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/protocolanalyzer/andres/LogicAnalizerPrefs.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/protocolanalyzer/andres/OnActionBarClickListener.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/protocolanalyzer/andres/OnDataDecodedListener.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/protocolanalyzer/andres/PruebaParser.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/protocolanalyzer/api/andres/LogicHelper.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/protocolanalyzer/api/andres/TimePosition.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/roboticarm/andres/BrazoRobot$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/roboticarm/andres/BrazoRobot$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/roboticarm/andres/BrazoRobot$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/roboticarm/andres/BrazoRobot$4.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/roboticarm/andres/BrazoRobot$5.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/roboticarm/andres/BrazoRobot.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/roboticarm/andres/Joystick.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/classes/com/roboticarm/andres/JoystickView.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/dexedLibs/achartengine-1.0.1-686f61497dca0b2e1274e25d5a296068.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/bobina.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/cancel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/capacitor.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/chart.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/chart2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/contract.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/expand.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/list.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/pause.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/play.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/restart.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/save.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/settings.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/zoom_in.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-hdpi/zoom_out.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-ldpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-mdpi/contract.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-mdpi/expand.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-mdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-mdpi/list.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-mdpi/pause.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-mdpi/play.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-mdpi/save.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-mdpi/settings.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-xhdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-xhdpi/list.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/res/drawable-xhdpi/settings.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/gen/com/multiwork/andres/BuildConfig.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/gen/com/multiwork/andres/R.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/allclasses-frame.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/allclasses-noframe.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/constant-values.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/deprecated-list.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/help-doc.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/index-all.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/ChartFactory.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/GraphicalActivity.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/GraphicalView.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/ITouchHandler.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/TouchHandler.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/TouchHandlerOld.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/AbstractChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/BarChart.Type.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/BarChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/BubbleChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/ClickableArea.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/CombinedXYChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/CubicLineChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/DialChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/DoughnutChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/LineChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/PieChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/PieMapper.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/PieSegment.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/PointStyle.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/RangeBarChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/RoundChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/ScatterChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/TimeChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/XYChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/AbstractChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/BarChart.Type.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/BarChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/BubbleChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/ClickableArea.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/CombinedXYChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/CubicLineChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/DialChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/DoughnutChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/LineChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/PieChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/PieMapper.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/PieSegment.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/PointStyle.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/RangeBarChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/RoundChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/ScatterChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/TimeChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/class-use/XYChart.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/package-frame.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/package-summary.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/package-tree.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/chart/package-use.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/class-use/ChartFactory.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/class-use/GraphicalActivity.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/class-use/GraphicalView.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/class-use/ITouchHandler.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/class-use/TouchHandler.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/class-use/TouchHandlerOld.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/CategorySeries.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/MultipleCategorySeries.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/Point.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/RangeCategorySeries.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/SeriesSelection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/TimeSeries.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/XYMultipleSeriesDataset.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/XYSeries.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/XYValueSeries.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/class-use/CategorySeries.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/class-use/MultipleCategorySeries.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/class-use/Point.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/class-use/RangeCategorySeries.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/class-use/SeriesSelection.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/class-use/TimeSeries.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/class-use/XYMultipleSeriesDataset.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/class-use/XYSeries.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/class-use/XYValueSeries.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/package-frame.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/package-summary.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/package-tree.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/model/package-use.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/package-frame.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/package-summary.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/package-tree.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/package-use.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/BasicStroke.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/DefaultRenderer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/DialRenderer.Type.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/DialRenderer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/SimpleSeriesRenderer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/XYMultipleSeriesRenderer.Orientation.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/XYMultipleSeriesRenderer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/XYSeriesRenderer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/class-use/BasicStroke.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/class-use/DefaultRenderer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/class-use/DialRenderer.Type.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/class-use/DialRenderer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/class-use/SimpleSeriesRenderer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/class-use/XYMultipleSeriesRenderer.Orientation.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/class-use/XYMultipleSeriesRenderer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/class-use/XYSeriesRenderer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/package-frame.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/package-summary.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/package-tree.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/renderer/package-use.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/AbstractTool.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/FitZoom.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/Pan.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/PanListener.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/Zoom.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/ZoomEvent.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/ZoomListener.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/class-use/AbstractTool.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/class-use/FitZoom.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/class-use/Pan.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/class-use/PanListener.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/class-use/Zoom.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/class-use/ZoomEvent.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/class-use/ZoomListener.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/package-frame.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/package-summary.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/package-tree.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/tools/package-use.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/util/IndexXYMap.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/util/MathHelper.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/util/XYEntry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/util/class-use/IndexXYMap.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/util/class-use/MathHelper.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/util/class-use/XYEntry.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/util/package-frame.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/util/package-summary.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/util/package-tree.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/org/achartengine/util/package-use.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/overview-frame.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/overview-summary.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/overview-tree.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/package-list" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/resources/inherit.gif" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/serialized-form.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.0.0-javadocs/stylesheet.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/achartengine-1.2.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lint.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/project.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/bobina.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/cancel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/capacitor.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/chart.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/chart2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/contract.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/expand.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/list.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/pause.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/play.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/restart.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/save.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/settings.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/zoom_in.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-hdpi/zoom_out.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-ldpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-mdpi/contract.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-mdpi/expand.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-mdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-mdpi/list.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-mdpi/pause.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-mdpi/play.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-mdpi/save.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-mdpi/settings.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/list.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable-xhdpi/settings.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/custom_left_button.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/drawable/custom_right_button.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/layout/actionsavelogic.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/layout/brazo_robot.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/layout/device_list.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/layout/device_name.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/layout/frecview.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/layout/lcview.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/layout/logic_fragments.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/layout/logic_rawdata.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/layout/logicanalizer.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/menu/actionbar_logicchart.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/menu/actionbar_logiclist.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/menu/actionbarfrec.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/menu/actionbarlc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/menu/actionbarmain.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/menu/actionmodelogic.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/values-es/strings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/values/array.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/xml/appgeneralprefs.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/xml/logicgeneral.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/res/xml/usb_device_filter.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/bluetoothutils/andres/BTSingleSynchTransfer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/bluetoothutils/andres/BluetoothHelper.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/bluetoothutils/andres/DeviceListActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/bluetoothutils/andres/OnBluetoothConnected.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/bluetoothutils/andres/OnNewBluetoothDataReceived.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/multiwork/andres/ApplicationContext.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/multiwork/andres/FrecView.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/multiwork/andres/Frecuencia.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/multiwork/andres/LCView.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/multiwork/andres/MainMenu.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/multiwork/andres/MainPrefs.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/andres/LogicAnalizerActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/andres/LogicAnalizerChartFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/andres/LogicAnalizerListFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/andres/OnActionBarClickListener.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/andres/OnDataClearedListener.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/andres/OnDataDecodedListener.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/andres/PruebaParser.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/api/andres/Clock.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/api/andres/ClockNotDefinedException.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/api/andres/EmptyProtocol.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/api/andres/I2CProtocol.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/api/andres/LogicBitSet.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/api/andres/LogicHelper.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/api/andres/Protocol.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/api/andres/TimePosition.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/protocolanalyzer/api/andres/UARTProtocol.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/roboticarm/andres/BrazoRobot.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/roboticarm/andres/Joystick.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/roboticarm/andres/JoystickView.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/utils/andres/ConflictChecker.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/utils/andres/Dependency.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/utils/andres/Pair.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerActivity.java" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerActivity.java" />
+    </list>
+    <ignored path="MultiWork.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="Commander">
+    <leftPanel />
+    <rightPanel />
+    <splitter proportion="0.5" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="DebuggerManager">
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </breakpoint_any>
+    <breakpoint_rules />
+    <ui_properties />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="MultiWork" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="47" selection-start="644" selection-end="644" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="1560">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainMenu.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/MainMenu.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="55" column="53" selection-start="2102" selection-end="2102" vertical-scroll-proportion="0.0" vertical-offset="810" max-vertical-offset="2685">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LogicAnalizerActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="255" column="44" selection-start="10131" selection-end="10131" vertical-scroll-proportion="0.14973262" vertical-offset="3272" max-vertical-offset="7050">
+              <folding>
+                <element signature="e#10131#10174#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FragmentActivity.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$APPLICATION_HOME_DIR$/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar!/android/support/v4/app/FragmentActivity.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="34" column="19" selection-start="1410" selection-end="1410" vertical-scroll-proportion="-7.72" vertical-offset="302" max-vertical-offset="1845">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ApplicationContext.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/ApplicationContext.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="15" selection-start="104" selection-end="104" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myStructureFilterPaths" />
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="tasksExpandState">
+      <map>
+        <entry key="" value="true" />
+        <entry key="MultiWorkProject/" value="true" />
+      </map>
+    </option>
+    <option name="availableProjects">
+      <map>
+        <entry>
+          <key>
+            <ExternalProjectPojo>
+              <option name="name" value="MultiWorkProject" />
+              <option name="path" value="$PROJECT_DIR$" />
+            </ExternalProjectPojo>
+          </key>
+          <value>
+            <list>
+              <ExternalProjectPojo>
+                <option name="name" value="MultiWorkProject" />
+                <option name="path" value="$PROJECT_DIR$" />
+              </ExternalProjectPojo>
+              <ExternalProjectPojo>
+                <option name="name" value="MultiWork" />
+                <option name="path" value="$PROJECT_DIR$/MultiWork" />
+              </ExternalProjectPojo>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="modificationStamps">
+      <map>
+        <entry key="$PROJECT_DIR$" value="1377277058131" />
+      </map>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/MultiWork/src/main/com/protocolanalyzer/andres/LogicAnalizerActivity.java" />
+        <option value="$PROJECT_DIR$/ActionBarSherlock4.4.0/src/android/support/v4/app/Watson.java" />
+        <option value="$PROJECT_DIR$/ActionBarSherlock4.4.0/build.gradle" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/Java/com/protocolanalyzer/andres/LogicAnalizerActivity.java" />
+        <option value="$PROJECT_DIR$/settings.gradle" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/ApplicationContext.java" />
+        <option value="$PROJECT_DIR$/MultiWork/build.gradle" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerActivity.java" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="65" />
+    <option name="y" value="792" />
+    <option name="width" value="1301" />
+    <option name="height" value="744" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Spelling</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Spelling</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWorkProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWorkProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWorkProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="options.lastSelected" value="Errors" />
+    <property name="recentsLimit" value="5" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="0009f4f93db45f" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="FullScreen" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="RunManager" selected="Android Application.MultiWork">
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="MultiWork" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="MultiWork" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <RunnerSettings RunnerId="AndroidDebugRunner" />
+      <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Android Application.MultiWork" />
+    </list>
+    <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+    </configuration>
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SliceManager">
+    <option name="analysisUIOptions">
+      <AnalysisUIOptions />
+    </option>
+  </component>
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <configuration useDefault="true">$USER_HOME$/.subversion</configuration>
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e0500b10-0b14-41e6-94c1-b4e294edc18f" name="Default" comment="" />
+      <created>1377277058301</created>
+      <updated>1377277058301</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Actualizacion para Android Studio">
+      <created>1377380422720</created>
+      <updated>1377380422720</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="65" y="792" width="1301" height="744" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.6332795" sideWeight="0.4996016" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.74151856" sideWeight="0.5003984" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25258964" sideWeight="0.4272" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3268921" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25258964" sideWeight="0.4272" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32828686" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24940239" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988048" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2374502" sideWeight="0.36672053" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988048" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972136" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32148626" sideWeight="0.4996016" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3993808" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6138934" sideWeight="0.4996016" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.74396133" sideWeight="0.5003984" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25258964" sideWeight="0.4272" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3279483" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32828686" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2310757" sideWeight="0.2552504" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988048" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972136" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25258964" sideWeight="0.4272" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32148626" sideWeight="0.4996016" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24940239" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988048" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3993808" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myShow1" value="true" />
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+    <option name="SHOW_DIRTY_RECURSIVELY" value="true" />
+    <MESSAGE value="Actualizacion para Android Studio" />
+    <option name="LAST_COMMIT_MESSAGE" value="Actualizacion para Android Studio" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="115" column="33" selection-start="4580" selection-end="4580" vertical-scroll-proportion="0.0" vertical-offset="1710" max-vertical-offset="7710">
+          <folding>
+            <element signature="e#10131#10174#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/ApplicationContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="15" selection-start="104" selection-end="104" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="645">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="70" selection-start="558" selection-end="558" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="540" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/actionsavelogic.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="195" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="30" selection-start="273" selection-end="273" vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="510" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/build/manifests/debug/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="184" selection-start="1216" selection-end="1216" vertical-scroll-proportion="0.331565" vertical-offset="145" max-vertical-offset="885" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="20" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="592" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="594" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/actionsavelogic.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="553">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/frecview.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1920">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/MainMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="53" selection-start="2102" selection-end="2102" vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="2220">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="47" selection-start="644" selection-end="644" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1560">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="1" selection-start="560" selection-end="560" vertical-scroll-proportion="0.7347973" vertical-offset="0" max-vertical-offset="592" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/ApplicationContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="15" selection-start="104" selection-end="104" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar!/android/support/v4/app/FragmentActivity.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="19" selection-start="1410" selection-end="1410" vertical-scroll-proportion="-7.72" vertical-offset="302" max-vertical-offset="1845">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="255" column="44" selection-start="10131" selection-end="10131" vertical-scroll-proportion="0.14973262" vertical-offset="3272" max-vertical-offset="7050">
+          <folding>
+            <element signature="e#10131#10174#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Android</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>Android 4.3 Platform</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>MultiWorkProject</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>achartengine-1.2</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
+
