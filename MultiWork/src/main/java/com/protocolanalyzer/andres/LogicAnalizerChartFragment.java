@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -118,9 +119,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	/** Indica si se esta sosteniendo el dedo sobre la pantalla (long-press) */
 	private static boolean fingerStillDown = false;
 	
-	/** Dato decodificado desde LogicHelper para ser mostrado en el grafico, contiene las posiciones para mostar
-     * el tipo de protocolo, etc
-     * @see LogicData.java */
+	/** Protocolo para cada canal */
 	private static Protocol[] decodedData;
 	
 	private static int samplesNumber = 0;
@@ -192,9 +191,8 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 				break;
 			}
 		}
-		
-		if(currentIndex == 0) return;
-		else{
+
+		if(currentIndex != 0){
 			double prevTimeScale = timeScale;
 			timeScale = timeScaleValues[currentIndex-1];
 
@@ -248,9 +246,8 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 				break;
 			}
 		}
-		
-		if(currentIndex == timeScaleValues.length-1) return;
-		else{
+
+		if(currentIndex != timeScaleValues.length-1){
 			double prevTimeScale = timeScale;
 			timeScale = timeScaleValues[currentIndex+1];
 
@@ -427,8 +424,10 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
         time = 0;
         
         mChartView = ChartFactory.getLineChartView(mActivity, mSerieDataset, mRenderDataset);
-        // Renderizado por software, el hardware trae problemas con paths muy largos en el Canvas (bug de Android)
-        mChartView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            // Renderizado por software, el hardware trae problemas con paths muy largos en el Canvas (bug de Android)
+            mChartView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
         setChartPreferences();
 		
 		// Renderizo el layout
@@ -525,7 +524,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 
 	/**
 	 * Crea una ventana preguntando al usuario si desea guardar la sesion o una imagen del grafico
- 	 * @see http://developer.android.com/guide/topics/ui/menus.html
+ 	 * See http://developer.android.com/guide/topics/ui/menus.html
  	 */
 	private void createDialog() {
 		final CharSequence[] items = {getString(R.string.AnalyzerImagen), getString(R.string.AnalyzerSesion)};
@@ -546,12 +545,11 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	}
 
 	/**
-	 * Los Handlers ejecutan sus operaciones en el Thread de la UI haciendo posible la modificacion de la misma desde Threads no UI.
-	 * @author Andres Torti
-	 * @see http://developer.android.com/guide/topics/fundamentals/processes-and-threads.html
-	 * @see http://developer.android.com/reference/android/os/Handler.html
-	 * @see http://developer.android.com/resources/articles/timed-ui-updates.html
-	 * @see http://stackoverflow.com/questions/10405773/how-to-use-preferencefragment/10405850#comment13428324_10405850
+	 * Los Handlers ejecutan sus operaciones en el Thread de la UI haciendo posible la modificacion de la misma desde Threads no UI.	 * @author Andres Torti
+	 * See http://developer.android.com/guide/topics/fundamentals/processes-and-threads.html
+	 * See http://developer.android.com/reference/android/os/Handler.html
+	 * See http://developer.android.com/resources/articles/timed-ui-updates.html
+	 * See http://stackoverflow.com/questions/10405773/how-to-use-preferencefragment/10405850#comment13428324_10405850
 	 */
 	final private Runnable mUpdaterTask = new Runnable() {
 		@Override
