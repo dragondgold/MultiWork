@@ -179,11 +179,28 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x" + String.format("%.2f", timeScaleValues[currentIndex]*1E9) + " nS");
 		}
 	}
-	
+
+    private double minSeriesX (){
+        double min = mSerie[0].getMinX();
+        for(XYSeries series : mSerie){
+            min = Math.min(min, series.getMinX());
+        }
+        return min;
+    }
+
+    private double maxSeriesX (){
+        double max = mSerie[0].getMaxX();
+        for(XYSeries series : mSerie){
+            max = Math.max(max, series.getMaxX());
+        }
+        return max;
+    }
+
 	/**
 	 * Hace un zoom in del gráfico teniendo en cuenta las escalas en timeScaleValues
 	 */
 	private void zoomIn(){
+        // Verifico en que escala de tiempo estoy
 		int currentIndex = 0;
 		for(int n = 0; n < timeScaleValues.length; ++n){
 			if(timeScaleValues[n] == timeScale){
@@ -192,27 +209,33 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			}
 		}
 
+        // Si la escala es válida
 		if(currentIndex != 0){
 			double prevTimeScale = timeScale;
 			timeScale = timeScaleValues[currentIndex-1];
 
+            // Paso las coordenadas a sus X originales es decir el tiempo sin la escala aplicada
 			double prevX1 = mRenderDataset.getXAxisMin()*prevTimeScale;
 			double prevX2 = mRenderDataset.getXAxisMax()*prevTimeScale;
-			
+
+            // Paso el tiempo original a la nueva escala de tiempos
 			double minX = toCoordinate(prevX1, timeScale);
 			double maxX = toCoordinate(prevX2, timeScale);
-			
+
+            // Reemplazo cada valor del eje X por su nuevo equivalente con la nueva escala
 			for(int n = 0; n < mSerie.length; ++n){
 				XYSeries series = mSerie[n];
 				
 				@SuppressWarnings("unchecked")
 				IndexXYMap<Double, Double> map = (IndexXYMap<Double, Double>)series.getXYMap().clone();
 
+                // Reemplazo los valores de las series
 				series.clearSeriesValues();
 				for(java.util.Map.Entry<Double, Double> entry : map.entrySet()){
 					series.add(toCoordinate(entry.getKey()*prevTimeScale, timeScale), entry.getValue());
 				}
-				
+
+                // Reemplazo las anotaciones y los rectángulos
 				for(int j = 0; j < series.getAnnotationCount(); ++j){
 					double x = toCoordinate(series.getAnnotationX(j)*prevTimeScale, timeScale);
 					double y = series.getAnnotationY(j);
@@ -226,6 +249,10 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 					rectangleSeries[n].replaceRectangle(j, x, cord[1], x2, cord[3]);
 				}
 			}
+            mRenderDataset.setPanLimits(new double[] {minSeriesX() - (20*(maxX-minX))/100,
+                                                      maxSeriesX() + (20*(maxX-minX))/100,
+                                                        -1d, yChannel[yChannel.length-1]+4});
+
 			mRenderDataset.setXAxisMax(maxX);
 			mRenderDataset.setXAxisMin(minX);
 			
@@ -280,6 +307,10 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 					rectangleSeries[n].replaceRectangle(j, x, cord[1], x2, cord[3]);
 				}
 			}
+            mRenderDataset.setPanLimits(new double[] {minSeriesX() - (20*(maxX-minX))/100,
+                                                      maxSeriesX() + (20*(maxX-minX))/100,
+                                                        -1d, yChannel[yChannel.length-1]+4});
+
 			mRenderDataset.setXAxisMax(maxX);
 			mRenderDataset.setXAxisMin(minX);
 			
