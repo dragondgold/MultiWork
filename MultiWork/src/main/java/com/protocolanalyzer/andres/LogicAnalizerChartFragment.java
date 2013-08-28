@@ -57,17 +57,17 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	
 	/** Valores del eje Y que son tomados como inicio ('0' lógico) para las Series de los canales de entrada */
 	private static final float yChannel[] = {0, 5, 10, 15, 20, 25, 30, 35};
-    /** Cuanto se incrementa en el eje Y para hacer un '1' logico */
+    /** Cuanto se incrementa en el eje Y para hacer un '1' lógico */
 	private static final float bitScale = 1;		
     /** Valor del eje X maximo inicial */
     private static final double xMax = 100;
-    /** Valor del eje X minimo inicial */
+    /** Valor del eje X mínimo inicial */
     private static final double xMin = -100;
     /** Colores de linea para cada canal */
     private static final int lineColor[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW,
     											Color.MAGENTA, Color.CYAN, Color.LTGRAY, Color.WHITE};
     
-    /** Escala de tiempo (cuanto equivale un cuadro del grafico */
+    /** Escala de tiempo (cuanto equivale un cuadro del gráfico */
     private static final double timeScaleValues[] = { 	0.000000001d,		// 1nS
     														0.000000010d,		// 10nS
     														0.000000025d,		// 25nS
@@ -86,11 +86,11 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
     
 	/** ActionBar */
 	private static ActionBar mActionBar;		
-	/** Handler para la actualizacion del grafico en el UI Thread */
+	/** Handler para la actualización del gráfico en el UI Thread */
     private static Handler mUpdaterHandler = new Handler();	
     /** Tiempo transcurrido en mS (eje x) */
     private static double time = 0;		
-    /** Cuantos segundos representa un cuadrito (una unidad) en el grafico */
+    /** Cuantos segundos representa un cuadro (una unidad) en el gráfico */
     private static double timeScale; 
     
     /** Serie que muestra los '1' y '0' de cada canal */
@@ -98,14 +98,14 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
     /** Renderer para cada Serie, indica color, tamaño, etc */
     private static XYSeriesRenderer[] mRenderer;
     
-    /** Rectangulos delimitadores */
+    /** Rectángulos delimitadores */
     private static XYSeries[] rectangleSeries;
-    /** Renderer de los rectangulos */
+    /** Renderer de los rectángulos */
     private static XYSeriesRenderer[] rectangleRenderer;
     
     /** Dataset para agrupar las Series */
     private static XYMultipleSeriesDataset mSerieDataset;
-    /** Dataser para agrupar los Renderer */
+    /** Dataset para agrupar los Renderer */
     private static XYMultipleSeriesRenderer mRenderDataset;
 	
 	private static GraphicalView mChartView;
@@ -180,6 +180,9 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		}
 	}
 
+    /**
+     * Determina el mínimo valor de X de todas las series
+     */
     private double minSeriesX (){
         double min = mSerie[0].getMinX();
         for(XYSeries series : mSerie){
@@ -188,6 +191,9 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
         return min;
     }
 
+    /**
+     * Determina el máximo valor de X de todas las series
+     */
     private double maxSeriesX (){
         double max = mSerie[0].getMaxX();
         for(XYSeries series : mSerie){
@@ -225,9 +231,9 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
             // Reemplazo cada valor del eje X por su nuevo equivalente con la nueva escala
 			for(int n = 0; n < mSerie.length; ++n){
 				XYSeries series = mSerie[n];
-				
-				@SuppressWarnings("unchecked")
-				IndexXYMap<Double, Double> map = (IndexXYMap<Double, Double>)series.getXYMap().clone();
+
+                @SuppressWarnings("unchecked")
+                IndexXYMap<Double, Double> map = (IndexXYMap<Double, Double>)series.getXYMap().clone();
 
                 // Reemplazo los valores de las series
 				series.clearSeriesValues();
@@ -252,7 +258,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
             mRenderDataset.setPanLimits(new double[] {minSeriesX() - (20*(maxX-minX))/100,
                                                       maxSeriesX() + (20*(maxX-minX))/100,
                                                         -1d, yChannel[yChannel.length-1]+4});
-
 			mRenderDataset.setXAxisMax(maxX);
 			mRenderDataset.setXAxisMin(minX);
 			
@@ -327,7 +332,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		Log.i(TAG, "onActivityCreated()");
 		
         mActionBar = mActivity.getSupportActionBar();				// Obtengo el ActionBar
-        mActionBar.setDisplayHomeAsUpEnabled(true);					// El icono de la aplicacion funciona como boton HOME
+        mActionBar.setDisplayHomeAsUpEnabled(true);					// El icono de la aplicación funciona como botón HOME
         mActionBar.setTitle(getString(R.string.AnalyzerName)) ;		// Nombre
         this.setHasOptionsMenu(true);								
         
@@ -355,7 +360,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
         mChartView.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {		
-				// Si me movi al menos 20 unidades en cualquier direccion ya se toma como scroll NO long-press
+				// Si me moví al menos 20 unidades en cualquier dirección ya se toma como scroll NO long-press
 				if(Math.abs(event.getX() - x) > 20 || Math.abs(event.getY() - y) > 20) {
 					isMoving = true;
 				}
@@ -374,8 +379,8 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 				
 				// Sleep por 50mS para que no este continuamente testeando y ahorre recursos (no hace falta gran velocidad)
 				try { Thread.sleep(50); } catch (InterruptedException e) { e.printStackTrace(); }
-				// return false; da lugar a que se analizen otros eventos de touch (como cuando deslizamos el grafico). Si fuera
-				// true el grafico no se desplazaría porque este se activa primero y evita al otro
+				// return false; da lugar a que se analicen otros eventos de touch (como cuando deslizamos el grafico). Si fuera
+				// true el gráfico no se desplazaría porque este se activa primero y evita al otro
 				return false;
 			}
         });   
@@ -411,7 +416,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		rectangleRenderer = new XYSeriesRenderer[LogicAnalizerActivity.channelsNumber];
 		
 		for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n) {
-	    	// Crea las Serie que es una linea en el grafico (cada una de las entradas)
+	    	// Crea las Serie que es una linea en el gráfico (cada una de las entradas)
 	    	mSerie[n] = new XYSeries(getString(R.string.AnalyzerName) + n);
 	    	
 	    	mRenderer[n] = new XYSeriesRenderer();			// Creo el renderer de la Serie
@@ -427,7 +432,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	    	mRenderer[n].setAnnotationsColor(Color.WHITE);
 	    	mRenderer[n].setAnnotationsTextAlign(Align.CENTER);
 	    	
-	    	// Rectangulos
+	    	// Rectángulos
 	    	rectangleSeries[n] = new XYSeries("");
 	    	rectangleSeries[n].setIsRectangleSeries(true);
 	    	rectangleRenderer[n] = new XYSeriesRenderer();
@@ -530,7 +535,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
  	}
  	
  	/**
- 	 * Viene aqui cuando se vuelve de la Activity de las preferences al ser llamada con startActivityForResult() de este
+ 	 * Viene aquí cuando se vuelve de la Activity de las preferences al ser llamada con startActivityForResult() de este
  	 * modo actualizo las preferencias
  	 */
  	@Override
@@ -541,7 +546,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		if(DEBUG) Log.i(TAG, "requestCode: " + requestCode);
 	}
 
- 	// Reinicia el gŕafico y las variables involucradas
+ 	// Reinicia el gráfico y las variables involucradas
 	private void restart() {
 		for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n) {
 			mSerie[n].clear();
@@ -554,7 +559,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	}
 
 	/**
-	 * Crea una ventana preguntando al usuario si desea guardar la sesion o una imagen del grafico
+	 * Crea una ventana preguntando al usuario si desea guardar la sesión o una imagen del gráfico
  	 * See http://developer.android.com/guide/topics/ui/menus.html
  	 */
 	private void createDialog() {
@@ -576,7 +581,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	}
 
 	/**
-	 * Los Handlers ejecutan sus operaciones en el Thread de la UI haciendo posible la modificacion de la misma desde Threads no UI.	 * @author Andres Torti
+	 * Los Handlers ejecutan sus operaciones en el Thread de la UI haciendo posible la modificación de la misma desde Threads no UI.	 * @author Andres Torti
 	 * See http://developer.android.com/guide/topics/fundamentals/processes-and-threads.html
 	 * See http://developer.android.com/reference/android/os/Handler.html
 	 * See http://developer.android.com/resources/articles/timed-ui-updates.html
@@ -639,7 +644,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			}
 			// Solo si estoy en la escala inicial reacomodo el gráfico
 			if(timeScale == initialTimeScale){
-				// Muevo el grafico al final de las lineas, le sumo el 10% del valor máximo y mínimo para dar un margen
+				// Muevo el gráfico al final de las lineas, le sumo el 10% del valor máximo y mínimo para dar un margen
 				mRenderDataset.setXAxisMax(toCoordinate(time, timeScale)+(10*toCoordinate(time, timeScale))/100);
 				mRenderDataset.setXAxisMin(0-(10*toCoordinate(time, timeScale))/100);
 			}
