@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.multiwork.andres.R;
-import com.protocolanalyzer.api.andres.LogicHelper;
+import com.protocolanalyzer.api.LogicHelper;
 import com.utils.andres.ConflictChecker;
 import com.utils.andres.Dependency;
 

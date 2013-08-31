@@ -1,6 +1,6 @@
 package com.protocolanalyzer.andres;
 
-import com.protocolanalyzer.api.andres.Protocol;
+import com.protocolanalyzer.api.Protocol;
 
 public interface OnDataDecodedListener {
 

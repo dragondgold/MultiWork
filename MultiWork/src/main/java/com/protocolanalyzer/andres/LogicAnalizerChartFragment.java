@@ -42,9 +42,9 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.ActionMode;
 
 import com.multiwork.andres.R;
-import com.protocolanalyzer.api.andres.LogicBitSet;
-import com.protocolanalyzer.api.andres.Protocol;
-import com.protocolanalyzer.api.andres.TimePosition;
+import com.protocolanalyzer.api.LogicBitSet;
+import com.protocolanalyzer.api.Protocol;
+import com.protocolanalyzer.api.TimePosition;
 
 @SuppressLint("ValidFragment")
 public class LogicAnalizerChartFragment extends SherlockFragment implements OnDataDecodedListener, OnDataClearedListener{
@@ -134,7 +134,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	public LogicAnalizerChartFragment() {
 		decodedData = null;
 	}
-	
+
 	@Override
 	public void onDataDecodedListener(Protocol[] data, boolean isConfig) {
 		if(DEBUG) Log.i(TAG,"onDataDecoded() - isConfig: " + isConfig);

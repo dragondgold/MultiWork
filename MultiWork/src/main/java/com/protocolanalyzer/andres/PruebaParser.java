@@ -1,11 +1,11 @@
 package com.protocolanalyzer.andres;
 
-import com.protocolanalyzer.api.andres.Clock;
-import com.protocolanalyzer.api.andres.I2CProtocol;
-import com.protocolanalyzer.api.andres.LogicBitSet;
-import com.protocolanalyzer.api.andres.LogicHelper;
-import com.protocolanalyzer.api.andres.UARTProtocol;
-import com.protocolanalyzer.api.andres.Protocol.ProtocolType;
+import com.protocolanalyzer.api.Clock;
+import com.protocolanalyzer.api.I2CProtocol;
+import com.protocolanalyzer.api.LogicBitSet;
+import com.protocolanalyzer.api.LogicHelper;
+import com.protocolanalyzer.api.UARTProtocol;
+import com.protocolanalyzer.api.Protocol.ProtocolType;
 
 import android.app.Activity;
 import android.os.Bundle;

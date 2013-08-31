@@ -8,9 +8,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.multiwork.andres.R;
-import com.protocolanalyzer.api.andres.Protocol;
-import com.protocolanalyzer.api.andres.TimePosition;
-import com.protocolanalyzer.api.andres.Protocol.ProtocolType;
+import com.protocolanalyzer.api.Protocol;
+import com.protocolanalyzer.api.TimePosition;
+import com.protocolanalyzer.api.Protocol.ProtocolType;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

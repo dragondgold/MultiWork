@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.http.util.ByteArrayBuffer;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -28,14 +26,15 @@ import com.multiwork.andres.ApplicationContext;
 import com.multiwork.andres.MainMenu;
 
 import com.multiwork.andres.R;
-import com.protocolanalyzer.api.andres.Clock;
-import com.protocolanalyzer.api.andres.EmptyProtocol;
-import com.protocolanalyzer.api.andres.I2CProtocol;
-import com.protocolanalyzer.api.andres.LogicBitSet;
-import com.protocolanalyzer.api.andres.LogicHelper;
-import com.protocolanalyzer.api.andres.Protocol;
-import com.protocolanalyzer.api.andres.UARTProtocol;
-import com.protocolanalyzer.api.andres.Protocol.ProtocolType;
+import com.protocolanalyzer.api.Clock;
+import com.protocolanalyzer.api.EmptyProtocol;
+import com.protocolanalyzer.api.I2CProtocol;
+import com.protocolanalyzer.api.LogicBitSet;
+import com.protocolanalyzer.api.LogicHelper;
+import com.protocolanalyzer.api.Protocol;
+import com.protocolanalyzer.api.UARTProtocol;
+import com.protocolanalyzer.api.Protocol.ProtocolType;
+import com.protocolanalyzer.api.utils.ByteArrayBuffer;
 
 public class LogicAnalizerActivity extends SherlockFragmentActivity implements OnActionBarClickListener, OnNewBluetoothDataReceived{
 
