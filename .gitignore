@@ -1,7 +1,8 @@
-/Multiwork/build/
+*/build/
 /Multiwork/MultiWork.iml
-/.idea/
-/.gradle/
+.idea/
+.gradle/
+gradle/
 local.properties
 MultiWorkProject.iml
 
