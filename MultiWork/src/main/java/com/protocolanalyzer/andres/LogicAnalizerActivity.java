@@ -333,8 +333,16 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	        	case UART:		// UART
 	        		channel[n] = new UARTProtocol(sampleFrec);
 	        		
-	        		// Defino la velocidad en baudios
+	        		// Configuraciones
 		        	((UARTProtocol)channel[n]).setBaudRate(Integer.decode(getPrefs.getString("BaudRate" + (n+1), "9600")));
+                    ((UARTProtocol)channel[n]).set9BitsMode(getPrefs.getBoolean("nineData" + (n+1), false));
+                    ((UARTProtocol)channel[n]).setTwoStopBits(getPrefs.getBoolean("dualStop" + (n+1), false));
+
+                    String parity = getPrefs.getString("Parity" + (n+1), "-1");
+                    if(parity.equals("-1")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.NoParity);
+                    else if(parity.equals("1")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Even);
+                    else if(parity.equals("2")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Odd);
+
 	        		break;
 	        		
 	        	case Clock:		// CLOCK
@@ -356,8 +364,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
         	if(channel[n].getProtocol() == ProtocolType.I2C){
         		int clockIndex = Integer.valueOf(getPrefs.getString("CLK" + (n+1), NA+""));
         		if(DEBUG) Log.i("mFragmentActivity", "Clock Index: " + clockIndex);
-        		
-        		((I2CProtocol)channel[n]).setClockSource((Clock)channel[clockIndex-1]);
+        		if(clockIndex != -1)
+        		    ((I2CProtocol)channel[n]).setClockSource((Clock)channel[clockIndex-1]);
         	}
 		}
         

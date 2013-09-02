@@ -14,8 +14,8 @@
     
     <string name="BTRequestTitle">				Petición del sistema</string>
     <string name="BTRequestSummary">			¿Desea encender el Bluetooth?</string>
-    <string name="BTOfflineTitle">				Modo sin conexion</string>
-    <string name="BTOfflineSummary">			¿Desea usar el modo sin conexion? Si activa el mismo
+    <string name="BTOfflineTitle">				Modo sin conexión</string>
+    <string name="BTOfflineSummary">			¿Desea usar el modo sin conexión? Si activa el mismo
         										 no se conectara al dispositivo Bluetooth.</string>  
     <string name="BTConnecting">				Conectando…</string>		
     
@@ -32,8 +32,8 @@
     
     <!-- LC Meter -->
     <string name="LCMeterMenu">					Medidor LC</string>
-    <string name="FrecMenu">					Frecuencimetro</string>
-    <string name="LogicAnalyzerMenu">			Analizador logico</string>
+    <string name="FrecMenu">					Frecuencímetro</string>
+    <string name="LogicAnalyzerMenu">			Analizador lógico</string>
     <string name="BrazoMenu">					Brazo Robot</string>
     
     <!-- Frecuencimetro -->
@@ -42,24 +42,24 @@
     <!-- Analizador Logico -->
     <string name="AnalyzerPrefsActionTitle">	Configuración</string>
     <string name="AnalyzerHeaderSummary">		Canal de entrada</string>
-    <string name="AnalyzerName">				Analizador Logico</string>
+    <string name="AnalyzerName">				Analizador Lógico</string>
     <string name="AnalyzerChannel">				Canal</string>
     <string name="AnalyzerData">				Datos</string>
     <string name="AnalyzerYTitle">				Canales</string>
     <string name="AnalyzerXTitle">				Tiempo</string>
-    <string name="AnalyzerConnectError">		Error en la conexion</string>
+    <string name="AnalyzerConnectError">		Error en la conexión</string>
     <string name="AnalyzerConnectionTimeOut">		Error en la comunicación. Timeout.</string>
     
     <string name="AnalyzerImagen">				Imagen</string>
-    <string name="AnalyzerSesion">				Sesion</string>
+    <string name="AnalyzerSesion">				Sesión</string>
     <string name="AnalyzerDialogSaveTitle">		Guardar</string>
     <string name="AnalyzerDialogFileName">		Nombre de archivo</string>
     <string name="AnalyzerDialogFileSaved">		Archivo guardado</string>
     <string name="AnalyzerDialogFileNotSaved">	Error al guardar el archivo</string>
-    <string name="AnalyzerDialogSampleAlert">	La configuracion actual de baudios y velocidad de muestreo no permitirá un muestreo adecuado.
+    <string name="AnalyzerDialogSampleAlert">	La configuración actual de baudios y velocidad de muestreo no permitirá un muestreo adecuado.
         										 Aumente la velocidad de muestreo o disminuya los Baudios para un correcto muestreo.</string>
-    <string name="AnalyzerDialogSampleAlert2">	La configuracion actual de baudios, velocidad de muestreo y tamaño del buffer llenará el buffer
-        										 antes de poder muestrar la mínima cantidad de bits necesarios para una trama de UART.
+    <string name="AnalyzerDialogSampleAlert2">	La configuración actual de baudios, velocidad de muestreo y tamaño del buffer llenará el buffer
+        										 antes de poder muestrear la mínima cantidad de bits necesarios para una trama de UART.
         										 Disminuya la velocidad de muestreo.</string>
     <string name="AnalyzerDialogClockAlert">	El canal actual está siendo usado como fuente clock por otro canal. ¿Desea cambiar
         										 el protocolo aún así? En ese caso el canal afectado se anulará.</string>    	
@@ -68,19 +68,25 @@
     <string name="AnalyzerDialogLoading">		Procesando…</string>
     <string name="AnalyzerDialogReceiving">		Recibiendo datos…</string>
     
-    <string name="AnalyzerProtocolCategory">	Configuracion canal</string>
+    <string name="AnalyzerProtocolCategory">	Configuración canal</string>
     <string name="AnalyzerProtocolSummary">		Protocolo</string>
     <string name="AnalyzerProtocolTitle">		Protocolo canal</string>
     <string name="AnalyzerCLKSummary">			Linea de clock</string>
     <string name="AnalyzerCLKTitle">			Clock</string>
     <string name="AnalyzerBaudSummary">			Baudios UART</string>
     <string name="AnalyzerBaudTitle">			Baudios</string>
+    <string name="AnalyzerParityTitle">   	    Bit de paridad</string>
+    <string name="AnalyzerParitySummary">   	Tipo de paridad del protocolo UART</string>
+    <string name="AnalyzerStopBitTitle">   	    Dos bit de Stop</string>
+    <string name="AnalyzerStopBitSummary"> 	    Dos bits de Stop para el protocolo UART</string>
+    <string name="AnalyzerNineDataTitle"> 	    Dato de 9 bits</string>
+    <string name="AnalyzerNineDataSummary">     Dato de 9 bits en el protocolo UART</string>
     
     <string name="AnalyzerSampleTitle">			Muestreo</string>
     <string name="AnalyzerSampleRateTitle">		Velocidad de muestreo</string>
     <string name="AnalyzerSampleRateSummary">	Velocidad de muestreo del analizador</string>
-    <string name="AnalyzerSampleMaxTitle">		Maxima retencion de muestras</string>
-    <string name="AnalyzerSampleMaxSummary">	Maxima cantidad de muestras a almacenar (Entre mayor sea mas RAM se utilizara)</string>
+    <string name="AnalyzerSampleMaxTitle">		Máxima retención de muestras</string>
+    <string name="AnalyzerSampleMaxSummary">	Máxima cantidad de muestras a almacenar (Entre mayor sea mas RAM se utilizara)</string>
     
     <string name="AnalyzerSimpleTriggerTitle">  	Trigger simple</string>
     <string name="AnalyzerSimpleTriggerSummary">  	Usar trigger por cambio de estado para iniciar el muestreo</string>
@@ -98,7 +104,7 @@
     <string name="AnalyzerActionConfig">			Opciones</string>
     <string name="AnalyzerActionPlay">				Play</string>
     
-    <string name="AnalyzerDependencies">			Conflictos correjidos</string>
+    <string name="AnalyzerDependencies">			Conflictos corregidos</string>
     
     <!-- Brazo Robot -->
     <string name="NoBTAlertTitle">					No existe Bluetooth</string>

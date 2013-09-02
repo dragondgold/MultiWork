@@ -52,6 +52,17 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
     		com.multiwork.andres.R.array.clockValues7,
     		com.multiwork.andres.R.array.clockValues8,
     };
+
+    // Preferencias de cada canal
+    ListPreference[]        protocolList = new ListPreference[LogicAnalizerActivity.channelsNumber];
+    ListPreference[]        clockList = new ListPreference[LogicAnalizerActivity.channelsNumber];
+    CheckBoxPreference[]    simpleTriggerPreference = new CheckBoxPreference[LogicAnalizerActivity.channelsNumber];
+    EditTextPreference[]    baudEditText = new EditTextPreference[LogicAnalizerActivity.channelsNumber];
+    CheckBoxPreference[]    nineDataBits = new CheckBoxPreference[LogicAnalizerActivity.channelsNumber];
+    ListPreference[]        parityList = new ListPreference[LogicAnalizerActivity.channelsNumber];
+    CheckBoxPreference[]    checkBoxStopBit = new CheckBoxPreference[LogicAnalizerActivity.channelsNumber];
+
+    PreferenceScreen mPreferenceScreen;
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -60,73 +71,95 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
         if(DEBUG) Log.i("PreferenceActivity", "onCreate() -> LogicAnalizerPrefs");
         
         getSupportActionBar().setTitle(getString(R.string.AnalyzerPrefsActionTitle));
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         
         // Si no estoy en al menos Android Honeycomb no uso fragments
         if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
         	// Agrego todas las preferencias de cada canal
-        	PreferenceScreen mPreferenceScreen = getPreferenceManager().createPreferenceScreen(this);
+        	mPreferenceScreen = getPreferenceManager().createPreferenceScreen(this);
         	for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
         		PreferenceCategory mPreferenceCategory = new PreferenceCategory(this);
-                mPreferenceCategory.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolCategory) + " " + (n+1));
+                mPreferenceCategory.setTitle(getString(R.string.AnalyzerProtocolCategory) + " " + (n+1));
     			
                 // Protocolo
-                ListPreference mListPreference = new ListPreference(this);
-        		mListPreference.setDefaultValue("2");
-        		mListPreference.setEntries(com.multiwork.andres.R.array.protocolList);
-        		mListPreference.setEntryValues(com.multiwork.andres.R.array.protocolValues);
-        		mListPreference.setKey("protocol" + (n+1));
-        		mListPreference.setSummary(com.multiwork.andres.R.string.AnalyzerProtocolSummary);
-        		mListPreference.setTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + (n+1));
-        		mListPreference.setDialogTitle(getString(com.multiwork.andres.R.string.AnalyzerProtocolTitle) + " " + (n+1));
+                protocolList[n] = new ListPreference(this);
+                protocolList[n].setDefaultValue("2");
+                protocolList[n].setEntries(R.array.protocolList);
+                protocolList[n].setEntryValues(R.array.protocolValues);
+                protocolList[n].setKey("protocol" + (n+1));
+                protocolList[n].setSummary(R.string.AnalyzerProtocolSummary);
+                protocolList[n].setTitle(getString(R.string.AnalyzerProtocolTitle) + " " + (n+1));
+                protocolList[n].setDialogTitle(getString(R.string.AnalyzerProtocolTitle) + " " + (n+1));
         		
         		// Clock
-        		ListPreference mListPreference2 = new ListPreference(this);
-        		mListPreference2.setDefaultValue("-1");
-        		mListPreference2.setEntries(idChannels[n]);
-        		mListPreference2.setEntryValues(idChannelsValues[n]);
-        		mListPreference2.setKey("CLK" + (n+1));
-        		mListPreference2.setSummary(com.multiwork.andres.R.string.AnalyzerCLKSummary);
-        		mListPreference2.setTitle(com.multiwork.andres.R.string.AnalyzerCLKTitle);
-        		mListPreference2.setDialogTitle(com.multiwork.andres.R.string.AnalyzerCLKTitle);
-        		
-        		// Baudios
-        		EditTextPreference mEditTextPreference = new EditTextPreference(this);
-        		mEditTextPreference.setDefaultValue("9600");
-        		mEditTextPreference.setTitle(com.multiwork.andres.R.string.AnalyzerBaudTitle);
-        		mEditTextPreference.setKey("BaudRate" + (n+1));
-        		mEditTextPreference.setSummary(com.multiwork.andres.R.string.AnalyzerBaudSummary);
-        		mEditTextPreference.setDialogTitle(com.multiwork.andres.R.string.AnalyzerBaudSummary);
+        		clockList[n] = new ListPreference(this);
+        		clockList[n].setDefaultValue("-1");
+        		clockList[n].setEntries(idChannels[n]);
+        		clockList[n].setEntryValues(idChannelsValues[n]);
+        		clockList[n].setKey("CLK" + (n + 1));
+        		clockList[n].setSummary(R.string.AnalyzerCLKSummary);
+        		clockList[n].setTitle(R.string.AnalyzerCLKTitle);
+        		clockList[n].setDialogTitle(R.string.AnalyzerCLKTitle);
                 
         		// Simple Trigger
-        		CheckBoxPreference mBoxPreference = new CheckBoxPreference(this);
-        		mBoxPreference.setDefaultValue(false);
-        		mBoxPreference.setTitle(getString(R.string.AnalyzerSimpleTriggerTitle));
-        		mBoxPreference.setKey("simpleTrigger" + (n+1));
-        		mBoxPreference.setSummary(getString(R.string.AnalyzerSimpleTriggerChannelSummary));
-        		
+        		simpleTriggerPreference[n] = new CheckBoxPreference(this);
+        		simpleTriggerPreference[n].setDefaultValue(false);
+        		simpleTriggerPreference[n].setTitle(getString(R.string.AnalyzerSimpleTriggerTitle));
+        		simpleTriggerPreference[n].setKey("simpleTrigger" + (n + 1));
+        		simpleTriggerPreference[n].setSummary(getString(R.string.AnalyzerSimpleTriggerChannelSummary));
+
+                /*********************** UART ***********************/
+                    // Baudios
+                    baudEditText[n] = new EditTextPreference(this);
+                    baudEditText[n].setDefaultValue("9600");
+                    baudEditText[n].setTitle(R.string.AnalyzerBaudTitle);
+                    baudEditText[n].setKey("BaudRate" + (n+1));
+                    baudEditText[n].setSummary(R.string.AnalyzerBaudSummary);
+                    baudEditText[n].setDialogTitle(R.string.AnalyzerBaudSummary);
+
+                    // 9 bits de dato
+                    nineDataBits[n] = new CheckBoxPreference(this);
+                    nineDataBits[n].setDefaultValue(false);
+                    nineDataBits[n].setTitle(getString(R.string.AnalyzerNineDataTitle));
+                    nineDataBits[n].setKey("nineData" + (n+1));
+                    nineDataBits[n].setSummary(getString(R.string.AnalyzerNineDataSummary));
+
+                    // Paridad
+                    parityList[n] = new ListPreference(this);
+                    parityList[n].setDefaultValue("-1");
+                    parityList[n].setEntries(R.array.parityNames);
+                    parityList[n].setEntryValues(R.array.parityValues);
+                    parityList[n].setKey("Parity" + (n+1));
+                    parityList[n].setSummary(R.string.AnalyzerParitySummary);
+                    parityList[n].setTitle(R.string.AnalyzerParityTitle);
+                    parityList[n].setDialogTitle(R.string.AnalyzerParityTitle);
+
+                    // Doble bit de Stop
+                    checkBoxStopBit[n] = new CheckBoxPreference(this);
+                    checkBoxStopBit[n].setDefaultValue(false);
+                    checkBoxStopBit[n].setTitle(getString(R.string.AnalyzerStopBitTitle));
+                    checkBoxStopBit[n].setKey("dualStop" + (n+1));
+                    checkBoxStopBit[n].setSummary(getString(R.string.AnalyzerStopBitSummary));
+
                 mPreferenceScreen.addPreference(mPreferenceCategory);
-        		mPreferenceScreen.addPreference(mListPreference);
-        		mPreferenceScreen.addPreference(mListPreference2);
-        		mPreferenceScreen.addPreference(mEditTextPreference);
-        		mPreferenceScreen.addPreference(mBoxPreference);
-        		setPreferenceScreen(mPreferenceScreen);
+                hideSelectedPreferences(mPrefs.getString("protocol", ""+LogicAnalizerActivity.UART), n+1);
         	}
+            setPreferenceScreen(mPreferenceScreen);
         	this.addPreferencesFromResource(R.xml.logicgeneral);
         }
         // Resultado que enviara cuando esta Activity termine y sea llamada con startActivityForResult();
         this.setResult(RESULT_OK);
         mContext = this;
-        
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
         testIntegrity("sampleRate", Long.decode(mPrefs.getString("sampleRate", "4000000")) );
         
         final ConflictChecker mChecker = new ConflictChecker(mPrefs);
 		for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
-			Dependency mDependency1 = new Dependency("protocol" + (n+1), LogicAnalizerActivity.I2C, -1);
-			mDependency1.setInvalidationValue(-1);
-			mDependency1.addSecondaryReferencedDependency("CLK" + (n+1), "protocol*", LogicAnalizerActivity.Clock);
+			Dependency mDependency = new Dependency("protocol" + (n+1), LogicAnalizerActivity.I2C, -1);
+			mDependency.setInvalidationValue(-1);
+			mDependency.addSecondaryReferencedDependency("CLK" + (n+1), "protocol*", LogicAnalizerActivity.Clock);
 			
-			mChecker.addDependency(mDependency1);
+			mChecker.addDependency(mDependency);
 		}
 		if(mChecker.detectConflicts()){
 			Toast.makeText(this, getString(R.string.AnalyzerDependencies), Toast.LENGTH_SHORT).show();
@@ -141,7 +174,8 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 					Log.i("Preferences", "Changed " + key + " to: " + sharedPreferences.getString(key, "0"));
 					testIntegrity( key, Long.decode(sharedPreferences.getString(key, "0")) ); 
 				}
-				// Si cambié algun trigger reconstruyo la máscara de trigger
+
+				// Si cambié algún trigger reconstruyo la máscara de trigger
 				else if(key.contains("simpleTrigger")){
 					boolean state;
 					byte mask = 0;
@@ -154,10 +188,12 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 					sharedPreferences.edit().putInt("simpleTriggerMask", mask).apply();
 					if(DEBUG) Log.i("PreferenceActivity", "Mask: " + Integer.toBinaryString(mask));	
 				}
+
+                // Configuro los canales de clock si es necesario dependiendo del protocolo
 				if(key.contains("protocol")){
 					if(DEBUG) Log.i("PreferenceActivity", "Protocol changed to " + mPrefs.getString(key, ""+LogicAnalizerActivity.UART));	
 					switch (Integer.valueOf(mPrefs.getString(key, ""+LogicAnalizerActivity.UART))) {
-					
+
 					case LogicAnalizerActivity.I2C:
 						int index = Integer.valueOf(mPrefs.getString("CLK" + key.charAt(8), "-1"));
 						mPrefs.edit().putString("protocol" + index, ""+LogicAnalizerActivity.Clock).apply();
@@ -166,7 +202,10 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 					default:
 						break;
 					}
+                    hideSelectedPreferences(mPrefs.getString(key, ""+LogicAnalizerActivity.UART),
+                                            Character.getNumericValue(key.charAt(8)) );
 				}
+                // Detecto conflictos
 				if(mChecker.detectConflicts()){
 					Toast.makeText(mContext, getString(R.string.AnalyzerDependencies), Toast.LENGTH_SHORT).show();
 				}
@@ -174,30 +213,55 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 		};
 	}
 
+    /**
+     * Oculta o muestra las preferencias de acuerdo a al protocolo seleccionado en la lista.
+     * Por ejemplo si seleccionamos UART se oculta la configuración de I2C y viceversa.
+     * @param protocol protocolo seleccionado
+     * @param n número de canal
+     */
+    private void hideSelectedPreferences (String protocol, int n){
+        int protocolValue = Integer.valueOf(protocol); --n;
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+            if(protocolValue == LogicAnalizerActivity.I2C){
+                Log.i("Preferences", "I2C Adjust");
+                mPreferenceScreen.addPreference(protocolList[n]);
+                mPreferenceScreen.addPreference(clockList[n]);
+                mPreferenceScreen.addPreference(simpleTriggerPreference[n]);
+                mPreferenceScreen.removePreference(baudEditText[n]);
+                mPreferenceScreen.removePreference(nineDataBits[n]);
+                mPreferenceScreen.removePreference(parityList[n]);
+                mPreferenceScreen.removePreference(checkBoxStopBit[n]);
+            }else if(protocolValue == LogicAnalizerActivity.UART){
+                Log.i("Preferences", "UART Adjust");
+                mPreferenceScreen.addPreference(protocolList[n]);
+                mPreferenceScreen.removePreference(clockList[n]);
+                mPreferenceScreen.addPreference(simpleTriggerPreference[n]);
+                mPreferenceScreen.addPreference(baudEditText[n]);
+                mPreferenceScreen.addPreference(nineDataBits[n]);
+                mPreferenceScreen.addPreference(parityList[n]);
+                mPreferenceScreen.addPreference(checkBoxStopBit[n]);
+            }
+        }
+    }
+
     @Override
 	protected void onPause() {
 		super.onPause();
 		mPrefs.unregisterOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
 	}
-    
-
-
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		mPrefs.registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
 	}
-	
-
-
 
 	@SuppressLint("NewApi")
 	@Override
     public void onBuildHeaders(List<Header> target) {  
     	if(DEBUG) Log.i("PreferenceActivity", "onBuildHeaders() -> LogicAnalizerPrefs");
     	if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-    		
+
     		Bundle mBundle = new Bundle();
     		mBundle.putString("name", "General");
     		target.add(createHeader(0, getString(R.string.GeneralTitle), "", "", "", R.drawable.settings,
@@ -205,7 +269,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
     		
     		for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
     			mBundle = new Bundle();
-    			mBundle.putString("name", "Channel" + (n+1));
+    			mBundle.putString("name", "Channel" + n);
     			target.add(createHeader(0, getString(R.string.AnalyzerChannel) + " " + (n+1), getString(R.string.AnalyzerHeaderSummary),
     					"", "", R.drawable.settings, "com.protocolanalyzer.andres.LogicAnalizerPrefsFragment", mBundle));	
     		}
@@ -298,7 +362,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 	 * Crea un dialogo advirtiendo al usuario que la configuración del SampleRate y Baudios no es posible
 	 * osea que no se alcanzaría a muestrear debidamente
  	 * @author Andres Torti
- 	 * @see http://developer.android.com/guide/topics/ui/menus.html
+ 	 * See http://developer.android.com/guide/topics/ui/menus.html
  	 */
 	private void dialog(int dialogType) {
 		if(DEBUG)Log.i("Preferences", "ALERT DIALOG");
