@@ -1,6 +1,7 @@
 package com.protocolanalyzer.andres;
 
 import com.multiwork.andres.R;
+import com.protocolanalyzer.api.Protocol;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
@@ -55,7 +56,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
                 protocolList.setDefaultValue("2");
                 protocolList.setEntries(R.array.protocolList);
                 protocolList.setEntryValues(R.array.protocolValues);
-                protocolList.setKey("protocol" + (n + 1));
+                protocolList.setKey("protocol" + (n+1));
                 protocolList.setSummary(R.string.AnalyzerProtocolSummary);
                 protocolList.setTitle(getString(R.string.AnalyzerProtocolTitle) + " " + (n + 1));
                 protocolList.setDialogTitle(getString(R.string.AnalyzerProtocolTitle) + " " + (n + 1));
@@ -75,7 +76,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
                 simpleTriggerPreference.setDefaultValue(false);
                 simpleTriggerPreference.setTitle(getString(R.string.AnalyzerSimpleTriggerTitle));
                 simpleTriggerPreference.setKey("simpleTrigger" + (n + 1));
-                simpleTriggerPreference.setSummary(getString(R.string.AnalyzerSimpleTriggerChannelSummary));
+                simpleTriggerPreference.setSummary(R.string.AnalyzerSimpleTriggerChannelSummary);
 
                 /*********************** UART ***********************/
                     // Baudios
@@ -89,9 +90,9 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
                     // 9 bits de dato
                     nineDataBits = new CheckBoxPreference(getActivity());
                     nineDataBits.setDefaultValue(false);
-                    nineDataBits.setTitle(getString(R.string.AnalyzerNineDataTitle));
+                    nineDataBits.setTitle(R.string.AnalyzerNineDataTitle);
                     nineDataBits.setKey("nineData" + (n + 1));
-                    nineDataBits.setSummary(getString(R.string.AnalyzerNineDataSummary));
+                    nineDataBits.setSummary(R.string.AnalyzerNineDataSummary);
 
                     // Paridad
                     parityList = new ListPreference(getActivity());
@@ -106,9 +107,9 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
                     // Doble bit de Stop
                     checkBoxStopBit = new CheckBoxPreference(getActivity());
                     checkBoxStopBit.setDefaultValue(false);
-                    checkBoxStopBit.setTitle(getString(R.string.AnalyzerStopBitTitle));
+                    checkBoxStopBit.setTitle(R.string.AnalyzerStopBitTitle);
                     checkBoxStopBit.setKey("dualStop" + (n + 1));
-                    checkBoxStopBit.setSummary(getString(R.string.AnalyzerStopBitSummary));
+                    checkBoxStopBit.setSummary(R.string.AnalyzerStopBitSummary);
 
                 mPreferenceScreen.addPreference(mPreferenceCategory);
                 hideSelectedPreferences(mPrefs.getString("protocol" + (n+1), "" + LogicAnalizerActivity.UART));
@@ -122,6 +123,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
             preferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
                 @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                    // Si cambió el protocolo oculto/muestro los items correspondientes
                     if(key.contains("protocol"))
                         hideSelectedPreferences(mPrefs.getString(key, "" + LogicAnalizerActivity.UART));
                 }
@@ -172,6 +174,24 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
             mPreferenceScreen.addPreference(nineDataBits);
             mPreferenceScreen.addPreference(parityList);
             mPreferenceScreen.addPreference(checkBoxStopBit);
+        }else if(protocolValue == LogicAnalizerActivity.Clock){
+            Log.i("Preferences", "Clock Adjust");
+            mPreferenceScreen.addPreference(protocolList);
+            mPreferenceScreen.removePreference(clockList);
+            mPreferenceScreen.addPreference(simpleTriggerPreference);
+            mPreferenceScreen.removePreference(baudEditText);
+            mPreferenceScreen.removePreference(nineDataBits);
+            mPreferenceScreen.removePreference(parityList);
+            mPreferenceScreen.removePreference(checkBoxStopBit);
+        }else if(protocolValue == LogicAnalizerActivity.NA){
+            Log.i("Preferences", "NA Adjust");
+            mPreferenceScreen.addPreference(protocolList);
+            mPreferenceScreen.removePreference(clockList);
+            mPreferenceScreen.addPreference(simpleTriggerPreference);
+            mPreferenceScreen.removePreference(baudEditText);
+            mPreferenceScreen.removePreference(nineDataBits);
+            mPreferenceScreen.removePreference(parityList);
+            mPreferenceScreen.removePreference(checkBoxStopBit);
         }
     }
 }

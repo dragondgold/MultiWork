@@ -42,21 +42,24 @@ public class ConflictChecker {
 					int value = entry.getValue().getSecond();
 					
 					if (refKey != null) {
-						if(mPreferences.getString(refKey, null) == null)
-							throw new NullPointerException("El key de referencia no existe, asegurese de que exista");
-						else{
+						if(mPreferences.getString(refKey, null) == null){
+							//throw new NullPointerException("El key de referencia no existe, asegúrese de que exista");
+                            invalidateDependency(mDependency, refKey, mDependency.getInvalidationValue());
+                            conflictsCorrected = true;
+                        }else{
 							int refValue = Integer.valueOf(mPreferences.getString(refKey, null));
 							String targetKey = key.replace("*", ""+refValue);
+
 							try {
 								if(Integer.valueOf(mPreferences.getString(targetKey, null)) != value){
 									invalidateDependency(mDependency, refKey, mDependency.getInvalidationValue());
 									conflictsCorrected = true;
-								}	
+								}
 							} catch (NumberFormatException e) {
 								invalidateDependency(mDependency, refKey, mDependency.getInvalidationValue());
 								conflictsCorrected = true;
-							}
-						}
+                            }
+                        }
 					}
 					else{
 						String keyString = mPreferences.getString(key, null);
@@ -73,6 +76,7 @@ public class ConflictChecker {
 	
 	private void invalidateDependency (Dependency mDependency, String refKey, int invalidateValue){
 		mPreferences.edit().putString(mDependency.getMasterKey(), ""+invalidateValue).apply();
+        // Si no es null cambio directamente el valor del key de referencia
 		if(refKey != null){
 			mPreferences.edit().putString(refKey, ""+invalidateValue).apply();
 		}

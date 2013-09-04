@@ -53,16 +53,18 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
     		com.multiwork.andres.R.array.clockValues8,
     };
 
-    // Preferencias de cada canal
-    ListPreference[]        protocolList = new ListPreference[LogicAnalizerActivity.channelsNumber];
-    ListPreference[]        clockList = new ListPreference[LogicAnalizerActivity.channelsNumber];
-    CheckBoxPreference[]    simpleTriggerPreference = new CheckBoxPreference[LogicAnalizerActivity.channelsNumber];
-    EditTextPreference[]    baudEditText = new EditTextPreference[LogicAnalizerActivity.channelsNumber];
-    CheckBoxPreference[]    nineDataBits = new CheckBoxPreference[LogicAnalizerActivity.channelsNumber];
-    ListPreference[]        parityList = new ListPreference[LogicAnalizerActivity.channelsNumber];
-    CheckBoxPreference[]    checkBoxStopBit = new CheckBoxPreference[LogicAnalizerActivity.channelsNumber];
+    private static ConflictChecker mChecker;
 
-    PreferenceScreen mPreferenceScreen;
+    // Preferencias de cada canal
+    private static ListPreference[]        protocolList = new ListPreference[LogicAnalizerActivity.channelsNumber];
+    private static ListPreference[]        clockList = new ListPreference[LogicAnalizerActivity.channelsNumber];
+    private static CheckBoxPreference[]    simpleTriggerPreference = new CheckBoxPreference[LogicAnalizerActivity.channelsNumber];
+    private static EditTextPreference[]    baudEditText = new EditTextPreference[LogicAnalizerActivity.channelsNumber];
+    private static CheckBoxPreference[]    nineDataBits = new CheckBoxPreference[LogicAnalizerActivity.channelsNumber];
+    private static ListPreference[]        parityList = new ListPreference[LogicAnalizerActivity.channelsNumber];
+    private static CheckBoxPreference[]    checkBoxStopBit = new CheckBoxPreference[LogicAnalizerActivity.channelsNumber];
+
+    private static PreferenceScreen mPreferenceScreen;
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -104,9 +106,9 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
         		// Simple Trigger
         		simpleTriggerPreference[n] = new CheckBoxPreference(this);
         		simpleTriggerPreference[n].setDefaultValue(false);
-        		simpleTriggerPreference[n].setTitle(getString(R.string.AnalyzerSimpleTriggerTitle));
+        		simpleTriggerPreference[n].setTitle(R.string.AnalyzerSimpleTriggerTitle);
         		simpleTriggerPreference[n].setKey("simpleTrigger" + (n + 1));
-        		simpleTriggerPreference[n].setSummary(getString(R.string.AnalyzerSimpleTriggerChannelSummary));
+        		simpleTriggerPreference[n].setSummary(R.string.AnalyzerSimpleTriggerChannelSummary);
 
                 /*********************** UART ***********************/
                     // Baudios
@@ -120,9 +122,9 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                     // 9 bits de dato
                     nineDataBits[n] = new CheckBoxPreference(this);
                     nineDataBits[n].setDefaultValue(false);
-                    nineDataBits[n].setTitle(getString(R.string.AnalyzerNineDataTitle));
+                    nineDataBits[n].setTitle(R.string.AnalyzerNineDataTitle);
                     nineDataBits[n].setKey("nineData" + (n+1));
-                    nineDataBits[n].setSummary(getString(R.string.AnalyzerNineDataSummary));
+                    nineDataBits[n].setSummary(R.string.AnalyzerNineDataSummary);
 
                     // Paridad
                     parityList[n] = new ListPreference(this);
@@ -137,9 +139,9 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                     // Doble bit de Stop
                     checkBoxStopBit[n] = new CheckBoxPreference(this);
                     checkBoxStopBit[n].setDefaultValue(false);
-                    checkBoxStopBit[n].setTitle(getString(R.string.AnalyzerStopBitTitle));
+                    checkBoxStopBit[n].setTitle(R.string.AnalyzerStopBitTitle);
                     checkBoxStopBit[n].setKey("dualStop" + (n+1));
-                    checkBoxStopBit[n].setSummary(getString(R.string.AnalyzerStopBitSummary));
+                    checkBoxStopBit[n].setSummary(R.string.AnalyzerStopBitSummary);
 
                 mPreferenceScreen.addPreference(mPreferenceCategory);
                 hideSelectedPreferences(mPrefs.getString("protocol", ""+LogicAnalizerActivity.UART), n+1);
@@ -152,17 +154,15 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
         mContext = this;
 
         testIntegrity("sampleRate", Long.decode(mPrefs.getString("sampleRate", "4000000")) );
-        
-        final ConflictChecker mChecker = new ConflictChecker(mPrefs);
+
+        // Creación del comprobador de de conflictos
+        mChecker = new ConflictChecker(mPrefs);
 		for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
 			Dependency mDependency = new Dependency("protocol" + (n+1), LogicAnalizerActivity.I2C, -1);
 			mDependency.setInvalidationValue(-1);
 			mDependency.addSecondaryReferencedDependency("CLK" + (n+1), "protocol*", LogicAnalizerActivity.Clock);
 			
 			mChecker.addDependency(mDependency);
-		}
-		if(mChecker.detectConflicts()){
-			Toast.makeText(this, getString(R.string.AnalyzerDependencies), Toast.LENGTH_SHORT).show();
 		}
         
         // Detección del cambio en las preferencias
@@ -189,26 +189,21 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 					if(DEBUG) Log.i("PreferenceActivity", "Mask: " + Integer.toBinaryString(mask));	
 				}
 
-                // Configuro los canales de clock si es necesario dependiendo del protocolo
+                // Si cambió el protocolo oculto/muestro los items correspondientes
 				if(key.contains("protocol")){
-					if(DEBUG) Log.i("PreferenceActivity", "Protocol changed to " + mPrefs.getString(key, ""+LogicAnalizerActivity.UART));	
-					switch (Integer.valueOf(mPrefs.getString(key, ""+LogicAnalizerActivity.UART))) {
-
-					case LogicAnalizerActivity.I2C:
-						int index = Integer.valueOf(mPrefs.getString("CLK" + key.charAt(8), "-1"));
-						mPrefs.edit().putString("protocol" + index, ""+LogicAnalizerActivity.Clock).apply();
-						break;
-
-					default:
-						break;
-					}
                     hideSelectedPreferences(mPrefs.getString(key, ""+LogicAnalizerActivity.UART),
                                             Character.getNumericValue(key.charAt(8)) );
 				}
-                // Detecto conflictos
-				if(mChecker.detectConflicts()){
-					Toast.makeText(mContext, getString(R.string.AnalyzerDependencies), Toast.LENGTH_SHORT).show();
-				}
+                // Detecto conflictos y configuro los canales de Clock que corresponden
+                if(key.contains("CLK")){
+                    // Configuro el canal que se seleccionó como clock como tal
+                    String index = mPrefs.getString(key, null);
+                    mPrefs.edit().putString("protocol" + index, ""+LogicAnalizerActivity.Clock).apply();
+
+				    if(mChecker.detectConflicts())
+					    Toast.makeText(mContext, getString(R.string.AnalyzerDependencies), Toast.LENGTH_SHORT).show();
+                }
+
 			}
 		};
 	}
@@ -240,14 +235,36 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                 mPreferenceScreen.addPreference(nineDataBits[n]);
                 mPreferenceScreen.addPreference(parityList[n]);
                 mPreferenceScreen.addPreference(checkBoxStopBit[n]);
+            }else if(protocolValue == LogicAnalizerActivity.Clock){
+                Log.i("Preferences", "Clock Adjust");
+                mPreferenceScreen.addPreference(protocolList[n]);
+                mPreferenceScreen.removePreference(clockList[n]);
+                mPreferenceScreen.addPreference(simpleTriggerPreference[n]);
+                mPreferenceScreen.removePreference(baudEditText[n]);
+                mPreferenceScreen.removePreference(nineDataBits[n]);
+                mPreferenceScreen.removePreference(parityList[n]);
+                mPreferenceScreen.removePreference(checkBoxStopBit[n]);
+            }else if(protocolValue == LogicAnalizerActivity.NA){
+                Log.i("Preferences", "NA Adjust");
+                mPreferenceScreen.addPreference(protocolList[n]);
+                mPreferenceScreen.removePreference(clockList[n]);
+                mPreferenceScreen.addPreference(simpleTriggerPreference[n]);
+                mPreferenceScreen.removePreference(baudEditText[n]);
+                mPreferenceScreen.removePreference(nineDataBits[n]);
+                mPreferenceScreen.removePreference(parityList[n]);
+                mPreferenceScreen.removePreference(checkBoxStopBit[n]);
             }
         }
     }
 
     @Override
 	protected void onPause() {
-		super.onPause();
+        if(DEBUG) Log.i("PreferenceActivity", "onPause() -> LogicAnalizerPrefs");
+        // Corrijo conflictos antes de salir
+        if(mChecker.detectConflicts())
+            Toast.makeText(this, getString(R.string.AnalyzerDependencies), Toast.LENGTH_SHORT).show();
 		mPrefs.unregisterOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
+        super.onPause();
 	}
 
 	@Override
@@ -266,7 +283,9 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
     		mBundle.putString("name", "General");
     		target.add(createHeader(0, getString(R.string.GeneralTitle), "", "", "", R.drawable.settings,
     				"com.protocolanalyzer.andres.LogicAnalizerPrefsFragment", mBundle));	
-    		
+
+            // Construyo un 'Header' para cada canal que se enviará al fragment con el número de canal en el Bundle
+            // para identificarlo y mostrar la preferencia correspondiente
     		for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
     			mBundle = new Bundle();
     			mBundle.putString("name", "Channel" + n);

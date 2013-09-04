@@ -106,7 +106,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		getSupportFragmentManager().beginTransaction().add(R.id.logicFragment, mFragmentList).commit();
 		
 		// Obtengo el OnDataDecodedListener de los Fragments
-		try { mListDataDecodedListener = (OnDataDecodedListener) mFragmentList; }
+		try { mListDataDecodedListener = mFragmentList; }
 		catch (ClassCastException e) { throw new ClassCastException(mFragmentList.toString() + " must implement OnDataDecodedListener"); }
 		
 		// Array de tamaño 0 para evitar NullPointerException
@@ -215,10 +215,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		 			getSupportFragmentManager().executePendingTransactions();
 		 			
 		 			// Agrego el OnDataDecodedListener cuando se agrega el nuevo Fragment
-					try { mChartDataDecodedListener = (OnDataDecodedListener) mFragmentChart; }
+					try { mChartDataDecodedListener = mFragmentChart; }
 					catch (ClassCastException e) { throw new ClassCastException(mFragmentChart.toString() + " must implement OnDataDecodedListener"); }
 					// Agrego el OnDataCleared
-					try { mOnDataClearedListener = (OnDataClearedListener) mFragmentChart; }
+					try { mOnDataClearedListener = mFragmentChart; }
 					catch (ClassCastException e) { throw new ClassCastException(mFragmentChart.toString() + " must implement OnDataClearedListener"); }
 	 			}
 	 			else{
@@ -372,7 +372,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
         maxSamplesNumber = Integer.valueOf(getPrefs.getString("maxSamples","3"))*maxBufferSize;
 
         /**
-         * Mantiene a la pantalla encendida en esta Activity unicamente
+         * Mantiene a la pantalla encendida en esta Activity únicamente
          * @see http://developer.android.com/reference/android/os/PowerManager.html
          * @see http://stackoverflow.com/questions/2131948/force-screen-on
          */

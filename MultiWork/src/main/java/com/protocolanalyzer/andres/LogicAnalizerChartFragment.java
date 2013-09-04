@@ -438,6 +438,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	    	rectangleRenderer[n] = new XYSeriesRenderer();
 	    	rectangleRenderer[n].setColor(lineColor[n]);
 	    	rectangleRenderer[n].setShowLegendItem(false);
+            rectangleRenderer[n].setLineWidth(2f);
 	    	
 	    	mSerieDataset.addSeries(rectangleSeries[n]);
 	    	mRenderDataset.addSeriesRenderer(rectangleRenderer[n]);
