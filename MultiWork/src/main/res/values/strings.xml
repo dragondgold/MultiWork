@@ -48,7 +48,7 @@
     <string name="AnalyzerYTitle">				Canales</string>
     <string name="AnalyzerXTitle">				Tiempo</string>
     <string name="AnalyzerConnectError">		Error en la conexión</string>
-    <string name="AnalyzerConnectionTimeOut">		Error en la comunicación. Timeout.</string>
+    <string name="AnalyzerConnectionTimeOut">	Error en la comunicación. Timeout.</string>
     
     <string name="AnalyzerImagen">				Imagen</string>
     <string name="AnalyzerSesion">				Sesión</string>
@@ -99,6 +99,7 @@
     <string name="AnalyzerDirectorySesionSummary">	Directorio donde guardar las sesiones</string>
     
     <string name="AnalyzerActionRawData">			Datos directos</string>
+    <string name="AnalyzerActionGraph">			    Gráfico</string>
     <string name="AnalyzerActionZoomOut">			Menos zoom</string>
     <string name="AnalyzerActionZoomIn">			Mas zoom</string>
     <string name="AnalyzerActionConfig">			Opciones</string>

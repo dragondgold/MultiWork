@@ -73,6 +73,9 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 
         mTextView = (TextView) v.findViewById(R.id.tvRawDataChannel);
         mTextView.setMovementMethod(new ScrollingMovementMethod());     // Permite scroll del TextView
+        mTextView.setTypeface(Typeface.MONOSPACE);  // Fuente monospace, es decir, cada carácter ocupa el
+        // mismo ancho para renderizarse, de este modo podemos alinearlo con String.format()
+
         mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1));
 		
 		/** Hace que todos los toques en la pantalla sean para esta Fragment y no el que esta detrás */
@@ -91,6 +94,7 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 		super.onResume();
 		if(DEBUG) Log.i("mFragmentList","Resume");
 		if(mProtocols != null) onDataDecodedListener(mProtocols, false);
+        else mTextView.setText(getString(R.string.AnalyzerNoData));
 	}
 
 	@Override
@@ -107,14 +111,14 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
                 mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1)
                         + " - " + data[itemSelected].getProtocol().toString() );
 
+                mTextView.setText("");
                 if(stringData.size() == 0)
                     mTextView.setText(getString(R.string.AnalyzerNoData));
 
-                mTextView.setText("");
                 for(int i=0; i < stringData.size(); ++i){
                     // http://stackoverflow.com/questions/3282940/set-color-of-textview-span-in-android
                     // http://stackoverflow.com/questions/12793593/how-to-align-string-on-console-output
-                    String text = String.format("%-10s --> %.3f uS\n", stringData.get(i).getString(),
+                    String text = String.format("%-7s → %.3f μS\n", stringData.get(i).getString(),
                                                                        stringData.get(i).startTime()*1E6);
                     Spannable spannedText = new SpannableString(text);
                     spannedText.setSpan(new ForegroundColorSpan(Color.RED), 0, text.indexOf(' '), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

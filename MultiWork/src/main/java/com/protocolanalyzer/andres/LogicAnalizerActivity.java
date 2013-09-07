@@ -108,9 +108,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
     private static ActionBarDrawerToggle mDrawerToggle;
     private static ListView mDrawerList;
     private static String[] mStringDrawerList = new String[LogicAnalizerActivity.channelsNumber];
-    private static final int[] mIconList = { R.drawable.settings_light, R.drawable.settings_light, R.drawable.settings_light,
-            R.drawable.settings_light, R.drawable.settings_light, R.drawable.settings_light, R.drawable.settings_light,
-            R.drawable.settings_light};
+    private static final int[] mIconList = { R.drawable.settings_dark, R.drawable.settings_dark, R.drawable.settings_dark,
+            R.drawable.settings_dark, R.drawable.settings_dark, R.drawable.settings_dark, R.drawable.settings_dark,
+            R.drawable.settings_dark};
 	
 	@Override
 	protected void onCreate(Bundle arg0) {

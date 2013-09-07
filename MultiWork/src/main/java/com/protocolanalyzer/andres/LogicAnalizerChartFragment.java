@@ -173,7 +173,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		}
 		// Si es mayor a 1000nS lo muestro como uS
 		else if(timeScaleValues[currentIndex] * 1E9 >= 1000){
-			mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x" + String.format("%.2f", timeScaleValues[currentIndex]*1E6) + " uS");
+			mRenderDataset.setXTitle(getString(R.string.AnalyzerXTitle) + " x" + String.format("%.2f", timeScaleValues[currentIndex]*1E6) + " μS");
 		}
 		// Sino lo muestro como nS
 		else{

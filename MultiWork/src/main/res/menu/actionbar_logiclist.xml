@@ -9,19 +9,19 @@
     <item
         android:id="@+id/listLogic"
         android:icon="@drawable/chart2"
-        android:showAsAction="always"
-        android:title="@string/AnalyzerActionRawData">
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/AnalyzerActionGraph">
     </item>
     <item
         android:id="@+id/settingsLogic"
         android:icon="@drawable/settings_light"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/AnalyzerActionConfig">
     </item>
     <item
         android:id="@+id/PlayPauseLogic"
         android:icon="@drawable/play"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/AnalyzerActionPlay">
     </item>
 
