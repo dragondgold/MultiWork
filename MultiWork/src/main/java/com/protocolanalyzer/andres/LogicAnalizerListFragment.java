@@ -21,30 +21,21 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 @SuppressLint("ValidFragment")
-public class LogicAnalizerListFragment extends SherlockFragment implements OnDataDecodedListener{
+public class LogicAnalizerListFragment extends SherlockFragment implements OnDataDecodedListener, AdapterView.OnItemClickListener{
 
 	private static final boolean DEBUG = true;
 	
 	private static SherlockFragmentActivity mActivity;
 	private static ActionBar mActionBar;
-	private static TextView mRawData[] = new TextView[LogicAnalizerActivity.channelsNumber];
-	private static TextView mRawDataTitle[] = new TextView[LogicAnalizerActivity.channelsNumber];
+    private static TextView mTextView;
 	private static View v;
+    private static int itemSelected = 0;
 	
 	private static Protocol[] mProtocols;
-	
-	private static final int tvRawDataLogic[] = {R.id.tvRawDataLogic1, R.id.tvRawDataLogic2,
-													R.id.tvRawDataLogic3, R.id.tvRawDataLogic4,
-													R.id.tvRawDataLogic5, R.id.tvRawDataLogic6,
-													R.id.tvRawDataLogic7, R.id.tvRawDataLogic8,};
-	
-	private static final int tvRawDataChannelTitle[] = { R.id.tvRawDataChannelTitle1, R.id.tvRawDataChannelTitle2,
-																R.id.tvRawDataChannelTitle3, R.id.tvRawDataChannelTitle4,
-																R.id.tvRawDataChannelTitle5, R.id.tvRawDataChannelTitle6,
-																R.id.tvRawDataChannelTitle7, R.id.tvRawDataChannelTitle8,};
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -62,7 +53,7 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 		mActivity = getSherlockActivity();
 		
 		mActionBar = mActivity.getSupportActionBar();				// Obtengo el ActionBar
-		mActionBar.setDisplayHomeAsUpEnabled(true);					// El icono de la aplicacion funciona como boton HOME
+		mActionBar.setDisplayHomeAsUpEnabled(true);					// El icono de la aplicación funciona como boton HOME
 		mActionBar.setTitle(getString(R.string.AnalyzerName)) ;		// Nombre
         this.setHasOptionsMenu(true);
 	}
@@ -73,16 +64,12 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 		
 		if(DEBUG) Log.i("mFragmentList","onCreateView()");
 		v = inflater.inflate(R.layout.logic_rawdata, container, false);
+
+        mTextView = (TextView) v.findViewById(R.id.tvRawDataChannel);
+        mTextView.setMovementMethod(new ScrollingMovementMethod());     // Permite scroll del TextView
+        mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1));
 		
-		for(int n = 0; n < tvRawDataLogic.length; ++n){
-			mRawData[n] = (TextView) v.findViewById(tvRawDataLogic[n]);
-			mRawData[n].setMovementMethod(new ScrollingMovementMethod());
-		
-			mRawDataTitle[n] = (TextView) v.findViewById(tvRawDataChannelTitle[n]);
-			mRawDataTitle[n].setText( Html.fromHtml("<u>" + getString(R.string.AnalyzerChannel) + " " + (n+1)) );
-		}
-		
-		/** Hace que todos los toques en la pantalla sean para esta Fragment y no el que esta detras */
+		/** Hace que todos los toques en la pantalla sean para esta Fragment y no el que esta detrás */
 		v.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -105,28 +92,40 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 		if(!isConfig){
 			mProtocols = data;
 			if(DEBUG) Log.i("mFragmentList","onDataDecodedListener() - " + data.length + " channels");
-			for(int n=0; n < mRawData.length; ++n) mRawData[n].setText("");
-			
-			for(int n=0; n < mRawData.length; ++n){
-				List<TimePosition> stringData = data[n].getDecodedData();
-				if(DEBUG) Log.i("mFragmentList","onDataDecodedListener() Channel " + n + " -> " + stringData.size());
-				
-				if(data[n].getProtocol() != ProtocolType.CLOCK){
-					mRawDataTitle[n].setText( Html.fromHtml("<u>" + getString(R.string.AnalyzerChannel) + " " + (n+1) 
-							+ " - " + data[n].getProtocol().toString() + "</u>") );
-					
-					
-					for(int i=0; i < stringData.size(); ++i){
-						// Con código HTML se puede aplicar propiedades de texto a ciertas partes unicamente
-						// http://stackoverflow.com/questions/1529068/is-it-possible-to-have-multiple-styles-inside-a-textview
-						mRawData[n].append( Html.fromHtml("<b><font color=#ff0000>" +
-								stringData.get(i).getString() + "</font></b>"  
-								+ "\t --> " + String.format("%.3f", (stringData.get(i).startTime()*1E6))
-								+ "uS<br/>") );
-					}
-				}
-			}
+
+            List<TimePosition> stringData = data[itemSelected].getDecodedData();
+            if(DEBUG) Log.i("mFragmentList","onDataDecodedListener() Channel " + itemSelected + " -> " + stringData.size());
+
+            if(data[itemSelected].getProtocol() != ProtocolType.CLOCK){
+                // Titulo del canal en el ActionBar
+                mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1)
+                        + " - " + data[itemSelected].getProtocol().toString() );
+
+                if(stringData.size() == 0)
+                    mTextView.setText(getString(R.string.AnalyzerNoData));
+
+                mTextView.setText("");
+                for(int i=0; i < stringData.size(); ++i){
+                    // Con código HTML se puede aplicar propiedades de texto a ciertas partes únicamente
+                    // http://stackoverflow.com/questions/1529068/is-it-possible-to-have-multiple-styles-inside-a-textview
+                    mTextView.append( Html.fromHtml("<b><font color=#ff0000>" +
+                            stringData.get(i).getString() + "</font></b>"
+                            + "\t --> " + String.format("%.3f", (stringData.get(i).startTime()*1E6))
+                            + "uS<br/>") );
+                }
+			}else{
+                mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1)
+                        + " - " + data[itemSelected].getProtocol().toString() );
+                mTextView.setText(getString(R.string.AnalyzerNoData));
+            }
 		}
 	}
-	
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        if(DEBUG) Log.i("mFragmentList","Item: " + i + " clicked");
+        itemSelected = i;
+        if(mProtocols != null) onDataDecodedListener(mProtocols, false);
+        else mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1));
+    }
 }

@@ -3,18 +3,26 @@ package com.protocolanalyzer.andres;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -23,8 +31,8 @@ import com.actionbarsherlock.view.MenuItem;
 import com.bluetoothutils.andres.BluetoothHelper;
 import com.bluetoothutils.andres.OnNewBluetoothDataReceived;
 import com.multiwork.andres.ApplicationContext;
-import com.multiwork.andres.MainMenu;
 
+import com.multiwork.andres.MenuListAdapter;
 import com.multiwork.andres.R;
 import com.protocolanalyzer.api.Clock;
 import com.protocolanalyzer.api.EmptyProtocol;
@@ -36,7 +44,7 @@ import com.protocolanalyzer.api.UARTProtocol;
 import com.protocolanalyzer.api.Protocol.ProtocolType;
 import com.protocolanalyzer.api.utils.ByteArrayBuffer;
 
-public class LogicAnalizerActivity extends SherlockFragmentActivity implements OnActionBarClickListener, OnNewBluetoothDataReceived{
+public class LogicAnalizerActivity extends SherlockFragmentActivity implements OnActionBarClickListener, OnNewBluetoothDataReceived, ListView.OnItemClickListener{
 
 	private static final boolean DEBUG = true;
 	private static final byte startByte = 'S';
@@ -70,7 +78,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static OnDataDecodedListener mListDataDecodedListener;
 	private static OnDataClearedListener mOnDataClearedListener;
 	
-	/** Fragment que contiene al grafico */
+	/** Fragment que contiene al gráfico */
 	private static LogicAnalizerChartFragment mFragmentChart;
 	/** Fragment que con la lista de datos en formato raw */
 	private static LogicAnalizerListFragment mFragmentList;
@@ -82,7 +90,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
     
     private static BluetoothHelper mBluetoothHelper;
 	
-	/** Buffers de recepcion donde se guarda los bytes recibidos */
+	/** Buffers de recepción donde se guarda los bytes recibidos */
     private static byte[] tempBuffer;	
     private static ByteArrayBuffer mByteArrayBuffer = new ByteArrayBuffer(initialBufferSize);
     /** Canales */
@@ -95,6 +103,15 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static int timeOutCounter;
 	
 	private static Context mActivityContext;
+
+    // DrawerLayout
+    private static DrawerLayout mDrawerLayout;
+    private static ActionBarDrawerToggle mDrawerToggle;
+    private static ListView mDrawerList;
+    private static String[] mStringDrawerList = new String[LogicAnalizerActivity.channelsNumber];
+    private static int[] mIconList = { R.drawable.settings, R.drawable.settings, R.drawable.settings,
+            R.drawable.settings, R.drawable.settings, R.drawable.settings, R.drawable.settings,
+            R.drawable.settings};
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -102,6 +119,42 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		if(DEBUG) Log.i("mFragmentActivity","onCreate() LogicAnalizerActivity");
 
         setContentView(R.layout.logic_fragments);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Configuramos el DrawerLayout
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mDrawerList = (ListView) findViewById(R.id.drawerList);
+
+        // ListView del DrawerLayout
+        final ArrayList<String> stringList = new ArrayList<String>();
+        for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
+            stringList.add(getString(R.string.AnalyzerDrawerChannel) + " " + (n+1));
+        }
+        mStringDrawerList = stringList.toArray(new String[stringList.size()]);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        mDrawerList.setAdapter(new MenuListAdapter(this, mStringDrawerList, mStringDrawerList, mIconList));
+        mDrawerList.setOnItemClickListener(this);
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  // Activity
+                mDrawerLayout,         // DrawerLayout
+                R.drawable.ic_drawer,  // Icono del Navigation Drawer que reemplaza al 'Up' del ActionBar
+                R.string.AnalyzerDrawerOpen,
+                R.string.AnalyzerDrawerClosed
+        ) {
+
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        // Agrego el ListFragment
 		mFragmentList = new LogicAnalizerListFragment();
 		getSupportFragmentManager().beginTransaction().add(R.id.logicFragment, mFragmentList).commit();
 		
@@ -117,14 +170,26 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 			setPreferences();
 		}
     }
-	
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		outState.putBoolean("setStuff", true);
 		super.onSaveInstanceState(outState);
 	}
 
-	// Si estoy tomando datos y salgo de la Activity elimino el CallBack para no recibir mas datos desde el Service.
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    // Si estoy tomando datos y salgo de la Activity elimino el CallBack para no recibir mas datos desde el Service.
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -134,7 +199,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	}
 	
 	/**
-	 * En onResume() se llama a supportInvalidateOptionsMenu(); para dibujar el boton Play/Pause en el modo correcto y no
+	 * En onResume() se llama a supportInvalidateOptionsMenu(); para dibujar el botón Play/Pause en el modo correcto y no
 	 * en el que aparece en el layout XML del ActionBar por defecto.
 	 */
 	@Override
@@ -147,8 +212,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		isStarting = true;
 		isPlaying = false;
 		
-		// Solo si estoy en modo online procedo a obtener la conexion
-		// Obtengo la conexión Bluetooth
+		// Solo si estoy en modo online procedo a obtener la conexión
 		mBluetoothHelper = myApp.mBluetoothHelper;
 		mBluetoothHelper.setOnNewBluetoothDataReceived(this);
 		// Indico que entré en el analizador lógico
@@ -163,15 +227,15 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
 	 		case android.R.id.home:
-	 			Intent intent = new Intent(this, MainMenu.class);
-	 			// Si la aplicacion ya esta abierta ir a ella no abrir otra nueva
-	 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	 			startActivity(intent);
+                if (mDrawerLayout.isDrawerOpen(mDrawerList))
+                    mDrawerLayout.closeDrawer(mDrawerList);
+                else
+                    mDrawerLayout.openDrawer(mDrawerList);
 	 			break;
-	 		// Boton Play/Pause
+	 		// Botón Play/Pause
 			case R.id.PlayPauseLogic:
 				if(!mBluetoothHelper.isOfflineMode()){
-					// Digo al PIC que comienze el muestreo
+					// Digo al PIC que comience el muestreo
 					startSample();
 				}else{
 					// Reinicio cada canal
@@ -180,13 +244,14 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					}
 					// Demo de señal
 					for(int n = 0; n < channelsNumber; ++n){
+                        if(DEBUG) Log.i("mFragmentActivity","Demo: " + n);
 						if(channel[n].getProtocol() != ProtocolType.CLOCK){
 							LogicBitSet data, clk;
 							data = LogicHelper.bitParser("100 11010010011100101 0 11010011110000111 0 11010011110000111 1 0011", 5, 2);
 							channel[n].setChannelBitsData(data);
 							
 							if(channel[n].getProtocol() == ProtocolType.I2C){
-								clk = LogicHelper.bitParser( "110 01010101010101010 1 01010101010101010 1 01010101010101010 1 0111", 5, 2);
+								clk = LogicHelper.bitParser("110 01010101010101010 1 01010101010101010 1 01010101010101010 1 0111", 5, 2);
 								
 								Clock clockChannel = ((I2CProtocol)channel[n]).getClockSource();
 								clockChannel.setChannelBitsData(clk);
@@ -204,7 +269,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	 		case R.id.listLogic:
 	 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 	 			// Reemplazo este Fragment con el gráfico, addToBackStack() hace que al presionar la tecla
-	 			// de atras se vuelva a este Fragment y no se destruya el mismo
+	 			// de atrás se vuelva a este Fragment y no se destruya el mismo
 	 			if(!isFragmentActive("ChartLogic")){
 	 				if(DEBUG) Log.i("mFragmentActivity", "Chart Fragment Created");
 	 				mFragmentChart = new LogicAnalizerChartFragment(channel);
@@ -232,7 +297,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
+    /**
+     * Envía la configuración por Bluetooth para que el Hardware inicie el muestreo
+     */
 	private void startSample() {
 		mBluetoothHelper.write(1);
 		// Envío la frecuencia de muestreo que quiero
@@ -303,7 +371,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	
 	/**
 	 * Actualiza los iconos del ActionBar cuando se llama a supportInvalidateOptionsMenu(); porque si no se llama a esta
-	 * opcion en cada onResume() cuando la Activity vuelve el ActionBar se crea con el layout del XML y el boton
+	 * opción en cada onResume() cuando la Activity vuelve el ActionBar se crea con el layout del XML y el boton
 	 * Play/Pause debe mostrarse de acuerdo al estado actual.
 	 */
 	@Override
@@ -315,7 +383,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	}
 	
 	/**
-	 * Define los parametros de los canales de acuerdo como tipo de protocolo, velocidad de muestreo,
+	 * Define los parámetros de los canales de acuerdo como tipo de protocolo, velocidad de muestreo,
 	 * velocidad en Baudios para el UART y si la pantalla debe permanecer o no encendida.
 	 */
  	private void setPreferences() {
@@ -366,6 +434,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
         		if(DEBUG) Log.i("mFragmentActivity", "Clock Index: " + clockIndex);
         		if(clockIndex != -1)
         		    ((I2CProtocol)channel[n]).setClockSource((Clock)channel[clockIndex-1]);
+                else
+                    Log.e("mFragmentActivity", "Canal " + (n+1) + " de tipo I2C sin fuente de clock");
         	}
 		}
         
@@ -423,9 +493,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 						break;
 					}
 				}
-				if(isStarting){
+				if(isStarting)
 					if(DEBUG) Log.i("LogicAnalizerBT", "Nothing detected");
-				}
 			} catch (IOException e) { e.printStackTrace(); }
 		}
 		// Sino recibo los datos
@@ -507,4 +576,14 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		}
 		return true;
 	}
+
+    /**
+     * Click de los items en el DrawerLayout
+     */
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        // Envío el item seleccionado al fragment y cierro el DrawerLayout
+        mFragmentList.onItemClick(adapterView, view, i, l);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
 }

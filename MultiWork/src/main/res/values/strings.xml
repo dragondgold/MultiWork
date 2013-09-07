@@ -39,7 +39,7 @@
     <!-- Frecuencimetro -->
     <string name="FrecPeriodo">					Periodo:</string>
     
-    <!-- Analizador Logico -->
+    <!-- Analizador Lógico -->
     <string name="AnalyzerPrefsActionTitle">	Configuración</string>
     <string name="AnalyzerHeaderSummary">		Canal de entrada</string>
     <string name="AnalyzerName">				Analizador Lógico</string>
@@ -103,14 +103,17 @@
     <string name="AnalyzerActionZoomIn">			Mas zoom</string>
     <string name="AnalyzerActionConfig">			Opciones</string>
     <string name="AnalyzerActionPlay">				Play</string>
-    
+
+    <string name="AnalyzerNoData">			        No hay datos para mostrar…</string>
+    <string name="AnalyzerDrawerChannel">		    Canal</string>
+    <string name="AnalyzerDrawerOpen">		        Drawer Closed</string>
+    <string name="AnalyzerDrawerClosed">		    Drawer Opened</string>
     <string name="AnalyzerDependencies">			Conflictos corregidos</string>
     
     <!-- Brazo Robot -->
     <string name="NoBTAlertTitle">					No existe Bluetooth</string>
 	<string name="NoBTAlertText">					El dispositivo no dispone de Bluetooth por lo tanto no puede hacer
 	    											 uso de la aplicación, lo siento</string>
-	    											 
 	<!-- ACRA -->
 	<string name="Error">							Error inesperado en la aplicación…</string>
 	<string name="crash_notif_ticker_text">			Error inesperado, por favor envíe un informe…</string>
