@@ -41,6 +41,10 @@ public class I2CProtocol extends Protocol{
 
 The bits which are going to be decoded must be saved on `logicData` member of `Protocol` and the `Strings` with the decoded data must be saved on `mDecodedData` in the class `TimePosition` which define the start and finish time of the decoded event corresponding to the string calculating approximates time based on the sample rate frequency. The `Strings` can easily be added using the `addString()` method.
 
+## Distribution
+
+APK can be found in the MultiWork directory.
+
 ## License
 
 The Multiwork project is released under [BSD 2-Clause License](http://opensource.org/licenses/BSD-2-Clause)
