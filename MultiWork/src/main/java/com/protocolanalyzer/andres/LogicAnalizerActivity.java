@@ -16,7 +16,6 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
@@ -109,9 +108,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
     private static ActionBarDrawerToggle mDrawerToggle;
     private static ListView mDrawerList;
     private static String[] mStringDrawerList = new String[LogicAnalizerActivity.channelsNumber];
-    private static int[] mIconList = { R.drawable.settings, R.drawable.settings, R.drawable.settings,
-            R.drawable.settings, R.drawable.settings, R.drawable.settings, R.drawable.settings,
-            R.drawable.settings};
+    private static final int[] mIconList = { R.drawable.settings_light, R.drawable.settings_light, R.drawable.settings_light,
+            R.drawable.settings_light, R.drawable.settings_light, R.drawable.settings_light, R.drawable.settings_light,
+            R.drawable.settings_light};
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -132,7 +131,6 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
             stringList.add(getString(R.string.AnalyzerDrawerChannel) + " " + (n+1));
         }
         mStringDrawerList = stringList.toArray(new String[stringList.size()]);
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerList.setAdapter(new MenuListAdapter(this, mStringDrawerList, mStringDrawerList, mIconList));
         mDrawerList.setOnItemClickListener(this);
 

@@ -3,13 +3,13 @@
 
     <!--
     Los android:showAsAction="ifRoom|withText" indican que si hay lugar (osea Room) se muestra el texto
-    al lado de cada icono, pero si no ha lugar como por ejemplo en posicion portrait solo se muestra el icono,
+    al lado de cada icono, pero si no ha lugar como por ejemplo en posición portrait solo se muestra el icono,
     es decir que el texto se muestra si se puede
     -->
 
     <item
         android:id="@+id/settingsMain"
-        android:icon="@drawable/settings"
+        android:icon="@drawable/settings_light"
         android:showAsAction="ifRoom|withText"
         android:title="Config.">
     </item>

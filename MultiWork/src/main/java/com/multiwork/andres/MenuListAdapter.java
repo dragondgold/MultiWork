@@ -1,6 +1,7 @@
 package com.multiwork.andres;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class MenuListAdapter extends BaseAdapter {
 
         // Set the results into ImageView
         imgIcon.setImageResource(mIcon[position]);
+        itemView.setBackgroundColor(Color.WHITE);
 
         return itemView;
     }

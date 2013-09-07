@@ -13,9 +13,15 @@ import com.protocolanalyzer.api.TimePosition;
 import com.protocolanalyzer.api.Protocol.ProtocolType;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.method.ScrollingMovementMethod;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -106,12 +112,15 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
 
                 mTextView.setText("");
                 for(int i=0; i < stringData.size(); ++i){
-                    // Con código HTML se puede aplicar propiedades de texto a ciertas partes únicamente
-                    // http://stackoverflow.com/questions/1529068/is-it-possible-to-have-multiple-styles-inside-a-textview
-                    mTextView.append( Html.fromHtml("<b><font color=#ff0000>" +
-                            stringData.get(i).getString() + "</font></b>"
-                            + "\t --> " + String.format("%.3f", (stringData.get(i).startTime()*1E6))
-                            + "uS<br/>") );
+                    // http://stackoverflow.com/questions/3282940/set-color-of-textview-span-in-android
+                    // http://stackoverflow.com/questions/12793593/how-to-align-string-on-console-output
+                    String text = String.format("%-10s --> %.3f uS\n", stringData.get(i).getString(),
+                                                                       stringData.get(i).startTime()*1E6);
+                    Spannable spannedText = new SpannableString(text);
+                    spannedText.setSpan(new ForegroundColorSpan(Color.RED), 0, text.indexOf(' '), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannedText.setSpan(new StyleSpan(Typeface.BOLD), 0, text.indexOf(' '), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    mTextView.append(spannedText);
                 }
 			}else{
                 mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1)

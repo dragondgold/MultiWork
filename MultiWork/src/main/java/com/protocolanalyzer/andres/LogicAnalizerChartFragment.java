@@ -430,7 +430,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	    	mRenderer[n].setLineWidth(2f);
 	    	
 	    	mRenderer[n].setAnnotationsTextSize(10);
-	    	mRenderer[n].setAnnotationsColor(Color.WHITE);
+	    	mRenderer[n].setAnnotationsColor(Color.BLACK);
 	    	mRenderer[n].setAnnotationsTextAlign(Align.CENTER);
 	    	
 	    	// Rectángulos
@@ -467,6 +467,15 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
             mChartView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
         setChartPreferences();
+        mRenderDataset.setMarginsColor(Color.rgb(230,230,230));
+        mRenderDataset.setBackgroundColor(Color.rgb(230,230,230));
+        mRenderDataset.setGridColor(Color.BLACK);
+        mRenderDataset.setAxesColor(Color.BLACK);
+        mRenderDataset.setLabelsColor(Color.BLACK);
+        mRenderDataset.setApplyBackgroundColor(true);
+        mRenderDataset.setGridWidth(0.5f);
+        mRenderDataset.setXLabelsColor(Color.BLACK);
+        mRenderDataset.setYLabelsColor(0, Color.BLACK);
 		
 		// Renderizo el layout
 		View view = inflater.inflate(R.layout.logicanalizer, container, false);

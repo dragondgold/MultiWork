@@ -3,8 +3,7 @@
 
     <!--
     Los android:showAsAction="always|withText", "always" indica que el item SIEMPRE va a ser mostrado, si no hay lugar se muestra en otra barra 
-    en la parte inferior en la pantalla si se definio android:uiOptions="splitActionBarWhenNarrow" en el Manifest. "whitText" indica que si es
-    posible (osea si hay lugar) se muestra el texto junto con el icono, sino se muestra unicamente el icono.
+    en la parte inferior en la pantalla si se definió android:uiOptions="splitActionBarWhenNarrow" en el Manifest.
     -->
 
     <item
@@ -15,7 +14,7 @@
     </item>
     <item
         android:id="@+id/settingsLogic"
-        android:icon="@drawable/settings"
+        android:icon="@drawable/settings_light"
         android:showAsAction="always"
         android:title="@string/AnalyzerActionConfig">
     </item>

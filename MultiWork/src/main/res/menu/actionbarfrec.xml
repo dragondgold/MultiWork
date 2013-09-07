@@ -15,7 +15,7 @@
     </item>
     <item
         android:id="@+id/settingsFrec"
-        android:icon="@drawable/settings"
+        android:icon="@drawable/settings_dark"
         android:showAsAction="always"
         android:title="Config">
     </item>

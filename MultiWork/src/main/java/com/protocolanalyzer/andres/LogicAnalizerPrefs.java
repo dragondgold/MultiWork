@@ -200,8 +200,9 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                     String index = mPrefs.getString(key, null);
                     if(!index.equals("-1")) mPrefs.edit().putString("protocol" + index, ""+LogicAnalizerActivity.Clock).apply();
 
-				    if(mChecker.detectConflicts())
+				    if(mChecker.detectConflicts()){
 					    Toast.makeText(mContext, getString(R.string.AnalyzerDependencies), Toast.LENGTH_SHORT).show();
+                    }
                 }
 
 			}
@@ -254,7 +255,6 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                 mPreferenceScreen.removePreference(parityList[n]);
                 mPreferenceScreen.removePreference(checkBoxStopBit[n]);
             }
-            mPreferenceScreen.notifyDependencyChange(true);
         }
     }
 
@@ -282,7 +282,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 
     		Bundle mBundle = new Bundle();
     		mBundle.putString("name", "General");
-    		target.add(createHeader(0, getString(R.string.GeneralTitle), "", "", "", R.drawable.settings,
+    		target.add(createHeader(0, getString(R.string.GeneralTitle), "", "", "", R.drawable.settings_dark,
     				"com.protocolanalyzer.andres.LogicAnalizerPrefsFragment", mBundle));	
 
             // Construyo un 'Header' para cada canal que se enviará al fragment con el número de canal en el Bundle
@@ -291,7 +291,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
     			mBundle = new Bundle();
     			mBundle.putString("name", "Channel" + n);
     			target.add(createHeader(0, getString(R.string.AnalyzerChannel) + " " + (n+1), getString(R.string.AnalyzerHeaderSummary),
-    					"", "", R.drawable.settings, "com.protocolanalyzer.andres.LogicAnalizerPrefsFragment", mBundle));	
+    					"", "", R.drawable.settings_dark, "com.protocolanalyzer.andres.LogicAnalizerPrefsFragment", mBundle));
     		}
     	}
     }
