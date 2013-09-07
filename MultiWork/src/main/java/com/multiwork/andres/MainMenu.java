@@ -99,7 +99,7 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
     
 	@Override
 	protected void onDestroy() {
-		myApp.mBluetoothHelper.disconnect();
+		if(myApp.mBluetoothHelper != null) myApp.mBluetoothHelper.disconnect();
 		myApp.mBluetoothHelper = null;
 		super.onDestroy();
 	}

@@ -144,7 +144,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                     checkBoxStopBit[n].setSummary(R.string.AnalyzerStopBitSummary);
 
                 mPreferenceScreen.addPreference(mPreferenceCategory);
-                hideSelectedPreferences(mPrefs.getString("protocol", ""+LogicAnalizerActivity.UART), n+1);
+                hideSelectedPreferences(mPrefs.getString("protocol" + (n+1), ""+LogicAnalizerActivity.UART), n+1);
         	}
             setPreferenceScreen(mPreferenceScreen);
         	this.addPreferencesFromResource(R.xml.logicgeneral);
@@ -184,7 +184,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 						state = sharedPreferences.getBoolean("simpleTrigger" + (n+1), false);
 						mask = LogicHelper.bitSet(mask, state, n);
 					}
-					// Guardo la nueva mascara
+					// Guardo la nueva máscara
 					sharedPreferences.edit().putInt("simpleTriggerMask", mask).apply();
 					if(DEBUG) Log.i("PreferenceActivity", "Mask: " + Integer.toBinaryString(mask));	
 				}
@@ -198,7 +198,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                 if(key.contains("CLK")){
                     // Configuro el canal que se seleccionó como clock como tal
                     String index = mPrefs.getString(key, null);
-                    mPrefs.edit().putString("protocol" + index, ""+LogicAnalizerActivity.Clock).apply();
+                    if(!index.equals("-1")) mPrefs.edit().putString("protocol" + index, ""+LogicAnalizerActivity.Clock).apply();
 
 				    if(mChecker.detectConflicts())
 					    Toast.makeText(mContext, getString(R.string.AnalyzerDependencies), Toast.LENGTH_SHORT).show();
@@ -254,6 +254,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                 mPreferenceScreen.removePreference(parityList[n]);
                 mPreferenceScreen.removePreference(checkBoxStopBit[n]);
             }
+            mPreferenceScreen.notifyDependencyChange(true);
         }
     }
 
