@@ -225,10 +225,13 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
 	 		case android.R.id.home:
-                if (mDrawerLayout.isDrawerOpen(mDrawerList))
-                    mDrawerLayout.closeDrawer(mDrawerList);
-                else
-                    mDrawerLayout.openDrawer(mDrawerList);
+                // Solo abro el NavigationDrawer si estoy en el fragment de la lista
+                if(!isFragmentActive("ChartLogic")){
+                    if (mDrawerLayout.isDrawerOpen(mDrawerList))
+                        mDrawerLayout.closeDrawer(mDrawerList);
+                    else
+                        mDrawerLayout.openDrawer(mDrawerList);
+                }
 	 			break;
 	 		// Botón Play/Pause
 			case R.id.PlayPauseLogic:
