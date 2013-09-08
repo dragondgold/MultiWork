@@ -66,20 +66,20 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
     private static final double xMin = -100;
     /** Colores de linea para cada canal */
     private static final int lineColor[] = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW,
-    											Color.MAGENTA, Color.CYAN, Color.LTGRAY, Color.WHITE};
+    										Color.MAGENTA, Color.CYAN, Color.LTGRAY, Color.WHITE};
     
     /** Escala de tiempo (cuanto equivale un cuadro del gráfico */
     private static final double timeScaleValues[] = { 	0.000000001d,		// 1nS
-    														0.000000010d,		// 10nS
-    														0.000000025d,		// 25nS
-    														0.000000050d,		// 50nS
-    														0.000000100d,		// 100nS
-    														0.000000250d,		// 250nS
-    														0.0000025d,			// 2.5uS
-    														0.000500d,			// 500uS
-    														0.001d,				// 1mS
-    														0.01d,				// 10mS
-    														0.1d				// 1mS
+                                                        0.000000010d,		// 10nS
+                                                        0.000000025d,		// 25nS
+                                                        0.000000050d,		// 50nS
+                                                        0.000000100d,		// 100nS
+                                                        0.000000250d,		// 250nS
+                                                        0.0000025d,			// 2.5uS
+                                                        0.000500d,			// 500uS
+                                                        0.001d,				// 1mS
+                                                        0.01d,				// 10mS
+                                                        0.1d				// 1mS
     };
         
     /** Vibrador del dispositivo */
@@ -380,7 +380,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 				
 				// Sleep por 50mS para que no este continuamente testeando y ahorre recursos (no hace falta gran velocidad)
 				try { Thread.sleep(50); } catch (InterruptedException e) { e.printStackTrace(); }
-				// return false; da lugar a que se analicen otros eventos de touch (como cuando deslizamos el grafico). Si fuera
+				// return false; da lugar a que se analicen otros eventos de touch (como cuando deslizamos el gráfico). Si fuera
 				// true el gráfico no se desplazaría porque este se activa primero y evita al otro
 				return false;
 			}
@@ -459,14 +459,6 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
         mRenderDataset.setZoomEnabled(true, false);
         mRenderDataset.setPanLimits(new double[] {xMin , Double.MAX_VALUE, -1d, yChannel[yChannel.length-1]+4});
         mRenderDataset.setXLabels(20);
-        time = 0;
-        
-        mChartView = ChartFactory.getLineChartView(mActivity, mSerieDataset, mRenderDataset);
-        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // Renderizado por software, el hardware trae problemas con paths muy largos en el Canvas (bug de Android)
-            mChartView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-        setChartPreferences();
         mRenderDataset.setMarginsColor(Color.rgb(230,230,230));
         mRenderDataset.setBackgroundColor(Color.rgb(230,230,230));
         mRenderDataset.setGridColor(Color.BLACK);
@@ -476,6 +468,14 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
         mRenderDataset.setGridWidth(0.5f);
         mRenderDataset.setXLabelsColor(Color.BLACK);
         mRenderDataset.setYLabelsColor(0, Color.BLACK);
+        time = 0;
+        
+        mChartView = ChartFactory.getLineChartView(mActivity, mSerieDataset, mRenderDataset);
+        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            // Renderizado por software, el hardware trae problemas con paths muy largos en el Canvas (bug de Android)
+            mChartView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        setChartPreferences();
 		
 		// Renderizo el layout
 		View view = inflater.inflate(R.layout.logicanalizer, container, false);
@@ -609,8 +609,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 				rectangleSeries[n].clear();
 			}
 			
-			final double initTime = 0;
-			time = 0;
+			final double initTime = 0; time = 0;
 			
 			// Coloco los bits en el canal
 			for(int channel = 0; channel < LogicAnalizerActivity.channelsNumber; ++channel){	
@@ -660,7 +659,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 				mRenderDataset.setXAxisMin(0-(10*toCoordinate(time, timeScale))/100);
 			}
 			
-			// Agrego un espacio para indicar que el buffer de muestreo llego hasta aqui
+			// Agrego un espacio para indicar que el buffer de muestreo llego hasta aquí
 			time += (toCoordinate(mSerie[0].getItemCount() * (1d/decodedData[0].getSampleFrequency()), timeScale)*30)/100;
 			for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n){
 				if(mSerie[n].getItemCount() > 0){
@@ -679,37 +678,37 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 					mSerie[n].addAnnotation(timePosition.getString(),
 							toCoordinate(timePosition.startTime() + (timePosition.endTime() - timePosition.startTime())/2, timeScale), yChannel[n]+2f);
 				
-					// Rectangulos delimitadores
+					// Rectángulos delimitadores
 					rectangleSeries[n].addRectangle(toCoordinate(timePosition.startTime(), timeScale),
-													yChannel[n]+bitScale+3.5f,
+													yChannel[n]+bitScale+3f,
 													toCoordinate(timePosition.endTime(), timeScale),
 													yChannel[n]+bitScale+0.5f);
 				}
 			}
 			
-			mChartView.repaint();	// Redibujo el grafico
+			mChartView.repaint();	// Actualizo el gráfico
 	
-			// Cada vez que recibo un buffer del analizador logico, lo muestro todo y pauso
+			// Cada vez que recibo un buffer del analizador lógico, lo muestro y pauso
 			mActionBarListener.onActionBarClickListener(R.id.PlayPauseLogic);
 		}
 	};
 	
 	/**
-	 * Convierte el tiempo en segundos a la escala del grafico segun la escala de tiempos
+	 * Convierte el tiempo en segundos a la escala del gráfico según la escala de tiempos
 	 * @param time tiempo en segundos
-	 * @param timeScale cuantos segundos equivalen a una unidad en el grafico
+	 * @param timeScale cuantos segundos equivalen a una unidad en el gráfico
 	 * @return coordenada equivalente
 	 */
 	private static double toCoordinate (double time, double timeScale){
 		return (time/timeScale);
 	}
 	
-	// Define los parametros de acuerdo a las preferencias
+	// Define los parámetros de acuerdo a las preferencias
  	private void setChartPreferences() {
         SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
 
         for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n){
-        	// Seteo el protocolo para cada canal
+        	// Configuro el protocolo para cada canal
         	switch(Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+LogicAnalizerActivity.UART))){
 	        	case LogicAnalizerActivity.I2C:		// I2C
 	        		mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + " [I2C]");
@@ -732,7 +731,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
         
     	if(DEBUG) Log.i(TAG, "Time Scale: " + timeScale);
     	
-        // Actualizo los datos del grafico
+        // Actualizo los datos del gráfico
         mChartView.repaint();
  	}
 

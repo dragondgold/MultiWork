@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
@@ -89,7 +90,6 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                 protocolList[n].setEntries(R.array.protocolList);
                 protocolList[n].setEntryValues(R.array.protocolValues);
                 protocolList[n].setKey("protocol" + (n+1));
-                protocolList[n].setSummary(R.string.AnalyzerProtocolSummary);
                 protocolList[n].setTitle(getString(R.string.AnalyzerProtocolTitle) + " " + (n+1));
                 protocolList[n].setDialogTitle(getString(R.string.AnalyzerProtocolTitle) + " " + (n+1));
         		
@@ -145,6 +145,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 
                 mPreferenceScreen.addPreference(mPreferenceCategory);
                 hideSelectedPreferences(mPrefs.getString("protocol" + (n+1), ""+LogicAnalizerActivity.UART), n+1);
+                setProtocolSummaries("protocol" + (n+1));
         	}
             setPreferenceScreen(mPreferenceScreen);
         	this.addPreferencesFromResource(R.xml.logicgeneral);
@@ -193,6 +194,8 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 				if(key.contains("protocol")){
                     hideSelectedPreferences(mPrefs.getString(key, ""+LogicAnalizerActivity.UART),
                                             Character.getNumericValue(key.charAt(8)) );
+                    setProtocolSummaries(key);
+
 				}
                 // Detecto conflictos y configuro los canales de Clock que corresponden
                 if(key.contains("CLK")){
@@ -255,6 +258,33 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                 mPreferenceScreen.removePreference(parityList[n]);
                 mPreferenceScreen.removePreference(checkBoxStopBit[n]);
             }
+        }
+    }
+
+    /**
+     * Configura el sumario de la preferencia indicando el protocolo seleccionado
+     * @param key key del protocolo a configurar
+     */
+    private void setProtocolSummaries (String key){
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) return;
+        int value = Integer.valueOf(mPrefs.getString(key, ""+LogicAnalizerActivity.UART));
+        int index = Character.getNumericValue(key.charAt(8)) - 1;
+        switch (value){
+            case LogicAnalizerActivity.UART:
+                protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " UART");
+                break;
+
+            case LogicAnalizerActivity.I2C:
+                protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " I2C");
+                break;
+
+            case LogicAnalizerActivity.Clock:
+                protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " Clock");
+                break;
+
+            case LogicAnalizerActivity.NA:
+                protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " NA");
+                break;
         }
     }
 

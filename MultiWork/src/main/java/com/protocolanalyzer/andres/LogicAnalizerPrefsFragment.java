@@ -57,7 +57,6 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
                 protocolList.setEntries(R.array.protocolList);
                 protocolList.setEntryValues(R.array.protocolValues);
                 protocolList.setKey("protocol" + (n+1));
-                protocolList.setSummary(R.string.AnalyzerProtocolSummary);
                 protocolList.setTitle(getString(R.string.AnalyzerProtocolTitle) + " " + (n + 1));
                 protocolList.setDialogTitle(getString(R.string.AnalyzerProtocolTitle) + " " + (n + 1));
 
@@ -113,6 +112,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
 
                 mPreferenceScreen.addPreference(mPreferenceCategory);
                 hideSelectedPreferences(mPrefs.getString("protocol" + (n+1), "" + LogicAnalizerActivity.UART));
+                setProtocolSummaries("protocol" + (n+1));
                 setPreferenceScreen(mPreferenceScreen);
     		}
     		else if(mString.equals("General")){
@@ -124,8 +124,10 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
                 @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                     // Si cambió el protocolo oculto/muestro los items correspondientes
-                    if(key.contains("protocol"))
+                    if(key.contains("protocol")){
                         hideSelectedPreferences(mPrefs.getString(key, "" + LogicAnalizerActivity.UART));
+                        setProtocolSummaries(key);
+                    }
                 }
             };
         }
@@ -192,6 +194,31 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
             mPreferenceScreen.removePreference(nineDataBits);
             mPreferenceScreen.removePreference(parityList);
             mPreferenceScreen.removePreference(checkBoxStopBit);
+        }
+    }
+
+    /**
+     * Configura el sumario de la preferencia indicando el protocolo seleccionado
+     * @param key key del protocolo a configurar
+     */
+    private void setProtocolSummaries (String key){
+        int value = Integer.valueOf(mPrefs.getString(key, ""+LogicAnalizerActivity.UART));
+        switch (value){
+            case LogicAnalizerActivity.UART:
+                protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " UART");
+                break;
+
+            case LogicAnalizerActivity.I2C:
+                protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " I2C");
+                break;
+
+            case LogicAnalizerActivity.Clock:
+                protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " Clock");
+                break;
+
+            case LogicAnalizerActivity.NA:
+                protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " NA");
+                break;
         }
     }
 }

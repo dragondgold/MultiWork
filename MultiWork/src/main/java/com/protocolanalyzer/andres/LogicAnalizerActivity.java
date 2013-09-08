@@ -67,10 +67,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	
 	private static final int timeOutLimit = 67;
 	
-	public static final int I2C = 1;
-	public static final int UART = 2;
+	public static final int I2C   = 1;
+	public static final int UART  = 2;
 	public static final int Clock = 3;
-	public static final int NA = -1;
+	public static final int NA    = -1;
 	
 	/** Interface donde paso los datos decodificados a los Fragments, los mismo deben implementar el Listener */
 	private static OnDataDecodedListener mChartDataDecodedListener;
