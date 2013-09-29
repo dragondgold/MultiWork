@@ -267,24 +267,20 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
      */
     private void setProtocolSummaries (String key){
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) return;
-        int value = Integer.valueOf(mPrefs.getString(key, ""+LogicAnalizerActivity.UART));
-        int index = Character.getNumericValue(key.charAt(8)) - 1;
-        switch (value){
-            case LogicAnalizerActivity.UART:
-                protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " UART");
-                break;
+        final int value = Integer.valueOf(mPrefs.getString(key, ""+LogicAnalizerActivity.UART));
+        final int index = Character.getNumericValue(key.charAt(8)) - 1;
 
-            case LogicAnalizerActivity.I2C:
-                protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " I2C");
-                break;
+        if(value == LogicAnalizerActivity.UART){
+            protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " UART");
 
-            case LogicAnalizerActivity.Clock:
-                protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " Clock");
-                break;
+        }else if(value == LogicAnalizerActivity.I2C){
+            protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " I2C");
 
-            case LogicAnalizerActivity.NA:
-                protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " NA");
-                break;
+        }else if(value == LogicAnalizerActivity.Clock){
+            protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " Clock");
+
+        }else if(value == LogicAnalizerActivity.NA){
+            protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " NA");
         }
     }
 

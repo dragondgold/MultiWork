@@ -202,23 +202,19 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
      * @param key key del protocolo a configurar
      */
     private void setProtocolSummaries (String key){
-        int value = Integer.valueOf(mPrefs.getString(key, ""+LogicAnalizerActivity.UART));
-        switch (value){
-            case LogicAnalizerActivity.UART:
-                protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " UART");
-                break;
+        final int value = Integer.valueOf(mPrefs.getString(key, ""+LogicAnalizerActivity.UART));
 
-            case LogicAnalizerActivity.I2C:
-                protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " I2C");
-                break;
+        if(value == LogicAnalizerActivity.UART){
+            protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " UART");
 
-            case LogicAnalizerActivity.Clock:
-                protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " Clock");
-                break;
+        }else if(value == LogicAnalizerActivity.I2C){
+            protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " I2C");
 
-            case LogicAnalizerActivity.NA:
-                protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " NA");
-                break;
+        }else if(value == LogicAnalizerActivity.Clock){
+            protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " Clock");
+
+        }else if(value == LogicAnalizerActivity.NA){
+            protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " NA");
         }
     }
 }

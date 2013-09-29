@@ -66,11 +66,11 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static final int timeOutToast = 3;
 	
 	private static final int timeOutLimit = 67;
-	
-	public static final int I2C   = 1;
-	public static final int UART  = 2;
-	public static final int Clock = 3;
-	public static final int NA    = -1;
+
+	public static final int I2C = ProtocolType.I2C.getValue();
+	public static final int UART = ProtocolType.UART.getValue();
+	public static final int Clock = ProtocolType.CLOCK.getValue();
+	public static final int NA = ProtocolType.NONE.getValue();
 	
 	/** Interface donde paso los datos decodificados a los Fragments, los mismo deben implementar el Listener */
 	private static OnDataDecodedListener mChartDataDecodedListener;
@@ -111,7 +111,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
     private static final int[] mIconList = { R.drawable.settings_dark, R.drawable.settings_dark, R.drawable.settings_dark,
             R.drawable.settings_dark, R.drawable.settings_dark, R.drawable.settings_dark, R.drawable.settings_dark,
             R.drawable.settings_dark};
-	
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -163,7 +163,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		// Array de tamaño 0 para evitar NullPointerException
 		tempBuffer = new byte[0];
 		getPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		
+
 		if(arg0 == null || !arg0.getBoolean("setStuff")){
 			setPreferences();
 		}
@@ -206,7 +206,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 		if(DEBUG) Log.i("mFragmentActivity","onResume()");
 		
 		ApplicationContext myApp = (ApplicationContext)getApplication();
-		
+
 		isStarting = true;
 		isPlaying = false;
 		
@@ -394,37 +394,33 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
         for(int n=0; n < channelsNumber; ++n){
         	if(DEBUG) Log.i("mFragmentActivity", "Channel " + (n+1) + ": " + getPrefs.getString("protocol" + (n+1), ""+UART));
         	// Seteo el protocolo para cada canal y configuraciones generales
-        	switch(Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+UART))){
-	        	case I2C:		// I2C
-	        		channel[n] = new I2CProtocol(sampleFrec);
-	        		break;
-	        		
-	        	case UART:		// UART
-	        		channel[n] = new UARTProtocol(sampleFrec);
-	        		
-	        		// Configuraciones
-		        	((UARTProtocol)channel[n]).setBaudRate(Integer.decode(getPrefs.getString("BaudRate" + (n+1), "9600")));
-                    ((UARTProtocol)channel[n]).set9BitsMode(getPrefs.getBoolean("nineData" + (n+1), false));
-                    ((UARTProtocol)channel[n]).setTwoStopBits(getPrefs.getBoolean("dualStop" + (n+1), false));
+            final int value = Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+UART));
 
-                    String parity = getPrefs.getString("Parity" + (n+1), "-1");
-                    if(parity.equals("-1")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.NoParity);
-                    else if(parity.equals("1")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Even);
-                    else if(parity.equals("2")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Odd);
+            // I2C
+            if(value == I2C){
+	            channel[n] = new I2CProtocol(sampleFrec);
+            // UART
+            }else if(value == UART){
+        		channel[n] = new UARTProtocol(sampleFrec);
+	        		
+        		// Configuraciones
+	        	((UARTProtocol)channel[n]).setBaudRate(Integer.decode(getPrefs.getString("BaudRate" + (n+1), "9600")));
+                ((UARTProtocol)channel[n]).set9BitsMode(getPrefs.getBoolean("nineData" + (n+1), false));
+                ((UARTProtocol)channel[n]).setTwoStopBits(getPrefs.getBoolean("dualStop" + (n+1), false));
 
-	        		break;
-	        		
-	        	case Clock:		// CLOCK
-	        		channel[n] = new Clock(sampleFrec);
-	        		break;
-	        		
-	        	case NA:		// NONE
-	        		channel[n] = new EmptyProtocol(sampleFrec);
-	        		break;
-	        		
-	        	default:
-	        		channel[n] = new EmptyProtocol(sampleFrec);
-	        		break;
+                String parity = getPrefs.getString("Parity" + (n+1), "-1");
+                if(parity.equals("-1")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.NoParity);
+                else if(parity.equals("1")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Even);
+                else if(parity.equals("2")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Odd);
+            // Clock
+            }else if(value == Clock){
+                channel[n] = new Clock(sampleFrec);
+            // None
+            }else if(value == NA){
+                channel[n] = new EmptyProtocol(sampleFrec);
+            // Default
+            }else{
+	        	channel[n] = new EmptyProtocol(sampleFrec);
         	}
         }
         // Configuro las fuentes de clock
