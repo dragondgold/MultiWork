@@ -48,6 +48,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static final boolean DEBUG = true;
 	private static final byte startByte = 'S';
 	private static final byte logicAnalyzerMode = 'L';
+    private static final byte retryByte = 'R';
 	private static final int initialBufferSize = 1000;
 	private static final int PREFERENCES_CODE = 1;
 	public static final int maxBufferSize = 16000;
@@ -64,7 +65,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static final int dispatchInterfaces = 1;
 	private static final int dismissDialog = 2;
 	private static final int timeOutToast = 3;
-	
+
+    // Tiempo en mS para que se aborte la espera de datos. Para calcular el tiempo en mS
+    // es timeOutLimit*30. En este caso 67*30=2010mS
 	private static final int timeOutLimit = 67;
 
 	public static final int I2C = ProtocolType.I2C.getValue();
@@ -491,7 +494,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					}
 				}
 				if(isStarting)
-					if(DEBUG) Log.i("LogicAnalizerBT", "Nothing detected");
+					if(DEBUG) Log.e("LogicAnalizerBT", "Logic Analyzer Mode ERROR");
 			} catch (IOException e) { e.printStackTrace(); }
 		}
 		// Sino recibo los datos
@@ -499,8 +502,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 			if(DEBUG) Log.i("LogicAnalizerBT", "Data receive");
 			try {
 			int[] data = new int[3];
+            boolean retry = false;
 			
-			while(mBTIn.available() > 0){
+			while(mBTIn.available() > 0 || retry){
+                // Los primeros bytes deben ser de Start y el Modo
 				if(mBTIn.read() == startByte && mBTIn.read() == logicAnalyzerMode){
 					if(DEBUG) Log.i("LogicAnalizerBT", "Receiving data...");
 					boolean keepGoing = true;
@@ -508,7 +513,10 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					
 					while(keepGoing){
 						timeOutCounter = 0;
+                        // Espero y cuento el tiempo transcurrido aproximado para cancelar la espera
+                        // en caso de que se exceda
 						while(!(mBTIn.available() > 0)){
+                            // Notifico al usuario que cancelo la comunicación
 							if(timeOutCounter >= timeOutLimit){
 								updateUIThread.sendEmptyMessage(dismissDialog);
 								updateUIThread.sendEmptyMessage(timeOutToast);
@@ -522,7 +530,8 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 							++timeOutCounter;
 						}
 						if(DEBUG) Log.i("LogicAnalizerBT", "Finish Waiting data");
-						
+
+                        // Recibo los bytes y compruebo si recibo dos 0xFF seguidos que indican la terminación
 						for(int n = 0; n < data.length; ++n){
 							data[n] = mBTIn.read();
 							if(DEBUG) Log.i("LogicAnalizerBT", "Data [HEX] " + n + ": " + Integer.toHexString(data[n]));
@@ -538,7 +547,11 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 							mByteArrayBuffer.append(data[2]);
 						}
 					}
-					
+                    // Leo los dos bytes del CRC16
+					int CRC16L = mBTIn.read();
+                    int CRC16H = mBTIn.read();
+                    int CRC16Checksum = LogicHelper.byteToInt((byte)CRC16L, (byte)CRC16H);
+
 					if(DEBUG) Log.i("LogicAnalizerBT", "Received data lenght: " + mByteArrayBuffer.length());
 					updateUIThread.sendEmptyMessage(updateDialogTitle);
 					
@@ -546,25 +559,41 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 					tempBuffer = LogicHelper.runLenghtDecode(mByteArrayBuffer);
 					if(DEBUG) Log.i("LogicAnalizerBT", "Received data full lenght: " + tempBuffer.length);
 					if(DEBUG) Log.i("LogicAnalizerBT", "Channels lenght: " + channel[0].getBitsNumber() + " samples");
-					
-					// Compruebo q ningun canal se pase de las muestras, si es así los reinicio
-					if(channel[0].getBitsNumber() > maxSamplesNumber){
-						if(DEBUG) Log.i("LogicAnalizerBT", "Reset Channels: " + channel[0].getBitsNumber() + " samples");
-						if(isFragmentActive("ChartLogic")) mOnDataClearedListener.onDataCleared();
-						for(Protocol mProtocol : channel){
-							mProtocol.reset();
-						}
-					}
-					LogicHelper.addBufferToChannel(tempBuffer, channel);
-					
-					// Decodifico cada canal
-					for(int n = 0; n < channelsNumber; ++n) {
-						channel[n].decode(0);
-					}
-					
-					if(DEBUG) Log.i("LogicAnalizerBT", "Dispatching interfaces");
-					// Paso los datos decodificados a los Fragment en el Thread de la UI
-					updateUIThread.sendEmptyMessage(dispatchInterfaces);
+
+                    // Compruebo que el CRC recibido coincida con los datos
+                    int calculatedCRC16 = CRC16.calculateCRC(tempBuffer);
+                    if(calculatedCRC16 == CRC16Checksum){
+                        if(DEBUG) Log.i("LogicAnalizerBT", "Checksum CRC16 coinciden: " + calculatedCRC16);
+                        retry = false;
+                    }
+                    // Pido que se reenvíen los datos si el checksum no coincide
+                    else{
+                        if(DEBUG) Log.i("LogicAnalizerBT", "Checksum CRC16 NO coinciden. Recibido: " + calculatedCRC16
+                        + " - Calculado: " + calculatedCRC16);
+                        mBTOut.write(retryByte);
+                        retry = true;
+                    }
+
+                    if(!retry){
+                        // Compruebo q ningún canal se pase de las muestras, si es así los reinicio
+                        if(channel[0].getBitsNumber() > maxSamplesNumber){
+                            if(DEBUG) Log.i("LogicAnalizerBT", "Reset Channels: " + channel[0].getBitsNumber() + " samples");
+                            if(isFragmentActive("ChartLogic")) mOnDataClearedListener.onDataCleared();
+                            for(Protocol mProtocol : channel){
+                                mProtocol.reset();
+                            }
+                        }
+                        LogicHelper.addBufferToChannel(tempBuffer, channel);
+
+                        // Decodifico cada canal
+                        for(int n = 0; n < channelsNumber; ++n) {
+                            channel[n].decode(0);
+                        }
+
+                        if(DEBUG) Log.i("LogicAnalizerBT", "Dispatching interfaces");
+                        // Paso los datos decodificados a los Fragment en el Thread de la UI
+                        updateUIThread.sendEmptyMessage(dispatchInterfaces);
+                    }
 				}
 			}
 			} catch (IOException e) { e.printStackTrace(); }
