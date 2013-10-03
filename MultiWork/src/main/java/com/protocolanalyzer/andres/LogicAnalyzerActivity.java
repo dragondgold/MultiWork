@@ -43,7 +43,7 @@ import com.protocolanalyzer.api.UARTProtocol;
 import com.protocolanalyzer.api.Protocol.ProtocolType;
 import com.protocolanalyzer.api.utils.ByteArrayBuffer;
 
-public class LogicAnalizerActivity extends SherlockFragmentActivity implements OnActionBarClickListener, OnNewBluetoothDataReceived, ListView.OnItemClickListener{
+public class LogicAnalyzerActivity extends SherlockFragmentActivity implements OnActionBarClickListener, OnNewBluetoothDataReceived, ListView.OnItemClickListener{
 
 	private static final boolean DEBUG = true;
 	private static final byte startByte = 'S';
@@ -81,9 +81,9 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	private static OnDataClearedListener mOnDataClearedListener;
 	
 	/** Fragment que contiene al gráfico */
-	private static LogicAnalizerChartFragment mFragmentChart;
+	private static LogicAnalyzerChartFragment mFragmentChart;
 	/** Fragment que con la lista de datos en formato raw */
-	private static LogicAnalizerListFragment mFragmentList;
+	private static LogicAnalyzerListFragment mFragmentList;
 	
     /** Numero de canales de entrada */
     public static final int channelsNumber = 8;
@@ -110,7 +110,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
     private static DrawerLayout mDrawerLayout;
     private static ActionBarDrawerToggle mDrawerToggle;
     private static ListView mDrawerList;
-    private static String[] mStringDrawerList = new String[LogicAnalizerActivity.channelsNumber];
+    private static String[] mStringDrawerList = new String[LogicAnalyzerActivity.channelsNumber];
     private static final int[] mIconList = { R.drawable.settings_dark, R.drawable.settings_dark, R.drawable.settings_dark,
             R.drawable.settings_dark, R.drawable.settings_dark, R.drawable.settings_dark, R.drawable.settings_dark,
             R.drawable.settings_dark};
@@ -118,7 +118,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
-		if(DEBUG) Log.i("mFragmentActivity","onCreate() LogicAnalizerActivity");
+		if(DEBUG) Log.i("mFragmentActivity","onCreate() LogicAnalyzerActivity");
 
         setContentView(R.layout.logic_fragments);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -130,7 +130,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 
         // ListView del DrawerLayout
         final ArrayList<String> stringList = new ArrayList<String>();
-        for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
+        for(int n = 0; n < LogicAnalyzerActivity.channelsNumber; ++n){
             stringList.add(getString(R.string.AnalyzerDrawerChannel) + " " + (n+1));
         }
         mStringDrawerList = stringList.toArray(new String[stringList.size()]);
@@ -156,7 +156,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         // Agrego el ListFragment
-		mFragmentList = new LogicAnalizerListFragment();
+		mFragmentList = new LogicAnalyzerListFragment();
 		getSupportFragmentManager().beginTransaction().add(R.id.logicFragment, mFragmentList).commit();
 		
 		// Obtengo el OnDataDecodedListener de los Fragments
@@ -276,7 +276,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
 	 			// de atrás se vuelva a este Fragment y no se destruya el mismo
 	 			if(!isFragmentActive("ChartLogic")){
 	 				if(DEBUG) Log.i("mFragmentActivity", "Chart Fragment Created");
-	 				mFragmentChart = new LogicAnalizerChartFragment(channel);
+	 				mFragmentChart = new LogicAnalyzerChartFragment(channel);
 	 				
 		 			transaction.replace(R.id.logicFragment, mFragmentChart, "ChartLogic");
 		 			transaction.addToBackStack(null);
@@ -447,7 +447,7 @@ public class LogicAnalizerActivity extends SherlockFragmentActivity implements O
          * @see http://stackoverflow.com/questions/2131948/force-screen-on
          */
         if(getPrefs.getBoolean("keepScreenAwake", false)) {
-        	if(DEBUG) Log.i("LogicAnalizerActivity","Screen Awake");
+        	if(DEBUG) Log.i("LogicAnalyzerActivity","Screen Awake");
         	getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
  	}

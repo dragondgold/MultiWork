@@ -58,7 +58,7 @@
         
         <activity
             android:screenOrientation="landscape"
-            android:name="com.protocolanalyzer.andres.LogicAnalizerActivity"
+            android:name="com.protocolanalyzer.andres.LogicAnalyzerActivity"
             android:label="@string/app_name" >
         </activity>
 

@@ -31,7 +31,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 @SuppressLint("ValidFragment")
-public class LogicAnalizerListFragment extends SherlockFragment implements OnDataDecodedListener, AdapterView.OnItemClickListener{
+public class LogicAnalyzerListFragment extends SherlockFragment implements OnDataDecodedListener, AdapterView.OnItemClickListener{
 
 	private static final boolean DEBUG = true;
 	

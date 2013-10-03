@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -48,7 +47,7 @@ import com.protocolanalyzer.api.Protocol;
 import com.protocolanalyzer.api.TimePosition;
 
 @SuppressLint("ValidFragment")
-public class LogicAnalizerChartFragment extends SherlockFragment implements OnDataDecodedListener, OnDataClearedListener{
+public class LogicAnalyzerChartFragment extends SherlockFragment implements OnDataDecodedListener, OnDataClearedListener{
 	
 	/** Debugging */
 	private static final boolean DEBUG = true;
@@ -126,13 +125,13 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 	private static int samplesNumber = 0;
 	
 	// Constructor
-	public LogicAnalizerChartFragment(Protocol[] data) {
-		if(DEBUG) Log.i(TAG,"LogicAnalizerChartFragment() Constructor");
+	public LogicAnalyzerChartFragment(Protocol[] data) {
+		if(DEBUG) Log.i(TAG,"LogicAnalyzerChartFragment() Constructor");
 		decodedData = data;
 	}
 	
 	// Constructor por defecto
-	public LogicAnalizerChartFragment() {
+	public LogicAnalyzerChartFragment() {
 		decodedData = null;
 	}
 
@@ -410,13 +409,13 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 		mSerieDataset = new XYMultipleSeriesDataset();
 		mRenderDataset = new XYMultipleSeriesRenderer();
 		
-		mSerie = new XYSeries[LogicAnalizerActivity.channelsNumber];
-		rectangleSeries = new XYSeries[LogicAnalizerActivity.channelsNumber];
+		mSerie = new XYSeries[LogicAnalyzerActivity.channelsNumber];
+		rectangleSeries = new XYSeries[LogicAnalyzerActivity.channelsNumber];
 		
-		mRenderer = new XYSeriesRenderer[LogicAnalizerActivity.channelsNumber];
-		rectangleRenderer = new XYSeriesRenderer[LogicAnalizerActivity.channelsNumber];
+		mRenderer = new XYSeriesRenderer[LogicAnalyzerActivity.channelsNumber];
+		rectangleRenderer = new XYSeriesRenderer[LogicAnalyzerActivity.channelsNumber];
 		
-		for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n) {
+		for(int n=0; n < LogicAnalyzerActivity.channelsNumber; ++n) {
 	    	// Crea las Serie que es una linea en el gráfico (cada una de las entradas)
 	    	mSerie[n] = new XYSeries(getString(R.string.AnalyzerName) + n);
 	    	
@@ -559,7 +558,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 
  	// Reinicia el gráfico y las variables involucradas
 	private void restart() {
-		for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n) {
+		for(int n = 0; n < LogicAnalyzerActivity.channelsNumber; ++n) {
 			mSerie[n].clear();
 		}
 		mRenderDataset.setXAxisMax(xMax);
@@ -604,7 +603,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			
 			if(DEBUG) Log.i(TAG, "Updater Task - Samples: " + samplesNumber);
 			// Borro todos los valores previos
-			for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
+			for(int n = 0; n < LogicAnalyzerActivity.channelsNumber; ++n){
 				mSerie[n].clear();
 				rectangleSeries[n].clear();
 			}
@@ -612,7 +611,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			final double initTime = 0; time = 0;
 			
 			// Coloco los bits en el canal
-			for(int channel = 0; channel < LogicAnalizerActivity.channelsNumber; ++channel){	
+			for(int channel = 0; channel < LogicAnalyzerActivity.channelsNumber; ++channel){
 				LogicBitSet bitsData = decodedData[channel].getChannelBitsData();
 				
 				boolean bitState = false;
@@ -650,7 +649,7 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 					// Incremento el tiempo
 					time += 1.0d/decodedData[0].getSampleFrequency();
 				}
-				if(channel < LogicAnalizerActivity.channelsNumber-1) time = initTime;
+				if(channel < LogicAnalyzerActivity.channelsNumber-1) time = initTime;
 			}
 			// Solo si estoy en la escala inicial reacomodo el gráfico
 			if(timeScale == initialTimeScale){
@@ -661,14 +660,14 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
 			
 			// Agrego un espacio para indicar que el buffer de muestreo llego hasta aquí
 			time += (toCoordinate(mSerie[0].getItemCount() * (1d/decodedData[0].getSampleFrequency()), timeScale)*30)/100;
-			for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n){
+			for(int n=0; n < LogicAnalyzerActivity.channelsNumber; ++n){
 				if(mSerie[n].getItemCount() > 0){
 					mSerie[n].add(mSerie[n].getX(mSerie[n].getItemCount()-1), MathHelper.NULL_VALUE);
 				}
 			}
 			
 			// Anotaciones
-			for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
+			for(int n = 0; n < LogicAnalyzerActivity.channelsNumber; ++n){
 				List<TimePosition> stringData = decodedData[n].getDecodedData(); 
 				if(DEBUG) Log.i(TAG, "Channel " + n  + " annotations: " + stringData.size());
 				
@@ -707,20 +706,20 @@ public class LogicAnalizerChartFragment extends SherlockFragment implements OnDa
  	private void setChartPreferences() {
         SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
 
-        for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n){
+        for(int n=0; n < LogicAnalyzerActivity.channelsNumber; ++n){
         	// Configuro el protocolo para cada canal
-            final int value = Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+LogicAnalizerActivity.UART));
+            final int value = Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+ LogicAnalyzerActivity.UART));
 
-            if(value == LogicAnalizerActivity.UART){
+            if(value == LogicAnalyzerActivity.UART){
                 mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + " [UART]");
 
-            }else if(value == LogicAnalizerActivity.I2C){
+            }else if(value == LogicAnalyzerActivity.I2C){
                 mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + " [I2C]");
 
-            }else if(value == LogicAnalizerActivity.Clock){
+            }else if(value == LogicAnalyzerActivity.Clock){
                 mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + "[CLK]");
 
-            }else if(value == LogicAnalizerActivity.NA){
+            }else if(value == LogicAnalyzerActivity.NA){
                 mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + "[---]");
             }
         }

@@ -1,7 +1,6 @@
 package com.protocolanalyzer.andres;
 
 import com.multiwork.andres.R;
-import com.protocolanalyzer.api.Protocol;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
@@ -111,7 +110,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
                     checkBoxStopBit.setSummary(R.string.AnalyzerStopBitSummary);
 
                 mPreferenceScreen.addPreference(mPreferenceCategory);
-                hideSelectedPreferences(mPrefs.getString("protocol" + (n+1), "" + LogicAnalizerActivity.UART));
+                hideSelectedPreferences(mPrefs.getString("protocol" + (n+1), "" + LogicAnalyzerActivity.UART));
                 setProtocolSummaries("protocol" + (n+1));
                 setPreferenceScreen(mPreferenceScreen);
     		}
@@ -125,7 +124,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                     // Si cambió el protocolo oculto/muestro los items correspondientes
                     if(key.contains("protocol")){
-                        hideSelectedPreferences(mPrefs.getString(key, "" + LogicAnalizerActivity.UART));
+                        hideSelectedPreferences(mPrefs.getString(key, "" + LogicAnalyzerActivity.UART));
                         setProtocolSummaries(key);
                     }
                 }
@@ -158,7 +157,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
      */
     private void hideSelectedPreferences (String protocol){
         int protocolValue = Integer.valueOf(protocol);
-        if(protocolValue == LogicAnalizerActivity.I2C){
+        if(protocolValue == LogicAnalyzerActivity.I2C){
             Log.i("Preferences", "I2C Adjust");
             mPreferenceScreen.addPreference(protocolList);
             mPreferenceScreen.addPreference(clockList);
@@ -167,7 +166,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
             mPreferenceScreen.removePreference(nineDataBits);
             mPreferenceScreen.removePreference(parityList);
             mPreferenceScreen.removePreference(checkBoxStopBit);
-        }else if(protocolValue == LogicAnalizerActivity.UART){
+        }else if(protocolValue == LogicAnalyzerActivity.UART){
             Log.i("Preferences", "UART Adjust");
             mPreferenceScreen.addPreference(protocolList);
             mPreferenceScreen.removePreference(clockList);
@@ -176,7 +175,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
             mPreferenceScreen.addPreference(nineDataBits);
             mPreferenceScreen.addPreference(parityList);
             mPreferenceScreen.addPreference(checkBoxStopBit);
-        }else if(protocolValue == LogicAnalizerActivity.Clock){
+        }else if(protocolValue == LogicAnalyzerActivity.Clock){
             Log.i("Preferences", "Clock Adjust");
             mPreferenceScreen.addPreference(protocolList);
             mPreferenceScreen.removePreference(clockList);
@@ -185,7 +184,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
             mPreferenceScreen.removePreference(nineDataBits);
             mPreferenceScreen.removePreference(parityList);
             mPreferenceScreen.removePreference(checkBoxStopBit);
-        }else if(protocolValue == LogicAnalizerActivity.NA){
+        }else if(protocolValue == LogicAnalyzerActivity.NA){
             Log.i("Preferences", "NA Adjust");
             mPreferenceScreen.addPreference(protocolList);
             mPreferenceScreen.removePreference(clockList);
@@ -202,18 +201,18 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
      * @param key key del protocolo a configurar
      */
     private void setProtocolSummaries (String key){
-        final int value = Integer.valueOf(mPrefs.getString(key, ""+LogicAnalizerActivity.UART));
+        final int value = Integer.valueOf(mPrefs.getString(key, ""+ LogicAnalyzerActivity.UART));
 
-        if(value == LogicAnalizerActivity.UART){
+        if(value == LogicAnalyzerActivity.UART){
             protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " UART");
 
-        }else if(value == LogicAnalizerActivity.I2C){
+        }else if(value == LogicAnalyzerActivity.I2C){
             protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " I2C");
 
-        }else if(value == LogicAnalizerActivity.Clock){
+        }else if(value == LogicAnalyzerActivity.Clock){
             protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " Clock");
 
-        }else if(value == LogicAnalizerActivity.NA){
+        }else if(value == LogicAnalyzerActivity.NA){
             protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " NA");
         }
     }
