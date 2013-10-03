@@ -10,7 +10,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.bluetoothutils.andres.BluetoothHelper;
 import com.bluetoothutils.andres.DeviceListActivity;
 import com.bluetoothutils.andres.OnBluetoothConnected;
-import com.protocolanalyzer.andres.LogicAnalizerActivity;
+import com.protocolanalyzer.andres.LogicAnalyzerActivity;
 import com.protocolanalyzer.andres.PruebaParser;
 import com.roboticarm.andres.BrazoRobot;
 
@@ -36,7 +36,7 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
    
 	private static final boolean DEBUG = true;
 	private static final Class<?>[] className = {LCView.class, FrecView.class,
-		LogicAnalizerActivity.class, BrazoRobot.class, PruebaParser.class};
+		LogicAnalyzerActivity.class, BrazoRobot.class, PruebaParser.class};
 	private static String[] MenuNames = new String[className.length];
 
 	private static ApplicationContext myApp;

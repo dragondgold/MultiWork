@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
-import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
@@ -57,13 +56,13 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
     private static ConflictChecker mChecker;
 
     // Preferencias de cada canal
-    private static ListPreference[]        protocolList = new ListPreference[LogicAnalizerActivity.channelsNumber];
-    private static ListPreference[]        clockList = new ListPreference[LogicAnalizerActivity.channelsNumber];
-    private static CheckBoxPreference[]    simpleTriggerPreference = new CheckBoxPreference[LogicAnalizerActivity.channelsNumber];
-    private static EditTextPreference[]    baudEditText = new EditTextPreference[LogicAnalizerActivity.channelsNumber];
-    private static CheckBoxPreference[]    nineDataBits = new CheckBoxPreference[LogicAnalizerActivity.channelsNumber];
-    private static ListPreference[]        parityList = new ListPreference[LogicAnalizerActivity.channelsNumber];
-    private static CheckBoxPreference[]    checkBoxStopBit = new CheckBoxPreference[LogicAnalizerActivity.channelsNumber];
+    private static ListPreference[]        protocolList = new ListPreference[LogicAnalyzerActivity.channelsNumber];
+    private static ListPreference[]        clockList = new ListPreference[LogicAnalyzerActivity.channelsNumber];
+    private static CheckBoxPreference[]    simpleTriggerPreference = new CheckBoxPreference[LogicAnalyzerActivity.channelsNumber];
+    private static EditTextPreference[]    baudEditText = new EditTextPreference[LogicAnalyzerActivity.channelsNumber];
+    private static CheckBoxPreference[]    nineDataBits = new CheckBoxPreference[LogicAnalyzerActivity.channelsNumber];
+    private static ListPreference[]        parityList = new ListPreference[LogicAnalyzerActivity.channelsNumber];
+    private static CheckBoxPreference[]    checkBoxStopBit = new CheckBoxPreference[LogicAnalyzerActivity.channelsNumber];
 
     private static PreferenceScreen mPreferenceScreen;
 	
@@ -80,7 +79,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
         if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
         	// Agrego todas las preferencias de cada canal
         	mPreferenceScreen = getPreferenceManager().createPreferenceScreen(this);
-        	for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
+        	for(int n = 0; n < LogicAnalyzerActivity.channelsNumber; ++n){
         		PreferenceCategory mPreferenceCategory = new PreferenceCategory(this);
                 mPreferenceCategory.setTitle(getString(R.string.AnalyzerProtocolCategory) + " " + (n+1));
     			
@@ -144,7 +143,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                     checkBoxStopBit[n].setSummary(R.string.AnalyzerStopBitSummary);
 
                 mPreferenceScreen.addPreference(mPreferenceCategory);
-                hideSelectedPreferences(mPrefs.getString("protocol" + (n+1), ""+LogicAnalizerActivity.UART), n+1);
+                hideSelectedPreferences(mPrefs.getString("protocol" + (n+1), ""+ LogicAnalyzerActivity.UART), n+1);
                 setProtocolSummaries("protocol" + (n+1));
         	}
             setPreferenceScreen(mPreferenceScreen);
@@ -158,10 +157,10 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 
         // Creación del comprobador de de conflictos
         mChecker = new ConflictChecker(mPrefs);
-		for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
-			Dependency mDependency = new Dependency("protocol" + (n+1), LogicAnalizerActivity.I2C, -1);
+		for(int n = 0; n < LogicAnalyzerActivity.channelsNumber; ++n){
+			Dependency mDependency = new Dependency("protocol" + (n+1), LogicAnalyzerActivity.I2C, -1);
 			mDependency.setInvalidationValue(-1);
-			mDependency.addSecondaryReferencedDependency("CLK" + (n+1), "protocol*", LogicAnalizerActivity.Clock);
+			mDependency.addSecondaryReferencedDependency("CLK" + (n+1), "protocol*", LogicAnalyzerActivity.Clock);
 			
 			mChecker.addDependency(mDependency);
 		}
@@ -181,7 +180,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 					boolean state;
 					byte mask = 0;
 					// Coloca cada bit del mask a 1 o 0 dependiendo si tiene activado o no el trigger
-					for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
+					for(int n = 0; n < LogicAnalyzerActivity.channelsNumber; ++n){
 						state = sharedPreferences.getBoolean("simpleTrigger" + (n+1), false);
 						mask = LogicHelper.bitSet(mask, state, n);
 					}
@@ -192,7 +191,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 
                 // Si cambió el protocolo oculto/muestro los items correspondientes
 				if(key.contains("protocol")){
-                    hideSelectedPreferences(mPrefs.getString(key, ""+LogicAnalizerActivity.UART),
+                    hideSelectedPreferences(mPrefs.getString(key, ""+ LogicAnalyzerActivity.UART),
                                             Character.getNumericValue(key.charAt(8)) );
                     setProtocolSummaries(key);
 
@@ -201,7 +200,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                 if(key.contains("CLK")){
                     // Configuro el canal que se seleccionó como clock como tal
                     String index = mPrefs.getString(key, null);
-                    if(!index.equals("-1")) mPrefs.edit().putString("protocol" + index, ""+LogicAnalizerActivity.Clock).apply();
+                    if(!index.equals("-1")) mPrefs.edit().putString("protocol" + index, ""+ LogicAnalyzerActivity.Clock).apply();
 
 				    if(mChecker.detectConflicts()){
 					    Toast.makeText(mContext, getString(R.string.AnalyzerDependencies), Toast.LENGTH_SHORT).show();
@@ -221,7 +220,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
     private void hideSelectedPreferences (String protocol, int n){
         int protocolValue = Integer.valueOf(protocol); --n;
         if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-            if(protocolValue == LogicAnalizerActivity.I2C){
+            if(protocolValue == LogicAnalyzerActivity.I2C){
                 Log.i("Preferences", "I2C Adjust");
                 mPreferenceScreen.addPreference(protocolList[n]);
                 mPreferenceScreen.addPreference(clockList[n]);
@@ -230,7 +229,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                 mPreferenceScreen.removePreference(nineDataBits[n]);
                 mPreferenceScreen.removePreference(parityList[n]);
                 mPreferenceScreen.removePreference(checkBoxStopBit[n]);
-            }else if(protocolValue == LogicAnalizerActivity.UART){
+            }else if(protocolValue == LogicAnalyzerActivity.UART){
                 Log.i("Preferences", "UART Adjust");
                 mPreferenceScreen.addPreference(protocolList[n]);
                 mPreferenceScreen.removePreference(clockList[n]);
@@ -239,7 +238,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                 mPreferenceScreen.addPreference(nineDataBits[n]);
                 mPreferenceScreen.addPreference(parityList[n]);
                 mPreferenceScreen.addPreference(checkBoxStopBit[n]);
-            }else if(protocolValue == LogicAnalizerActivity.Clock){
+            }else if(protocolValue == LogicAnalyzerActivity.Clock){
                 Log.i("Preferences", "Clock Adjust");
                 mPreferenceScreen.addPreference(protocolList[n]);
                 mPreferenceScreen.removePreference(clockList[n]);
@@ -248,7 +247,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                 mPreferenceScreen.removePreference(nineDataBits[n]);
                 mPreferenceScreen.removePreference(parityList[n]);
                 mPreferenceScreen.removePreference(checkBoxStopBit[n]);
-            }else if(protocolValue == LogicAnalizerActivity.NA){
+            }else if(protocolValue == LogicAnalyzerActivity.NA){
                 Log.i("Preferences", "NA Adjust");
                 mPreferenceScreen.addPreference(protocolList[n]);
                 mPreferenceScreen.removePreference(clockList[n]);
@@ -267,19 +266,19 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
      */
     private void setProtocolSummaries (String key){
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) return;
-        final int value = Integer.valueOf(mPrefs.getString(key, ""+LogicAnalizerActivity.UART));
+        final int value = Integer.valueOf(mPrefs.getString(key, ""+ LogicAnalyzerActivity.UART));
         final int index = Character.getNumericValue(key.charAt(8)) - 1;
 
-        if(value == LogicAnalizerActivity.UART){
+        if(value == LogicAnalyzerActivity.UART){
             protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " UART");
 
-        }else if(value == LogicAnalizerActivity.I2C){
+        }else if(value == LogicAnalyzerActivity.I2C){
             protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " I2C");
 
-        }else if(value == LogicAnalizerActivity.Clock){
+        }else if(value == LogicAnalyzerActivity.Clock){
             protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " Clock");
 
-        }else if(value == LogicAnalizerActivity.NA){
+        }else if(value == LogicAnalyzerActivity.NA){
             protocolList[index].setSummary(getString(R.string.AnalyzerProtocolSummary) + " NA");
         }
     }
@@ -313,7 +312,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 
             // Construyo un 'Header' para cada canal que se enviará al fragment con el número de canal en el Bundle
             // para identificarlo y mostrar la preferencia correspondiente
-    		for(int n = 0; n < LogicAnalizerActivity.channelsNumber; ++n){
+    		for(int n = 0; n < LogicAnalyzerActivity.channelsNumber; ++n){
     			mBundle = new Bundle();
     			mBundle.putString("name", "Channel" + n);
     			target.add(createHeader(0, getString(R.string.AnalyzerChannel) + " " + (n+1), getString(R.string.AnalyzerHeaderSummary),
@@ -373,11 +372,11 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 		// Si cambio el SampleRate verifico que sea posible para cada baudio seleccionado
 		if(changedPreference.contains("sampleRate")) {
 			// Baudios
-			final long baudRate[] = new long[LogicAnalizerActivity.channelsNumber];
+			final long baudRate[] = new long[LogicAnalyzerActivity.channelsNumber];
 			boolean state = false;
 			
 			// Compruebo para cada baudio si es posible un correcto muestreo
-			for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n) {
+			for(int n=0; n < LogicAnalyzerActivity.channelsNumber; ++n) {
 				baudRate[n] = Long.decode(getPrefs.getString("BaudRate" + (n+1), "9600"));
 				if(DEBUG)Log.i("Preferences", "baudRate[" + n + "]: " + baudRate[n]);
 				if( ((1.0d/baudRate[n]) /  (1.0d/newValue)) < 3.0d) state = true;
@@ -386,9 +385,9 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 			// Si todo esta bien compruebo si el sample rate no es demasiado alto y no van a entrar
 			// todos los bits en el buffer
 			else{
-				final long bufferSize = LogicAnalizerActivity.maxBufferSize;
+				final long bufferSize = LogicAnalyzerActivity.maxBufferSize;
 				state = false;
-				for(int n=0; n < LogicAnalizerActivity.channelsNumber; ++n) {
+				for(int n=0; n < LogicAnalyzerActivity.channelsNumber; ++n) {
 					baudRate[n] = Long.decode(getPrefs.getString("BaudRate" + (n+1), "9600"));
 					if(DEBUG)Log.i("Preferences", "baudRate[" + n + "]: " + baudRate[n]);
 					if((Math.ceil((1.0d/baudRate[n]) / sampleTime)*10) > bufferSize) state = true; 
@@ -398,7 +397,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 		}
 		// Si cambio un baudio verifico que sea posible con el SampleRate actual
 		else if(changedPreference.contains("BaudRate")) {
-			final long bufferSize = LogicAnalizerActivity.maxBufferSize;
+			final long bufferSize = LogicAnalyzerActivity.maxBufferSize;
 			if( ((1.0d/newValue) / sampleTime) < 3.0d ) dialog(0);
 			if((Math.ceil((1.0d/newValue) / sampleTime)*10) > bufferSize) dialog(1);
 		}

@@ -91,25 +91,33 @@
     <string name="AnalyzerSimpleTriggerTitle">  	Trigger simple</string>
     <string name="AnalyzerSimpleTriggerSummary">  	Usar trigger por cambio de estado para iniciar el muestreo</string>
     <string name="AnalyzerSimpleTriggerChannelSummary">	Habilita este canal para ser utilizado como fuente de trigger simple</string>
-    
-    <string name="AnalyzerDirectoryTitle">			Directorios</string>
-    <string name="AnalyzerDirectoryImageTitle">		Directorio para imágenes</string>
-    <string name="AnalyzerDirectoryImageSummary">	Directorio donde guardar las imágenes</string>
-    <string name="AnalyzerDirectorySesionTitle">	Directorio para sesiones</string>
-    <string name="AnalyzerDirectorySesionSummary">	Directorio donde guardar las sesiones</string>
-    
-    <string name="AnalyzerActionRawData">			Datos directos</string>
-    <string name="AnalyzerActionGraph">			    Gráfico</string>
-    <string name="AnalyzerActionZoomOut">			Menos zoom</string>
-    <string name="AnalyzerActionZoomIn">			Mas zoom</string>
-    <string name="AnalyzerActionConfig">			Opciones</string>
-    <string name="AnalyzerActionPlay">				Play</string>
 
-    <string name="AnalyzerNoData">			        No hay datos para mostrar…</string>
-    <string name="AnalyzerDrawerChannel">		    Canal</string>
-    <string name="AnalyzerDrawerOpen">		        Drawer Closed</string>
-    <string name="AnalyzerDrawerClosed">		    Drawer Opened</string>
-    <string name="AnalyzerDependencies">			Conflictos corregidos</string>
+        <!-- Directorios para guardar archivos -->
+        <string name="AnalyzerDirectoryTitle">			Directorios</string>
+        <string name="AnalyzerDirectoryImageTitle">		Directorio para imágenes</string>
+        <string name="AnalyzerDirectoryImageSummary">	Directorio donde guardar las imágenes</string>
+        <string name="AnalyzerDirectorySesionTitle">	Directorio para sesiones</string>
+        <string name="AnalyzerDirectorySesionSummary">	Directorio donde guardar las sesiones</string>
+
+        <!-- ActionBar -->
+        <string name="AnalyzerActionRawData">			Datos directos</string>
+        <string name="AnalyzerActionGraph">			    Gráfico</string>
+        <string name="AnalyzerActionZoomOut">			Menos zoom</string>
+        <string name="AnalyzerActionZoomIn">			Mas zoom</string>
+        <string name="AnalyzerActionConfig">			Opciones</string>
+        <string name="AnalyzerActionPlay">				Play</string>
+
+        <!-- RawData View -->
+        <string name="AnalyzerNoData">			        No hay datos para mostrar…</string>
+        <string name="AnalyzerDrawerChannel">		    Canal</string>
+        <string name="AnalyzerDrawerOpen">		        Drawer Closed</string>
+        <string name="AnalyzerDrawerClosed">		    Drawer Opened</string>
+        <string name="AnalyzerDependencies">			Conflictos corregidos</string>
+
+        <string name="AnalyzerRawFrec">			        Frecuencia de clock</string>
+        <string name="AnalyzerRawStopBits">		        Bits de stop</string>
+        <string name="AnalyzerRawDataBits">		        Bits de datos</string>
+        <string name="AnalyzerRawParity">		        Paridad</string>
     
     <!-- Brazo Robot -->
     <string name="NoBTAlertTitle">					No existe Bluetooth</string>

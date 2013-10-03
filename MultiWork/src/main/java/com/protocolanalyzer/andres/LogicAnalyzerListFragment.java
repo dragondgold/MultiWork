@@ -8,9 +8,12 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.multiwork.andres.R;
+import com.protocolanalyzer.api.Clock;
+import com.protocolanalyzer.api.I2CProtocol;
 import com.protocolanalyzer.api.Protocol;
 import com.protocolanalyzer.api.TimePosition;
 import com.protocolanalyzer.api.Protocol.ProtocolType;
+import com.protocolanalyzer.api.UARTProtocol;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -31,13 +34,14 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 @SuppressLint("ValidFragment")
-public class LogicAnalizerListFragment extends SherlockFragment implements OnDataDecodedListener, AdapterView.OnItemClickListener{
+public class LogicAnalyzerListFragment extends SherlockFragment implements OnDataDecodedListener, AdapterView.OnItemClickListener{
 
 	private static final boolean DEBUG = true;
 	
 	private static SherlockFragmentActivity mActivity;
 	private static ActionBar mActionBar;
     private static TextView mTextView;
+    private static TextView propertiesTextView;
 	private static View v;
     private static int itemSelected = 0;
 	
@@ -76,6 +80,9 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
         mTextView.setTypeface(Typeface.MONOSPACE);  // Fuente monospace, es decir, cada carácter ocupa el
         // mismo ancho para renderizarse, de este modo podemos alinearlo con String.format()
 
+        propertiesTextView = (TextView) v.findViewById(R.id.tvChannelProperties);
+        propertiesTextView.setTypeface(Typeface.MONOSPACE);
+
         mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1));
 		
 		/** Hace que todos los toques en la pantalla sean para esta Fragment y no el que esta detrás */
@@ -106,6 +113,7 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
             List<TimePosition> stringData = data[itemSelected].getDecodedData();
             if(DEBUG) Log.i("mFragmentList","onDataDecodedListener() Channel " + itemSelected + " -> " + stringData.size());
 
+            // Si el protocolo no es Clock, porque si lo es, no debo mostrar datos
             if(data[itemSelected].getProtocol() != ProtocolType.CLOCK){
                 // Titulo del canal en el ActionBar
                 mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1)
@@ -119,17 +127,40 @@ public class LogicAnalizerListFragment extends SherlockFragment implements OnDat
                     // http://stackoverflow.com/questions/3282940/set-color-of-textview-span-in-android
                     // http://stackoverflow.com/questions/12793593/how-to-align-string-on-console-output
                     String text = String.format("%-7s → %.3f μS\n", stringData.get(i).getString(),
-                                                                       stringData.get(i).startTime()*1E6);
+                                                                    stringData.get(i).startTime()*1E6);
                     Spannable spannedText = new SpannableString(text);
                     spannedText.setSpan(new ForegroundColorSpan(Color.RED), 0, text.indexOf(' '), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     spannedText.setSpan(new StyleSpan(Typeface.BOLD), 0, text.indexOf(' '), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                     mTextView.append(spannedText);
                 }
+
+                // Propiedades de cada protocolo
+                ProtocolType mProtocol = data[itemSelected].getProtocol();
+                String text = "";
+                if(mProtocol == ProtocolType.I2C){
+                    text = String.format("%-40s", getString(R.string.AnalyzerRawFrec) + ": " +
+                            ((I2CProtocol)data[itemSelected]).getClockSource().getCalculatedFrequency() + " Hz" );
+                }
+                else if(mProtocol == ProtocolType.UART){
+                    text = String.format("%-40s\n%-40s\n%-40s\n%-40s",
+                            getString(R.string.AnalyzerBaudTitle) + ": " +
+                                    ((UARTProtocol)data[itemSelected]).getBaudRate(),
+                            getString(R.string.AnalyzerRawDataBits) + ": " +
+                                    (((UARTProtocol)data[itemSelected]).is9BitsMode() ? "9" : "8"),
+                            getString(R.string.AnalyzerRawStopBits) + ": " +
+                                    (((UARTProtocol)data[itemSelected]).isTwoStopBits() ? "2" : "1"),
+                            getString(R.string.AnalyzerRawParity) + ": " +
+                                    ((UARTProtocol)data[itemSelected]).getParity().toString()
+                            );
+                }
+
+                propertiesTextView.setText(text);
 			}else{
                 mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1)
                         + " - " + data[itemSelected].getProtocol().toString() );
                 mTextView.setText(getString(R.string.AnalyzerNoData));
+                propertiesTextView.setText("");
             }
 		}
 	}
