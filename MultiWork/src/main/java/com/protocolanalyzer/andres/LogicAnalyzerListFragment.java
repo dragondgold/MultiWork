@@ -120,8 +120,11 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
                         + " - " + data[itemSelected].getProtocol().toString() );
 
                 mTextView.setText("");
-                if(stringData.size() == 0)
+                propertiesTextView.setText("");
+                if(stringData.size() == 0){
                     mTextView.setText(getString(R.string.AnalyzerNoData));
+                    return;
+                }
 
                 for(int i=0; i < stringData.size(); ++i){
                     // http://stackoverflow.com/questions/3282940/set-color-of-textview-span-in-android
@@ -139,8 +142,17 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
                 ProtocolType mProtocol = data[itemSelected].getProtocol();
                 String text = "";
                 if(mProtocol == ProtocolType.I2C){
+                    String frecText;
+                    float frecTolerance = frequencyScaling( (int)((I2CProtocol)data[itemSelected]).getClockSource().getFrequencyTolerance() )[0];
+                    float[] frec = frequencyScaling(((I2CProtocol)data[itemSelected]).getClockSource().getCalculatedFrequency());
+
+                    if(frec[1] == 0) frecText = " MHz";
+                    else if(frec[1] == 1) frecText = " KHz";
+                    else frecText = " Hz";
+
                     text = String.format("%-40s", getString(R.string.AnalyzerRawFrec) + ": " +
-                            ((I2CProtocol)data[itemSelected]).getClockSource().getCalculatedFrequency() + " Hz" );
+                                         String.format("%.1f", frec[0]) + " ± " +
+                                         String.format("%.1f", frecTolerance) + frecText);
                 }
                 else if(mProtocol == ProtocolType.UART){
                     text = String.format("%-40s\n%-40s\n%-40s\n%-40s",
@@ -154,7 +166,6 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
                                     ((UARTProtocol)data[itemSelected]).getParity().toString()
                             );
                 }
-
                 propertiesTextView.setText(text);
 			}else{
                 mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1)
@@ -171,5 +182,25 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
         itemSelected = i;
         if(mProtocols != null) onDataDecodedListener(mProtocols, false);
         else mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1));
+    }
+
+    /**
+     * Escala automáticamente la frecuencia pasada a MHz, KHz o Hz
+     * @param frec frecuencia en Hz a escalar
+     * @return frecuencia escalada a MHz, KHz, o Hz en el index 0. A qué frecuencia se escalo en el
+     * index 1 siendo 0 (MHZ), 1 (KHz) o 2 (Hz)
+     */
+    private static float[] frequencyScaling (int frec){
+        // Si es mayor o igual a 1MHz escalo a MHz
+        if(frec >= 1E6){
+            return new float[] { (float)(frec/1E6), 0 };
+        // Si es mayor o igual a 1KHz pero menor a 1 MHz escalo a KHz
+        }else if(frec >= 1E3){
+            return new float[] { (float)(frec/1E3), 1 };
+        // Sino la frecuencia en Hz
+        }else{
+            return new float[] { frec, 2 };
+        }
+
     }
 }
