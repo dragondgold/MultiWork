@@ -455,7 +455,7 @@ public class LogicAnalyzerChartFragment extends SherlockFragment implements OnDa
         mRenderDataset.setPointSize(4f);
         mRenderDataset.setExternalZoomEnabled(true);
         mRenderDataset.setPanEnabled(true, true);
-        mRenderDataset.setZoomEnabled(true, false);
+        mRenderDataset.setZoomEnabled(false, false);
         mRenderDataset.setPanLimits(new double[] {xMin , Double.MAX_VALUE, -1d, yChannel[yChannel.length-1]+4});
         mRenderDataset.setXLabels(20);
         mRenderDataset.setMarginsColor(Color.rgb(230,230,230));
