@@ -7,34 +7,34 @@
     -->
 
     <item
-        android:id="@+id/listLogic"
-        android:icon="@drawable/list"
-        android:showAsAction="always"
-        android:title="@string/AnalyzerActionRawData">
+        android:id="@+id/PlayPauseLogic"
+        android:icon="@drawable/play"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/AnalyzerActionPlay">
     </item>
     <item
         android:id="@+id/zoomOutLogic"
         android:icon="@drawable/zoom_out"
-        android:showAsAction="always"
+        android:showAsAction="always|withText"
         android:title="@string/AnalyzerActionZoomOut">
     </item>
     <item
         android:id="@+id/zoomInLogic"
         android:icon="@drawable/zoom_in"
-        android:showAsAction="always"
+        android:showAsAction="always|withText"
         android:title="@string/AnalyzerActionZoomIn">
+    </item>
+    <item
+        android:id="@+id/listLogic"
+        android:icon="@drawable/list"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/AnalyzerActionRawData">
     </item>
     <item
         android:id="@+id/settingsLogic"
         android:icon="@drawable/settings_light"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/AnalyzerActionConfig">
-    </item>
-    <item
-        android:id="@+id/PlayPauseLogic"
-        android:icon="@drawable/play"
-        android:showAsAction="always"
-        android:title="@string/AnalyzerActionPlay">
     </item>
 
 </menu>

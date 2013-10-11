@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!--
-    Los android:showAsAction="always|withText", "always" indica que el item SIEMPRE va a ser mostrado, si no hay lugar se muestra en otra barra 
-    en la parte inferior en la pantalla si se definió android:uiOptions="splitActionBarWhenNarrow" en el Manifest.
-    -->
-
+    <item
+        android:id="@+id/PlayPauseLogic"
+        android:icon="@drawable/play"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/AnalyzerActionPlay">
+    </item>
     <item
         android:id="@+id/listLogic"
         android:icon="@drawable/chart2"
@@ -13,16 +14,16 @@
         android:title="@string/AnalyzerActionGraph">
     </item>
     <item
+        android:id="@+id/restartLogic"
+        android:icon="@drawable/restart"
+        android:showAsAction="ifRoom|withText"
+        android:title="Reinicio" >
+    </item>
+    <item
         android:id="@+id/settingsLogic"
         android:icon="@drawable/settings_light"
         android:showAsAction="ifRoom|withText"
         android:title="@string/AnalyzerActionConfig">
-    </item>
-    <item
-        android:id="@+id/PlayPauseLogic"
-        android:icon="@drawable/play"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/AnalyzerActionPlay">
     </item>
 
 </menu>

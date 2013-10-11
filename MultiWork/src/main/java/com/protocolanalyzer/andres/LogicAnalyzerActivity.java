@@ -339,6 +339,13 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
 	 		case R.id.settingsLogic:
 	 			startActivityForResult(new Intent(this, LogicAnalizerPrefs.class), PREFERENCES_CODE);
 	 			break;
+            case R.id.restartLogic:
+                if(DEBUG) Log.i("mFragmentActivity","Action Restarted");
+                for(int n=0; n < channelsNumber; ++n){
+                    channel[n].reset();
+                }
+                updateUIThread.sendEmptyMessage(dispatchInterfaces);
+                break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -405,8 +412,9 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
 		switch(buttonID){
 			case R.id.restartLogic:
 				for(int n=0; n < channelsNumber; ++n){
-					channel[n].getChannelBitsData().clear();
+					channel[n].reset();
 				}
+                updateUIThread.sendEmptyMessage(dispatchInterfaces);
 				break;
 			case R.id.settingsLogic:
 				setPreferences();

@@ -496,7 +496,7 @@ public class LogicAnalyzerChartFragment extends SherlockFragment implements OnDa
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			if(DEBUG) Log.i(TAG, "Action Mode onCreate()");
 			MenuInflater inflater = mActivity.getSupportMenuInflater();
-			inflater.inflate(R.menu.actionmodelogic, menu);
+			inflater.inflate(R.menu.actionmode_logicchart, menu);
 			return true;
 		}
 
