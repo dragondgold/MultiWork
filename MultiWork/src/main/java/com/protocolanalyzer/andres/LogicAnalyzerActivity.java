@@ -229,6 +229,8 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
             if(DEBUG) Log.i("mFragmentActivity", "Restoring Previous Activity State");
 
             for(int n = 0; n < channel.length; ++n){
+                // Obtengo cada array de boolean que contiene los datos del canal, los coloco en un
+                //  LogicBitSet y los agrego al canal correspondiente
                 Protocol mProtocol = channel[n];
                 LogicBitSet mBitSet = new LogicBitSet();
                 boolean[] list = getIntent().getExtras().getBooleanArray(String.valueOf(n));
