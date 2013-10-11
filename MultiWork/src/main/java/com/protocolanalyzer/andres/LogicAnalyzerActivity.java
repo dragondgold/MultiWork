@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -167,16 +168,8 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
 		tempBuffer = new byte[0];
 		getPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-		if(arg0 == null || !arg0.getBoolean("setStuff")){
-			setPreferences();
-		}
+		setPreferences();
     }
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		outState.putBoolean("setStuff", true);
-		super.onSaveInstanceState(outState);
-	}
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -193,10 +186,25 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
     // Si estoy tomando datos y salgo de la Activity elimino el CallBack para no recibir mas datos desde el Service.
 	@Override
 	protected void onPause() {
-		super.onPause();
 		if(DEBUG) Log.i("mFragmentActivity","onPause()");
+
 		mBluetoothHelper.removeOnNewBluetoothDataReceived();
 		mBluetoothHelper.write(0);	// Indico al PIC que salí de la Activity
+
+        // Guardo los datos de cada canal para luego recuperarlos en onResume()
+        if(DEBUG) Log.i("mFragmentActivity", "Saving Activity State");
+        // Guardo el conjunto de bits de cada canal
+        for(int c = 0; c < channel.length; ++c){
+            Protocol mProtocol = channel[c];
+            boolean[] list = new boolean[mProtocol.getChannelBitsData().length()];
+
+            for(int n = 0; n < mProtocol.getChannelBitsData().length(); ++n){
+                list[n] = mProtocol.getChannelBitsData().get(n);
+            }
+            getIntent().putExtra(String.valueOf(c), list);
+        }
+
+        super.onPause();
 	}
 	
 	/**
@@ -207,12 +215,43 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
 	protected void onResume() {
 		super.onResume();
 		if(DEBUG) Log.i("mFragmentActivity","onResume()");
-		
+
 		ApplicationContext myApp = (ApplicationContext)getApplication();
+
+        // Recupero el estado de la Activity que guarde en onPause(). Cuando se llama a la
+        //  Activity de las preferencias al volver todos los canales son creados de nuevo
+        //  de acuerdo a las preferencias, es necesario entonces recuperar sus valores y
+        //  volver a decodificarlos.
+        if(getIntent().getExtras() == null){
+            if(DEBUG) Log.i("mFragmentActivity","NULL Extras");
+        }
+        else{
+            if(DEBUG) Log.i("mFragmentActivity", "Restoring Previous Activity State");
+
+            for(int n = 0; n < channel.length; ++n){
+                Protocol mProtocol = channel[n];
+                LogicBitSet mBitSet = new LogicBitSet();
+                boolean[] list = getIntent().getExtras().getBooleanArray(String.valueOf(n));
+
+                for(int i = 0; i < list.length; ++i){
+                    mBitSet.set(i, list[i]);
+                }
+                mProtocol.setChannelBitsData(mBitSet);
+            }
+
+            // Decodifico cada canal
+            for(int n = 0; n < channelsNumber; ++n) {
+                channel[n].decode(0);
+            }
+
+            if(DEBUG) Log.i("LogicAnalyzerBT", "Enviando datos decodificados a los Fragments");
+            // Paso los datos decodificados a los Fragment en el Thread de la UI
+            updateUIThread.sendEmptyMessage(dispatchInterfaces);
+        }
 
 		isStarting = true;
 		isPlaying = false;
-		
+
 		// Solo si estoy en modo online procedo a obtener la conexión
 		mBluetoothHelper = myApp.mBluetoothHelper;
 		mBluetoothHelper.setOnNewBluetoothDataReceived(this);
@@ -220,7 +259,7 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
 		mBluetoothHelper.write(logicAnalyzerMode);
 		timeOutCounter = 0;
 		mActivityContext = this;
-		
+
 		this.supportInvalidateOptionsMenu();  // Actualizo el ActionBar
 	}
 	
@@ -391,19 +430,19 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
 	 * velocidad en Baudios para el UART y si la pantalla debe permanecer o no encendida.
 	 */
  	private void setPreferences() {
- 		// Defino la velocidad de muestreo que es comun a todos los canales (por defecto 4MHz)
+ 		// Defino la velocidad de muestreo que es común a todos los canales (por defecto 4MHz)
  		long sampleFrec = Long.valueOf(getPrefs.getString("sampleRate", "4000000"));
  		
         for(int n=0; n < channelsNumber; ++n){
         	if(DEBUG) Log.i("mFragmentActivity", "Channel " + (n+1) + ": " + getPrefs.getString("protocol" + (n+1), ""+UART));
-        	// Seteo el protocolo para cada canal y configuraciones generales
+        	// Configuro el protocolo para cada canal y configuraciones generales
             final int value = Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+UART));
 
             // I2C
-            if(value == I2C){
+            if(value == I2C && channel[n].getProtocol() != ProtocolType.I2C){
 	            channel[n] = new I2CProtocol(sampleFrec);
             // UART
-            }else if(value == UART){
+            }else if(value == UART && channel[n].getProtocol() != ProtocolType.UART){
         		channel[n] = new UARTProtocol(sampleFrec);
 	        		
         		// Configuraciones
@@ -416,7 +455,7 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
                 else if(parity.equals("1")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Even);
                 else if(parity.equals("2")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Odd);
             // Clock
-            }else if(value == Clock){
+            }else if(value == Clock && channel[n].getProtocol() != ProtocolType.CLOCK){
                 channel[n] = new Clock(sampleFrec);
             // None
             }else if(value == NA){
