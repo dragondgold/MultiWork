@@ -439,10 +439,10 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
             final int value = Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+UART));
 
             // I2C
-            if(value == I2C && channel[n].getProtocol() != ProtocolType.I2C){
+            if(value == I2C){
 	            channel[n] = new I2CProtocol(sampleFrec);
             // UART
-            }else if(value == UART && channel[n].getProtocol() != ProtocolType.UART){
+            }else if(value == UART){
         		channel[n] = new UARTProtocol(sampleFrec);
 	        		
         		// Configuraciones
@@ -455,7 +455,7 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
                 else if(parity.equals("1")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Even);
                 else if(parity.equals("2")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Odd);
             // Clock
-            }else if(value == Clock && channel[n].getProtocol() != ProtocolType.CLOCK){
+            }else if(value == Clock){
                 channel[n] = new Clock(sampleFrec);
             // None
             }else if(value == NA){
