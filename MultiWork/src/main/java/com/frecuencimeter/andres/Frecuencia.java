@@ -1,4 +1,4 @@
-package com.multiwork.andres;
+package com.frecuencimeter.andres;
 
 public class Frecuencia {
 

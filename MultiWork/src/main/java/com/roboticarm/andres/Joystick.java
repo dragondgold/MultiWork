@@ -106,7 +106,7 @@ public class Joystick{
 	 * @return true si es negativa, sino false
 	 */
 	public boolean isYNegative (){
-		return ((y - yCenter) < 0) ? true : false;
+		return ((y - yCenter) < 0);
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public class Joystick{
 	 * @return true si es negativa, sino false
 	 */
 	public boolean isXNegative (){
-		return ((x - xCenter) < 0) ? true : false;
+		return ((x - xCenter) < 0);
 	}
 	
 	/**

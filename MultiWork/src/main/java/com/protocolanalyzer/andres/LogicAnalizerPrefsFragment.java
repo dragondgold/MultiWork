@@ -3,9 +3,11 @@ package com.protocolanalyzer.andres;
 import com.multiwork.andres.R;
 
 import android.annotation.TargetApi;
+import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -28,16 +30,44 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
     private static ListPreference        parityList;
     private static CheckBoxPreference    checkBoxStopBit;
 
+    // Id de la lista para cada canal
+    final static private int[] idChannels = {
+            com.multiwork.andres.R.array.channelNames1,
+            com.multiwork.andres.R.array.channelNames2,
+            com.multiwork.andres.R.array.channelNames3,
+            com.multiwork.andres.R.array.channelNames4,
+            com.multiwork.andres.R.array.channelNames5,
+            com.multiwork.andres.R.array.channelNames6,
+            com.multiwork.andres.R.array.channelNames7,
+            com.multiwork.andres.R.array.channelNames8,
+    };
+
+    // Id de los valores de la lista para cada canal
+    final static private int[] idChannelsValues = {
+            com.multiwork.andres.R.array.clockValues1,
+            com.multiwork.andres.R.array.clockValues2,
+            com.multiwork.andres.R.array.clockValues3,
+            com.multiwork.andres.R.array.clockValues4,
+            com.multiwork.andres.R.array.clockValues5,
+            com.multiwork.andres.R.array.clockValues6,
+            com.multiwork.andres.R.array.clockValues7,
+            com.multiwork.andres.R.array.clockValues8,
+    };
+
     private static PreferenceScreen mPreferenceScreen;
     private static SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
     private static SharedPreferences mPrefs;
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(DEBUG){
+            if(idChannels.length != idChannelsValues.length)
+                throw new IllegalStateException("idChannels y idChannelsValues deben tener el mismo tamaño");
+        }
         if(DEBUG) Log.i("PreferenceFragment", "onCreate() -> LogicAnalizerPrefsFragment");
-        
+
     	String mString = getArguments().getString("name");
     	if(mString != null){
             mPrefs = getPreferenceManager().getDefaultSharedPreferences(getActivity());
@@ -62,8 +92,8 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
                 // Clock
                 clockList = new ListPreference(getActivity());
                 clockList.setDefaultValue("-1");
-                clockList.setEntries(LogicAnalizerPrefs.idChannels[n]);
-                clockList.setEntryValues(LogicAnalizerPrefs.idChannelsValues[n]);
+                clockList.setEntries(idChannels[n]);
+                clockList.setEntryValues(idChannelsValues[n]);
                 clockList.setKey("CLK" + (n + 1));
                 clockList.setSummary(R.string.AnalyzerCLKSummary);
                 clockList.setTitle(R.string.AnalyzerCLKTitle);

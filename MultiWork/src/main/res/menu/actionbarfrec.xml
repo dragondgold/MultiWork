@@ -19,11 +19,5 @@
         android:showAsAction="always"
         android:title="Config">
     </item>
-    <item
-        android:id="@+id/restartFrec"
-        android:icon="@drawable/restart"
-        android:showAsAction="always"
-        android:title="Reinicio" >
-    </item>
     
 </menu>

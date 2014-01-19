@@ -10,6 +10,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.bluetoothutils.andres.BluetoothHelper;
 import com.bluetoothutils.andres.DeviceListActivity;
 import com.bluetoothutils.andres.OnBluetoothConnected;
+import com.frecuencimeter.andres.FrecView;
 import com.protocolanalyzer.andres.LogicAnalyzerActivity;
 import com.protocolanalyzer.andres.PruebaParser;
 import com.roboticarm.andres.BrazoRobot;

@@ -307,7 +307,7 @@ public class BluetoothHelper {
     		    	});
     		        Log.i("BluetoothHelper", "Conectado a " + mBluetoothDevice.getName());
     		        if(mOnBluetoothConnected != null) mOnBluetoothConnected.onBluetoothConnected(mBluetoothIn, mBluetoothOut);
-    		        if(mOnNewBluetoothDataReceived != null && keepRunning == false) mBTThread.start();
+    		        if(mOnNewBluetoothDataReceived != null && !keepRunning) mBTThread.start();
     		    }
     		    // Error
     		    else{

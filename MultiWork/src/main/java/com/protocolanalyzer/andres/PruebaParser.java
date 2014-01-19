@@ -95,7 +95,7 @@ public class PruebaParser extends Activity {
 				if(TEXT) text.append("\nString " + n + ": " + channelI2C.getDecodedData().get(n).getString());
 				if(TEXT) text.append("\nString " + n + " position: " + String.format("%.3f", channelI2C.getDecodedData().get(n).startTime()*1000) + " uS");
 			}
-			Log.i("Parser", "Data Decoded in " + (end-start) + " mS");;
+			Log.i("Parser", "Data Decoded in " + (end-start) + " mS");
 			Toast.makeText(this, "Data Decoded in " + (end-start) + " mS", Toast.LENGTH_LONG).show();
 		}
 		
