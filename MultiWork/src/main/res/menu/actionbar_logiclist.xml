@@ -17,7 +17,7 @@
         android:id="@+id/restartLogic"
         android:icon="@drawable/restart"
         android:showAsAction="ifRoom|withText"
-        android:title="Reinicio" >
+        android:title="@string/Restart" >
     </item>
     <item
         android:id="@+id/settingsLogic"

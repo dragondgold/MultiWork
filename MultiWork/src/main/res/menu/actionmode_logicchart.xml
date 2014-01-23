@@ -4,14 +4,14 @@
 	<item
         android:id="@+id/saveLogic"
         android:icon="@drawable/save"
-        android:showAsAction="always"
-        android:title="Guardar" >
+        android:showAsAction="ifRoom"
+        android:title="@string/AnalyzerDialogSaveTitle" >
     </item>
     <item
         android:id="@+id/restartLogic"
         android:icon="@drawable/restart"
-        android:showAsAction="always"
-        android:title="Reinicio" >
+        android:showAsAction="ifRoom"
+        android:title="@string/Restart" >
     </item>
     
 </menu>

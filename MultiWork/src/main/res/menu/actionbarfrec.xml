@@ -10,14 +10,14 @@
     <item
         android:id="@+id/PlayPauseFrec"
         android:icon="@drawable/play"
-        android:showAsAction="always"
-        android:title="Play">
+        android:showAsAction="ifRoom"
+        android:title="@string/AnalyzerActionPlay">
     </item>
     <item
         android:id="@+id/settingsFrec"
         android:icon="@drawable/settings_dark"
-        android:showAsAction="always"
-        android:title="Config">
+        android:showAsAction="ifRoom"
+        android:title="@string/AnalyzerPrefsActionTitle">
     </item>
     
 </menu>

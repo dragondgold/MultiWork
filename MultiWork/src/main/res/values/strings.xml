@@ -9,7 +9,6 @@
     <string name="Yes">							Si</string>
     <string name="No">							No</string>
     <string name="Ok">							OK</string>
-    <string name="Cancel">						Cancelar</string>
     <string name="PleaseWait">					Por favor, espere</string>
     
     <string name="BTRequestTitle">				Petición del sistema</string>
@@ -19,7 +18,9 @@
         										 no se conectara al dispositivo Bluetooth.</string>  
     <string name="BTConnecting">				Conectando…</string>		
     
-    <string name="Reinicio">					Reiniciado</string>	 
+    <string name="Reinicio">					Reiniciado</string>
+    <string name="Restart">                     Reinicio</string>
+    <string name="Exit">                        Salir</string>
     										 
     <!--  DeviceListActivity -->
     <string name="scanning">					Escaneando por dispositivos…</string>
@@ -36,33 +37,23 @@
     <string name="LogicAnalyzerMenu">			Analizador lógico</string>
     <string name="BrazoMenu">					Brazo Robot</string>
     
-    <!-- Frecuencimetro -->
-    <string name="FrecPeriodo">					Periodo:</string>
-    
     <!-- Analizador Lógico -->
     <string name="AnalyzerPrefsActionTitle">	Configuración</string>
     <string name="AnalyzerHeaderSummary">		Canal de entrada</string>
     <string name="AnalyzerName">				Analizador Lógico</string>
     <string name="AnalyzerChannel">				Canal</string>
-    <string name="AnalyzerData">				Datos</string>
     <string name="AnalyzerYTitle">				Canales</string>
     <string name="AnalyzerXTitle">				Tiempo</string>
-    <string name="AnalyzerConnectError">		Error en la conexión</string>
     <string name="AnalyzerConnectionTimeOut">	Error en la comunicación. Timeout.</string>
     
     <string name="AnalyzerImagen">				Imagen</string>
     <string name="AnalyzerSesion">				Sesión</string>
     <string name="AnalyzerDialogSaveTitle">		Guardar</string>
-    <string name="AnalyzerDialogFileName">		Nombre de archivo</string>
-    <string name="AnalyzerDialogFileSaved">		Archivo guardado</string>
-    <string name="AnalyzerDialogFileNotSaved">	Error al guardar el archivo</string>
     <string name="AnalyzerDialogSampleAlert">	La configuración actual de baudios y velocidad de muestreo no permitirá un muestreo adecuado.
         										 Aumente la velocidad de muestreo o disminuya los Baudios para un correcto muestreo.</string>
     <string name="AnalyzerDialogSampleAlert2">	La configuración actual de baudios, velocidad de muestreo y tamaño del buffer llenará el buffer
         										 antes de poder muestrear la mínima cantidad de bits necesarios para una trama de UART.
         										 Disminuya la velocidad de muestreo.</string>
-    <string name="AnalyzerDialogClockAlert">	El canal actual está siendo usado como fuente clock por otro canal. ¿Desea cambiar
-        										 el protocolo aún así? En ese caso el canal afectado se anulará.</string>    	
     									 
     <string name="AnalyzerDialogSampleTitle">	Advertencia</string>
     <string name="AnalyzerDialogLoading">		Procesando…</string>

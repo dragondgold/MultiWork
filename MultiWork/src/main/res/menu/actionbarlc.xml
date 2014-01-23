@@ -10,25 +10,25 @@
     <item
         android:id="@+id/PlayPauseLc"
         android:icon="@drawable/play"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="Play">
     </item>
     <item
         android:id="@+id/LCMode"
         android:icon="@drawable/capacitor"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="LC">
     </item>
     <item
         android:id="@+id/settingsLc"
         android:icon="@drawable/settings_dark"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="Config">
     </item>
     <item
         android:id="@+id/restartLC"
         android:icon="@drawable/restart"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="Reinicio" >
     </item>
     

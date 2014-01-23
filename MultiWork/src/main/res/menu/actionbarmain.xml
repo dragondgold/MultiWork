@@ -11,13 +11,13 @@
         android:id="@+id/settingsMain"
         android:icon="@drawable/settings_light"
         android:showAsAction="ifRoom|withText"
-        android:title="Config.">
+        android:title="@string/AnalyzerPrefsActionTitle">
     </item>
     <item
         android:id="@+id/exitMain"
         android:icon="@drawable/cancel"
         android:showAsAction="ifRoom|withText"
-        android:title="Salir">
+        android:title="@string/Exit">
     </item>
 
 </menu>

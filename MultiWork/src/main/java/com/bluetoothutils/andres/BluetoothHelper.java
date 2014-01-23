@@ -122,15 +122,15 @@ public class BluetoothHelper {
 	
 	public void disconnect() {
 		if(mBluetoothIn != null){
-			try {mBluetoothIn.close();} catch (Exception e) {}
+			try {mBluetoothIn.close();} catch (Exception e) { e.printStackTrace(); }
 			mBluetoothIn = null;
 		}
 		if(mBluetoothOut != null){
-			try {mBluetoothOut.close();} catch (Exception e) {}
+			try {mBluetoothOut.close();} catch (Exception e) { e.printStackTrace(); }
 			mBluetoothOut = null;
 		}
 		if(mBluetoothSocket != null){
-            try {mBluetoothSocket.close();} catch (Exception e) {}
+            try {mBluetoothSocket.close();} catch (Exception e) { e.printStackTrace(); }
             mBluetoothSocket = null;
 		}
 	}

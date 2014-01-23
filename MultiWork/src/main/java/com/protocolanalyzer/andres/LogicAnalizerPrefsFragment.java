@@ -2,21 +2,18 @@ package com.protocolanalyzer.andres;
 
 import com.multiwork.andres.R;
 
-import android.annotation.TargetApi;
-import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class LogicAnalizerPrefsFragment extends PreferenceFragment{
 
 	private static final boolean DEBUG = true;
@@ -70,10 +67,11 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
 
     	String mString = getArguments().getString("name");
     	if(mString != null){
-            mPrefs = getPreferenceManager().getDefaultSharedPreferences(getActivity());
+            mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
     		if(mString.contains("Channel")){
     			mPreferenceScreen = getPreferenceManager().createPreferenceScreen(getActivity());
 
+                // Leo el numero del canal (los canales empiezan enumerados en 0)
     			int n = Integer.decode(""+mString.charAt(7));
     			if(DEBUG) Log.i("PreferenceFragment", "n: " + n);
 

@@ -8,18 +8,15 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.multiwork.andres.R;
-import com.protocolanalyzer.api.Clock;
 import com.protocolanalyzer.api.I2CProtocol;
 import com.protocolanalyzer.api.Protocol;
 import com.protocolanalyzer.api.TimePosition;
 import com.protocolanalyzer.api.Protocol.ProtocolType;
 import com.protocolanalyzer.api.UARTProtocol;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.ScrollingMovementMethod;
@@ -33,7 +30,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
-@SuppressLint("ValidFragment")
 public class LogicAnalyzerListFragment extends SherlockFragment implements OnDataDecodedListener, AdapterView.OnItemClickListener{
 
 	private static final boolean DEBUG = true;

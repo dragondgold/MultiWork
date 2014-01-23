@@ -8,19 +8,13 @@ import com.protocolanalyzer.api.LogicHelper;
 import com.utils.andres.ConflictChecker;
 import com.utils.andres.Dependency;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -32,8 +26,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 	private static Context mContext;
 
     private static ConflictChecker mChecker;
-	
-	@SuppressWarnings("deprecation")
+
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +41,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 
         testIntegrity("sampleRate", Long.decode(mPrefs.getString("sampleRate", "4000000")) );
 
-        // Creación del comprobador de de conflictos
+        // Creación del comprobador de conflictos
         mChecker = new ConflictChecker(mPrefs);
 		for(int n = 0; n < LogicAnalyzerActivity.channelsNumber; ++n){
 			Dependency mDependency = new Dependency("protocol" + (n+1), LogicAnalyzerActivity.I2C, -1);
@@ -81,8 +74,9 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 					sharedPreferences.edit().putInt("simpleTriggerMask", mask).apply();
 					if(DEBUG) Log.i("PreferenceActivity", "Mask: " + Integer.toBinaryString(mask));	
 				}
+
                 // Detecto conflictos y configuro los canales de Clock que corresponden
-                if(key.contains("CLK")){
+                else if(key.contains("CLK")){
                     // Configuro el canal que se seleccionó como clock como tal
                     String index = mPrefs.getString(key, null);
                     if(!index.equals("-1")) mPrefs.edit().putString("protocol" + index, ""+ LogicAnalyzerActivity.Clock).apply();
@@ -101,6 +95,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
         // Corrijo conflictos antes de salir
         if(mChecker.detectConflicts())
             Toast.makeText(this, getString(R.string.AnalyzerDependencies), Toast.LENGTH_SHORT).show();
+
 		mPrefs.unregisterOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
         super.onPause();
 	}
@@ -111,7 +106,6 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 		mPrefs.registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
 	}
 
-	@SuppressLint("NewApi")
 	@Override
     public void onBuildHeaders(List<Header> target) {  
     	if(DEBUG) Log.i("PreferenceActivity", "onBuildHeaders() -> LogicAnalizerPrefs");
@@ -145,7 +139,6 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
      * @param mExtrasBundle Extras
      * @return Nuevo Header
      */
-    @SuppressLint("NewApi")
 	private Header createHeader(long mID, String mTitle, String mSummary, String mBreadCrumbTitle,
     		String mShortBreadCrumbTitle, int mIcon, String mFragment, Bundle mExtrasBundle) {
     	Header mHeader = new Header();
