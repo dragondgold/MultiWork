@@ -3,7 +3,6 @@ package com.protocolanalyzer.andres;
 import com.multiwork.andres.R;
 
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;

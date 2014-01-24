@@ -1,5 +1,6 @@
 package com.protocolanalyzer.andres;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -28,6 +29,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 public class LogicAnalyzerListFragment extends SherlockFragment implements OnDataDecodedListener, AdapterView.OnItemClickListener{
@@ -36,12 +40,13 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
 	
 	private static SherlockFragmentActivity mActivity;
 	private static ActionBar mActionBar;
-    private static TextView mTextView;
     private static TextView propertiesTextView;
 	private static View v;
     private static int itemSelected = 0;
 	
 	private static Protocol[] mProtocols;
+    private static ArrayList<String> dataList = new ArrayList<String>();
+    private static ExpandableListAdapter mAdapter;
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -58,8 +63,8 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
 		// Obtengo la Activity que contiene el Fragment
 		mActivity = getSherlockActivity();
 		
-		mActionBar = mActivity.getSupportActionBar();				// Obtengo el ActionBar
-		mActionBar.setDisplayHomeAsUpEnabled(true);					// El icono de la aplicación funciona como boton HOME
+		mActionBar = mActivity.getSupportActionBar();	// Obtengo el ActionBar
+		mActionBar.setDisplayHomeAsUpEnabled(true);		// El icono de la aplicación funciona como boton HOME
 		mActionBar.setTitle(getString(R.string.AnalyzerName)) ;		// Nombre
         this.setHasOptionsMenu(true);
 	}
@@ -71,13 +76,12 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
 		if(DEBUG) Log.i("mFragmentList","onCreateView()");
 		v = inflater.inflate(R.layout.logic_rawdata, container, false);
 
-        mTextView = (TextView) v.findViewById(R.id.tvRawDataChannel);
-        mTextView.setMovementMethod(new ScrollingMovementMethod());     // Permite scroll del TextView
-        mTextView.setTypeface(Typeface.MONOSPACE);  // Fuente monospace, es decir, cada carácter ocupa el
-        // mismo ancho para renderizarse, de este modo podemos alinearlo con String.format()
-
         propertiesTextView = (TextView) v.findViewById(R.id.tvChannelProperties);
         propertiesTextView.setTypeface(Typeface.MONOSPACE);
+
+        ExpandableListView mExpandable = (ExpandableListView) v.findViewById(R.id.rawDataList);
+        mAdapter = new AnalyzerExpandableListView(getActivity(), dataList);
+        mExpandable.setAdapter(mAdapter);
 
         mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1));
 		
@@ -97,7 +101,6 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
 		super.onResume();
 		if(DEBUG) Log.i("mFragmentList","Resume");
 		if(mProtocols != null) onDataDecodedListener(mProtocols, false);
-        else mTextView.setText(getString(R.string.AnalyzerNoData));
 	}
 
 	@Override
@@ -115,25 +118,26 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
                 mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1)
                         + " - " + data[itemSelected].getProtocol().toString() );
 
-                mTextView.setText("");
                 propertiesTextView.setText("");
-                if(stringData.size() == 0){
-                    mTextView.setText(getString(R.string.AnalyzerNoData));
-                    return;
-                }
 
                 for(int i=0; i < stringData.size(); ++i){
                     // http://stackoverflow.com/questions/3282940/set-color-of-textview-span-in-android
                     // http://stackoverflow.com/questions/12793593/how-to-align-string-on-console-output
-                    String text = String.format("%-7s → %.3f μS\n", stringData.get(i).getString(),
-                                                                    stringData.get(i).startTime()*1E6);
+                    String text = String.format("%-7s → %.3f μS", stringData.get(i).getString(),
+                                                                  stringData.get(i).startTime()*1E6);
+
+                    /*
                     Spannable spannedText = new SpannableString(text);
                     spannedText.setSpan(new ForegroundColorSpan(Color.RED), 0, text.indexOf(' '), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     spannedText.setSpan(new StyleSpan(Typeface.BOLD), 0, text.indexOf(' '), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    */
 
-                    mTextView.append(spannedText);
+                    // TODO: ver de agregar Spanned Text
+                    dataList.add(text);
                 }
+                ((BaseExpandableListAdapter)mAdapter).notifyDataSetChanged();
 
+                /*
                 // Propiedades de cada protocolo
                 ProtocolType mProtocol = data[itemSelected].getProtocol();
                 String text = "";
@@ -162,11 +166,10 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
                                     ((UARTProtocol)data[itemSelected]).getParity().toString()
                             );
                 }
-                propertiesTextView.setText(text);
+                propertiesTextView.setText(text);*/
 			}else{
                 mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1)
                         + " - " + data[itemSelected].getProtocol().toString() );
-                mTextView.setText(getString(R.string.AnalyzerNoData));
                 propertiesTextView.setText("");
             }
 		}

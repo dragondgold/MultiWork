@@ -89,7 +89,7 @@
 	        android:launchMode="singleInstance"
 	        android:excludeFromRecents="true"
 	        android:finishOnTaskLaunch="true" />
-        
+
     </application>
 
 </manifest>
