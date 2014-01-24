@@ -182,7 +182,6 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    // Si estoy tomando datos y salgo de la Activity elimino el CallBack para no recibir mas datos desde el Service.
 	@Override
 	protected void onPause() {
 		if(DEBUG) Log.i("mFragmentActivity","onPause()");
@@ -443,7 +442,7 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
  		long sampleFrec = Long.valueOf(getPrefs.getString("sampleRate", "4000000"));
  		
         for(int n=0; n < channelsNumber; ++n){
-        	if(DEBUG) Log.i("mFragmentActivity", "Channel " + (n+1) + ": " + getPrefs.getString("protocol" + (n+1), ""+UART));
+        	//if(DEBUG) Log.i("mFragmentActivity", "Channel " + (n+1) + ": " + getPrefs.getString("protocol" + (n+1), ""+UART));
         	// Configuro el protocolo para cada canal y configuraciones generales
             final int value = Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+UART));
 

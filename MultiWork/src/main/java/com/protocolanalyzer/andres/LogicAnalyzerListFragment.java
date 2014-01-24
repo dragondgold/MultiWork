@@ -45,7 +45,7 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
     private static int itemSelected = 0;
 	
 	private static Protocol[] mProtocols;
-    private static ArrayList<String> dataList = new ArrayList<String>();
+    private static ArrayList<String> dataList;
     private static ExpandableListAdapter mAdapter;
 
 	@Override
@@ -66,6 +66,8 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
 		mActionBar = mActivity.getSupportActionBar();	// Obtengo el ActionBar
 		mActionBar.setDisplayHomeAsUpEnabled(true);		// El icono de la aplicación funciona como boton HOME
 		mActionBar.setTitle(getString(R.string.AnalyzerName)) ;		// Nombre
+
+        dataList = new ArrayList<String>();
         this.setHasOptionsMenu(true);
 	}
 
@@ -74,7 +76,9 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
 			Bundle savedInstanceState) {
 		
 		if(DEBUG) Log.i("mFragmentList","onCreateView()");
-		v = inflater.inflate(R.layout.logic_rawdata, container, false);
+        if(v != null) container.removeAllViews();
+
+        v = inflater.inflate(R.layout.logic_rawdata, container, false);
 
         propertiesTextView = (TextView) v.findViewById(R.id.tvChannelProperties);
         propertiesTextView.setTypeface(Typeface.MONOSPACE);
@@ -84,23 +88,28 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
         mExpandable.setAdapter(mAdapter);
 
         mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1));
-		
-		/** Hace que todos los toques en la pantalla sean para esta Fragment y no el que esta detrás */
-		v.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				return true;
-			}
-		});
-		
+
+        /** Hace que todos los toques en la pantalla sean para esta Fragment y no el que esta detrás */
+        v.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
 		return v;
 	}
-	
-	@Override
+
+    @Override
+    public void onDestroyView() {
+        if(DEBUG) Log.i("mFragmentList","onDestroyView()");
+        super.onDestroyView();
+    }
+
+    @Override
 	public void onResume() {
 		super.onResume();
-		if(DEBUG) Log.i("mFragmentList","Resume");
-		if(mProtocols != null) onDataDecodedListener(mProtocols, false);
+		if(DEBUG) Log.i("mFragmentList","onResume()");
 	}
 
 	@Override
