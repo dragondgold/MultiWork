@@ -24,10 +24,13 @@ import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
@@ -45,8 +48,13 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
     private static int itemSelected = 0;
 	
 	private static Protocol[] mProtocols;
+
     private static ArrayList<String> dataList;
+    private static ArrayList<String> detailsList;
     private static ExpandableListAdapter mAdapter;
+    private static ExpandableListView mExpandable;
+
+    private static boolean actionModeEnabled = false;
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -68,6 +76,7 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
 		mActionBar.setTitle(getString(R.string.AnalyzerName)) ;		// Nombre
 
         dataList = new ArrayList<String>();
+        detailsList = new ArrayList<String>();
         this.setHasOptionsMenu(true);
 	}
 
@@ -83,9 +92,58 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
         propertiesTextView = (TextView) v.findViewById(R.id.tvChannelProperties);
         propertiesTextView.setTypeface(Typeface.MONOSPACE);
 
-        ExpandableListView mExpandable = (ExpandableListView) v.findViewById(R.id.rawDataList);
-        mAdapter = new AnalyzerExpandableListView(getActivity(), dataList);
+        mExpandable = (ExpandableListView) v.findViewById(R.id.rawDataList);
+        mAdapter = new AnalyzerExpandableListView(getActivity(), dataList, detailsList);
         mExpandable.setAdapter(mAdapter);
+
+        mExpandable.setChoiceMode(ExpandableListView.CHOICE_MODE_MULTIPLE_MODAL);
+        /**
+         * Un Workaround para que funcione el MultiChoiceModeListener. Por defecto solo era posible seleccionar
+         * un item, los demas items no se seleccionan y hacen que cuando se clickea se expanda el item en vez
+         * de seleccionarlo. Seteamos entonces un listener cuando se clickea un grupo y seleccionamos el item
+         * si no esta seleccionado y retornamos true si estamos seleccionando items para indicar que el evento
+         * se consumio y no se expanda la lista.
+         */
+        mExpandable.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                if(actionModeEnabled)
+                    expandableListView.setItemChecked(i, !expandableListView.isItemChecked(i));
+
+                return actionModeEnabled;
+            }
+        });
+        mExpandable.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked) {
+                if(mExpandable.getCheckedItemCount() == 1)
+                    actionMode.setSubtitle(getString(R.string.AnalyzerSingleItemSelect));
+                else
+                    actionMode.setSubtitle(mExpandable.getCheckedItemCount() + " " + getString(R.string.AnalyzerItemSelect));
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode actionMode, android.view.Menu menu) {
+                actionModeEnabled = true;
+                actionMode.setTitle(getString(R.string.AnalyzerTitleSelect));
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode actionMode, android.view.Menu menu) {
+                return true;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                return true;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode actionMode) {
+                actionModeEnabled = false;
+            }
+        });
 
         mActionBar.setTitle(getString(R.string.AnalyzerChannel) + " " + (itemSelected+1));
 
@@ -130,18 +188,27 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
                 propertiesTextView.setText("");
 
                 for(int i=0; i < stringData.size(); ++i){
-                    // http://stackoverflow.com/questions/3282940/set-color-of-textview-span-in-android
                     // http://stackoverflow.com/questions/12793593/how-to-align-string-on-console-output
                     String text = String.format("%-7s → %.3f μS", stringData.get(i).getString(),
                                                                   stringData.get(i).startTime()*1E6);
+                    // Detalles en base al dato decodificado
+                    String currentData = stringData.get(i).getString();
+                    if(currentData.equals("S")) detailsList.add("Start condition");
+                    else if(currentData.equals("Sr")) detailsList.add("Repeated Start condition");
+                    else if(currentData.equals("P")) detailsList.add("Stop condition");
+                    else if(currentData.equals("\\R")) detailsList.add("I2C Read mode");
+                    else if(currentData.equals("\\W")) detailsList.add("I2C Write mode");
+                    else if(currentData.equals("ACK")) detailsList.add("ACK bit");
+                    else if(currentData.equals("NAK")) detailsList.add("NAK bit");
+                    else if(currentData.equals("E")) detailsList.add("I2C Error");
+                    else if(currentData.contains("A(")){
+                        String address = currentData.substring(2, currentData.indexOf(')'));
+                        detailsList.add("Address 0x" + Integer.valueOf(address, 16));
+                    }
+                    else{
+                        detailsList.add("8 bit data " + currentData + " → 0x" + Integer.valueOf(currentData, 16));
+                    }
 
-                    /*
-                    Spannable spannedText = new SpannableString(text);
-                    spannedText.setSpan(new ForegroundColorSpan(Color.RED), 0, text.indexOf(' '), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    spannedText.setSpan(new StyleSpan(Typeface.BOLD), 0, text.indexOf(' '), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    */
-
-                    // TODO: ver de agregar Spanned Text
                     dataList.add(text);
                 }
                 ((BaseExpandableListAdapter)mAdapter).notifyDataSetChanged();

@@ -16,10 +16,12 @@ public class AnalyzerExpandableListView extends BaseExpandableListAdapter {
 
     private Context context;
     private ArrayList<String> mHeadersTitles;
+    private ArrayList<String> mChildList;
 
-    public AnalyzerExpandableListView(Context ctx, ArrayList<String> headersList){
+    public AnalyzerExpandableListView(Context ctx, ArrayList<String> headersList, ArrayList<String> childList){
         context = ctx;
         mHeadersTitles = headersList;
+        mChildList = childList;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class AnalyzerExpandableListView extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int i, int i2) {
-        return null;
+        return mChildList.get(i);
     }
 
     @Override
@@ -75,7 +77,7 @@ public class AnalyzerExpandableListView extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean b, View view, ViewGroup viewGroup) {
-        String headerTitle = (String) getGroup(groupPosition);
+        String childString = (String) getChild(groupPosition, childPosition);
 
         if(view == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -83,7 +85,7 @@ public class AnalyzerExpandableListView extends BaseExpandableListAdapter {
         }
 
         TextView title = (TextView) view.findViewById(R.id.tvChild);
-        title.setText(headerTitle + ": " + childPosition);
+        title.setText(childString);
 
         return view;
     }

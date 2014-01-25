@@ -98,6 +98,11 @@
         <string name="AnalyzerActionConfig">			Opciones</string>
         <string name="AnalyzerActionPlay">				Play</string>
 
+        <!-- Action Mode -->
+        <string name="AnalyzerTitleSelect">             Seleccione eventos</string>
+        <string name="AnalyzerSingleItemSelect">        1 evento seleccionado</string>
+        <string name="AnalyzerItemSelect">              eventos seleccionados</string>
+
         <!-- RawData View -->
         <string name="AnalyzerNoData">			        No hay datos para mostrar…</string>
         <string name="AnalyzerDrawerChannel">		    Canal</string>
