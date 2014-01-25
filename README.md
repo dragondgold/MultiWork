@@ -18,9 +18,9 @@ You can see my article of this project in Spanish [here](http://tortimax.wordpre
 * More features and protocols will be added by the time...
 
 ## Requirements
-* Android based device with at least Android Gingerbread 2.3</li>
+* Android based device with at least Android ICS 4.0 (API 14)</li>
 * Electronic hardware which sample the data, schematics and PCB can be found [here](https://www.dropbox.com/sh/oq76xrg0jv6cvfu/KZ4UXd6o5D/MultiWork%20Altium)
-* dsPIC firmware which can be found [here](https://github.com/dragondgold/MultiWork_dsPIC))
+* dsPIC firmware can be found [here](https://github.com/dragondgold/MultiWork_dsPIC)
 
 ## Libraries/API
 * MultiWork uses [achartengine](https://code.google.com/p/achartengine/) to show data waveform, thanks to Dan for this great framework and helping me to add annotations capabilities.
