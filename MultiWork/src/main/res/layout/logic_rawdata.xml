@@ -5,14 +5,11 @@
     android:layout_height="match_parent" 
     android:orientation="horizontal" >
 
-    <ExpandableListView
+    <com.tjerkw.slideexpandable.library.ActionSlideExpandableListView
         android:divider="@null"
         android:id="@+id/rawDataList"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        tools:listitem="@layout/group_row"
-        tools:listheader="@layout/group_row"
-        tools:listfooter="@layout/child_row" />
+        android:layout_height="fill_parent" />
 
     <TextView
         android:id="@+id/tvChannelProperties"

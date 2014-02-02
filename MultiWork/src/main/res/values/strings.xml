@@ -100,6 +100,7 @@
 
         <!-- Action Mode -->
         <string name="AnalyzerTitleSelect">             Seleccione eventos</string>
+        <string name="AnalyzerNoItemSelect">            Ningún evento seleccionado</string>
         <string name="AnalyzerSingleItemSelect">        1 evento seleccionado</string>
         <string name="AnalyzerItemSelect">              eventos seleccionados</string>
 
@@ -114,7 +115,18 @@
         <string name="AnalyzerRawStopBits">		        Bits de stop</string>
         <string name="AnalyzerRawDataBits">		        Bits de datos</string>
         <string name="AnalyzerRawParity">		        Paridad</string>
-    
+
+        <string name="AnalyzerI2CStart">		        Condición de Start</string>
+        <string name="AnalyzerI2CRStart">		        Condición de Start Repetida</string>
+        <string name="AnalyzerI2CStop">		            Condición de Stop</string>
+        <string name="AnalyzerI2CRead">		            I2C Modo lectura</string>
+        <string name="AnalyzerI2CWrite">		        I2C Modo escritura</string>
+        <string name="AnalyzerI2CACK">		            Bit ACK</string>
+        <string name="AnalyzerI2CNACK">		            Bit NACK</string>
+        <string name="AnalyzerI2CError">		        Error en bus I2C</string>
+        <string name="AnalyzerI2CAddress">		        Dirección</string>
+        <string name="AnalyzerI2CData">		            Dato de 8 bits</string>
+
     <!-- Brazo Robot -->
     <string name="NoBTAlertTitle">					No existe Bluetooth</string>
 	<string name="NoBTAlertText">					El dispositivo no dispone de Bluetooth por lo tanto no puede hacer

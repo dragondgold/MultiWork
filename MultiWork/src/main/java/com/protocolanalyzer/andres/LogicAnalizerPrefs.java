@@ -27,7 +27,14 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 
     private static ConflictChecker mChecker;
 
-	@Override
+    @Override
+    protected boolean isValidFragment(String fragmentName) {
+        if(LogicAnalizerPrefsFragment.class.getName().equals(fragmentName))
+            return true;
+        return false;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(DEBUG) Log.i("PreferenceActivity", "onCreate() -> LogicAnalizerPrefs");

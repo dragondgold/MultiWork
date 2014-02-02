@@ -9,20 +9,13 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.multiwork.andres.R;
-import com.protocolanalyzer.api.I2CProtocol;
 import com.protocolanalyzer.api.Protocol;
 import com.protocolanalyzer.api.TimePosition;
 import com.protocolanalyzer.api.Protocol.ProtocolType;
-import com.protocolanalyzer.api.UARTProtocol;
+import com.tjerkw.slideexpandable.library.ActionSlideExpandableListView;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.method.ScrollingMovementMethod;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -32,9 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class LogicAnalyzerListFragment extends SherlockFragment implements OnDataDecodedListener, AdapterView.OnItemClickListener{
@@ -51,10 +43,9 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
 
     private static ArrayList<String> dataList;
     private static ArrayList<String> detailsList;
-    private static ExpandableListAdapter mAdapter;
-    private static ExpandableListView mExpandable;
+    private static AnalyzerExpandableAdapter adapter;
 
-    private static boolean actionModeEnabled = false;
+    private static ActionSlideExpandableListView mListView;
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -92,40 +83,28 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
         propertiesTextView = (TextView) v.findViewById(R.id.tvChannelProperties);
         propertiesTextView.setTypeface(Typeface.MONOSPACE);
 
-        mExpandable = (ExpandableListView) v.findViewById(R.id.rawDataList);
-        mAdapter = new AnalyzerExpandableListView(getActivity(), dataList, detailsList);
-        mExpandable.setAdapter(mAdapter);
+        mListView = (ActionSlideExpandableListView) v.findViewById(R.id.rawDataList);
+        adapter = new AnalyzerExpandableAdapter(getActivity(), dataList, detailsList, mListView);
+        mListView.setAdapter(adapter);
 
-        mExpandable.setChoiceMode(ExpandableListView.CHOICE_MODE_MULTIPLE_MODAL);
-        /**
-         * Un Workaround para que funcione el MultiChoiceModeListener. Por defecto solo era posible seleccionar
-         * un item, los demas items no se seleccionan y hacen que cuando se clickea se expanda el item en vez
-         * de seleccionarlo. Seteamos entonces un listener cuando se clickea un grupo y seleccionamos el item
-         * si no esta seleccionado y retornamos true si estamos seleccionando items para indicar que el evento
-         * se consumio y no se expanda la lista.
-         */
-        mExpandable.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-                if(actionModeEnabled)
-                    expandableListView.setItemChecked(i, !expandableListView.isItemChecked(i));
-
-                return actionModeEnabled;
-            }
-        });
-        mExpandable.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        mListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked) {
-                if(mExpandable.getCheckedItemCount() == 1)
+                if (mListView.getCheckedItemCount() == 0) {
+                    actionMode.setSubtitle(getString(R.string.AnalyzerNoItemSelect));
+                }
+                if (mListView.getCheckedItemCount() == 1) {
                     actionMode.setSubtitle(getString(R.string.AnalyzerSingleItemSelect));
-                else
-                    actionMode.setSubtitle(mExpandable.getCheckedItemCount() + " " + getString(R.string.AnalyzerItemSelect));
+                } else {
+                    actionMode.setSubtitle(mListView.getCheckedItemCount() + " " + getString(R.string.AnalyzerItemSelect));
+                }
             }
 
             @Override
             public boolean onCreateActionMode(ActionMode actionMode, android.view.Menu menu) {
-                actionModeEnabled = true;
                 actionMode.setTitle(getString(R.string.AnalyzerTitleSelect));
+                actionMode.setSubtitle(getString(R.string.AnalyzerSingleItemSelect));
                 return true;
             }
 
@@ -141,7 +120,7 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
 
             @Override
             public void onDestroyActionMode(ActionMode actionMode) {
-                actionModeEnabled = false;
+
             }
         });
 
@@ -193,25 +172,24 @@ public class LogicAnalyzerListFragment extends SherlockFragment implements OnDat
                                                                   stringData.get(i).startTime()*1E6);
                     // Detalles en base al dato decodificado
                     String currentData = stringData.get(i).getString();
-                    if(currentData.equals("S")) detailsList.add("Start condition");
-                    else if(currentData.equals("Sr")) detailsList.add("Repeated Start condition");
-                    else if(currentData.equals("P")) detailsList.add("Stop condition");
-                    else if(currentData.equals("\\R")) detailsList.add("I2C Read mode");
-                    else if(currentData.equals("\\W")) detailsList.add("I2C Write mode");
-                    else if(currentData.equals("ACK")) detailsList.add("ACK bit");
-                    else if(currentData.equals("NAK")) detailsList.add("NAK bit");
-                    else if(currentData.equals("E")) detailsList.add("I2C Error");
+                    if(currentData.equals("S")) detailsList.add(getString(R.string.AnalyzerI2CStart));
+                    else if(currentData.equals("Sr")) detailsList.add(getString(R.string.AnalyzerI2CRStart));
+                    else if(currentData.equals("P")) detailsList.add(getString(R.string.AnalyzerI2CStop));
+                    else if(currentData.equals("\\R")) detailsList.add(getString(R.string.AnalyzerI2CRead));
+                    else if(currentData.equals("\\W")) detailsList.add(getString(R.string.AnalyzerI2CWrite));
+                    else if(currentData.equals("ACK")) detailsList.add(getString(R.string.AnalyzerI2CACK));
+                    else if(currentData.equals("NAK")) detailsList.add(getString(R.string.AnalyzerI2CNACK));
+                    else if(currentData.equals("E")) detailsList.add(getString(R.string.AnalyzerI2CError));
                     else if(currentData.contains("A(")){
                         String address = currentData.substring(2, currentData.indexOf(')'));
-                        detailsList.add("Address 0x" + Integer.valueOf(address, 16));
+                        detailsList.add(getString(R.string.AnalyzerI2CAddress) + " " + address + " → 0x" + Integer.valueOf(address, 16));
                     }
                     else{
-                        detailsList.add("8 bit data " + currentData + " → 0x" + Integer.valueOf(currentData, 16));
+                        detailsList.add(getString(R.string.AnalyzerI2CData) + " " + currentData + " → 0x" + Integer.valueOf(currentData, 16));
                     }
-
                     dataList.add(text);
                 }
-                ((BaseExpandableListAdapter)mAdapter).notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
 
                 /*
                 // Propiedades de cada protocolo
