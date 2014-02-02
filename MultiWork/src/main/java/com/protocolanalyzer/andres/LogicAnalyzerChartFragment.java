@@ -87,7 +87,7 @@ public class LogicAnalyzerChartFragment extends SherlockFragment implements OnDa
 	/** ActionBar */
 	private static ActionBar mActionBar;		
 	/** Handler para la actualización del gráfico en el UI Thread */
-    private static Handler mUpdaterHandler = new Handler();	
+    final private static Handler mUpdaterHandler = new Handler();
     /** Tiempo transcurrido en mS (eje x) */
     private static double time = 0;		
     /** Cuantos segundos representa un cuadro (una unidad) en el gráfico */

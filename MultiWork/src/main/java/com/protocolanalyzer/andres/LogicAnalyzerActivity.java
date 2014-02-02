@@ -95,9 +95,9 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
 	
 	/** Buffers de recepción donde se guarda los bytes recibidos */
     private static byte[] tempBuffer;	
-    private static ByteArrayBuffer mByteArrayBuffer = new ByteArrayBuffer(initialBufferSize);
+    final private static ByteArrayBuffer mByteArrayBuffer = new ByteArrayBuffer(initialBufferSize);
     /** Canales */
-	private static Protocol[] channel = new Protocol[channelsNumber];
+	final private static Protocol[] channel = new Protocol[channelsNumber];
 	
 	private static boolean isStarting = true;
 	private static ProgressDialog mDialog;

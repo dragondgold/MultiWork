@@ -30,9 +30,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 
     @Override
     protected boolean isValidFragment(String fragmentName) {
-        if(LogicAnalizerPrefsFragment.class.getName().equals(fragmentName))
-            return true;
-        return false;
+        return LogicAnalizerPrefsFragment.class.getName().equals(fragmentName);
     }
 
     @Override
@@ -227,7 +225,6 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
     /**
 	 * Crea un dialogo advirtiendo al usuario que la configuración del SampleRate y Baudios no es posible
 	 * osea que no se alcanzaría a muestrear debidamente
- 	 * @author Andres Torti
  	 * See http://developer.android.com/guide/topics/ui/menus.html
  	 */
 	private void dialog(int dialogType) {

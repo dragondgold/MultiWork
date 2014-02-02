@@ -14,8 +14,6 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 
-import java.util.Properties;
-
 public class LogicAnalizerPrefsFragment extends PreferenceFragment{
 
 	private static final boolean DEBUG = true;
