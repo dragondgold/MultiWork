@@ -39,7 +39,6 @@
     
     <!-- Analizador Lógico -->
     <string name="AnalyzerPrefsActionTitle">	Configuración</string>
-    <string name="AnalyzerHeaderSummary">		Canal de entrada</string>
     <string name="AnalyzerName">				Analizador Lógico</string>
     <string name="AnalyzerChannel">				Canal</string>
     <string name="AnalyzerYTitle">				Canales</string>

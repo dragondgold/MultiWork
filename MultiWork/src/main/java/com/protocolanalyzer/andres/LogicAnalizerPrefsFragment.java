@@ -1,6 +1,7 @@
 package com.protocolanalyzer.andres;
 
 import com.multiwork.andres.R;
+import com.protocolanalyzer.api.Protocol;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
+
+import java.util.Properties;
 
 public class LogicAnalizerPrefsFragment extends PreferenceFragment{
 
@@ -50,6 +53,9 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
             com.multiwork.andres.R.array.clockValues8,
     };
 
+    final static private CharSequence[] protocolNames = new CharSequence[Protocol.ProtocolType.values().length];
+    final static private CharSequence[] protocolValues = new CharSequence[Protocol.ProtocolType.values().length];
+
     private static PreferenceScreen mPreferenceScreen;
     private static SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
     private static SharedPreferences mPrefs;
@@ -57,6 +63,13 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Creo los nombres e índices de los protocolos basados en la enumeracion
+        final int vNumber = Protocol.ProtocolType.values().length;
+        for(int n = 0; n < vNumber; ++n){
+            protocolNames[n] = Protocol.ProtocolType.values()[n].toString();
+            protocolValues[n] = Integer.toString(Protocol.ProtocolType.values()[n].ordinal());
+        }
 
         if(DEBUG){
             if(idChannels.length != idChannelsValues.length)
@@ -79,9 +92,9 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
 
                 // Protocolo
                 protocolList = new ListPreference(getActivity());
-                protocolList.setDefaultValue("2");
-                protocolList.setEntries(R.array.protocolList);
-                protocolList.setEntryValues(R.array.protocolValues);
+                protocolList.setDefaultValue(Integer.toString(Protocol.ProtocolType.UART.ordinal()));
+                protocolList.setEntries(protocolNames);
+                protocolList.setEntryValues(protocolValues);
                 protocolList.setKey("protocol" + (n+1));
                 protocolList.setTitle(getString(R.string.AnalyzerProtocolTitle) + " " + (n + 1));
                 protocolList.setDialogTitle(getString(R.string.AnalyzerProtocolTitle) + " " + (n + 1));
@@ -137,7 +150,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
                     checkBoxStopBit.setSummary(R.string.AnalyzerStopBitSummary);
 
                 mPreferenceScreen.addPreference(mPreferenceCategory);
-                hideSelectedPreferences(mPrefs.getString("protocol" + (n+1), "" + LogicAnalyzerActivity.UART));
+                hideSelectedPreferences(mPrefs.getString("protocol" + (n+1), ""+ Protocol.ProtocolType.UART.ordinal()));
                 setProtocolSummaries("protocol" + (n+1));
                 setPreferenceScreen(mPreferenceScreen);
     		}
@@ -151,7 +164,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                     // Si cambió el protocolo oculto/muestro los items correspondientes
                     if(key.contains("protocol")){
-                        hideSelectedPreferences(mPrefs.getString(key, "" + LogicAnalyzerActivity.UART));
+                        hideSelectedPreferences(mPrefs.getString(key, ""+ Protocol.ProtocolType.UART.ordinal()));
                         setProtocolSummaries(key);
                     }
                 }
@@ -184,7 +197,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
      */
     private void hideSelectedPreferences (String protocol){
         int protocolValue = Integer.valueOf(protocol);
-        if(protocolValue == LogicAnalyzerActivity.I2C){
+        if(protocolValue == Protocol.ProtocolType.I2C.ordinal()){
             Log.i("Preferences", "I2C Adjust");
             mPreferenceScreen.addPreference(protocolList);
             mPreferenceScreen.addPreference(clockList);
@@ -193,7 +206,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
             mPreferenceScreen.removePreference(nineDataBits);
             mPreferenceScreen.removePreference(parityList);
             mPreferenceScreen.removePreference(checkBoxStopBit);
-        }else if(protocolValue == LogicAnalyzerActivity.UART){
+        }else if(protocolValue == Protocol.ProtocolType.UART.ordinal()){
             Log.i("Preferences", "UART Adjust");
             mPreferenceScreen.addPreference(protocolList);
             mPreferenceScreen.removePreference(clockList);
@@ -202,7 +215,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
             mPreferenceScreen.addPreference(nineDataBits);
             mPreferenceScreen.addPreference(parityList);
             mPreferenceScreen.addPreference(checkBoxStopBit);
-        }else if(protocolValue == LogicAnalyzerActivity.Clock){
+        }else if(protocolValue == Protocol.ProtocolType.CLOCK.ordinal()){
             Log.i("Preferences", "Clock Adjust");
             mPreferenceScreen.addPreference(protocolList);
             mPreferenceScreen.removePreference(clockList);
@@ -211,7 +224,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
             mPreferenceScreen.removePreference(nineDataBits);
             mPreferenceScreen.removePreference(parityList);
             mPreferenceScreen.removePreference(checkBoxStopBit);
-        }else if(protocolValue == LogicAnalyzerActivity.NA){
+        }else if(protocolValue == Protocol.ProtocolType.NONE.ordinal()){
             Log.i("Preferences", "NA Adjust");
             mPreferenceScreen.addPreference(protocolList);
             mPreferenceScreen.removePreference(clockList);
@@ -228,19 +241,9 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
      * @param key key del protocolo a configurar
      */
     private void setProtocolSummaries (String key){
-        final int value = Integer.valueOf(mPrefs.getString(key, ""+ LogicAnalyzerActivity.UART));
+        final int value = Integer.valueOf(mPrefs.getString(key, ""+Protocol.ProtocolType.UART.ordinal()));
 
-        if(value == LogicAnalyzerActivity.UART){
-            protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " UART");
-
-        }else if(value == LogicAnalyzerActivity.I2C){
-            protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " I2C");
-
-        }else if(value == LogicAnalyzerActivity.Clock){
-            protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " Clock");
-
-        }else if(value == LogicAnalyzerActivity.NA){
-            protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " NA");
-        }
+        protocolList.setSummary(getString(R.string.AnalyzerProtocolSummary) + " " +
+                                                Protocol.ProtocolType.values()[value].toString());
     }
 }

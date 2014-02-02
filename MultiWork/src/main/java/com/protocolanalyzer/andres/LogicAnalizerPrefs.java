@@ -5,6 +5,7 @@ import java.util.List;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.multiwork.andres.R;
 import com.protocolanalyzer.api.LogicHelper;
+import com.protocolanalyzer.api.Protocol;
 import com.utils.andres.ConflictChecker;
 import com.utils.andres.Dependency;
 
@@ -51,10 +52,11 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
         // Creación del comprobador de conflictos
         mChecker = new ConflictChecker(mPrefs);
 		for(int n = 0; n < LogicAnalyzerActivity.channelsNumber; ++n){
-			Dependency mDependency = new Dependency("protocol" + (n+1), LogicAnalyzerActivity.I2C, -1);
-			mDependency.setInvalidationValue(-1);
-			mDependency.addSecondaryReferencedDependency("CLK" + (n+1), "protocol*", LogicAnalyzerActivity.Clock);
-			
+			Dependency mDependency = new Dependency("protocol" + (n+1), Protocol.ProtocolType.I2C.ordinal(),
+                                                        Protocol.ProtocolType.NONE.ordinal());
+			mDependency.setInvalidationValue(Protocol.ProtocolType.NONE.ordinal());
+			mDependency.addSecondaryReferencedDependency("CLK" + (n+1), "protocol*", Protocol.ProtocolType.CLOCK.ordinal());
+
 			mChecker.addDependency(mDependency);
 		}
         
@@ -86,7 +88,7 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
                 else if(key.contains("CLK")){
                     // Configuro el canal que se seleccionó como clock como tal
                     String index = mPrefs.getString(key, null);
-                    if(!index.equals("-1")) mPrefs.edit().putString("protocol" + index, ""+ LogicAnalyzerActivity.Clock).apply();
+                    if(!index.equals("-1")) mPrefs.edit().putString("protocol" + index, ""+ Protocol.ProtocolType.CLOCK.ordinal()).apply();
 
 				    if(mChecker.detectConflicts()){
 					    Toast.makeText(mContext, getString(R.string.AnalyzerDependencies), Toast.LENGTH_SHORT).show();
@@ -110,6 +112,8 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+        // Actualizo los Headers mostrando la informacion cambiada en las preferencias
+        invalidateHeaders();
 		mPrefs.registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
 	}
 
@@ -126,9 +130,14 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
             // Construyo un 'Header' para cada canal que se enviará al fragment con el número de canal en el Bundle
             // para identificarlo y mostrar la preferencia correspondiente
     		for(int n = 0; n < LogicAnalyzerActivity.channelsNumber; ++n){
+                int v = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this).getString("protocol" + (n + 1),
+                        "" + Protocol.ProtocolType.UART.ordinal()));
+
+                String protocol = Protocol.ProtocolType.values()[v].toString();
+
     			mBundle = new Bundle();
     			mBundle.putString("name", "Channel" + n);
-    			target.add(createHeader(0, getString(R.string.AnalyzerChannel) + " " + (n+1), getString(R.string.AnalyzerHeaderSummary),
+    			target.add(createHeader(0, getString(R.string.AnalyzerChannel) + " " + (n+1), protocol,
     					"", "", R.drawable.settings_dark, "com.protocolanalyzer.andres.LogicAnalizerPrefsFragment", mBundle));
     		}
     	}

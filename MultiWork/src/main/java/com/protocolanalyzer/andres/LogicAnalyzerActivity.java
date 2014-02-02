@@ -70,10 +70,11 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
     // es timeOutLimit*30. En este caso 67*30=2010mS
 	private static final int timeOutLimit = 67;
 
+    /*
 	public static final int I2C = ProtocolType.I2C.getValue();
 	public static final int UART = ProtocolType.UART.getValue();
 	public static final int Clock = ProtocolType.CLOCK.getValue();
-	public static final int NA = ProtocolType.NONE.getValue();
+	public static final int NA = ProtocolType.NONE.getValue();*/
 	
 	/** Interface donde paso los datos decodificados a los Fragments, los mismo deben implementar el Listener */
 	private static OnDataDecodedListener mChartDataDecodedListener;
@@ -444,13 +445,13 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
         for(int n=0; n < channelsNumber; ++n){
         	//if(DEBUG) Log.i("mFragmentActivity", "Channel " + (n+1) + ": " + getPrefs.getString("protocol" + (n+1), ""+UART));
         	// Configuro el protocolo para cada canal y configuraciones generales
-            final int value = Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+UART));
+            final int value = Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+ProtocolType.UART.ordinal()));
 
             // I2C
-            if(value == I2C){
+            if(value == ProtocolType.I2C.ordinal()){
 	            channel[n] = new I2CProtocol(sampleFrec);
             // UART
-            }else if(value == UART){
+            }else if(value == ProtocolType.UART.ordinal()){
         		channel[n] = new UARTProtocol(sampleFrec);
 	        		
         		// Configuraciones
@@ -463,10 +464,10 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
                 else if(parity.equals("1")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Even);
                 else if(parity.equals("2")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Odd);
             // Clock
-            }else if(value == Clock){
+            }else if(value == ProtocolType.CLOCK.ordinal()){
                 channel[n] = new Clock(sampleFrec);
             // None
-            }else if(value == NA){
+            }else if(value == ProtocolType.NONE.ordinal()){
                 channel[n] = new EmptyProtocol(sampleFrec);
             // Default
             }else{
@@ -477,7 +478,7 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
         for(int n = 0; n < channelsNumber; ++n) {
         	if(DEBUG) Log.i("mFragmentActivity", "n: " + n);
         	if(channel[n].getProtocol() == ProtocolType.I2C){
-        		int clockIndex = Integer.valueOf(getPrefs.getString("CLK" + (n+1), NA+""));
+        		int clockIndex = Integer.valueOf(getPrefs.getString("CLK" + (n+1), ""+ProtocolType.NONE.ordinal()));
         		if(DEBUG) Log.i("mFragmentActivity", "Clock Index: " + clockIndex);
         		if(clockIndex != -1)
         		    ((I2CProtocol)channel[n]).setClockSource((Clock)channel[clockIndex-1]);

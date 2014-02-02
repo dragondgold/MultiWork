@@ -708,18 +708,18 @@ public class LogicAnalyzerChartFragment extends SherlockFragment implements OnDa
 
         for(int n=0; n < LogicAnalyzerActivity.channelsNumber; ++n){
         	// Configuro el protocolo para cada canal
-            final int value = Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+ LogicAnalyzerActivity.UART));
+            final int value = Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+Protocol.ProtocolType.UART.ordinal()));
 
-            if(value == LogicAnalyzerActivity.UART){
+            if(value == Protocol.ProtocolType.UART.ordinal()){
                 mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + " [UART]");
 
-            }else if(value == LogicAnalyzerActivity.I2C){
+            }else if(value == Protocol.ProtocolType.I2C.ordinal()){
                 mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + " [I2C]");
 
-            }else if(value == LogicAnalyzerActivity.Clock){
+            }else if(value == Protocol.ProtocolType.CLOCK.ordinal()){
                 mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + "[CLK]");
 
-            }else if(value == LogicAnalyzerActivity.NA){
+            }else if(value == Protocol.ProtocolType.NONE.ordinal()){
                 mSerie[n].setTitle(getString(R.string.AnalyzerChannel) + " " + (n+1) + "[---]");
             }
         }

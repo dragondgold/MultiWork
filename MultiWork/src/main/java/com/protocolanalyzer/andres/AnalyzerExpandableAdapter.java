@@ -15,9 +15,9 @@ import java.util.ArrayList;
 
 public class AnalyzerExpandableAdapter extends ArrayAdapter<String> {
 
-    private Context context;
-    private ArrayList<String> mDetails;
-    private ActionSlideExpandableListView mListView;
+    private final Context context;
+    private final ArrayList<String> mDetails;
+    private final ActionSlideExpandableListView mListView;
 
     static class ViewHolder {
         TextView title;
@@ -30,11 +30,6 @@ public class AnalyzerExpandableAdapter extends ArrayAdapter<String> {
         context = ctx;
         mDetails = details;
         mListView = listView;
-    }
-
-    @Override
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
     }
 
     @Override
