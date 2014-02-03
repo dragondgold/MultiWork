@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Map;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -69,12 +70,6 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
     // Tiempo en mS para que se aborte la espera de datos. Para calcular el tiempo en mS
     // es timeOutLimit*30. En este caso 67*30=2010mS
 	private static final int timeOutLimit = 67;
-
-    /*
-	public static final int I2C = ProtocolType.I2C.getValue();
-	public static final int UART = ProtocolType.UART.getValue();
-	public static final int Clock = ProtocolType.CLOCK.getValue();
-	public static final int NA = ProtocolType.NONE.getValue();*/
 	
 	/** Interface donde paso los datos decodificados a los Fragments, los mismo deben implementar el Listener */
 	private static OnDataDecodedListener mChartDataDecodedListener;
@@ -95,17 +90,18 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
 	
 	/** Buffers de recepción donde se guarda los bytes recibidos */
     private static byte[] tempBuffer;	
-    final private static ByteArrayBuffer mByteArrayBuffer = new ByteArrayBuffer(initialBufferSize);
+    private static ByteArrayBuffer mByteArrayBuffer = new ByteArrayBuffer(initialBufferSize);
     /** Canales */
-	final private static Protocol[] channel = new Protocol[channelsNumber];
+	private static Protocol[] channel = new Protocol[channelsNumber];
 	
 	private static boolean isStarting = true;
 	private static ProgressDialog mDialog;
-	private static SharedPreferences getPrefs;
+	private static SharedPreferences mPrefs;
 	private static int maxSamplesNumber;
 	private static int timeOutCounter;
 	
 	private static Context mActivityContext;
+    public static com.protocolanalyzer.api.utils.Configuration channelsConfig = new com.protocolanalyzer.api.utils.Configuration();
 
     // DrawerLayout
     private static DrawerLayout mDrawerLayout;
@@ -166,7 +162,7 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
 		
 		// Array de tamaño 0 para evitar NullPointerException
 		tempBuffer = new byte[0];
-		getPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		setPreferences();
     }
@@ -363,9 +359,9 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
 		else if(channel[0].getSampleFrequency() == 2000) mBluetoothHelper.write(F2KHz);
 		else if(channel[0].getSampleFrequency() == 10) mBluetoothHelper.write(F10Hz);
 		// Si usa trigger o no
-		mBluetoothHelper.write(getPrefs.getBoolean("simpleTriggerGeneral", false) ? 'S' : 'N');
+		mBluetoothHelper.write(mPrefs.getBoolean("simpleTriggerGeneral", false) ? 'S' : 'N');
 		// Mask
-		mBluetoothHelper.write(getPrefs.getInt("simpleTriggerMask", 0));
+		mBluetoothHelper.write(mPrefs.getInt("simpleTriggerMask", 0));
 		isPlaying = true;
 		supportInvalidateOptionsMenu();
 		
@@ -433,52 +429,78 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
 		
 		return true;
 	}
-	
+
+    private String getPreferenceType(String key){
+        int n = 0;
+        while(n <= 2){
+            try {
+                switch (n){
+                    case 0:
+                        mPrefs.getString(key, null);
+                        return "String";
+                    case 1:
+                        mPrefs.getInt(key, 0);
+                        return "Integer";
+                    case 2:
+                        mPrefs.getBoolean(key, false);
+                        return "Boolean";
+                }
+            } catch (ClassCastException e){ ++n; }
+        }
+        return "Error";
+    }
+
 	/**
 	 * Define los parámetros de los canales de acuerdo como tipo de protocolo, velocidad de muestreo,
 	 * velocidad en Baudios para el UART y si la pantalla debe permanecer o no encendida.
 	 */
  	private void setPreferences() {
  		// Defino la velocidad de muestreo que es común a todos los canales (por defecto 4MHz)
- 		long sampleFrec = Long.valueOf(getPrefs.getString("sampleRate", "4000000"));
+ 		long sampleFrec = Long.valueOf(mPrefs.getString("sampleRate", "4000000"));
+
+        // Mapeo los valores del SharedPreference en las configuraciones de los canales.
+        // channelsConfig contiene las configuraciones para todos los tipos de canales en el mismo objeto.
+        Map<String, ?> prefsMap = mPrefs.getAll();
+        for(Map.Entry<String, ?> entry : prefsMap.entrySet()){
+            String prefType = getPreferenceType(entry.getKey());
+            String key = entry.getKey();
+
+            // Salteo el key si no esta definido, se usara el valor por defecto de la clase
+            if(!mPrefs.contains(entry.getKey())) continue;
+
+            if(key.contains("BaudRate") || key.contains("Parity")){
+                channelsConfig.setProperty(key, Integer.valueOf(mPrefs.getString(key, "")));
+            }else if(key.contains("nineData") || key.contains("dualStop")){
+                channelsConfig.setProperty(key, mPrefs.getBoolean(key, false));
+            }
+        }
  		
         for(int n=0; n < channelsNumber; ++n){
-        	//if(DEBUG) Log.i("mFragmentActivity", "Channel " + (n+1) + ": " + getPrefs.getString("protocol" + (n+1), ""+UART));
         	// Configuro el protocolo para cada canal y configuraciones generales
-            final int value = Integer.valueOf(getPrefs.getString("protocol" + (n+1), ""+ProtocolType.UART.ordinal()));
+            final int value = Integer.valueOf(mPrefs.getString("protocol" + (n + 1), "" + ProtocolType.UART.ordinal()));
 
             // I2C
             if(value == ProtocolType.I2C.ordinal()){
-	            channel[n] = new I2CProtocol(sampleFrec);
+	            channel[n] = new I2CProtocol(sampleFrec, channelsConfig, n);
             // UART
             }else if(value == ProtocolType.UART.ordinal()){
-        		channel[n] = new UARTProtocol(sampleFrec);
-	        		
-        		// Configuraciones
-	        	((UARTProtocol)channel[n]).setBaudRate(Integer.decode(getPrefs.getString("BaudRate" + (n+1), "9600")));
-                ((UARTProtocol)channel[n]).set9BitsMode(getPrefs.getBoolean("nineData" + (n+1), false));
-                ((UARTProtocol)channel[n]).setTwoStopBits(getPrefs.getBoolean("dualStop" + (n+1), false));
-
-                String parity = getPrefs.getString("Parity" + (n+1), "-1");
-                if(parity.equals("-1")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.NoParity);
-                else if(parity.equals("1")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Even);
-                else if(parity.equals("2")) ((UARTProtocol)channel[n]).setParity(UARTProtocol.Parity.Odd);
+        		channel[n] = new UARTProtocol(sampleFrec, channelsConfig, n);
             // Clock
             }else if(value == ProtocolType.CLOCK.ordinal()){
-                channel[n] = new Clock(sampleFrec);
+                channel[n] = new Clock(sampleFrec, channelsConfig, n);
             // None
             }else if(value == ProtocolType.NONE.ordinal()){
-                channel[n] = new EmptyProtocol(sampleFrec);
+                channel[n] = new EmptyProtocol(sampleFrec, channelsConfig, n);
             // Default
             }else{
-	        	channel[n] = new EmptyProtocol(sampleFrec);
+	        	channel[n] = new EmptyProtocol(sampleFrec, channelsConfig, n);
         	}
         }
         // Configuro las fuentes de clock
         for(int n = 0; n < channelsNumber; ++n) {
         	if(DEBUG) Log.i("mFragmentActivity", "n: " + n);
         	if(channel[n].getProtocol() == ProtocolType.I2C){
-        		int clockIndex = Integer.valueOf(getPrefs.getString("CLK" + (n+1), ""+ProtocolType.NONE.ordinal()));
+        		int clockIndex = Integer.valueOf(mPrefs.getString("CLK" + (n + 1), "" + ProtocolType.NONE.ordinal()));
         		if(DEBUG) Log.i("mFragmentActivity", "Clock Index: " + clockIndex);
         		if(clockIndex != -1)
         		    ((I2CProtocol)channel[n]).setClockSource((Clock)channel[clockIndex-1]);
@@ -487,14 +509,14 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
         	}
 		}
         
-        maxSamplesNumber = Integer.valueOf(getPrefs.getString("maxSamples","3"))*maxBufferSize;
+        maxSamplesNumber = Integer.valueOf(mPrefs.getString("maxSamples","3"))*maxBufferSize;
 
         /**
          * Mantiene a la pantalla encendida en esta Activity únicamente
          * @see http://developer.android.com/reference/android/os/PowerManager.html
          * @see http://stackoverflow.com/questions/2131948/force-screen-on
          */
-        if(getPrefs.getBoolean("keepScreenAwake", false)) {
+        if(mPrefs.getBoolean("keepScreenAwake", false)) {
         	if(DEBUG) Log.i("LogicAnalyzerActivity","Screen Awake");
         	getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }

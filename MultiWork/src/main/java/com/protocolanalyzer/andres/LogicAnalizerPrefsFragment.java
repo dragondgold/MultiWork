@@ -132,7 +132,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
 
                     // Paridad
                     parityList = new ListPreference(getActivity());
-                    parityList.setDefaultValue("-1");
+                    parityList.setDefaultValue("2");    // No parity
                     parityList.setEntries(R.array.parityNames);
                     parityList.setEntryValues(R.array.parityValues);
                     parityList.setKey("Parity" + (n + 1));

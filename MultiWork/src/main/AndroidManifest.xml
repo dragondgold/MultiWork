@@ -63,12 +63,8 @@
             android:name="com.protocolanalyzer.andres.LogicAnalizerPrefs"
             android:label="@string/app_name" >
         </activity>
-        
-        <activity 
-       	    android:name="com.protocolanalyzer.andres.PruebaParser" >
-       	</activity>
-        
-       	<activity
+
+        <activity
             android:name=".MainPrefs"
             android:label="@string/app_name" >
         </activity>

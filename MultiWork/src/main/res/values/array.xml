@@ -22,13 +22,13 @@
    	</string-array>
 
     <string-array name="parityNames" >
-        <item> Sin bit de paridad </item>
         <item> Paridad par (Even) </item>
         <item> Paridad impar (Odd) </item>
+        <item> Sin bit de paridad </item>
     </string-array>
 
     <string-array name="parityValues" >
-        <item> -1 </item>
+        <item> 0 </item>
         <item> 1 </item>
         <item> 2 </item>
     </string-array>

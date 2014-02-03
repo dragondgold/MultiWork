@@ -39,7 +39,7 @@
       </layout>
       <layout url="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/logic_rawdata.xml">
         <config>
-          <device>Nexus 4</device>
+          <device>4in WVGA (Nexus S)</device>
           <state>Landscape</state>
           <theme>@style/Theme.Sherlock.Light.DarkActionBar</theme>
         </config>
@@ -47,24 +47,17 @@
     </layouts>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="MultiWork" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="multiwork" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f00b65a-b041-4799-849a-69a1e0359d71" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MultiWork/src/main/res/drawable-hdpi/chart.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MultiWork/src/main/res/layout/actionsavelogic.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/BluetoothHelper.java" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/BluetoothHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" />
+    <list default="true" id="2f00b65a-b041-4799-849a-69a1e0359d71" name="Default" comment="Limpieza de codigo&#10;&#10;">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/PruebaParser.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar" afterPath="$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerListFragment.java" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbar_logiclist.xml" afterPath="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbar_logiclist.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarfrec.xml" afterPath="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarfrec.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarlc.xml" afterPath="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarlc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarmain.xml" afterPath="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarmain.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionmode_logicchart.xml" afterPath="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionmode_logicchart.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/MultiWork/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/res/values-es/strings.xml" afterPath="$PROJECT_DIR$/MultiWork/src/main/res/values-es/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/MainMenu.java" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/MainMenu.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/res/values/array.xml" afterPath="$PROJECT_DIR$/MultiWork/src/main/res/values/array.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MultiWorkProject.iws" />
@@ -128,7 +121,68 @@
       </breakpoint>
     </breakpoint_any>
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" line="32" class="com.protocolanalyzer.andres.LogicAnalizerPrefs" package="com.protocolanalyzer.andres">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java" line="301" class="com.tjerkw.slideexpandable.library.AbstractSlideExpandableListAdapter$1" package="com.tjerkw.slideexpandable.library">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java" line="111" class="com.tjerkw.slideexpandable.library.ActionSlideExpandableListView$2$1" package="com.tjerkw.slideexpandable.library">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" line="130" class="com.protocolanalyzer.andres.LogicAnalizerPrefs" package="com.protocolanalyzer.andres">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -138,14 +192,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LogicAnalizerPrefs.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java">
+      <file leaf-file-name="LogicAnalyzerListFragment.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="17" selection-start="3815" selection-end="3815" vertical-scroll-proportion="0.7572156" vertical-offset="778" max-vertical-offset="2628">
+            <state line="167" column="16" selection-start="6205" selection-end="6205" vertical-scroll-proportion="0.0" vertical-offset="1836" max-vertical-offset="3582">
               <folding>
-                <element signature="method#createHeader#0;class#LogicAnalizerPrefs#0" expanded="false" />
-                <element signature="method#testIntegrity#0;class#LogicAnalizerPrefs#0" expanded="false" />
-                <element signature="method#dialog#0;class#LogicAnalizerPrefs#0" expanded="false" />
+                <element signature="class#3223:4655" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LogicAnalyzerActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="477" column="46" selection-start="19575" selection-end="19575" vertical-scroll-proportion="0.0" vertical-offset="8635" max-vertical-offset="12366">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#5462#5503#0" expanded="true" />
+                <element signature="e#6047#6074#0" expanded="true" />
+                <element signature="e#6092#6121#0" expanded="true" />
+                <element signature="e#15351#15394#0" expanded="true" />
+                <element signature="e#15400#15430#0" expanded="true" />
+                <element signature="e#22004#22045#0" expanded="true" />
+                <element signature="e#22445#22490#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LogicAnalizerPrefsFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="164" column="47" selection-start="8337" selection-end="8360" vertical-scroll-proportion="0.0" vertical-offset="2485" max-vertical-offset="4374">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#7985#8531#0" expanded="true" />
+                <element signature="e#8516#8517#0" expanded="true" />
+                <element signature="method#onResume#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
+                <element signature="method#onPause#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
+                <element signature="method#setPreferenceScreen#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -167,6 +253,7 @@
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
         <option value="Andres Fernando Torti" />
+        <option value="Andres Torti" />
       </list>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -552,32 +639,57 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/CRC16.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerActivity.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/logicanalizer.xml" />
-        <option value="$PROJECT_DIR$/MultiWork/build/res/all/debug/layout/logicanalizer.xml" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/logic_rawdata.xml" />
-        <option value="$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar!/com/protocolanalyzer/api/Clock.class" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerChartFragment.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbar_logicchart.xml" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/frecview.xml" />
         <option value="$PROJECT_DIR$/MultiWork/build.gradle" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/PruebaParser.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/frecuencimeter/andres/FrecView.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/roboticarm/andres/Joystick.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarlc.xml" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionmode_logicchart.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarfrec.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarmain.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbar_logiclist.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/values-es/strings.xml" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/BluetoothHelper.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/ExpandableListView/group_row.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/group_indicator.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/ExpandableListViewAdapter.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/drawable/group_indicator.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/child_row.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/ExpandableActivity.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/list_layout.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/values/styles.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/group_row.xml" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/listview/expandable/andres/ExpandingLayout.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/listview/expandable/andres/OnSizeChangedListener.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/listview/expandable/andres/ExpandingCells.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/list_view_item.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/listview/expandable/andres/ExpandableListItem.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/listview/expandable/andres/Multi.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/listview/expandable/andres/CustomArrayAdapter.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/listview/expandable/andres/ExpandingListView.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/library/WrapperListAdapterImpl.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/com.tjerkw.slideexpandable.library/WrapperListAdapterImpl.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/WrapperListAdapterImpl.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/SlideExpandableListView.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/SlideExpandableListAdapter.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/logic_rawdata.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ExpandCollapseAnimation.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/AnalyzerExpandableListView.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/expandable_list_item.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/utils/andres/ConflictChecker.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/AnalyzerExpandableAdapter.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerChartFragment.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerListFragment.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/values/array.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/MainMenu.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java" />
       </list>
     </option>
   </component>
@@ -633,12 +745,17 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="MultiWorkProject" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -713,10 +830,155 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWorkProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWorkProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWorkProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWorkProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWorkProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWorkProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="andres" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWorkProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWorkProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="andres" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWorkProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWorkProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiWork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -724,7 +986,7 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="preferences.sourceCode.XML" />
+    <property name="options.lastSelected" value="editor" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
@@ -732,13 +994,23 @@
     <property name="options.searchVisible" value="true" />
     <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Android SDK" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.0" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="304D09F4F93DB45F" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="AndroidAPI17" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="0009f4f93db45f" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="AndroidAPI14" />
+    <property name="LayoutCode.rearrangeEntriesXML" value="false" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="OverrideImplement.overriding.sorted" value="false" />
+    <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager2.WIDTH" value="230" />
+    <property name="UI_DESIGNER_EDITOR_MODE.PaletteToolWindowManager.SHOW" value="false" />
+    <property name="SearchEverywhereHistory" value="" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/MultiWork/src/main/java" />
+      <recent name="$PROJECT_DIR$/MultiWork/src/main/res/layout" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/MultiWork/src/main" />
     </key>
@@ -781,6 +1053,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -806,19 +1091,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -907,6 +1179,11 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SliceManager">
+    <option name="analysisUIOptions">
+      <AnalysisUIOptions />
+    </option>
+  </component>
   <component name="SpellCheckerSettings" BundledDictionaries="0" Folders="1" Folder0="$APPLICATION_HOME_DIR$/dic" Dictionaries="0" />
   <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
     <option name="USER" value="" />
@@ -1051,7 +1328,39 @@
       <created>1390156211736</created>
       <updated>1390156211736</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Limpieza de codigo">
+      <created>1390512241796</created>
+      <updated>1390512241796</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Primera implementacion de lista en el modo Raw&#10;">
+      <created>1390590229071</created>
+      <updated>1390590229071</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Bug correjido relacionado con problemas en el Fragment cuando se apaga la pantalla&#10;&#10;">
+      <created>1390602459537</created>
+      <updated>1390602459537</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Limpieza de codigo&#10;&#10;">
+      <created>1390675638670</created>
+      <updated>1390675638670</updated>
+    </task>
+    <task id="LOCAL-00035" summary="README actualizado&#10;&#10;">
+      <created>1390694091186</created>
+      <updated>1390694091186</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Nuevo ExpandableListView animado y con scroll más fluido. Solucionado crash en Android 4.4 de las preferencias.&#10;&#10;">
+      <created>1391309874659</created>
+      <updated>1391309874659</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Mejoras para mantención del código. Requiere reinstalacion completa de la aplicación debido al cambio en los valores de las preferencias.&#10;">
+      <created>1391382721533</created>
+      <updated>1391382721533</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Limpieza de codigo&#10;">
+      <created>1391383028580</created>
+      <updated>1391383028580</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1063,12 +1372,12 @@
         <option name="shouldFormatCommitMessage" value="false" />
         <option name="useHttpAuthentication" value="false" />
         <option name="useProxy" value="false" />
-        <option name="user" value="" />
+        <option name="user" value="dragondgold" />
         <username />
       </GitHub>
     </servers>
   </component>
-  <component name="TodoView" selected-index="2">
+  <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
       <are-packages-shown value="false" />
       <are-modules-shown value="false" />
@@ -1093,38 +1402,40 @@
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6200318" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20956175" sideWeight="0.7407407" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3258427" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32591414" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6292135" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26232114" sideWeight="0.50039715" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3258427" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5564388" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26232114" sideWeight="0.50039715" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290938" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26232114" sideWeight="0.49960285" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.8028617" sideWeight="0.78884465" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3227345" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32591414" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988048" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32591414" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22001588" sideWeight="0.19582665" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30842608" sideWeight="0.4996016" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3227345" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20956175" sideWeight="0.7407407" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32591414" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5055644" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36248013" sideWeight="0.49960285" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5262321" sideWeight="0.78884465" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24861" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988048" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21286735" sideWeight="0.19582665" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3990461" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3529412" sideWeight="0.4996016" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2247012" sideWeight="0.6035313" order="4" side_tool="true" content_ui="tabs" x="114" y="161" width="1101" height="544" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962668" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290938" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3990461" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2239873" sideWeight="0.6035313" order="4" side_tool="true" content_ui="tabs" x="114" y="161" width="1101" height="544" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USERS">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
       <collection />
     </option>
   </component>
@@ -1135,15 +1446,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Eliminados directorios no necesarios y agregados los build.gradle faltantes" />
-    <MESSAGE value="UART - Agregado doble bit de stop, bit de paridad y dato de 9 bits" />
-    <MESSAGE value="Cambiado el ícono de la aplicación" />
-    <MESSAGE value="Mejorado el testeo de conflictos en las preferencias y cambios menores en el código" />
-    <MESSAGE value="Ultima version de la libreria" />
-    <MESSAGE value="Agregado NavigationDrawer para seleccionar el canal en modo lista para una mejor visualización" />
-    <MESSAGE value="Corregidos algunos bug causantes de NullPointerException" />
-    <MESSAGE value="Cambiado el Theme de Dark a Light" />
-    <MESSAGE value="Texto en la lista ahora se alinea para una mejor visualización. Strings corregidos y texto en el ActionBar mostrado cuando se puede." />
     <MESSAGE value="NavigationDrawer se abre solo en el Fragment de lista" />
     <MESSAGE value="APK Agregado" />
     <MESSAGE value="Versión actualizada" />
@@ -1160,418 +1462,403 @@
     <MESSAGE value="Comentario" />
     <MESSAGE value="Corregidos errores en el reinicio y posibilidad de reiniciar en el Fragment de lista también." />
     <MESSAGE value="Eliminado soporte para android menor a Honeycomb. Android ICS o mas se requiere ahora, la mayor parte de los dispositivos Android tiene ICS o superior ahora." />
-    <option name="LAST_COMMIT_MESSAGE" value="Eliminado soporte para android menor a Honeycomb. Android ICS o mas se requiere ahora, la mayor parte de los dispositivos Android tiene ICS o superior ahora." />
+    <MESSAGE value="Limpieza de codigo" />
+    <MESSAGE value="Primera implementacion de lista en el Raw mode&#10;" />
+    <MESSAGE value="Primera implementacion de lista en el modo Raw&#10;" />
+    <MESSAGE value="Bug correjido relacionado con problemas en el Fragment cuando se apaga la pantalla&#10;&#10;" />
+    <MESSAGE value="Limpieza de codigo&#10;&#10;" />
+    <MESSAGE value="README actualizado&#10;&#10;" />
+    <MESSAGE value="Nuevo ExpandableListView animado y con scroll más fluido. Solucionado crash en Android 4.4 de las preferencias.&#10;&#10;" />
+    <MESSAGE value="Mejoras para mantención del código. Requiere reinstalacion completa de la aplicación debido al cambio en los valores de las preferencias.&#10;" />
+    <MESSAGE value="Limpieza de codigo&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Limpieza de codigo&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/MultiWork/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="23" selection-start="170" selection-end="170" vertical-scroll-proportion="0.0" vertical-offset="162" max-vertical-offset="648">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="218" column="72" selection-start="8832" selection-end="8869" vertical-scroll-proportion="0.0" vertical-offset="3924" max-vertical-offset="12060">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarfrec.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="11" selection-start="867" selection-end="867" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="504" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/frecview.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state line="121" column="38" selection-start="4098" selection-end="4098" vertical-scroll-proportion="0.0" vertical-offset="2178" max-vertical-offset="2430" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/frecuencimeter/andres/FrecView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="130" column="11" selection-start="4479" selection-end="4479" vertical-scroll-proportion="0.0" vertical-offset="2340" max-vertical-offset="2376">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="218" column="72" selection-start="8832" selection-end="8869" vertical-scroll-proportion="0.0" vertical-offset="3924" max-vertical-offset="12060">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarfrec.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="11" selection-start="867" selection-end="867" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="504" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/frecview.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state line="121" column="38" selection-start="4098" selection-end="4098" vertical-scroll-proportion="0.0" vertical-offset="1860" max-vertical-offset="2430" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/frecuencimeter/andres/FrecView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="130" column="11" selection-start="4479" selection-end="4479" vertical-scroll-proportion="0.0" vertical-offset="2340" max-vertical-offset="2376">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="218" column="72" selection-start="8832" selection-end="8869" vertical-scroll-proportion="0.0" vertical-offset="3924" max-vertical-offset="12060">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarfrec.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="11" selection-start="867" selection-end="867" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="504" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/frecview.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state line="121" column="38" selection-start="4098" selection-end="4098" vertical-scroll-proportion="0.0" vertical-offset="1860" max-vertical-offset="2430" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/frecuencimeter/andres/FrecView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="141" column="22" selection-start="5004" selection-end="5004" vertical-scroll-proportion="0.0" vertical-offset="2376" max-vertical-offset="2376">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="218" column="72" selection-start="8832" selection-end="8869" vertical-scroll-proportion="0.0" vertical-offset="3924" max-vertical-offset="12060">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarfrec.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="11" selection-start="867" selection-end="867" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="504" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/frecview.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state line="121" column="38" selection-start="4098" selection-end="4098" vertical-scroll-proportion="0.0" vertical-offset="1860" max-vertical-offset="2430" />
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar!/com/protocolanalyzer/api/Clock.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="17" selection-start="515" selection-end="515" vertical-scroll-proportion="0.441331" vertical-offset="0" max-vertical-offset="571" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/logic_fragments.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="20" selection-start="202" selection-end="202" vertical-scroll-proportion="0.12631579" vertical-offset="0" max-vertical-offset="570" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbar_logicchart.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="11" selection-start="995" selection-end="995" vertical-scroll-proportion="0.0" vertical-offset="11" max-vertical-offset="810" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="437">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/frecview.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state line="121" column="38" selection-start="4098" selection-end="4098" vertical-scroll-proportion="0.0" vertical-offset="1860" max-vertical-offset="2430" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="37" selection-start="410" selection-end="410" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="648">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/PruebaParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="70" selection-start="3919" selection-end="3919" vertical-scroll-proportion="0.0" vertical-offset="1418" max-vertical-offset="1764">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/drawer_list_item.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="5" selection-start="280" selection-end="280" vertical-scroll-proportion="0.1875" vertical-offset="18" max-vertical-offset="828">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/roboticarm/andres/Joystick.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="34" selection-start="3388" selection-end="3388" vertical-scroll-proportion="0.43355483" vertical-offset="1719" max-vertical-offset="3114">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1800">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/lcview.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="8" selection-start="1394" selection-end="1394" vertical-scroll-proportion="0.3323077" vertical-offset="630" max-vertical-offset="2358">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/build/exploded-bundles/ComActionbarsherlockActionbarsherlock440.aar/res/layout-xlarge/abs__screen_action_bar_overlay.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="1" selection-start="783" selection-end="783" vertical-scroll-proportion="0.36236933" vertical-offset="274" max-vertical-offset="1008">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/build/source/r/debug/com/multiwork/andres/R.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1029" column="32" selection-start="65723" selection-end="65723" vertical-scroll-proportion="0.35654595" vertical-offset="18304" max-vertical-offset="62568">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbar_logiclist.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="38" selection-start="680" selection-end="680" vertical-scroll-proportion="0.33333334" vertical-offset="225" max-vertical-offset="612">
-          <folding>
-            <element signature="e#265#293#0" expanded="false" />
-            <element signature="e#462#491#0" expanded="false" />
-            <element signature="e#863#893#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/menu/actionmode_logicchart.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="38" selection-start="451" selection-end="466" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="396">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarfrec.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="8" selection-start="854" selection-end="854" vertical-scroll-proportion="0.0" vertical-offset="166" max-vertical-offset="504">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarlc.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="8" selection-start="820" selection-end="820" vertical-scroll-proportion="0.0" vertical-offset="230" max-vertical-offset="720">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/values-es/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="11" selection-start="50" selection-end="50" vertical-scroll-proportion="0.051282052" vertical-offset="0" max-vertical-offset="351">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarmain.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="8" selection-start="743" selection-end="743" vertical-scroll-proportion="0.53846157" vertical-offset="153" max-vertical-offset="504">
-          <folding>
-            <element signature="e#555#589#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/DeviceListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="33" selection-start="2031" selection-end="2031" vertical-scroll-proportion="0.33333334" vertical-offset="297" max-vertical-offset="3132">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/roboticarm/andres/BrazoRobot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="187" column="38" selection-start="6789" selection-end="6811" vertical-scroll-proportion="-0.4074074" vertical-offset="3265" max-vertical-offset="6048">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/values/array.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4176">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/frecuencimeter/andres/FrecView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="534" selection-end="565" vertical-scroll-proportion="0.3846154" vertical-offset="122" max-vertical-offset="2880">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="503" selection-end="503" vertical-scroll-proportion="0.5325444" vertical-offset="90" max-vertical-offset="3798">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3357#3401#0" expanded="true" />
-            <element signature="e#3792#3833#0" expanded="true" />
-            <element signature="e#3896#3937#0" expanded="true" />
-            <element signature="e#4298#4325#0" expanded="true" />
-            <element signature="e#4363#4388#0" expanded="true" />
-            <element signature="e#4432#4457#0" expanded="true" />
-            <element signature="e#4689#4735#0" expanded="true" />
-            <element signature="e#4864#4908#0" expanded="true" />
-            <element signature="e#5188#5214#0" expanded="true" />
-            <element signature="e#5324#5352#0" expanded="true" />
-            <element signature="e#5403#5431#0" expanded="true" />
-            <element signature="e#5646#5676#0" expanded="true" />
-            <element signature="e#5786#5818#0" expanded="true" />
-            <element signature="e#6209#6239#0" expanded="true" />
-            <element signature="e#6282#6310#0" expanded="true" />
-            <element signature="e#6359#6387#0" expanded="true" />
-            <element signature="e#6614#6643#0" expanded="true" />
-            <element signature="e#6759#6790#0" expanded="true" />
-            <element signature="method#hideSelectedPreferences#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
-            <element signature="e#11418#11461#0" expanded="true" />
-            <element signature="e#11565#11608#0" expanded="true" />
-            <element signature="e#11713#11756#0" expanded="true" />
-            <element signature="e#11860#11903#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="93" selection-start="3204" selection-end="3204" vertical-scroll-proportion="0.0" vertical-offset="878" max-vertical-offset="2358">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="27" selection-start="150" selection-end="150" vertical-scroll-proportion="0.2662722" vertical-offset="0" max-vertical-offset="11970">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/utils/andres/Dependency.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="77" selection-start="1923" selection-end="1923" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="1314">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="1083" selection-end="1083" vertical-scroll-proportion="0.0" vertical-offset="1642" max-vertical-offset="3654">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
+        <state line="44" column="77" selection-start="1923" selection-end="1923" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="1314" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/BTSingleSynchTransfer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="134" column="8" selection-start="3710" selection-end="3710" vertical-scroll-proportion="0.0" vertical-offset="2133" max-vertical-offset="2826">
+        <state line="134" column="8" selection-start="3710" selection-end="3710" vertical-scroll-proportion="0.0" vertical-offset="2133" max-vertical-offset="2826" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/build/exploded-bundles/ComActionbarsherlockActionbarsherlock440.aar/res/layout/abs__action_bar_tab.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="4" selection-start="50" selection-end="50" vertical-scroll-proportion="-1.0588236" vertical-offset="0" max-vertical-offset="216" />
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/build/exploded-bundles/ComActionbarsherlockActionbarsherlock440.aar/res/layout/abs__action_bar_tab_bar_view.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="4" selection-start="100" selection-end="100" vertical-scroll-proportion="0.18815331" vertical-offset="0" max-vertical-offset="287" />
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/BluetoothHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="199" column="24" selection-start="6896" selection-end="6896" vertical-scroll-proportion="0.33136094" vertical-offset="3038" max-vertical-offset="5886" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/drawable-mdpi/settings_dark.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/drawable-hdpi/settings_dark.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/drawable-hdpi/ball.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/view/LayoutInflater.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="29" selection-start="1495" selection-end="1495" vertical-scroll-proportion="0.3327674" vertical-offset="380" max-vertical-offset="1062" />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/view/ActionMode.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="16" selection-start="1488" selection-end="1488" vertical-scroll-proportion="0.7009967" vertical-offset="424" max-vertical-offset="1026" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="63" selection-start="247" selection-end="247" vertical-scroll-proportion="0.23893805" vertical-offset="0" max-vertical-offset="452">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/MainMenu.java">
+    <entry file="file://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/data/res/drawable/list_selector_background.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="12" selection-start="4559" selection-end="4559" vertical-scroll-proportion="0.0" vertical-offset="1490" max-vertical-offset="2664">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612" />
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/data/res/drawable-ldpi/list_selector_background_focus.9.png">
+      <provider selected="true" editor-type-id="ninepatcheditor">
+        <state />
+      </provider>
+      <provider editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/data/res/values/attrs.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="198" column="48" selection-start="10953" selection-end="10981" vertical-scroll-proportion="0.5229202" vertical-offset="3256" max-vertical-offset="110970" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="38" selection-start="1241" selection-end="1271" vertical-scroll-proportion="0.89700997" vertical-offset="0" max-vertical-offset="1800">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="37" selection-start="410" selection-end="410" vertical-scroll-proportion="0.7009967" vertical-offset="46" max-vertical-offset="648">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="MarkdownPreviewEditor">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="84" selection-start="1308" selection-end="1308" vertical-scroll-proportion="0.7033748" vertical-offset="0" max-vertical-offset="1008" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/frecuencimeter/andres/Frecuencia.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="13" selection-start="49" selection-end="49" vertical-scroll-proportion="0.061120544" vertical-offset="0" max-vertical-offset="2574" />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/view/View.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="13" selection-start="155" selection-end="155" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="21384" />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/widget/AdapterView.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="28" selection-start="3504" selection-end="3504" vertical-scroll-proportion="-0.21731749" vertical-offset="1568" max-vertical-offset="2322" />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/widget/AbsListView.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="15" selection-start="1317" selection-end="1317" vertical-scroll-proportion="0.3327674" vertical-offset="236" max-vertical-offset="5760" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ExpandCollapseAnimation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="44" selection-end="44" vertical-scroll-proportion="0.030560272" vertical-offset="0" max-vertical-offset="1332">
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/SlideExpandableListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="23" selection-start="798" selection-end="798" vertical-scroll-proportion="0.6295681" vertical-offset="35" max-vertical-offset="792">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/WrapperListAdapterImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="45" selection-end="45" vertical-scroll-proportion="0.059800666" vertical-offset="0" max-vertical-offset="1746">
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/widget/ListView.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="129" column="0" selection-start="5462" selection-end="5462" vertical-scroll-proportion="0.33333334" vertical-offset="2262" max-vertical-offset="2412">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/SlideExpandableListView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="0" selection-start="1132" selection-end="1132" vertical-scroll-proportion="0.33333334" vertical-offset="732" max-vertical-offset="1512">
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/database/DataSetObservable.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="16" selection-start="378" selection-end="378" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/widget/BaseAdapter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="16" selection-start="656" selection-end="656" vertical-scroll-proportion="0.0" vertical-offset="171" max-vertical-offset="630">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/widget/Adapter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="8" selection-start="179" selection-end="179" vertical-scroll-proportion="0.179402" vertical-offset="0" max-vertical-offset="612">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/logic_rawdata.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="20" selection-start="552" selection-end="552" vertical-scroll-proportion="0.4375" vertical-offset="0" max-vertical-offset="576">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/expandable_list_item.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="37" selection-start="1585" selection-end="1585" vertical-scroll-proportion="0.53125" vertical-offset="504" max-vertical-offset="1188">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="309" column="0" selection-start="9726" selection-end="9726" vertical-scroll-proportion="8.770798" vertical-offset="0" max-vertical-offset="8424">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="115" column="83" selection-start="4378" selection-end="4378" vertical-scroll-proportion="0.72325975" vertical-offset="1572" max-vertical-offset="4104">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2260#3260#0" expanded="true" />
+            <element signature="e#3249#3250#0" expanded="true" />
+            <element signature="e#3356#6052#0" expanded="true" />
+            <element signature="e#6041#6042#0" expanded="true" />
+            <element signature="e#6303#6304#0" expanded="true" />
+            <element signature="e#6353#6354#0" expanded="true" />
+            <element signature="e#7885#8180#0" expanded="true" />
+            <element signature="e#8170#8171#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/logic_fragments.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="576">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="49" selection-start="645" selection-end="645" vertical-scroll-proportion="0.36332768" vertical-offset="38" max-vertical-offset="2646">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar!/com/protocolanalyzer/api/Protocol.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="27" selection-start="1353" selection-end="1353" vertical-scroll-proportion="0.4893617" vertical-offset="390" max-vertical-offset="954">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/utils/andres/ConflictChecker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="0" selection-start="2772" selection-end="2772" vertical-scroll-proportion="0.4499151" vertical-offset="1067" max-vertical-offset="1656">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/OnActionBarClickListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="17" selection-start="55" selection-end="55" vertical-scroll-proportion="0.102564104" vertical-offset="0" max-vertical-offset="351">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerChartFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="581" column="16" selection-start="21886" selection-end="21886" vertical-scroll-proportion="0.0" vertical-offset="9446" max-vertical-offset="12384">
+        <state line="581" column="16" selection-start="21891" selection-end="21891" vertical-scroll-proportion="0.33136094" vertical-offset="9446" max-vertical-offset="12384">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/build/exploded-bundles/ComActionbarsherlockActionbarsherlock440.aar/res/layout/abs__action_bar_tab.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/CRC16.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="4" selection-start="50" selection-end="50" vertical-scroll-proportion="-1.0588236" vertical-offset="0" max-vertical-offset="216">
+        <state line="18" column="13" selection-start="590" selection-end="590" vertical-scroll-proportion="0.19435216" vertical-offset="207" max-vertical-offset="1260">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/build/exploded-bundles/ComActionbarsherlockActionbarsherlock440.aar/res/layout/abs__action_bar_tab_bar_view.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/AnalyzerExpandableAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="4" selection-start="100" selection-end="100" vertical-scroll-proportion="0.18815331" vertical-offset="0" max-vertical-offset="287">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/BluetoothHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="199" column="24" selection-start="6896" selection-end="6896" vertical-scroll-proportion="0.33136094" vertical-offset="3038" max-vertical-offset="5886">
+        <state line="15" column="13" selection-start="413" selection-end="413" vertical-scroll-proportion="0.1901528" vertical-offset="158" max-vertical-offset="1314">
           <folding>
-            <element signature="e#2996#2997#0" expanded="true" />
-            <element signature="e#3027#3028#0" expanded="true" />
-            <element signature="e#3389#3390#0" expanded="true" />
-            <element signature="e#3414#3415#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar!/com/protocolanalyzer/api/I2CProtocol.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="13" selection-start="113" selection-end="113" vertical-scroll-proportion="0.12224109" vertical-offset="0" max-vertical-offset="5184">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/content/SharedPreferences.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="38" selection-start="220" selection-end="220" vertical-scroll-proportion="0.18336163" vertical-offset="0" max-vertical-offset="1062">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/MainMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="53" selection-start="2076" selection-end="2076" vertical-scroll-proportion="0.7640068" vertical-offset="90" max-vertical-offset="2646">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar!/com/protocolanalyzer/api/utils/Configuration.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="0" selection-start="635" selection-end="635" vertical-scroll-proportion="0.5609756" vertical-offset="132" max-vertical-offset="378">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/values/array.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="124" column="24" selection-start="3306" selection-end="3306" vertical-scroll-proportion="3.7076411" vertical-offset="0" max-vertical-offset="3924">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar!/com/protocolanalyzer/api/UARTProtocol.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="0" selection-start="1805" selection-end="1805" vertical-scroll-proportion="0.68085104" vertical-offset="498" max-vertical-offset="1062">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="17" selection-start="3815" selection-end="3815" vertical-scroll-proportion="0.7572156" vertical-offset="778" max-vertical-offset="2628">
+        <state line="85" column="40" selection-start="3699" selection-end="3699" vertical-scroll-proportion="0.60271645" vertical-offset="1175" max-vertical-offset="3600">
           <folding>
-            <element signature="method#createHeader#0;class#LogicAnalizerPrefs#0" expanded="false" />
-            <element signature="method#testIntegrity#0;class#LogicAnalizerPrefs#0" expanded="false" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#2471#4182#0" expanded="true" />
+            <element signature="e#4177#4178#0" expanded="true" />
+            <element signature="method#onPause#0;class#LogicAnalizerPrefs#0" expanded="false" />
+            <element signature="method#onResume#0;class#LogicAnalizerPrefs#0" expanded="false" />
+            <element signature="method#onBuildHeaders#0;class#LogicAnalizerPrefs#0" expanded="false" />
             <element signature="method#dialog#0;class#LogicAnalizerPrefs#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="164" column="47" selection-start="8337" selection-end="8360" vertical-scroll-proportion="0.0" vertical-offset="2485" max-vertical-offset="4374">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7985#8531#0" expanded="true" />
+            <element signature="e#8516#8517#0" expanded="true" />
+            <element signature="method#onResume#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
+            <element signature="method#onPause#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
+            <element signature="method#setPreferenceScreen#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="477" column="46" selection-start="19575" selection-end="19575" vertical-scroll-proportion="0.0" vertical-offset="8635" max-vertical-offset="12366">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5462#5503#0" expanded="true" />
+            <element signature="e#6047#6074#0" expanded="true" />
+            <element signature="e#6092#6121#0" expanded="true" />
+            <element signature="e#15351#15394#0" expanded="true" />
+            <element signature="e#15400#15430#0" expanded="true" />
+            <element signature="e#22004#22045#0" expanded="true" />
+            <element signature="e#22445#22490#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="167" column="16" selection-start="6205" selection-end="6205" vertical-scroll-proportion="0.0" vertical-offset="2084" max-vertical-offset="4050">
+          <folding>
+            <element signature="class#3223:4655" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -12,7 +12,6 @@ import com.bluetoothutils.andres.DeviceListActivity;
 import com.bluetoothutils.andres.OnBluetoothConnected;
 import com.frecuencimeter.andres.FrecView;
 import com.protocolanalyzer.andres.LogicAnalyzerActivity;
-import com.protocolanalyzer.andres.PruebaParser;
 import com.roboticarm.andres.BrazoRobot;
 
 import android.app.AlertDialog;
@@ -37,7 +36,7 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
    
 	private static final boolean DEBUG = true;
 	private static final Class<?>[] className = {LCView.class, FrecView.class,
-		LogicAnalyzerActivity.class, BrazoRobot.class, PruebaParser.class};
+		LogicAnalyzerActivity.class, BrazoRobot.class};
 	private static String[] MenuNames = new String[className.length];
 
 	private static ApplicationContext myApp;
@@ -55,7 +54,6 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
         MenuNames[1] = getString(R.string.FrecMenu);
         MenuNames[2] = getString(R.string.LogicAnalyzerMenu);
         MenuNames[3] = getString(R.string.BrazoMenu);
-        MenuNames[4] = "Prueba parseador de bits";
         
         // Menu
         setListAdapter(new ArrayAdapter<String>(MainMenu.this, android.R.layout.simple_list_item_1, MenuNames));
