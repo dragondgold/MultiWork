@@ -8,7 +8,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.bluetoothutils.andres.BluetoothHelper;
-import com.bluetoothutils.andres.DeviceListActivity;
 import com.bluetoothutils.andres.OnBluetoothConnected;
 import com.frecuencimeter.andres.FrecView;
 import com.protocolanalyzer.andres.LogicAnalyzerActivity;
@@ -87,7 +86,16 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 					// Online
 					myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, false, (OnBluetoothConnected)ctx);
 					myApp.mBluetoothHelper.setConnectionDialog(true);
-					myApp.mBluetoothHelper.connect(true);
+                    //myApp.mBluetoothHelper.switchBluetooth(true);
+                    myApp.mBluetoothHelper.setBTRequestTitleString(R.string.BTRequestTitle)
+                                          .setBTRequestSummaryString(R.string.BTRequestSummary)
+                                          .setPleaseWaitString(R.string.PleaseWait)
+                                          .setConnectingString(R.string.BTConnecting)
+                                          .setScanString(R.string.button_scan)
+                                          .setScanningString(R.string.scanning)
+                                          .setSelectDeviceString(R.string.select_device)
+                                          .setNoDeviceString(R.string.none_found);
+					myApp.mBluetoothHelper.connect();
 				}
 			});
 			
@@ -98,30 +106,12 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
     
 	@Override
 	protected void onDestroy() {
-		if(myApp.mBluetoothHelper != null) myApp.mBluetoothHelper.disconnect();
+		if(myApp.mBluetoothHelper != null){
+            myApp.mBluetoothHelper.switchBluetooth(false);
+            myApp.mBluetoothHelper.disconnect();
+        }
 		myApp.mBluetoothHelper = null;
 		super.onDestroy();
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(resultCode != RESULT_CANCELED){
-			if(requestCode == BluetoothHelper.BLUETOOTH_CONNECTION){
-				Bundle extras = data.getExtras();
-				String btAddress = extras.getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-				String btName = extras.getString(DeviceListActivity.EXTRA_DEVICE_NAME);
-				
-				myApp.mBluetoothHelper.connectWithAddress(btAddress);
-				
-				// Guardo el nuevo nombre del bluetooth
-				mPrefs.edit().putString("btName", btName).apply();
-			}
-		}else{
-			if(requestCode == BluetoothHelper.BLUETOOTH_CONNECTION){
-				// TODO: no se conecto
-			}
-		}
-		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override

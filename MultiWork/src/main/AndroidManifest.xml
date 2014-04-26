@@ -74,12 +74,6 @@
             android:screenOrientation="landscape" >
         </activity>
        	
-       	<activity android:name="com.bluetoothutils.andres.DeviceListActivity"
-                  android:label="@string/select_device"
-                  android:theme="@android:style/Theme.Holo.Dialog"
-                  android:configChanges="orientation|keyboardHidden" >
-       	</activity>
-       	
        	<activity android:name="org.acra.CrashReportDialog"
 	        android:theme="@android:style/Theme.Dialog"
 	        android:launchMode="singleInstance"
