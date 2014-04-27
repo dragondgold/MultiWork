@@ -10,26 +10,21 @@
     <string name="No">							No</string>
     <string name="Ok">							OK</string>
     <string name="PleaseWait">					Por favor, espere</string>
-    
+
     <string name="BTRequestTitle">				Petición del sistema</string>
     <string name="BTRequestSummary">			¿Desea encender el Bluetooth?</string>
     <string name="BTOfflineTitle">				Modo sin conexión</string>
     <string name="BTOfflineSummary">			¿Desea usar el modo sin conexión? Si activa el mismo
         										 no se conectara al dispositivo Bluetooth.</string>  
-    <string name="BTConnecting">				Conectando…</string>		
+    <string name="BTConnecting">				Conectando…</string>
+    <string name="button_scan">					Escanear</string>
+    <string name="scanning">					Escaneando…</string>
+    <string name="select_device">				Seleccione un dispositivo</string>
     
     <string name="Reinicio">					Reiniciado</string>
     <string name="Restart">                     Reinicio</string>
     <string name="Exit">                        Salir</string>
-    										 
-    <!--  DeviceListActivity -->
-    <string name="scanning">					Escaneando por dispositivos…</string>
-    <string name="select_device">				Seleccione un dispositivo</string>
-    <string name="none_paired">					No hay dispositivos emparejados</string>
     <string name="none_found">					No se encontraron dispositivos</string>
-    <string name="title_paired_devices">		Dispositivos emparejados</string>
-    <string name="title_other_devices">			Otros dispositivos disponibles</string>
-    <string name="button_scan">					Escanear</string>
     
     <!-- LC Meter -->
     <string name="LCMeterMenu">					Medidor LC</string>
@@ -126,10 +121,6 @@
         <string name="AnalyzerI2CAddress">		        Dirección</string>
         <string name="AnalyzerI2CData">		            Dato de 8 bits</string>
 
-    <!-- Brazo Robot -->
-    <string name="NoBTAlertTitle">					No existe Bluetooth</string>
-	<string name="NoBTAlertText">					El dispositivo no dispone de Bluetooth por lo tanto no puede hacer
-	    											 uso de la aplicación, lo siento</string>
 	<!-- ACRA -->
 	<string name="Error">							Error inesperado en la aplicación…</string>
 	<string name="crash_notif_ticker_text">			Error inesperado, por favor envíe un informe…</string>
