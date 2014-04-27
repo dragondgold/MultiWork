@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
+        classpath 'com.android.tools.build:gradle:0.9.+'
     }
 }
 
@@ -15,7 +15,7 @@ repositories {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    buildToolsVersion "19.0.3"
 
     defaultConfig {
         minSdkVersion 14
@@ -25,6 +25,6 @@ android {
 
 dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'com.android.support:support-v4:18.0.+'
+    compile 'com.android.support:support-v4:19.0.+'
     compile files ('libs/acra-4.5.0.jar', 'libs/achartengine-1.2.jar', 'libs/Protocol_Decoder_API.jar')
 }

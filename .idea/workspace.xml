@@ -10,6 +10,10 @@
         <option name="packageNamePattern" value="com.multiwork.andres" />
         <option name="pid" value="" />
       </filter>
+      <filter>
+        <option name="name" value="app: com.multiwork.andres" />
+        <option name="packageNamePattern" value="com.multiwork.andres" />
+      </filter>
     </filters>
   </component>
   <component name="AndroidLayoutPreviewToolWindow">
@@ -26,20 +30,17 @@
     <layouts>
       <layout url="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/drawer_list_item.xml">
         <config>
-          <device>Nexus 4</device>
           <theme>@style/Theme.Sherlock.Light.DarkActionBar</theme>
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/frecview.xml">
         <config>
-          <device>Nexus 4</device>
           <state>Landscape</state>
           <theme>@style/Theme.Sherlock.Light.DarkActionBar</theme>
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/logic_rawdata.xml">
         <config>
-          <device>4in WVGA (Nexus S)</device>
           <state>Landscape</state>
           <theme>@style/Theme.Sherlock.Light.DarkActionBar</theme>
         </config>
@@ -48,16 +49,22 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_CUSTOM_FILTER" value="multiwork" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.multiwork.andres" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2f00b65a-b041-4799-849a-69a1e0359d71" name="Default" comment="Limpieza de codigo&#10;&#10;">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/PruebaParser.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar" afterPath="$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml" />
+    <list default="true" id="2f00b65a-b041-4799-849a-69a1e0359d71" name="Default" comment="Rediseño de la librería de la conexión de Bluetooth para hacer más facil su uso eliminando la necesidad de un Activity para escanear los dispositivos&#10;">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/OnSwipeTouchListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/MainMenu.java" afterPath="$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/MainMenu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/res/values/array.xml" afterPath="$PROJECT_DIR$/MultiWork/src/main/res/values/array.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/MultiWork.iml" afterPath="$PROJECT_DIR$/MultiWork/MultiWork.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWorkProject.iml" afterPath="$PROJECT_DIR$/MultiWorkProject.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/build.gradle" afterPath="$PROJECT_DIR$/MultiWork/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradlew" afterPath="$PROJECT_DIR$/gradlew" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MultiWork/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/MultiWork/src/main/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MultiWorkProject.iws" />
@@ -84,7 +91,114 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" converted="true">
+      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java" line="105" class="com.tjerkw.slideexpandable.library.ActionSlideExpandableListView$2$1" package="com.tjerkw.slideexpandable.library">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java" line="164" class="com.protocolanalyzer.andres.LogicAnalizerPrefsFragment$1" package="com.protocolanalyzer.andres">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" line="87" class="com.protocolanalyzer.andres.LogicAnalizerPrefs$1" package="com.protocolanalyzer.andres">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java" line="198" class="com.protocolanalyzer.andres.LogicAnalizerPrefsFragment" package="com.protocolanalyzer.andres">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java" line="256" class="com.tjerkw.slideexpandable.library.AbstractSlideExpandableListAdapter$1" package="com.tjerkw.slideexpandable.library">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java" line="277" class="com.tjerkw.slideexpandable.library.AbstractSlideExpandableListAdapter$1" package="com.tjerkw.slideexpandable.library">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java" line="81" class="com.tjerkw.slideexpandable.library.ActionSlideExpandableListView$1" package="com.tjerkw.slideexpandable.library">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
+    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true" converted="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
         <option name="NOTIFY_UNCAUGHT" value="true" />
@@ -120,71 +234,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" line="32" class="com.protocolanalyzer.andres.LogicAnalizerPrefs" package="com.protocolanalyzer.andres">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java" line="301" class="com.tjerkw.slideexpandable.library.AbstractSlideExpandableListAdapter$1" package="com.tjerkw.slideexpandable.library">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java" line="111" class="com.tjerkw.slideexpandable.library.ActionSlideExpandableListView$2$1" package="com.tjerkw.slideexpandable.library">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" line="130" class="com.protocolanalyzer.andres.LogicAnalizerPrefs" package="com.protocolanalyzer.andres">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
-    <breakpoint_rules />
-    <ui_properties />
+    <breakpoint_rules converted="true" />
+    <ui_properties converted="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -192,31 +243,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LogicAnalyzerListFragment.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerListFragment.java">
+      <file leaf-file-name="MainMenu.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/MainMenu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="167" column="16" selection-start="6205" selection-end="6205" vertical-scroll-proportion="0.0" vertical-offset="1836" max-vertical-offset="3582">
-              <folding>
-                <element signature="class#3223:4655" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.24444444" vertical-offset="775" max-vertical-offset="2227">
+              <caret line="83" column="53" selection-start-line="83" selection-start-column="53" selection-end-line="83" selection-end-column="53" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LogicAnalyzerActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java">
+      <file leaf-file-name="LogicAnalizerPrefs.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="477" column="46" selection-start="19575" selection-end="19575" vertical-scroll-proportion="0.0" vertical-offset="8635" max-vertical-offset="12366">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#5462#5503#0" expanded="true" />
-                <element signature="e#6047#6074#0" expanded="true" />
-                <element signature="e#6092#6121#0" expanded="true" />
-                <element signature="e#15351#15394#0" expanded="true" />
-                <element signature="e#15400#15430#0" expanded="true" />
-                <element signature="e#22004#22045#0" expanded="true" />
-                <element signature="e#22445#22490#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="663" max-vertical-offset="3961">
+              <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -224,14 +266,13 @@
       <file leaf-file-name="LogicAnalizerPrefsFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="164" column="47" selection-start="8337" selection-end="8360" vertical-scroll-proportion="0.0" vertical-offset="2485" max-vertical-offset="4374">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2781" max-vertical-offset="3366">
+              <caret line="189" column="58" selection-start-line="189" selection-start-column="58" selection-end-line="189" selection-end-column="58" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#7985#8531#0" expanded="true" />
-                <element signature="e#8516#8517#0" expanded="true" />
                 <element signature="method#onResume#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
                 <element signature="method#onPause#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
-                <element signature="method#setPreferenceScreen#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
+                <element signature="method#hideSelectedPreferences#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -289,7 +330,7 @@
           <value>
             <list>
               <ExternalProjectPojo>
-                <option name="name" value=":" />
+                <option name="name" value="MultiWorkProject" />
                 <option name="path" value="$PROJECT_DIR$" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
@@ -352,6 +393,14 @@
                 <option name="name" value="check" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
+                <option name="name" value="checkDebugManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
+                <option name="name" value="checkReleaseManifest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Deletes the build directory." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
                 <option name="name" value="clean" />
@@ -409,14 +458,14 @@
                 <option name="name" value="compileReleaseRenderscript" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Installs and runs the tests for Build 'debug' on connected devices." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
+                <option name="name" value="connectedAndroidTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Runs all device checks on currently connected devices." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
                 <option name="name" value="connectedCheck" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Installs and runs the tests for Build 'debug' on connected devices." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
-                <option name="name" value="connectedInstrumentTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Runs all device checks using Device Providers and Test Servers." />
@@ -441,6 +490,14 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
+                <option name="name" value="generateDebugResValues" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
+                <option name="name" value="generateDebugResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
                 <option name="name" value="generateDebugSources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
@@ -449,11 +506,27 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
+                <option name="name" value="generateDebugTestResValues" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
+                <option name="name" value="generateDebugTestResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
                 <option name="name" value="generateDebugTestSources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
                 <option name="name" value="generateReleaseBuildConfig" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
+                <option name="name" value="generateReleaseResValues" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
+                <option name="name" value="generateReleaseResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
@@ -483,6 +556,11 @@
                 <option name="description" value="Runs lint on the Release build" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
                 <option name="name" value="lintRelease" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs lint on just the fatal issues in the Release build" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
+                <option name="name" value="lintVitalRelease" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/MultiWork" />
@@ -635,21 +713,282 @@
         </entry>
       </map>
     </option>
+    <option name="modificationStamps">
+      <map>
+        <entry key="$PROJECT_DIR$" value="4152946295786" />
+      </map>
+    </option>
+    <option name="projectBuildClasspath">
+      <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <ExternalProjectBuildClasspathPojo>
+              <option name="modulesBuildClasspath">
+                <map>
+                  <entry key="$PROJECT_DIR$">
+                    <value>
+                      <ExternalModuleBuildClasspathPojo>
+                        <option name="path" value="$PROJECT_DIR$" />
+                      </ExternalModuleBuildClasspathPojo>
+                    </value>
+                  </entry>
+                  <entry key="$PROJECT_DIR$/MultiWork">
+                    <value>
+                      <ExternalModuleBuildClasspathPojo>
+                        <option name="entries">
+                          <list>
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/0.9.2/7e8b21a0f966c95958d87bef86d9744b6de356e4/gradle-0.9.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/0.9.2/8fd16e4a0954825b3d4336a18fa95091fb93d1ff/gradle-0.9.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/15.0/36b6a585c0f0c63bd85fb04db0dcb7b217298956/guava-15.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/15.0/ed727a8d9f247e2050281cb083f1c77b09dcb5cd/guava-15.0.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/common/22.7.2/8a4e122efdb1ec1b2d44b1ba21a59a7c1efed679/common-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/common/22.7.2/b5b41bb3cfad59132f84068e6857c152d90cb0d5/common-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder-model/0.9.2/48aa56bb1b78654d43573f7606e840b54c728a46/builder-model-0.9.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder-model/0.9.2/43bc5a42968a1e5076abc75445dcf06f9c7b1c7a/builder-model-0.9.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.kxml/kxml2/2.3.0/309cd2cff7260e465792fda3dcbb063b730d8050/kxml2-2.3.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.kxml/kxml2/2.3.0/ccbc77a5fd907ef863c29f3596c6f54ffa4e9442/kxml2-2.3.0.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.layoutlib/layoutlib-api/22.7.2/c2d271f9724bd26383cd7e31428b67dd9b27c622/layoutlib-api-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.layoutlib/layoutlib-api/22.7.2/87f73d2a6733c3caa0f3a91f6c9351603c744f17/layoutlib-api-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.1/1fdf61e5ba87e0e4676c22677e0b2fe3a05c2fd8/httpcore-4.1-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.1/33fc26c02f8043ab0ede19eadc8c9885386b255c/httpcore-4.1.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/f3f156cbff0e0fb0d64bfce31a352cce4a33bc19/commons-logging-1.1.1-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/5043bfebc3db072ed80fbd362e7caf00e885d8ae/commons-logging-1.1.1.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.4/5310da9f90e843883309e9e0bf5950faa79882a0/commons-codec-1.4-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.4/4216af16d38465bbab0f3dff8efa14204f7a399a/commons-codec-1.4.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.1.1/42f6189003f355107f53b937770092517de69710/httpclient-4.1.1-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.1.1/3d1d918f32709e33ba7ddb2c4e8d1c543ebe713e/httpclient-4.1.1.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.1/3ac83213baeab2b21fde6c0bf47ed68ea3e6a8da/httpmime-4.1-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.1/9ba2dcdf94ce35c8a8e9bff242db0618ca932e92/httpmime-4.1.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/dvlib/22.7.2/4f8382de166737821a1381e6a81969229147686/dvlib-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/dvlib/22.7.2/a530af84f9c948f72c4fe68b79865f511242f106/dvlib-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.0/913e9963c558d36bdfdc19bab739a282999d08eb/commons-compress-1.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.0/995ae384a0b1e2c66269e6bc5198db8561fb45a2/commons-compress-1.0.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/sdklib/22.7.2/3795207c67b08c52ad4a4b3636bf6609d6a44423/sdklib-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/sdklib/22.7.2/ed1a91f6d6743bad6b9bc45e51cd2ab7a71401/sdklib-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/sdk-common/22.7.2/404b71270aef87a8002f28cf3a7bf4696e97e948/sdk-common-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/sdk-common/22.7.2/a445ae3c862d34796e6ed357d3d7b2e2b1f6416f/sdk-common-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/manifest-merger/22.7.2/44e648c954873280295bd43b9c9cf9d796227be9/manifest-merger-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/manifest-merger/22.7.2/ce1639afae82278d1b21eadc5d26243b73a14598/manifest-merger-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.ddms/ddmlib/22.7.2/e8e58740e00094e36c978337a5b50aa35d821bba/ddmlib-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.ddms/ddmlib/22.7.2/3094c5a6d36ff7d0595a3489fca90b935219d414/ddmlib-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.2.1/9476a897088c64437ddba17bedbbdb2272499d63/javawriter-2.2.1-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.2.1/d6dac1da0b24ab9ea9a6b5d49c2586d85f17e597/javawriter-2.2.1.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder-test-api/0.9.2/ae45519899d49a8ff356ba60527d4ab131e9724c/builder-test-api-0.9.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder-test-api/0.9.2/33769dabb66560282d2cc9f4a64f8dd24a489e89/builder-test-api-0.9.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.48/3824866f059053c43b118eb5a067ea1800d8c913/bcprov-jdk15on-1.48-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.48/960dea7c9181ba0b17e8bab0c06a43f0a5f04e65/bcprov-jdk15on-1.48.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15on/1.48/8cff777fce5ef53cc35fa569faa8d12faaf34a78/bcpkix-jdk15on-1.48-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15on/1.48/28b7614b908a47844bb27e3c94b45b6893656265/bcpkix-jdk15on-1.48.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder/0.9.2/81ad90ef689377af0ddc803bef3c7bb8906b2cc5/builder-0.9.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder/0.9.2/3bb1c716cdfbd42981ab035870b782440ce5f871/builder-0.9.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-4.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/4.0/659add6efc75a4715d738e73f07505246edf4d66/asm-4.0.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.external.lombok/lombok-ast/0.2.2/47ebe619db7def288aad08bd65d26eea6d67f8ee/lombok-ast-0.2.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.external.lombok/lombok-ast/0.2.2/57e560b535ceaa14fb6f15422d74594acd6c5b64/lombok-ast-0.2.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-tree-4.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/4.0/67bd266cd17adcee486b76952ece4cc85fe248b8/asm-tree-4.0.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.lint/lint-api/22.7.2/2704027a8b42603489ea587e99ad49833bf78262/lint-api-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.lint/lint-api/22.7.2/78c89a1700a23acb694f3d32f3e4644b039d8de6/lint-api-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-analysis-4.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/4.0/1c45d52b6f6c638db13cf3ac12adeb56b254cdd7/asm-analysis-4.0.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.lint/lint-checks/22.7.2/373253298e5300e1f84005bdc2e757de55403376/lint-checks-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.lint/lint-checks/22.7.2/772c8857d60a09c270c5cac82370e2371bc40ffe/lint-checks-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jdt.core.compiler/ecj/4.2.2/fb9dc21349d06dd00b395af5c42f299df828f9da/ecj-4.2.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jdt.core.compiler/ecj/4.2.2/d9fd79499c664bccaf24dbe04be417de6c6af64a/ecj-4.2.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.lint/lint/22.7.2/5e0d65df7686f816b1b45100478ee8ab6306ce7a/lint-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.lint/lint/22.7.2/698562b3dc41a727284f726ec49695ef5c89ec40/lint-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.proguard/proguard-base/4.10/2e69a382547b042b3d2d03440687fb1e2ac06af2/proguard-base-4.10-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.proguard/proguard-base/4.10/46e891272ae0338af3f5de5e14d8d2641edefc2c/proguard-base-4.10.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.proguard/proguard-gradle/4.10/9ed4b7b34d522f36aa61b5142576fa5e8cc733b8/proguard-gradle-4.10-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.proguard/proguard-gradle/4.10/edad1b6af1c08c54a58fb39da9fa48e03bc6678d/proguard-gradle-4.10.jar" />
+                          </list>
+                        </option>
+                        <option name="path" value="$PROJECT_DIR$/MultiWork" />
+                      </ExternalModuleBuildClasspathPojo>
+                    </value>
+                  </entry>
+                  <entry key="D:\Dropbox\Android_Workspace\MultiWorkProject">
+                    <value>
+                      <ExternalModuleBuildClasspathPojo>
+                        <option name="path" value="D:\Dropbox\Android_Workspace\MultiWorkProject" />
+                      </ExternalModuleBuildClasspathPojo>
+                    </value>
+                  </entry>
+                  <entry key="D:\Dropbox\Android_Workspace\MultiWorkProject\MultiWork">
+                    <value>
+                      <ExternalModuleBuildClasspathPojo>
+                        <option name="entries">
+                          <list>
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/0.9.2/7e8b21a0f966c95958d87bef86d9744b6de356e4/gradle-0.9.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/gradle/0.9.2/8fd16e4a0954825b3d4336a18fa95091fb93d1ff/gradle-0.9.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/15.0/36b6a585c0f0c63bd85fb04db0dcb7b217298956/guava-15.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/15.0/ed727a8d9f247e2050281cb083f1c77b09dcb5cd/guava-15.0.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/common/22.7.2/8a4e122efdb1ec1b2d44b1ba21a59a7c1efed679/common-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/common/22.7.2/b5b41bb3cfad59132f84068e6857c152d90cb0d5/common-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder-model/0.9.2/48aa56bb1b78654d43573f7606e840b54c728a46/builder-model-0.9.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder-model/0.9.2/43bc5a42968a1e5076abc75445dcf06f9c7b1c7a/builder-model-0.9.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.kxml/kxml2/2.3.0/309cd2cff7260e465792fda3dcbb063b730d8050/kxml2-2.3.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.kxml/kxml2/2.3.0/ccbc77a5fd907ef863c29f3596c6f54ffa4e9442/kxml2-2.3.0.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.layoutlib/layoutlib-api/22.7.2/c2d271f9724bd26383cd7e31428b67dd9b27c622/layoutlib-api-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.layoutlib/layoutlib-api/22.7.2/87f73d2a6733c3caa0f3a91f6c9351603c744f17/layoutlib-api-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.1/1fdf61e5ba87e0e4676c22677e0b2fe3a05c2fd8/httpcore-4.1-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.1/33fc26c02f8043ab0ede19eadc8c9885386b255c/httpcore-4.1.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/f3f156cbff0e0fb0d64bfce31a352cce4a33bc19/commons-logging-1.1.1-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/5043bfebc3db072ed80fbd362e7caf00e885d8ae/commons-logging-1.1.1.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.4/5310da9f90e843883309e9e0bf5950faa79882a0/commons-codec-1.4-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.4/4216af16d38465bbab0f3dff8efa14204f7a399a/commons-codec-1.4.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.1.1/42f6189003f355107f53b937770092517de69710/httpclient-4.1.1-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.1.1/3d1d918f32709e33ba7ddb2c4e8d1c543ebe713e/httpclient-4.1.1.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.1/3ac83213baeab2b21fde6c0bf47ed68ea3e6a8da/httpmime-4.1-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.1/9ba2dcdf94ce35c8a8e9bff242db0618ca932e92/httpmime-4.1.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/dvlib/22.7.2/4f8382de166737821a1381e6a81969229147686/dvlib-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/dvlib/22.7.2/a530af84f9c948f72c4fe68b79865f511242f106/dvlib-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.0/913e9963c558d36bdfdc19bab739a282999d08eb/commons-compress-1.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.0/995ae384a0b1e2c66269e6bc5198db8561fb45a2/commons-compress-1.0.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/sdklib/22.7.2/3795207c67b08c52ad4a4b3636bf6609d6a44423/sdklib-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/sdklib/22.7.2/ed1a91f6d6743bad6b9bc45e51cd2ab7a71401/sdklib-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/sdk-common/22.7.2/404b71270aef87a8002f28cf3a7bf4696e97e948/sdk-common-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools/sdk-common/22.7.2/a445ae3c862d34796e6ed357d3d7b2e2b1f6416f/sdk-common-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/manifest-merger/22.7.2/44e648c954873280295bd43b9c9cf9d796227be9/manifest-merger-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/manifest-merger/22.7.2/ce1639afae82278d1b21eadc5d26243b73a14598/manifest-merger-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.ddms/ddmlib/22.7.2/e8e58740e00094e36c978337a5b50aa35d821bba/ddmlib-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.ddms/ddmlib/22.7.2/3094c5a6d36ff7d0595a3489fca90b935219d414/ddmlib-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.2.1/9476a897088c64437ddba17bedbbdb2272499d63/javawriter-2.2.1-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.2.1/d6dac1da0b24ab9ea9a6b5d49c2586d85f17e597/javawriter-2.2.1.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder-test-api/0.9.2/ae45519899d49a8ff356ba60527d4ab131e9724c/builder-test-api-0.9.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder-test-api/0.9.2/33769dabb66560282d2cc9f4a64f8dd24a489e89/builder-test-api-0.9.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.48/3824866f059053c43b118eb5a067ea1800d8c913/bcprov-jdk15on-1.48-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.48/960dea7c9181ba0b17e8bab0c06a43f0a5f04e65/bcprov-jdk15on-1.48.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15on/1.48/8cff777fce5ef53cc35fa569faa8d12faaf34a78/bcpkix-jdk15on-1.48-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15on/1.48/28b7614b908a47844bb27e3c94b45b6893656265/bcpkix-jdk15on-1.48.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder/0.9.2/81ad90ef689377af0ddc803bef3c7bb8906b2cc5/builder-0.9.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.build/builder/0.9.2/3bb1c716cdfbd42981ab035870b782440ce5f871/builder-0.9.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-4.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/4.0/659add6efc75a4715d738e73f07505246edf4d66/asm-4.0.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.external.lombok/lombok-ast/0.2.2/47ebe619db7def288aad08bd65d26eea6d67f8ee/lombok-ast-0.2.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.external.lombok/lombok-ast/0.2.2/57e560b535ceaa14fb6f15422d74594acd6c5b64/lombok-ast-0.2.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-tree-4.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/4.0/67bd266cd17adcee486b76952ece4cc85fe248b8/asm-tree-4.0.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.lint/lint-api/22.7.2/2704027a8b42603489ea587e99ad49833bf78262/lint-api-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.lint/lint-api/22.7.2/78c89a1700a23acb694f3d32f3e4644b039d8de6/lint-api-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-analysis-4.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/4.0/1c45d52b6f6c638db13cf3ac12adeb56b254cdd7/asm-analysis-4.0.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.lint/lint-checks/22.7.2/373253298e5300e1f84005bdc2e757de55403376/lint-checks-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.lint/lint-checks/22.7.2/772c8857d60a09c270c5cac82370e2371bc40ffe/lint-checks-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jdt.core.compiler/ecj/4.2.2/fb9dc21349d06dd00b395af5c42f299df828f9da/ecj-4.2.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jdt.core.compiler/ecj/4.2.2/d9fd79499c664bccaf24dbe04be417de6c6af64a/ecj-4.2.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.lint/lint/22.7.2/5e0d65df7686f816b1b45100478ee8ab6306ce7a/lint-22.7.2-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.tools.lint/lint/22.7.2/698562b3dc41a727284f726ec49695ef5c89ec40/lint-22.7.2.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.proguard/proguard-base/4.10/2e69a382547b042b3d2d03440687fb1e2ac06af2/proguard-base-4.10-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.proguard/proguard-base/4.10/46e891272ae0338af3f5de5e14d8d2641edefc2c/proguard-base-4.10.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.proguard/proguard-gradle/4.10/9ed4b7b34d522f36aa61b5142576fa5e8cc733b8/proguard-gradle-4.10-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.proguard/proguard-gradle/4.10/edad1b6af1c08c54a58fb39da9fa48e03bc6678d/proguard-gradle-4.10.jar" />
+                          </list>
+                        </option>
+                        <option name="path" value="D:\Dropbox\Android_Workspace\MultiWorkProject\MultiWork" />
+                      </ExternalModuleBuildClasspathPojo>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="name" value="MultiWorkProject" />
+              <option name="projectBuildClasspath">
+                <list>
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/announce" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/antlr" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/base-services" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/base-services-groovy" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/build-comparison" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/build-init" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/cli" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/code-quality" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/core" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/core-impl" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/cpp" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/diagnostics" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/ear" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/ide" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/internal-integ-testing" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/internal-testing" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/ivy" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/jacoco" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/javascript" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/jetty" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/language-base" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/language-jvm" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/launcher" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/maven" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/messaging" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/native" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/open-api" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/osgi" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/plugins" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/publish" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/reporting" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/resources" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/scala" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/signing" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/sonar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/tooling-api" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/ui" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/src/wrapper" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/ant-1.9.2.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/ant-launcher-1.9.2.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/gradle-base-services-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/gradle-base-services-groovy-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/gradle-cli-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/gradle-core-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/gradle-docs-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/gradle-launcher-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/gradle-messaging-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/gradle-native-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/gradle-open-api-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/gradle-resources-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/gradle-tooling-api-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/gradle-ui-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/gradle-wrapper-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/groovy-all-1.8.6.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/ivy-2.2.0.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/ant-antlr-1.9.2.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-announce-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-antlr-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-build-comparison-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-build-init-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-code-quality-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-core-impl-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-cpp-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-diagnostics-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-ear-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-ide-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-ivy-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-jacoco-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-javascript-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-jetty-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-language-base-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-language-jvm-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-maven-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-osgi-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-plugins-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-publish-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-reporting-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-scala-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-signing-1.11.jar" />
+                  <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-1.11-all/7qd8qq8te5j4f5q9aaei3gh3lj/gradle-1.11/lib/plugins/gradle-sonar-1.11.jar" />
+                  <option value="$PROJECT_DIR$/buildSrc/src/main/java" />
+                  <option value="$PROJECT_DIR$/buildSrc/src/main/groovy" />
+                </list>
+              </option>
+            </ExternalProjectBuildClasspathPojo>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/MultiWork/build.gradle" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/PruebaParser.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/frecuencimeter/andres/FrecView.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/roboticarm/andres/Joystick.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarlc.xml" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionmode_logicchart.xml" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarfrec.xml" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbarmain.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/menu/actionbar_logiclist.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/values-es/strings.xml" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/BluetoothHelper.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/ExpandableListView/group_row.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/group_indicator.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/ExpandableListViewAdapter.java" />
@@ -657,7 +996,6 @@
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/child_row.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/ExpandableActivity.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/list_layout.xml" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/group_row.xml" />
         <option value="$PROJECT_DIR$/README.md" />
@@ -671,25 +1009,35 @@
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/listview/expandable/andres/ExpandingListView.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/library/WrapperListAdapterImpl.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/com.tjerkw.slideexpandable.library/WrapperListAdapterImpl.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/WrapperListAdapterImpl.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/SlideExpandableListView.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/SlideExpandableListAdapter.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/logic_rawdata.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ExpandCollapseAnimation.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/AnalyzerExpandableListView.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/expandable_list_item.xml" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/utils/andres/ConflictChecker.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/AnalyzerExpandableAdapter.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerChartFragment.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerListFragment.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/res/values/array.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/layout/expandable_list_item.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/WrapperListAdapterImpl.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/OnSwypeTouchListener.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/OnSwipeTouchListener.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/AnalyzerExpandableAdapter.java" />
+        <option value="$PROJECT_DIR$/MultiWork/build.gradle" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/OnDeviceSelected.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/CustomAlertDialog.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/MDialog.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/CustomAlertDialogBuilder.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/DeviceScanner.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java" />
         <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/MainMenu.java" />
-        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java" />
+        <option value="$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/BluetoothHelper.java" />
       </list>
     </option>
   </component>
@@ -697,9 +1045,9 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="24" />
-    <option name="width" value="1301" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
     <option name="height" value="744" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -733,7 +1081,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -746,6 +1094,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -765,7 +1114,7 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="MultiWorkProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -775,11 +1124,11 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="MultiWorkProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="MultiWork" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -789,19 +1138,19 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="MultiWorkProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="MultiWork" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -811,23 +1160,27 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="MultiWorkProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="MultiWork" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xml" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -837,148 +1190,27 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="MultiWorkProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="MultiWork" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiWorkProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiWorkProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiWork" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiWorkProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiWorkProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiWork" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="andres" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiWorkProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiWorkProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiWork" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="andres" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiWorkProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiWorkProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiWork" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -998,13 +1230,16 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="0009f4f93db45f" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="AndroidAPI14" />
     <property name="LayoutCode.rearrangeEntriesXML" value="false" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager2.WIDTH" value="230" />
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteToolWindowManager.SHOW" value="false" />
     <property name="SearchEverywhereHistory" value="" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../AnimatedListView-Library" />
+    <property name="DEBUGGABLE_DEVICE" value="samsung-gt_i9100-0009f4f93db45f" />
+    <property name="DEBUGGABLE_PROCESS" value="com.multiwork.andres" />
+    <property name="SHOW_ALL_PROCESSES" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -1043,6 +1278,7 @@
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -1051,19 +1287,6 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -1091,6 +1314,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1144,6 +1380,7 @@
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
     <configuration default="false" name="MultiWork" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -1163,6 +1400,7 @@
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <RunnerSettings RunnerId="AndroidDebugRunner" />
       <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
       <method />
@@ -1185,22 +1423,8 @@
     </option>
   </component>
   <component name="SpellCheckerSettings" BundledDictionaries="0" Folders="1" Folder0="$APPLICATION_HOME_DIR$/dic" Dictionaries="0" />
-  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
-    <option name="USER" value="" />
-    <option name="PASSWORD" value="" />
-    <option name="mySSHConnectionTimeout" value="30000" />
-    <option name="mySSHReadTimeout" value="30000" />
-    <option name="LAST_MERGED_REVISION" />
-    <option name="MERGE_DRY_RUN" value="false" />
-    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
-    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
-    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
-    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
-    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
-    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
-    <option name="FORCE_UPDATE" value="false" />
-    <option name="IGNORE_EXTERNALS" value="false" />
-    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  <component name="SvnConfiguration" myUseAcceleration="nothing">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -1360,7 +1584,31 @@
       <created>1391383028580</created>
       <updated>1391383028580</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Nuevo modo de configuracion de los canales para hacer más fácil la mantención del código con el agregado de nuevos protocolos. Transparente al usuario.&#10;">
+      <created>1391396964438</created>
+      <updated>1391396964438</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Rediseño de la librería de la conexión de Bluetooth para hacer más facil su uso eliminando la necesidad de un Activity para escanear los dispositivos">
+      <created>1398551799961</created>
+      <updated>1398551799961</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Rediseño de la librería de la conexión de Bluetooth para hacer más facil su uso eliminando la necesidad de un Activity para escanear los dispositivos&#10;">
+      <created>1398552020920</created>
+      <updated>1398552020920</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Rediseño de la librería de la conexión de Bluetooth para hacer más facil su uso eliminando la necesidad de un Activity para escanear los dispositivos&#10;">
+      <created>1398567604991</created>
+      <updated>1398567604991</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Rediseño de la librería de la conexión de Bluetooth para hacer más facil su uso eliminando la necesidad de un Activity para escanear los dispositivos&#10;">
+      <created>1398567706314</created>
+      <updated>1398567706314</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Bug fixes&#10;">
+      <created>1398635713144</created>
+      <updated>1398635713144</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers>
       <GitHub shared="false" url="github.com">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1398,44 +1646,47 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1301" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5564388" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26232114" sideWeight="0.50039715" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33115825" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3227345" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43719414" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26101142" sideWeight="0.50039715" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3213703" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290938" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3227345" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32591414" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36215335" sideWeight="0.49960285" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39477977" sideWeight="0.78884465" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988048" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22001588" sideWeight="0.19582665" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30842608" sideWeight="0.4996016" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3227345" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20956175" sideWeight="0.7407407" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32591414" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5055644" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36248013" sideWeight="0.49960285" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5262321" sideWeight="0.78884465" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32591414" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24861" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988048" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962668" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290938" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3990461" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988048" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2193646" sideWeight="0.19582665" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30831975" sideWeight="0.4996016" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2239873" sideWeight="0.6035313" order="4" side_tool="true" content_ui="tabs" x="114" y="161" width="1101" height="544" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20956175" sideWeight="0.7407407" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32463294" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962668" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290938" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3990461" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
       <collection />
     </option>
   </component>
@@ -1446,10 +1697,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="NavigationDrawer se abre solo en el Fragment de lista" />
-    <MESSAGE value="APK Agregado" />
-    <MESSAGE value="Versión actualizada" />
-    <MESSAGE value="Se muestra protocolo seleccionado en la lista" />
     <MESSAGE value="Los valores int del Enum ProtolType ahora se toman desde el mismo Enum para hacer más mantenible el código a futura versiones del API" />
     <MESSAGE value="Agregada comprobación de checksum. Se comprueba con CRC16 la integridad de los datos recibidos y se reintenta la transmisión (no comprobé todavía que el algoritmo de CRC16 funcione)" />
     <MESSAGE value="Actualización de versión" />
@@ -1471,78 +1718,78 @@
     <MESSAGE value="Nuevo ExpandableListView animado y con scroll más fluido. Solucionado crash en Android 4.4 de las preferencias.&#10;&#10;" />
     <MESSAGE value="Mejoras para mantención del código. Requiere reinstalacion completa de la aplicación debido al cambio en los valores de las preferencias.&#10;" />
     <MESSAGE value="Limpieza de codigo&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Limpieza de codigo&#10;" />
+    <MESSAGE value="Nuevo modo de configuracion de los canales para hacer más fácil la mantención del código con el agregado de nuevos protocolos. Transparente al usuario.&#10;" />
+    <MESSAGE value="Rediseño de la librería de la conexión de Bluetooth para hacer más facil su uso eliminando la necesidad de un Activity para escanear los dispositivos" />
+    <MESSAGE value="Rediseño de la librería de la conexión de Bluetooth para hacer más facil su uso eliminando la necesidad de un Activity para escanear los dispositivos&#10;" />
+    <MESSAGE value="Bug fixes&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes&#10;" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java</url>
+          <line>105</line>
+          <properties />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java</url>
+          <line>164</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java</url>
+          <line>87</line>
+          <properties />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java</url>
+          <line>192</line>
+          <properties />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java</url>
+          <line>256</line>
+          <properties />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java</url>
+          <line>277</line>
+          <properties />
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java</url>
+          <line>81</line>
+          <properties />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/DeviceScanner.java</url>
+          <line>75</line>
+          <properties />
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/DeviceScanner.java</url>
+          <line>120</line>
+          <properties />
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="19" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/utils/andres/Dependency.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="77" selection-start="1923" selection-end="1923" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="1314" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/BTSingleSynchTransfer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="134" column="8" selection-start="3710" selection-end="3710" vertical-scroll-proportion="0.0" vertical-offset="2133" max-vertical-offset="2826" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/build/exploded-bundles/ComActionbarsherlockActionbarsherlock440.aar/res/layout/abs__action_bar_tab.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="4" selection-start="50" selection-end="50" vertical-scroll-proportion="-1.0588236" vertical-offset="0" max-vertical-offset="216" />
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/build/exploded-bundles/ComActionbarsherlockActionbarsherlock440.aar/res/layout/abs__action_bar_tab_bar_view.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="4" selection-start="100" selection-end="100" vertical-scroll-proportion="0.18815331" vertical-offset="0" max-vertical-offset="287" />
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/BluetoothHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="199" column="24" selection-start="6896" selection-end="6896" vertical-scroll-proportion="0.33136094" vertical-offset="3038" max-vertical-offset="5886" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/drawable-mdpi/settings_dark.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/drawable-hdpi/settings_dark.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/drawable-hdpi/ball.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/view/LayoutInflater.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="29" selection-start="1495" selection-end="1495" vertical-scroll-proportion="0.3327674" vertical-offset="380" max-vertical-offset="1062" />
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/view/ActionMode.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="16" selection-start="1488" selection-end="1488" vertical-scroll-proportion="0.7009967" vertical-offset="424" max-vertical-offset="1026" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="63" selection-start="247" selection-end="247" vertical-scroll-proportion="0.23893805" vertical-offset="0" max-vertical-offset="452">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/data/res/drawable/list_selector_background.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/data/res/drawable-ldpi/list_selector_background_focus.9.png">
@@ -1555,311 +1802,411 @@
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/data/res/values/attrs.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="198" column="48" selection-start="10953" selection-end="10981" vertical-scroll-proportion="0.5229202" vertical-offset="3256" max-vertical-offset="110970" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="38" selection-start="1241" selection-end="1271" vertical-scroll-proportion="0.89700997" vertical-offset="0" max-vertical-offset="1800">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="37" selection-start="410" selection-end="410" vertical-scroll-proportion="0.7009967" vertical-offset="46" max-vertical-offset="648">
-          <folding />
+        <state vertical-scroll-proportion="0.5229202" vertical-offset="3256" max-vertical-offset="110970">
+          <caret line="198" column="48" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="MarkdownPreviewEditor">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="84" selection-start="1308" selection-end="1308" vertical-scroll-proportion="0.7033748" vertical-offset="0" max-vertical-offset="1008" />
+        <state vertical-scroll-proportion="0.7033748" vertical-offset="0" max-vertical-offset="1008">
+          <caret line="22" column="84" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/frecuencimeter/andres/Frecuencia.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="13" selection-start="49" selection-end="49" vertical-scroll-proportion="0.061120544" vertical-offset="0" max-vertical-offset="2574" />
+        <state vertical-scroll-proportion="0.061120544" vertical-offset="0" max-vertical-offset="2574">
+          <caret line="2" column="13" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/view/View.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="13" selection-start="155" selection-end="155" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="21384" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="21384">
+          <caret line="6" column="13" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/widget/AdapterView.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="28" selection-start="3504" selection-end="3504" vertical-scroll-proportion="-0.21731749" vertical-offset="1568" max-vertical-offset="2322" />
+        <state vertical-scroll-proportion="-0.21731749" vertical-offset="1568" max-vertical-offset="2322">
+          <caret line="81" column="28" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/widget/AbsListView.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="15" selection-start="1317" selection-end="1317" vertical-scroll-proportion="0.3327674" vertical-offset="236" max-vertical-offset="5760" />
+        <state vertical-scroll-proportion="0.3327674" vertical-offset="236" max-vertical-offset="5760">
+          <caret line="25" column="15" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ExpandCollapseAnimation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="44" selection-end="44" vertical-scroll-proportion="0.030560272" vertical-offset="0" max-vertical-offset="1332">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/SlideExpandableListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="23" selection-start="798" selection-end="798" vertical-scroll-proportion="0.6295681" vertical-offset="35" max-vertical-offset="792">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/WrapperListAdapterImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="45" selection-end="45" vertical-scroll-proportion="0.059800666" vertical-offset="0" max-vertical-offset="1746">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.030560272" vertical-offset="0" max-vertical-offset="1332">
+          <caret line="1" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/widget/ListView.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="0" selection-start="5462" selection-end="5462" vertical-scroll-proportion="0.33333334" vertical-offset="2262" max-vertical-offset="2412">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/SlideExpandableListView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="0" selection-start="1132" selection-end="1132" vertical-scroll-proportion="0.33333334" vertical-offset="732" max-vertical-offset="1512">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="2262" max-vertical-offset="2412">
+          <caret line="129" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/database/DataSetObservable.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="16" selection-start="378" selection-end="378" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+          <caret line="11" column="16" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/widget/BaseAdapter.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="16" selection-start="656" selection-end="656" vertical-scroll-proportion="0.0" vertical-offset="171" max-vertical-offset="630">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="171" max-vertical-offset="630">
+          <caret line="17" column="16" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/widget/Adapter.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="8" selection-start="179" selection-end="179" vertical-scroll-proportion="0.179402" vertical-offset="0" max-vertical-offset="612">
-          <folding />
+        <state vertical-scroll-proportion="0.179402" vertical-offset="0" max-vertical-offset="612">
+          <caret line="7" column="8" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/logic_rawdata.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="20" selection-start="552" selection-end="552" vertical-scroll-proportion="0.4375" vertical-offset="0" max-vertical-offset="576">
-          <folding />
-        </state>
-      </provider>
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/expandable_list_item.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="37" selection-start="1585" selection-end="1585" vertical-scroll-proportion="0.53125" vertical-offset="504" max-vertical-offset="1188">
+        <state vertical-scroll-proportion="0.4375" vertical-offset="0" max-vertical-offset="576">
+          <caret line="14" column="20" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="309" column="0" selection-start="9726" selection-end="9726" vertical-scroll-proportion="8.770798" vertical-offset="0" max-vertical-offset="8424">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="83" selection-start="4378" selection-end="4378" vertical-scroll-proportion="0.72325975" vertical-offset="1572" max-vertical-offset="4104">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2260#3260#0" expanded="true" />
-            <element signature="e#3249#3250#0" expanded="true" />
-            <element signature="e#3356#6052#0" expanded="true" />
-            <element signature="e#6041#6042#0" expanded="true" />
-            <element signature="e#6303#6304#0" expanded="true" />
-            <element signature="e#6353#6354#0" expanded="true" />
-            <element signature="e#7885#8180#0" expanded="true" />
-            <element signature="e#8170#8171#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/logic_fragments.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="576">
-          <folding />
-        </state>
-      </provider>
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="49" selection-start="645" selection-end="645" vertical-scroll-proportion="0.36332768" vertical-offset="38" max-vertical-offset="2646">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar!/com/protocolanalyzer/api/Protocol.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="27" selection-start="1353" selection-end="1353" vertical-scroll-proportion="0.4893617" vertical-offset="390" max-vertical-offset="954">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="576">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/utils/andres/ConflictChecker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="0" selection-start="2772" selection-end="2772" vertical-scroll-proportion="0.4499151" vertical-offset="1067" max-vertical-offset="1656">
-          <folding />
+        <state vertical-scroll-proportion="0.4499151" vertical-offset="1067" max-vertical-offset="1656">
+          <caret line="77" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/OnActionBarClickListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="17" selection-start="55" selection-end="55" vertical-scroll-proportion="0.102564104" vertical-offset="0" max-vertical-offset="351">
-          <folding />
+        <state vertical-scroll-proportion="0.102564104" vertical-offset="0" max-vertical-offset="351">
+          <caret line="2" column="17" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerChartFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="581" column="16" selection-start="21891" selection-end="21891" vertical-scroll-proportion="0.33136094" vertical-offset="9446" max-vertical-offset="12384">
-          <folding />
+        <state vertical-scroll-proportion="0.33136094" vertical-offset="9446" max-vertical-offset="12384">
+          <caret line="581" column="16" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/CRC16.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="13" selection-start="590" selection-end="590" vertical-scroll-proportion="0.19435216" vertical-offset="207" max-vertical-offset="1260">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/AnalyzerExpandableAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="13" selection-start="413" selection-end="413" vertical-scroll-proportion="0.1901528" vertical-offset="158" max-vertical-offset="1314">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.19435216" vertical-offset="207" max-vertical-offset="1260">
+          <caret line="18" column="13" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar!/com/protocolanalyzer/api/I2CProtocol.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="13" selection-start="113" selection-end="113" vertical-scroll-proportion="0.12224109" vertical-offset="0" max-vertical-offset="5184">
-          <folding />
+        <state vertical-scroll-proportion="0.12224109" vertical-offset="0" max-vertical-offset="5184">
+          <caret line="4" column="13" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/content/SharedPreferences.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="38" selection-start="220" selection-end="220" vertical-scroll-proportion="0.18336163" vertical-offset="0" max-vertical-offset="1062">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/MainMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="53" selection-start="2076" selection-end="2076" vertical-scroll-proportion="0.7640068" vertical-offset="90" max-vertical-offset="2646">
-          <folding />
+        <state vertical-scroll-proportion="0.18336163" vertical-offset="0" max-vertical-offset="1062">
+          <caret line="7" column="38" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar!/com/protocolanalyzer/api/utils/Configuration.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="635" selection-end="635" vertical-scroll-proportion="0.5609756" vertical-offset="132" max-vertical-offset="378">
-          <folding />
+        <state vertical-scroll-proportion="0.5609756" vertical-offset="132" max-vertical-offset="378">
+          <caret line="16" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/values/array.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="124" column="24" selection-start="3306" selection-end="3306" vertical-scroll-proportion="3.7076411" vertical-offset="0" max-vertical-offset="3924">
+        <state vertical-scroll-proportion="3.7076411" vertical-offset="0" max-vertical-offset="3924">
+          <caret line="124" column="24" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar!/com/protocolanalyzer/api/UARTProtocol.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="0" selection-start="1805" selection-end="1805" vertical-scroll-proportion="0.68085104" vertical-offset="498" max-vertical-offset="1062">
+        <state vertical-scroll-proportion="0.68085104" vertical-offset="498" max-vertical-offset="1062">
+          <caret line="50" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/app/Fragment.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3327674" vertical-offset="1892" max-vertical-offset="3150">
+          <caret line="117" column="16" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/MultiWork/libs/Protocol_Decoder_API.jar!/com/protocolanalyzer/api/Protocol.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35873017" vertical-offset="643" max-vertical-offset="1098">
+          <caret line="43" column="23" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/drawer_list_item.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.4375" vertical-offset="252" max-vertical-offset="828">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java">
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/layout/expandable_list_item.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="40" selection-start="3699" selection-end="3699" vertical-scroll-proportion="0.60271645" vertical-offset="1175" max-vertical-offset="3600">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2471#4182#0" expanded="true" />
-            <element signature="e#4177#4178#0" expanded="true" />
-            <element signature="method#onPause#0;class#LogicAnalizerPrefs#0" expanded="false" />
-            <element signature="method#onResume#0;class#LogicAnalizerPrefs#0" expanded="false" />
-            <element signature="method#onBuildHeaders#0;class#LogicAnalizerPrefs#0" expanded="false" />
-            <element signature="method#dialog#0;class#LogicAnalizerPrefs#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.3125" vertical-offset="486" max-vertical-offset="1188">
+          <caret line="37" column="33" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java">
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/widget/ListAdapter.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="47" selection-start="8337" selection-end="8360" vertical-scroll-proportion="0.0" vertical-offset="2485" max-vertical-offset="4374">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#7985#8531#0" expanded="true" />
-            <element signature="e#8516#8517#0" expanded="true" />
-            <element signature="method#onResume#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
-            <element signature="method#onPause#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
-            <element signature="method#setPreferenceScreen#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.14950167" vertical-offset="0" max-vertical-offset="602">
+          <caret line="6" column="17" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java">
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-19/android.jar!/android/widget/WrapperListAdapter.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="477" column="46" selection-start="19575" selection-end="19575" vertical-scroll-proportion="0.0" vertical-offset="8635" max-vertical-offset="12366">
+        <state vertical-scroll-proportion="0.14950167" vertical-offset="0" max-vertical-offset="602">
+          <caret line="6" column="17" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/SlideExpandableListView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7029412" vertical-offset="409" max-vertical-offset="1404">
+          <caret line="42" column="60" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/SlideExpandableListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.04318937" vertical-offset="190" max-vertical-offset="792">
+          <caret line="15" column="55" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/WrapperListAdapterImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7475083" vertical-offset="90" max-vertical-offset="1656">
+          <caret line="37" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.78647685" vertical-offset="0" max-vertical-offset="612">
+          <caret line="26" column="63" selection-start-line="26" selection-start-column="63" selection-end-line="26" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/OnSwipeTouchListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="493" max-vertical-offset="1479">
+          <caret line="29" column="32" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/main.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/ActionSlideExpandableListView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1590909" vertical-offset="0" max-vertical-offset="3349">
+          <caret line="53" column="13" selection-start-line="53" selection-start-column="13" selection-end-line="53" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/tjerkw.slideexpandable.library/AbstractSlideExpandableListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="5.753846" vertical-offset="1037" max-vertical-offset="8330">
+          <caret line="281" column="52" selection-start-line="281" selection-start-column="52" selection-end-line="281" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/AnalyzerExpandableAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="60" max-vertical-offset="1241">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/OnDeviceSelected.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2034188" vertical-offset="0" max-vertical-offset="585">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.53504276" vertical-offset="945" max-vertical-offset="1530">
+          <caret line="74" column="19" selection-start-line="74" selection-start-column="19" selection-end-line="74" selection-end-column="19" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5462#5503#0" expanded="true" />
-            <element signature="e#6047#6074#0" expanded="true" />
-            <element signature="e#6092#6121#0" expanded="true" />
-            <element signature="e#15351#15394#0" expanded="true" />
-            <element signature="e#15400#15430#0" expanded="true" />
-            <element signature="e#22004#22045#0" expanded="true" />
-            <element signature="e#22445#22490#0" expanded="true" />
+            <element signature="e#2544#2562#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="167" column="16" selection-start="6205" selection-end="6205" vertical-scroll-proportion="0.0" vertical-offset="2084" max-vertical-offset="4050">
+        <state vertical-scroll-proportion="0.02972028" vertical-offset="595" max-vertical-offset="3383">
+          <caret line="62" column="8" selection-start-line="62" selection-start-column="8" selection-end-line="62" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.79195803" vertical-offset="1774" max-vertical-offset="2346">
+          <caret line="131" column="4" selection-start-line="131" selection-start-column="4" selection-end-line="131" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalyzerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="7.8461537" vertical-offset="901" max-vertical-offset="10897">
+          <caret line="363" column="28" selection-start-line="363" selection-start-column="28" selection-end-line="363" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/DeviceScanner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33101046" vertical-offset="1724" max-vertical-offset="2635">
+          <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
           <folding>
-            <element signature="class#3223:4655" expanded="false" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#763#771#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/bluetoothutils/andres/BluetoothHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.35726497" vertical-offset="3592" max-vertical-offset="5066">
+          <caret line="267" column="12" selection-start-line="267" selection-start-column="12" selection-end-line="267" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#setBTRequestTitleString#0;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setBTRequestTitleString#1;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setBTRequestSummaryString#0;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setBTRequestSummaryString#1;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setPleaseWaitString#0;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setPleaseWaitString#1;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setConnectingString#0;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setConnectingString#1;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setScanString#0;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setScanString#1;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setScanningString#0;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setScanningString#1;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setSelectDeviceString#0;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setSelectDeviceString#1;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setNoDeviceString#0;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#setNoDeviceString#1;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#removeOnNewBluetoothDataReceived#0;class#BluetoothHelper#0" expanded="false" />
+            <element signature="method#connectWithAddress#0;class#BluetoothHelper#0" expanded="false" />
+            <element signature="e#9402#11111#0" expanded="true" />
+            <element signature="e#10879#11067#0" expanded="true" />
+            <element signature="e#11044#11045#0" expanded="true" />
+            <element signature="e#11100#11101#0" expanded="true" />
+            <element signature="method#establishConnection#0;class#BluetoothHelper#0" expanded="false" />
+            <element signature="e#13851#14674#0" expanded="true" />
+            <element signature="e#14670#14671#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1428" max-vertical-offset="3740">
+          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/xml/logicgeneral.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/res/xml/appgeneralprefs.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/protocolanalyzer/andres/LogicAnalizerPrefsFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2781" max-vertical-offset="3366">
+          <caret line="189" column="58" selection-start-line="189" selection-start-column="58" selection-end-line="189" selection-end-column="58" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#onResume#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
+            <element signature="method#onPause#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
+            <element signature="method#hideSelectedPreferences#0;class#LogicAnalizerPrefsFragment#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiWork/src/main/java/com/multiwork/andres/MainMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24444444" vertical-offset="775" max-vertical-offset="2227">
+          <caret line="83" column="53" selection-start-line="83" selection-start-column="53" selection-end-line="83" selection-end-column="53" />
+          <folding />
         </state>
       </provider>
     </entry>

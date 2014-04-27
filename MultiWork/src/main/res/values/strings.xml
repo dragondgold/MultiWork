@@ -129,5 +129,5 @@
 	<string name="crash_dialog_text">				Un error inesperado ha forzado a la aplicación a detenerse. Por favor ayúdenos a solucionar esto enviando
 	    												un informe de errores.</string>
 	<string name="crash_dialog_title">				MultiWork - Envío de reporte</string>
-    
+
 </resources>
