@@ -14,7 +14,6 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.res.Resources;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -53,6 +52,9 @@ public class BluetoothHelper {
 	private boolean keepRunning = false;
 	private boolean offlineMode = false;
 	private boolean connectionDialog = false;
+
+    // Intervalo de espera en milisegundos entre cada muestreo para ver si hay nuevos datos desde el bluetooth
+    private int pollInterval = 20;
 	
 	/**
 	 * Constructor
@@ -72,6 +74,12 @@ public class BluetoothHelper {
 		this.bluetoothName = bluetoothName;
 		this.offlineMode = offlineMode;
 		setOnBluetoothConnected(mInterface);
+
+        // Compruebo que el dispositivo tenga Bluetooth
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            if (DEBUG) Log.i("BluetoothHelper", "No bluetooth on device");
+        }
 	}
 	
 	/**
@@ -168,9 +176,14 @@ public class BluetoothHelper {
         return this;
     }
 
-    /**
-	 * Elimina el OnNewBluetoothDataReceived 
-	 */
+    public int getPollInterval() {
+        return pollInterval;
+    }
+
+    public void setPollInterval(int pollInterval) {
+        this.pollInterval = pollInterval;
+    }
+
 	public void removeOnNewBluetoothDataReceived (){
 		mOnNewBluetoothDataReceived = null;
 		keepRunning = false;
@@ -242,27 +255,17 @@ public class BluetoothHelper {
 	}
 	
 	/**
-	 * Se conecta con el dispositivo dado por la dirección address. Este método solo debe llamarse luego de haberse
-	 * ejecutado connect(), se lo utiliza en el onActivityResult().
+	 * Se conecta con el dispositivo dado por la dirección MAC
 	 * @param address
 	 */
-	public void connectWithAddress (String address){
+	private void connectWithAddress (String address){
 		mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(address);
 		bluetoothName = mBluetoothDevice.getName(); 
 		establishConnection();
 	}
 
-    /**
-     * Enciende o apaga el Bluetooth
-     * @param state true para encender, false para apagar
-     */
-    public void switchBluetooth (boolean state){
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBluetoothAdapter == null) {
-            if (DEBUG) Log.i("BluetoothHelper", "No bluetooth on device");
-        }
-
-        if(state && !mBluetoothAdapter.isEnabled()){
+    public void turnOnBluetooth(){
+        if(!mBluetoothAdapter.isEnabled()){
             final AlertDialog.Builder mDialog = new AlertDialog.Builder(ctx);
             mDialog.setTitle(BTRequestTitle);
             mDialog.setMessage(BTRequestSummary);
@@ -279,29 +282,26 @@ public class BluetoothHelper {
             });
             mDialog.show();
         }
-        else{
-            mBluetoothAdapter.disable();
-            disconnect();
-        }
+    }
+
+    public void turnOffBluetooth(){
+        mBluetoothAdapter.disable();
+        disconnect();
     }
 	
 	/**
 	 * Se conecta al dispositivo Bluetooth cuyo nombre se definió en el constructor
 	 */
 	public void connect (){
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if(DEBUG) Log.i("BluetoothHelper", "connect()...");
 
-		// Compruebo que el dispositivo tenga Bluetooth
-		if (mBluetoothAdapter == null) {
-            if (DEBUG) Log.i("BluetoothHelper", "No bluetooth on device");
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(DEBUG) Log.i("BluetoothHelper", "Waiting for Bluetooth to turn on...");
+                while(!mBluetoothAdapter.isEnabled());
 
-		// Bluetooth disponible, me conecto
-		else{
-            if(DEBUG) Log.i("BluetoothHelper", "Looking in paired devices...");
-			// Compruebo que el Bluetooth esté activado
-			if (mBluetoothAdapter.isEnabled()) {
+                if(DEBUG) Log.i("BluetoothHelper", "Looking into paired devices...");
                 boolean inPaired = false;
                 // Compruebo si el dispositivo no esta en los dispositivos emparejados (paired devices)
                 Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
@@ -320,9 +320,16 @@ public class BluetoothHelper {
                     }
                 }
                 // Si no está en los emparejados busco nuevos dispositivos
-                if(!inPaired) scanForDevices();
+                if(!inPaired){
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            scanForDevices();
+                        }
+                    });
+                }
             }
-		}
+        }).start();
 	}
 	
 	// Establezco una conexión con el dispositivo que ya definí anteriormente
@@ -337,70 +344,56 @@ public class BluetoothHelper {
 	        mDialog = ProgressDialog.show(mActivity, PleaseWaitString, ConnectingString, true);
 	        mDialog.setCancelable(false);
         }
-        	
-        // Runnable donde se encuentra el código a ejecutar por un Handler o Thread
-        final Runnable mRunnable = new Runnable() {
-            public void run() {
-            	noException = true;
-    			// Desactivo el descubrimiento de dispositivos porque hace lenta la conexion
-    			if(mBluetoothAdapter.isDiscovering()) mBluetoothAdapter.cancelDiscovery();
-    	        
-    	        // Me conecto al dispositivo, esto se bloqueará hasta que se conecte por eso debe hacerse
-    	        // en un Thread diferente
-    	        try { mBluetoothSocket.connect(); } 
-    	        catch (IOException e) { 
-    	        	try { mBluetoothSocket.close(); }
-    	        	catch (IOException e1) { e1.printStackTrace(); }
-    	        	Log.i("BluetoothHelper", "Connection Exception");
-    	        	noException = false;
-    	        }
-    	        
-    	        // Obtengo el OutputStream para enviar datos al Bluetooth
-    	        try { mBluetoothOut = mBluetoothSocket.getOutputStream(); }
-    	        catch (IOException e) { e.printStackTrace(); }
-    	        
-    	        // Obtengo el InputStream para recibir datos desde el Bluetooth
-    			try { mBluetoothIn = mBluetoothSocket.getInputStream(); }
-    			catch (IOException e) { e.printStackTrace(); }
-    			
-    		    // Conectado
-    		    if(noException){
-    		    	mActivity.runOnUiThread(new Runnable() {
-    					public void run() { 
-    						Toast.makeText(mActivity, "Conectado a " + mBluetoothDevice.getName(), Toast.LENGTH_SHORT).show();
-    						if(connectionDialog) mDialog.dismiss();
-    					}
-    		    	});
-    		        Log.i("BluetoothHelper", "Conectado a " + mBluetoothDevice.getName());
-    		        if(mOnBluetoothConnected != null) mOnBluetoothConnected.onBluetoothConnected(mBluetoothIn, mBluetoothOut);
-    		        if(mOnNewBluetoothDataReceived != null && !keepRunning) mBTThread.start();
-    		    }
-    		    // Error
-    		    else{
-    		    	mActivity.runOnUiThread(new Runnable() {
-    					public void run() { 
-    						Toast.makeText(mActivity, "Error de conexion", Toast.LENGTH_SHORT).show(); 
-    						if(connectionDialog) mDialog.dismiss();
-    					}
-    		    	});
-    		    	Log.i("BluetoothHelper", "Error Connecting");
-    		    	disconnect();
-    		    	mActivity.finish();
-    		    }
-    	    }
-        };
-        // Thread que ejecuta al Runnable
-        final Thread mThread = new Thread(){
-        	@Override
-            public void run() {
-               mRunnable.run();
-            }
-        };
-        mThread.start();
+
+        noException = true;
+        // Desactivo el descubrimiento de dispositivos porque hace lenta la conexion
+        if(mBluetoothAdapter.isDiscovering()) mBluetoothAdapter.cancelDiscovery();
+
+        // Me conecto al dispositivo, esto se bloqueará hasta que se conecte por eso debe hacerse
+        // en un Thread diferente
+        try { mBluetoothSocket.connect(); }
+        catch (IOException e) {
+            try { mBluetoothSocket.close(); }
+            catch (IOException e1) { e1.printStackTrace(); }
+            Log.i("BluetoothHelper", "Connection Exception");
+            noException = false;
+        }
+
+        // Obtengo el OutputStream para enviar datos al Bluetooth
+        try { mBluetoothOut = mBluetoothSocket.getOutputStream(); }
+        catch (IOException e) { e.printStackTrace(); }
+
+        // Obtengo el InputStream para recibir datos desde el Bluetooth
+        try { mBluetoothIn = mBluetoothSocket.getInputStream(); }
+        catch (IOException e) { e.printStackTrace(); }
+
+        // Conectado
+        if(noException){
+            mActivity.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(mActivity, "Conectado a " + mBluetoothDevice.getName(), Toast.LENGTH_SHORT).show();
+                    if(connectionDialog) mDialog.dismiss();
+                }
+            });
+            Log.i("BluetoothHelper", "Conectado a " + mBluetoothDevice.getName());
+            if(mOnBluetoothConnected != null) mOnBluetoothConnected.onBluetoothConnected(mBluetoothIn, mBluetoothOut);
+            if(mOnNewBluetoothDataReceived != null && !keepRunning) mBTThread.start();
+        }
+        // Error
+        else{
+            mActivity.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(mActivity, "Error de conexion", Toast.LENGTH_SHORT).show();
+                    if(connectionDialog) mDialog.dismiss();
+                }
+            });
+            Log.i("BluetoothHelper", "Error Connecting");
+            disconnect();
+            mActivity.finish();
+        }
     }
 	
 	private final Runnable mBTRunnable = new Runnable() {
-		
 		@Override
 		public void run() {
 			if(DEBUG) Log.i("BTThread", "Thread Running");
@@ -417,7 +410,7 @@ public class BluetoothHelper {
 							}
 						}
 					}
-	    			try { Thread.sleep(20); }
+	    			try { Thread.sleep(pollInterval); }
 					catch (InterruptedException e) { e.printStackTrace(); }
 	    		}
 			catch (IOException e) { e.printStackTrace(); }

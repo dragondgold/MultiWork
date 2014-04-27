@@ -26,11 +26,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-/**
- * @author Andres Torti
- * @version 1.0
- * Services: http://developer.android.com/guide/components/services.html
- */
 public class MainMenu extends SherlockListActivity implements OnBluetoothConnected{
    
 	private static final boolean DEBUG = true;
@@ -86,7 +81,7 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 					// Online
 					myApp.mBluetoothHelper = new BluetoothHelper(ctx, bluetoothName, false, (OnBluetoothConnected)ctx);
 					myApp.mBluetoothHelper.setConnectionDialog(true);
-                    //myApp.mBluetoothHelper.switchBluetooth(true);
+                    myApp.mBluetoothHelper.turnOnBluetooth();
                     myApp.mBluetoothHelper.setBTRequestTitleString(R.string.BTRequestTitle)
                                           .setBTRequestSummaryString(R.string.BTRequestSummary)
                                           .setPleaseWaitString(R.string.PleaseWait)
@@ -107,7 +102,7 @@ public class MainMenu extends SherlockListActivity implements OnBluetoothConnect
 	@Override
 	protected void onDestroy() {
 		if(myApp.mBluetoothHelper != null){
-            myApp.mBluetoothHelper.switchBluetooth(false);
+            myApp.mBluetoothHelper.turnOffBluetooth();
             myApp.mBluetoothHelper.disconnect();
         }
 		myApp.mBluetoothHelper = null;
