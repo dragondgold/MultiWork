@@ -51,13 +51,14 @@ public class LogicAnalizerPrefs extends SherlockPreferenceActivity {
         mChecker = new ConflictChecker(mPrefs);
 		for(int n = 0; n < LogicAnalyzerActivity.channelsNumber; ++n){
 			Dependency mDependency = new Dependency("protocol" + (n+1), Protocol.ProtocolType.I2C.ordinal(),
-                                                        Protocol.ProtocolType.NONE.ordinal());
+                                                                        Protocol.ProtocolType.NONE.ordinal());
+
 			mDependency.setInvalidationValue(Protocol.ProtocolType.NONE.ordinal());
 			mDependency.addSecondaryReferencedDependency("CLK" + (n+1), "protocol*", Protocol.ProtocolType.CLOCK.ordinal());
 
 			mChecker.addDependency(mDependency);
 		}
-        
+
         // Detección del cambio en las preferencias
         mOnSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
 			@Override

@@ -249,11 +249,12 @@ public class LogicAnalyzerActivity extends SherlockFragmentActivity implements O
 		isStarting = true;
 		isPlaying = false;
 
-		// Solo si estoy en modo online procedo a obtener la conexión
 		mBluetoothHelper = myApp.mBluetoothHelper;
-		mBluetoothHelper.setOnNewBluetoothDataReceived(this);
-		// Indico que entré en el analizador lógico
-		mBluetoothHelper.write(logicAnalyzerMode);
+        mBluetoothHelper.setOnNewBluetoothDataReceived(this);
+
+        // Indico que entré en el analizador lógico
+        mBluetoothHelper.write(logicAnalyzerMode);
+
 		timeOutCounter = 0;
 		mActivityContext = this;
 

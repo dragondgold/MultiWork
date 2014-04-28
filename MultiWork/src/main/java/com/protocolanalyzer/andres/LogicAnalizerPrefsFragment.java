@@ -57,6 +57,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
     private static PreferenceScreen mPreferenceScreen;
     private static SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
     private static SharedPreferences mPrefs;
+    private static int channelNumber = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,18 +72,20 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
 
         if(DEBUG){
             if(idChannels.length != idChannelsValues.length)
-                throw new IllegalStateException("idChannels y idChannelsValues deben tener el mismo tamaño");
+                throw new IllegalArgumentException("idChannels y idChannelsValues deben tener el mismo tamaño");
         }
         if(DEBUG) Log.i("PreferenceFragment", "onCreate() -> LogicAnalizerPrefsFragment");
 
     	String mString = getArguments().getString("name");
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
     	if(mString != null){
-            mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
     		if(mString.contains("Channel")){
     			mPreferenceScreen = getPreferenceManager().createPreferenceScreen(getActivity());
 
                 // Leo el numero del canal (los canales empiezan enumerados en 0)
     			int n = Integer.decode(""+mString.charAt(7));
+                channelNumber = n+1 ;
     			if(DEBUG) Log.i("PreferenceFragment", "n: " + n);
 
     			PreferenceCategory mPreferenceCategory = new PreferenceCategory(getActivity());
@@ -147,7 +150,20 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
                     checkBoxStopBit.setKey("dualStop" + (n + 1));
                     checkBoxStopBit.setSummary(R.string.AnalyzerStopBitSummary);
 
-                mPreferenceScreen.addPreference(mPreferenceCategory);
+                // Si este screen nunca cree sus preferencias por defecto, activo todas para forzar la creacion
+                //  y luego oculto las correspondientes al protocolo
+                if(!mPrefs.contains("defaultPrefsSaved" + (n+1))){
+                    mPreferenceScreen.addPreference(mPreferenceCategory);
+                    mPreferenceScreen.addPreference(protocolList);
+                    mPreferenceScreen.addPreference(clockList);
+                    mPreferenceScreen.addPreference(simpleTriggerPreference);
+                    mPreferenceScreen.addPreference(baudEditText);
+                    mPreferenceScreen.addPreference(nineDataBits);
+                    mPreferenceScreen.addPreference(parityList);
+                    mPreferenceScreen.addPreference(checkBoxStopBit);
+                    mPrefs.edit().putBoolean("defaultPrefsSaved" + (n+1), true).apply();
+                }
+
                 hideSelectedPreferences(mPrefs.getString("protocol" + (n+1), ""+ Protocol.ProtocolType.UART.ordinal()));
                 setProtocolSummaries("protocol" + (n+1));
                 setPreferenceScreen(mPreferenceScreen);
@@ -161,7 +177,7 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
                 @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                     // Si cambió el protocolo oculto/muestro los items correspondientes
-                    if(key.contains("protocol")){
+                    if(key.contains("protocol" + channelNumber)){
                         hideSelectedPreferences(mPrefs.getString(key, ""+ Protocol.ProtocolType.UART.ordinal()));
                         setProtocolSummaries(key);
                     }
@@ -173,20 +189,14 @@ public class LogicAnalizerPrefsFragment extends PreferenceFragment{
     @Override
     public void onResume() {
         super.onResume();
-        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(preferenceChangeListener);
+        PreferenceManager.getDefaultSharedPreferences(getActivity()).registerOnSharedPreferenceChangeListener(preferenceChangeListener);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(preferenceChangeListener);
+        PreferenceManager.getDefaultSharedPreferences(getActivity()).unregisterOnSharedPreferenceChangeListener(preferenceChangeListener);
     }
-
-    @Override
-	public void setPreferenceScreen(PreferenceScreen preferenceScreen) {
-		if(DEBUG) Log.i("PreferenceFragment", "setPreferenceScreen() -> LogicAnalizerPrefsFragment");
-		super.setPreferenceScreen(preferenceScreen);
-	}
 
     /**
      * Oculta o muestra las preferencias de acuerdo a al protocolo seleccionado en la lista.
